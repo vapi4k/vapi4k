@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Matthew Ambrose (mattbobambrose@gmail.com)
+ * Copyright © 2024 Matthew Ambrose
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ object TalkPage {
             h1 { +"Talk Button Demo" }
             vapiTalkButton {
               serverPath = "/talkApp"
-              // postArgs are optional
+              // post args are optional
               postArgs = mapOf(
                 "arg1" to "10",
                 "arg2" to "20",

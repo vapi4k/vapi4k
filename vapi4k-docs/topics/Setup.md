@@ -54,7 +54,7 @@ local development with `ngrok`.
 
 <procedure title="">
     <step>
-        <p>Go to the <a href = "https://github.com/pambrose/vapi4k-template">vapi4k-template</a> GitHub page.</p>
+        <p>Go to the <a href = "https://github.com/vapi4k/vapi4k-template">vapi4k-template</a> GitHub page.</p>
     </step>
     <step>
         <p>Click on the <shortcut>Use this template</shortcut> and <shortcut>Create a new repository</shortcut> options.</p>

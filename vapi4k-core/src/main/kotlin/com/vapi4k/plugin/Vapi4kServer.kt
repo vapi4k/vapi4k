@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Matthew Ambrose (mattbobambrose@gmail.com)
+ * Copyright © 2024 Matthew Ambrose
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.vapi4k.plugin
 
-import com.github.mattbobambrose.vapi4k.BuildConfig
+import com.github.vapi4k.BuildConfig
 import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.vapi4k.Vapi4kConfig
 import com.vapi4k.common.Constants.APP_NAME
