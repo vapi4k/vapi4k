@@ -14,7 +14,8 @@ language to learn and is a great choice for server-side development. If you are 
 you will find Kotlin very easy to pick up.
 
 Vapi4k is a work in progress. We are actively developing it and would love to hear your feedback.
-If you have any questions, comments, or suggestions, please feel free to file an issue on GitHub.
+If you have any questions, comments, or suggestions, please feel free to reach out to us at
+[comments@vapi4k.com](mailto:comments@vapi4k.com).
 
 If you go through the [Setup](https://vapi4k.github.io/vapi4k/setup.html) guide, you should
 be up and running with an example application in less than 15 minutes.
