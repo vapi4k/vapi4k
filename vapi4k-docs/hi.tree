@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="hi"
+                  name="vapi4k-docs"
+                  start-page="Overview.md">
+
+    <toc-element topic="Overview.md"/>
+    <toc-element topic="Setup.md"/>
+    <toc-element topic="RunTheApplications.md"/>
+    <toc-element topic="Applications.md"/>
+    <toc-element topic="Assistants.md"/>
+    <toc-element topic="ToolsAndFunctions.md"/>
+    <toc-element topic="JsonElement.md"/>
+    <toc-element topic="DeploymentOptions.md"/>
+    <toc-element topic="EnvVars.md"/>
+</instance-profile>

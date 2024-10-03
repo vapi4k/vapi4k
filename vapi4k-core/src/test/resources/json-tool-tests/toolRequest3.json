@@ -1,0 +1,400 @@
+{
+  "message": {
+    "type": "tool-calls",
+    "toolCalls": [
+      {
+        "id": "call_mrf9",
+        "type": "function",
+        "function": {
+          "name": "getWeatherByCity_002",
+          "arguments": {
+            "city": "Boston",
+            "state": "Massachusetts"
+          }
+        }
+      }
+    ],
+    "toolCallList": [
+      {
+        "id": "call_mrf9",
+        "type": "function",
+        "function": {
+          "name": "getWeatherByCity_002",
+          "arguments": {
+            "city": "Boston",
+            "state": "Massachusetts"
+          }
+        }
+      }
+    ],
+    "toolWithToolCallList": [
+      {
+        "type": "function",
+        "function": {
+          "name": "getWeatherByCity_002",
+          "description": "Look up the weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "description": "The city parameter",
+                "type": "string"
+              },
+              "state": {
+                "description": "The state parameter",
+                "type": "string"
+              }
+            },
+            "required": [
+              "city",
+              "state"
+            ]
+          }
+        },
+        "async": false,
+        "server": {
+          "url": "https://app-fiqm5.ondigitalocean.app/vapi4k",
+          "secret": "12345"
+        },
+        "messages": [],
+        "toolCall": {
+          "id": "call_mrf9",
+          "type": "function",
+          "function": {
+            "name": "getWeatherByCity_002",
+            "arguments": {
+              "city": "Boston",
+              "state": "Massachusetts"
+            }
+          }
+        }
+      }
+    ],
+    "call": {
+      "id": "b1223960-1b4d-4585-91b8-a69b0f57ec2f",
+      "orgId": "379a13ec-f40d-4055-8959-797c4ee1694s",
+      "createdAt": "2024-07-26T22:20:46.422Z",
+      "updatedAt": "2024-07-26T22:20:46.422Z",
+      "type": "inboundPhoneCall",
+      "status": "ringing",
+      "phoneCallProvider": "twilio",
+      "phoneCallProviderId": "CA6b6c5e52e5cdda6cad7405ff7b66f0d6",
+      "phoneCallTransport": "pstn",
+      "phoneNumberId": "4a5a04dc-dcbe-45b1-8f64-fd32a253d136",
+      "customer": {
+        "number": "+14566836490"
+      },
+      "squad": {
+        "members": [
+          {
+            "assistant": {
+              "name": "assistant1",
+              "model": {
+                "model": "llama3-70b-8192",
+                "tools": [
+                  {
+                    "async": false,
+                    "function": {
+                      "name": "getWeatherByCity_001",
+                      "description": "Look up the weather for a city",
+                      "parameters": {
+                        "type": "object",
+                        "properties": {
+                          "city": {
+                            "description": "The city parameter",
+                            "type": "string"
+                          },
+                          "state": {
+                            "description": "The state parameter",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "city",
+                          "state"
+                        ]
+                      }
+                    },
+                    "server": {
+                      "url": "https://app-fiqm5.ondigitalocean.app/vapi4k",
+                      "secret": "12345"
+                    },
+                    "type": "function"
+                  }
+                ],
+                "provider": "groq"
+              },
+              "firstMessage": "Hi there! I'm assistant1"
+            },
+            "assistantDestinations": [
+              {
+                "message": "Transfer to assistant2",
+                "description": "assistant 2",
+                "type": "assistant",
+                "assistantName": "assistant2"
+              }
+            ]
+          },
+          {
+            "assistant": {
+              "name": "assistant2",
+              "model": {
+                "model": "llama3-70b-8192",
+                "tools": [
+                  {
+                    "async": false,
+                    "function": {
+                      "name": "getWeatherByCity_002",
+                      "description": "Look up the weather for a city",
+                      "parameters": {
+                        "type": "object",
+                        "properties": {
+                          "city": {
+                            "description": "The city parameter",
+                            "type": "string"
+                          },
+                          "state": {
+                            "description": "The state parameter",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "city",
+                          "state"
+                        ]
+                      }
+                    },
+                    "server": {
+                      "url": "https://app-fiqm5.ondigitalocean.app/vapi4k",
+                      "secret": "12345"
+                    },
+                    "type": "function"
+                  }
+                ],
+                "provider": "groq"
+              },
+              "firstMessage": "Hi there! I'm assistant2"
+            },
+            "assistantDestinations": [
+              {
+                "message": "Transfer to assistant1",
+                "description": "assistant 1",
+                "type": "assistant",
+                "assistantName": "assistant1"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "phoneNumber": {
+      "id": "4a5a04dc-dcbe-45b1-8f64-fd32a253d136",
+      "orgId": "379a13ec-f40d-4055-8959-797c4ee1694s",
+      "number": "+19254207621",
+      "createdAt": "2024-06-29T03:03:00.576Z",
+      "updatedAt": "2024-07-20T04:24:05.533Z",
+      "stripeSubscriptionId": "sub_1PWrYyCRkod4mKy33dFxM9B8",
+      "stripeSubscriptionStatus": "active",
+      "stripeSubscriptionCurrentPeriodStart": "2024-06-29T03:02:56.000Z",
+      "provider": "twilio"
+    },
+    "customer": {
+      "number": "+14566836490"
+    },
+    "artifact": {
+      "messages": [
+        {
+          "role": "bot",
+          "message": "Hi there. I'm assistant 1.",
+          "time": 1722032450480,
+          "endTime": 1722032452920,
+          "secondsFromStart": 1.52,
+          "source": ""
+        },
+        {
+          "role": "user",
+          "message": "What's the weather in Danville, California?",
+          "time": 1722032455940,
+          "endTime": 1722032458120,
+          "secondsFromStart": 6.98,
+          "duration": 2.6
+        },
+        {
+          "toolCalls": [
+            {
+              "id": "call_51kj",
+              "type": "function",
+              "function": {
+                "name": "getWeatherByCity_001",
+                "arguments": "{\"city\": \"Danville\", \"state\": \"California\"}"
+              }
+            }
+          ],
+          "role": "tool_calls",
+          "message": "",
+          "time": 1722032457924,
+          "secondsFromStart": 9.066
+        },
+        {
+          "role": "tool_call_result",
+          "time": 1722032458839,
+          "secondsFromStart": 9.981,
+          "name": "getWeatherByCity_001",
+          "result": "The weather in Danville, California is windy",
+          "toolCallId": "call_51kj"
+        },
+        {
+          "role": "bot",
+          "message": "1 moment. The weather in Danville, California is windy.",
+          "time": 1722032459110,
+          "endTime": 1.7220324632299995E12,
+          "secondsFromStart": 10.15,
+          "source": ""
+        },
+        {
+          "role": "user",
+          "message": "Transfer to assistant 2.",
+          "time": 1722032465740,
+          "endTime": 1.722032467520001E12,
+          "secondsFromStart": 16.78,
+          "duration": 4.659999
+        },
+        {
+          "toolCalls": [
+            {
+              "id": "call_ms9e",
+              "type": "function",
+              "function": {
+                "name": "transferCall",
+                "arguments": "{\"destination\": \"assistant2\"}"
+              }
+            }
+          ],
+          "role": "tool_calls",
+          "message": "",
+          "time": 1722032467269,
+          "secondsFromStart": 18.411
+        },
+        {
+          "role": "tool_call_result",
+          "time": 1722032468853,
+          "secondsFromStart": 19.995,
+          "name": "transferCall",
+          "result": "Success.",
+          "toolCallId": "call_ms9e"
+        },
+        {
+          "role": "bot",
+          "message": "Hi there. I'm assistant 2.",
+          "time": 1722032470119,
+          "endTime": 1722032471529,
+          "secondsFromStart": 1.12,
+          "source": ""
+        },
+        {
+          "role": "user",
+          "message": "What's the weather in Boston, Massachusetts?",
+          "time": 1722032473319,
+          "endTime": 1722032475419,
+          "secondsFromStart": 4.32,
+          "duration": 3.2399998
+        },
+        {
+          "toolCalls": [
+            {
+              "id": "call_mrf9",
+              "type": "function",
+              "function": {
+                "name": "getWeatherByCity_002",
+                "arguments": "{\"city\": \"Boston\", \"state\": \"Massachusetts\"}"
+              }
+            }
+          ],
+          "role": "tool_calls",
+          "message": "",
+          "time": 1722032475671,
+          "secondsFromStart": 6.769
+        }
+      ],
+      "messagesOpenAIFormatted": [
+        {
+          "role": "assistant",
+          "content": "Hi there. I'm assistant 1."
+        },
+        {
+          "role": "user",
+          "content": "What's the weather in Danville, California?"
+        },
+        {
+          "role": "assistant",
+          "content": "",
+          "tool_calls": [
+            {
+              "type": "function",
+              "id": "call_51kj",
+              "function": {
+                "name": "getWeatherByCity_001",
+                "arguments": "{\"city\": \"Danville\", \"state\": \"California\"}"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "call_51kj",
+          "content": "The weather in Danville, California is windy"
+        },
+        {
+          "role": "assistant",
+          "content": "1 moment. The weather in Danville, California is windy."
+        },
+        {
+          "role": "user",
+          "content": "Transfer to assistant 2."
+        },
+        {
+          "role": "assistant",
+          "content": "",
+          "tool_calls": [
+            {
+              "type": "function",
+              "id": "call_ms9e",
+              "function": {
+                "name": "transferCall",
+                "arguments": "{\"destination\": \"assistant2\"}"
+              }
+            }
+          ]
+        },
+        {
+          "role": "tool",
+          "tool_call_id": "call_ms9e",
+          "content": "Success."
+        },
+        {
+          "role": "assistant",
+          "content": "Hi there. I'm assistant 2."
+        },
+        {
+          "role": "user",
+          "content": "What's the weather in Boston, Massachusetts?"
+        },
+        {
+          "role": "assistant",
+          "content": "",
+          "tool_calls": [
+            {
+              "type": "function",
+              "id": "call_mrf9",
+              "function": {
+                "name": "getWeatherByCity_002",
+                "arguments": "{\"city\": \"Boston\", \"state\": \"Massachusetts\"}"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "timestamp": "2024-07-26T22:21:15.679Z"
+  }
+}

@@ -1,0 +1,33 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+max_line_length = 120
+trim_trailing_whitespace = true
+
+[build.gradle.kts]
+indent_size = 4
+
+[{Makefile, makefile}]
+indent_style = tab
+indent_size = 4
+
+[*.js]
+indent_size = 2
+
+[*.md]
+indent_size = 2
+
+[*.kt]
+indent_size = 2
+# ktlint_standard_property-naming = disabled
+# ktlint_standard_backing-property-naming = disabled
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_multiline-if-else = disabled
+ktlint_standard_string-template-indent = disabled
+ktlint_standard_indent = disabled
+ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_standard_chain-method-continuation = disabled
+ktlint_standard_function-expression-body = disabled

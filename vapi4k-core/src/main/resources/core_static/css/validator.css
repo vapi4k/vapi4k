@@ -1,0 +1,136 @@
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+#message-response-data {
+    /*border: 1px solid red;*/
+    padding: 0px;
+    margin: 0px;
+}
+
+#response-header {
+    /*border: 1px solid blue;*/
+    background-color: #2d2d2d;
+    color: #fff;
+    padding-top: 10px;
+    padding-left: 50px;
+}
+
+.language-json.line-numbers {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.container-fluid.overflow-auto {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.sidebar-menu-item:hover {
+    background-color: #0D6EFD !important;
+    color: #fff !important;
+    cursor: pointer;
+}
+
+.sidebar-menu-item.active {
+    background-color: #0D6EFD !important;
+    color: #fff !important;
+}
+
+.nav-item:hover {
+    cursor: pointer;
+}
+
+.nav-icon {
+    font-size: 16px;
+    padding-bottom: 2px;
+}
+
+#version-info {
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.tools-div {
+    border: 2px solid #c2c4c6;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.tools-input {
+    width: 325px;
+}
+
+#invoke-input {
+    margin-top: 10px;
+}
+
+.tools-response-div {
+    padding-top: 10px;
+}
+
+.error-msg {
+    padding-left: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.smooth {
+    transition: all 1s ease-in;
+}
+
+#all-li {
+    margin-bottom: 10px;
+}
+
+.connect-error {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+#console-div {
+    padding: 5px 5px;
+}
+
+#title-span {
+    padding-top: 5px;
+    padding-left: 20px;
+    cursor: default;
+}
+
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding-right: 10px;
+/ / padding: 1 rem 1.5 rem;
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+.btn-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Make it circular */
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+}
+
+.title-icon {
+    font-size: 1.5rem;
+/ / color: red;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}

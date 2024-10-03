@@ -1,0 +1,46 @@
+sequenceDiagram
+    title Voice Application Data Flow
+    actor Bob
+    participant vapi as Vapi Server
+    participant acmr as Acme Server
+    participant dbms as DBMS Server
+    participant transcriber as Transcriber Server
+    participant voice as Voice Server
+    participant openai as OpenAI Server
+    Bob ->> vapi: Bob calls number linked to Vapi
+    vapi ->> acmr: Requests Bob's assistant definition
+    acmr ->> dbms: Requests Bob's info
+    dbms ->> acmr: Returns Bob's history
+    acmr ->> vapi: Returns Bob-specific assistant definition
+    vapi ->> voice: Sends text for speech synthesis
+    voice ->> vapi: Returns audio
+    vapi ->> Bob: Greets Bob with audio from assistant
+
+    loop Status Updates
+        vapi -->> acmr: Sends STATUS_UPDATE messages
+    end
+    loop Speech Updates
+        vapi -->> acmr: Sends SPEECH_UPDATE messages
+    end
+    loop Conversation Updates
+        vapi -->> acmr: Sends CONVERSATION_UPDATE messages
+    end
+
+    Bob ->> vapi: Bob asks for his balance
+    vapi ->> transcriber: Sends call audio for transcription
+    transcriber ->> vapi: Returns text of Bob's request
+    vapi ->> openai: Sends request for LLM evaluation
+    openai ->> vapi: Returns request for Tool evaluation
+    vapi ->> acmr: Sends request for Tool evaluation
+    acmr ->> dbms: Sends query to fulfill Tool request
+    dbms ->> acmr: Returns answer to query
+    acmr ->> vapi: Returns answer to query
+    vapi ->> openai: Returns Tool response
+    openai ->> vapi: Returns text for balance response
+%%    vapi -->> acme: Sends TOOL_CALL message
+    vapi ->> voice: Sends text for speech synthesis
+    voice ->> vapi: Returns audio
+    vapi ->> Bob: Answers Bob's question about his balance
+    Note left of Bob: Bob hangs up
+    vapi -->> acmr: Sends END_OF_CALL_REPORT message
+    acmr ->> dbms: Saves call sentiment analysis, details, and summary

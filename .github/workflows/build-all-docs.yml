@@ -1,0 +1,127 @@
+name: Build documentation
+
+on:
+  push:
+    branches: [ "docs" ]
+  workflow_dispatch:
+
+env:
+  INSTANCE: 'vapi4k-docs/hi'
+  ARTIFACT: 'webHelpHI2-all.zip'
+  DOCKER_VERSION: '241.18775'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Build writerside docs
+      - name: Build docs using Writerside Docker builder
+        uses: JetBrains/writerside-github-action@v4
+        with:
+          instance: ${{ env.INSTANCE }}
+          artifact: ${{ env.ARTIFACT }}
+          docker-version: ${{ env.DOCKER_VERSION }}
+
+      - name: Save artifact with build results
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: |
+            artifacts/${{ env.ARTIFACT }}
+          retention-days: 7
+
+      # Build all kdocs
+      - name: Build kdocs
+        run: ./gradlew dokkaHtml
+
+      - name: Save core kdocs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-kdocs
+          path: vapi4k-core/build/dokka/
+          retention-days: 7
+
+      - name: Save dbms kdocs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbms-kdocs
+          path: vapi4k-dbms/build/dokka/
+          retention-days: 7
+
+      - name: Save utils kdocs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: utils-kdocs
+          path: vapi4k-utils/build/dokka/
+          retention-days: 7
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Requires build job results
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docs
+
+      - name: Unzip artifact
+        run: unzip -O UTF-8 -qq ${{ env.ARTIFACT }} -d wsdocs
+
+      # core-kdocs
+      - name: Download core-kdocs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: core-kdocs
+
+      - name: Move core-kdocs into wsdocs
+        run: mv ./html wsdocs/core
+
+      # dbms-kdocs
+      - name: Download dbms-kdocs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dbms-kdocs
+
+      - name: Move dbms-kdocs into wsdocs
+        run: mv ./html wsdocs/dbms
+
+      # utils-kdocs
+      - name: Download utils-kdocs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: utils-kdocs
+
+      - name: Move utils-kdocs into wsdocs
+        run: mv ./html wsdocs/utils
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4.0.0
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: wsdocs
+
+      #      - name: Upload artifact
+      #        uses: actions/upload-pages-artifact@v3.0.1
+      #        with:
+      #          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5
