@@ -21,6 +21,8 @@ be up and running with an example application in less than 15 minutes.
 
 The Vapi4k GitHub repo can be found [here](https://github.com/vapi4k/vapi4k).
 
+The vapi4k-template GitHub repo can be found [here](https://github.com/vapi4k/vapi4k-template).
+
 The vapi4k-core package KDocs can be found [here](https://vapi4k.github.io/vapi4k/core/index.html).
 
 The vapi4k-utils package KDocs can be found [here](https://vapi4k.github.io/vapi4k/utils/index.html).
