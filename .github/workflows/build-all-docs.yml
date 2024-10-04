@@ -42,27 +42,13 @@ jobs:
 
       # Build all kdocs
       - name: Build kdocs
-        run: ./gradlew dokkaHtml
+        run: ./gradlew dokkaHtmlMultiModule
 
-      - name: Save core kdocs artifact
+      - name: Save kdocs artifact
         uses: actions/upload-artifact@v4
         with:
-          name: core-kdocs
-          path: vapi4k-core/build/dokka/
-          retention-days: 7
-
-      - name: Save dbms kdocs artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dbms-kdocs
-          path: vapi4k-dbms/build/dokka/
-          retention-days: 7
-
-      - name: Save utils kdocs artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: utils-kdocs
-          path: vapi4k-utils/build/dokka/
+          name: kdocs
+          path: build/kdocs/
           retention-days: 7
 
   deploy:
@@ -82,32 +68,14 @@ jobs:
       - name: Unzip artifact
         run: unzip -O UTF-8 -qq ${{ env.ARTIFACT }} -d wsdocs
 
-      # core-kdocs
-      - name: Download core-kdocs artifact
+      # kdocs
+      - name: Download kdocs artifact
         uses: actions/download-artifact@v4
         with:
-          name: core-kdocs
+          name: kdocs
 
-      - name: Move core-kdocs into wsdocs
-        run: mv ./html wsdocs/core
-
-      # dbms-kdocs
-      - name: Download dbms-kdocs artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dbms-kdocs
-
-      - name: Move dbms-kdocs into wsdocs
-        run: mv ./html wsdocs/dbms
-
-      # utils-kdocs
-      - name: Download utils-kdocs artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: utils-kdocs
-
-      - name: Move utils-kdocs into wsdocs
-        run: mv ./html wsdocs/utils
+      - name: Move kdocs into wsdocs
+        run: mv ./kdocs wsdocs/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4.0.0
