@@ -75,7 +75,7 @@ jobs:
           name: kdocs
 
       - name: Move kdocs into wsdocs
-        run: mv ./kdocs wsdocs/
+        run: mv ./build/kdocs wsdocs/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4.0.0
