@@ -24,12 +24,8 @@ If you have any questions, comments, or suggestions, please feel free to reach o
 If you follow the [Setup](https://vapi4k.github.io/vapi4k/setup.html) guide, you should
 be up and running with an example application in less than 15 minutes.
 
+The Vapi4k KDocs can be found [here](https://vapi4k.github.io/vapi4k/index.html).
+
 The Vapi4k GitHub repository can be found [here](https://github.com/vapi4k/vapi4k).
 
 The vapi4k-template GitHub repository can be found [here](https://github.com/vapi4k/vapi4k-template).
-
-The vapi4k-core package KDocs can be found [here](https://vapi4k.github.io/vapi4k/core/index.html).
-
-The vapi4k-utils package KDocs can be found [here](https://vapi4k.github.io/vapi4k/utils/index.html).
-
-The vapi4k-dbms package KDocs can be found [here](https://vapi4k.github.io/vapi4k/dbms/index.html).

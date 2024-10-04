@@ -19,7 +19,7 @@ of the applications work correctly.
     </step>
     <step>
         <p>The <shortcut>Assistant Response</shortcut> tab contains the JSON message generated for an inbound call
-using the <shortcut>/incomingCall/vapi4k</shortcut> path.</p>
+          using the <shortcut>/incomingCall/vapi4k</shortcut> path.</p>
     </step>
     <step>
         <p>Click on the <shortcut>Service Tools</shortcut> to see the weather tool.</p>
