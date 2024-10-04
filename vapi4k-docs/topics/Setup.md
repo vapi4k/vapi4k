@@ -10,17 +10,17 @@ Create a Vapi account by going [here](https://dashboard.vapi.ai).
 
 <procedure>
     <step>
-        <p>Go to the <a href = "https://dashboard.vapi.ai">Vapi dashboard</a>.</p>
+        <p>Go to the <a href="https://dashboard.vapi.ai">Vapi dashboard</a>.</p>
     </step>
     <step>
-        <p>Click on <shortcut>Platform</shortcut> <shortcut>Phone Numbers</shortcut> and then
+        <p>Click on <shortcut>Platform</shortcut>, <shortcut>Phone Numbers</shortcut>, and then
             <shortcut>Buy Number</shortcut> to get a phone number.</p>
     </step>
 </procedure>
 
 ## Install IntelliJ
 
-In order to develop Vapi4k applications, you need to install IntelliJ on your machine.
+To develop Vapi4k applications, you need to install IntelliJ on your machine.
 You can download the Community Edition from the [JetBrains Toolbox App](https://www.jetbrains.com/toolbox-app/).
 
 ## Configure IntelliJ
@@ -31,16 +31,16 @@ local development with `ngrok`.
 
 <procedure title="Install the EnvFile plugin">
     <step>
-        <p>Start IntelliJ</p>
+        <p>Start IntelliJ.</p>
     </step>
     <step>
         <p>Select the <shortcut>IntelliJ IDEA</shortcut> <shortcut>Settings...</shortcut> menu options.</p>
     </step>
     <step>
-        <p>Click on the <shortcut>Plugins</shortcut> option. </p>
+        <p>Click on the <shortcut>Plugins</shortcut> option.</p>
     </step>
     <step>
-        <p>Click on the <shortcut>Marketplace</shortcut> option and type <b>EnvFile</b> in the search field. </p>
+        <p>Click on the <shortcut>Marketplace</shortcut> option and type <b>EnvFile</b> in the search field.</p>
     </step>
     <step>
         <p>Enable the <shortcut>EnvFile</shortcut> option.</p>
@@ -50,11 +50,11 @@ local development with `ngrok`.
     </step>
 </procedure>
 
-## Create a vapi4k-template repository
+## Create a repository
 
-<procedure title="">
+<procedure title="Create a vapi4k-template repository">
     <step>
-        <p>Go to the <a href = "https://github.com/vapi4k/vapi4k-template">vapi4k-template</a> GitHub page.</p>
+        <p>Go to the <a href="https://github.com/vapi4k/vapi4k-template">vapi4k-template</a> GitHub page.</p>
     </step>
     <step>
         <p>Click on the <shortcut>Use this template</shortcut> and <shortcut>Create a new repository</shortcut> options.</p>
@@ -67,7 +67,7 @@ local development with `ngrok`.
     </step>
 </procedure>
 
-## Clone your vapi4k-template repository
+## Clone your repository
 
 You can now clone your new vapi4k-template repository to your local machine from within IntelliJ or using
 `git clone <repository-url>`
@@ -75,19 +75,19 @@ on the command line.
 
 <procedure title="Clone the vapi4k-template repository within IntelliJ">
     <step>
-        <p>Go to your newly created vapi4k-template repository page on Github.</p>
+        <p>Go to your newly created vapi4k-template repository page on GitHub.</p>
     </step>
     <step>
         <p>Click on the <shortcut>Code</shortcut> option.</p>
     </step>
     <step>
-        <p>Copy either the <shortcut>HTTPS</shortcut> or <shortcut>SSH</shortcut> repository URL. </p>
+        <p>Copy either the <shortcut>HTTPS</shortcut> or <shortcut>SSH</shortcut> repository URL.</p>
     </step>
     <step>
-        <p>Open IntelliJ</p>
+        <p>Open IntelliJ.</p>
     </step>
     <step>
-        <p>Click on the <shortcut>File</shortcut> <shortcut>New</shortcut> <shortcut>Project from Version Control...</shortcut> options</p>
+        <p>Click on the <shortcut>File</shortcut>, <shortcut>New</shortcut>, <shortcut>Project from Version Control...</shortcut> options.</p>
     </step>
     <step>
         <p>Paste the repository URL and choose the desired <shortcut>Directory</shortcut>.</p>
@@ -113,7 +113,7 @@ ngrok http 8080
 Copy the ngrok `Web Interface` URL and paste it into your browser. You will see the ngrok dashboard and all messages
 exchanged between your app and the Vapi platform.
 
-Copy the ngrok `Forwarding` URL into your copy buffer. You will need this URL in the next step.
+Copy the ngrok `Forwarding` URL to your clipboard. You will need this URL in the next step.
 
 ## Create a secrets file
 
@@ -121,7 +121,7 @@ The Vapi4k server requires some environment variables to be defined to connect t
 
 <procedure title="Create a secrets.env file">
     <step>
-        <p>Start IntelliJ</p>
+        <p>Start IntelliJ.</p>
     </step>
     <step>
         <p>Open your vapi4k-template application.</p>
@@ -130,7 +130,7 @@ The Vapi4k server requires some environment variables to be defined to connect t
         <p>Ctrl-click on the <shortcut>/secrets</shortcut> folder.</p>
     </step>
     <step>
-        <p>Choose the <shortcut>New</shortcut> <shortcut>File</shortcut> options.</p>
+        <p>Choose the <shortcut>New</shortcut>, <shortcut>File</shortcut> options.</p>
     </step>
     <step>
         <p>Create a file named <b>secrets.env</b>.</p>
@@ -144,8 +144,8 @@ The `secrets.env` file should contain values for these environment variables:
 * VAPI4K_BASE_URL
 
 The first three values can be found on the Vapi dashboard.
-The keys are found by clicking on the organization button on the lower left
-and the phone number id is found in the `Platform` `Phone Number` section.
+The keys are found by clicking on the organization button on the lower left,
+and the phone number ID is found in the `Platform` `Phone Number` section.
 
 The VAPI4K_BASE_URL value is the ngrok `Forwarding` URL.
 
@@ -167,9 +167,9 @@ VAPI4K_BASE_URL=https://fdee-73-71-109-432.ngrok-free.app
 
 </procedure>
 
-## Config IntelliJ to use secrets.env
+## Adjust Run Configuration
 
-<procedure title="">
+<procedure title="Adjust Run Configuration to use secrets.env">
     <step>
         <p>Start IntelliJ.</p>
     </step>
@@ -180,7 +180,7 @@ VAPI4K_BASE_URL=https://fdee-73-71-109-432.ngrok-free.app
         <p>Click on the green arrow to the left of <code>fun main()</code> to run the server.</p>
     </step>
     <step>
-        <p>Now run the server with the secrets.env by clicking on the 3 vertical dots in the Run
+        <p>Now run the server with the secrets.env by clicking on the three vertical dots in the Run
           panel and click on <shortcut>Modify Run Configuration...</shortcut>.</p>
     </step>
     <step>
@@ -188,17 +188,16 @@ VAPI4K_BASE_URL=https://fdee-73-71-109-432.ngrok-free.app
     </step>
     <step>
         <p>Scroll down and click on the <shortcut>➕</shortcut> button, then click on <shortcut>.env file</shortcut>
-            and then select the <shortcut>secrets.env</shortcut> created above.</p>
+          and then select the <shortcut>secrets.env</shortcut> created above.</p>
     </step>
     <step>
         <p>Restart the server and you should see the log saying the <shortcut>Vapi4kServer is started at</shortcut>
-            with the ngrok VAPI4K_BASE_URL value.</p>
+          with the ngrok VAPI4K_BASE_URL value.</p>
     </step>
     <step>
         <p>Click on the VAPI4K_BASE_URL value in the log to open the Vapi4k admin page.
-            Use the username/password values of admin/admin</p>
+          Use the username/password values of admin/admin.</p>
     </step>
 </procedure>
-
 
 You are now ready to run a Vapi4k application.

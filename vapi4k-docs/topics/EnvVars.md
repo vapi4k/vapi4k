@@ -15,19 +15,19 @@
         <td>Base URL of Vapi4k Server</td>
         <td><shortcut>http://localhost:8080</shortcut></td>
     </tr>
-     <tr>
+    <tr>
         <td>VAPI_PUBLIC_KEY</td>
         <td>Vapi public key. Used by web applications.</td>
         <td></td>
     </tr>
-   <tr>
+    <tr>
         <td>VAPI_PRIVATE_KEY</td>
         <td>Vapi private key. Used by outbound call applications.</td>
         <td></td>
     </tr>
     <tr>
         <td>VAPI_PHONE_NUMBER_ID</td>
-        <td>Vapi phone number id. Used by outbound call applications.</td>
+        <td>Vapi phone number ID. Used by outbound call applications.</td>
         <td></td>
     </tr>
     <tr>
@@ -47,7 +47,7 @@
     </tr>
     <tr>
         <td>DEFAULT_SERVER_PATH</td>
-        <td>Default value for application <shortcut>serverPath</shortcut>value</td>
+        <td>Default value for application <shortcut>serverPath</shortcut> value</td>
         <td><shortcut>/vapi4k</shortcut></td>
     </tr>
 </table>
@@ -62,7 +62,7 @@
     </tr>
     <tr>
         <td>DBMS_DRIVER_CLASSNAME</td>
-        <td>JDBC classname</td>
+        <td>JDBC class name</td>
         <td><shortcut>com.impossibl.postgres.jdbc.PGDriver</shortcut></td>
     </tr>
     <tr>
@@ -87,7 +87,7 @@
     </tr>
     <tr>
         <td>DBMS_MAX_LIFETIME_MINS</td>
-        <td>Max DBMS connection lifetime</td>
+        <td>Max DBMS connection lifetime (in minutes)</td>
         <td><shortcut>30</shortcut></td>
     </tr>
 </table>

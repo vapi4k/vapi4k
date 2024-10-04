@@ -14,3 +14,4 @@ and KDocs (
 [vapi4k-dbms](https://vapi4k.github.io/vapi4k/dbms/index.html))
 are a work in progress.
 
+The vapi4k-template GitHub repo can be found [here](https://github.com/vapi4k/vapi4k-template).

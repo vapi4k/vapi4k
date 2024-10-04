@@ -4,7 +4,7 @@
 
 A `onAssistantRequest{}` call is used to define the behavior of an application.
 It is required in all application descriptions. A call to `onAssistantRequest{}`
-should define a single `assistant{}`, `squad{}`, `assistantId{}`, or a `squadId{}`.
+should define a single `assistant{}`, `squad{}`, `assistantId{}`, or `squadId{}`.
 Calls to `assistant{}` and `assistantId{}` can also include a call to `assistantOverrides{}`.
 
 ## Assistants
@@ -28,7 +28,7 @@ A `squad{}` call creates a temporary squad that lasts for the duration of the ca
 An `assistantId{}` call references a static assistant defined in
 the [Vapi dashboard](https://dashboard.vapi.ai/assistants).
 
-A `assistantOverrides{}` call is used to override the default assistant settings and its argument has a
+A `assistantOverrides{}` call is used to override the default assistant settings, and its argument has an
 [`AssistantOverrides`](%core_url%.assistant/-assistant-overrides/index.html) context.
 
 <chapter title="Assistant Id Example" id="assistantId" collapsible="false">

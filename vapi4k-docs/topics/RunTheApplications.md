@@ -7,7 +7,7 @@
 Before running the applications, verify that the assistant request responses and tool calls for each
 of the applications work correctly.
 
-<procedure title="">
+<procedure title="Verify the Applications">
     <step>
         <p>Start the Vapi4k server.</p>
     </step>
@@ -19,13 +19,13 @@ of the applications work correctly.
     </step>
     <step>
         <p>The <shortcut>Assistant Response</shortcut> tab contains the JSON message generated for an inbound call
-          using the <shortcut>/incomingCall/vapi4k</shortcut> path.</p>
+using the <shortcut>/incomingCall/vapi4k</shortcut> path.</p>
     </step>
     <step>
         <p>Click on the <shortcut>Service Tools</shortcut> to see the weather tool.</p>
     </step>
     <step>
-        <p>Type some values for city and state and click <shortcut>Invoke Tool</shortcut> to see the resulting JSON message.</p>
+        <p>Type some values for city and state, and click <shortcut>Invoke Tool</shortcut> to see the resulting JSON message.</p>
     </step>
     <step>
         <p>Have a look at the <shortcut>/callCustomer</shortcut> and <shortcut>/talkApp</shortcut> serverPaths as well.</p>
@@ -36,7 +36,7 @@ of the applications work correctly.
 
 <procedure title="Configure Vapi for an Inbound Call">
     <step>
-        <p>Go to the <a href = "https://dashboard.vapi.ai">Vapi dashboard</a>.</p>
+        <p>Go to the <a href="https://dashboard.vapi.ai">Vapi dashboard</a>.</p>
     </step>
     <step>
         <p>Click on the green organization button on the lower left.</p>
@@ -53,7 +53,7 @@ The `/inboundCall` indicates that the URL corresponds to a Vapi4k `inboundCallAp
 The `serverPath` value is defined in the `inboundCallApplication{}` declaration and
 defaults to `/vapi4k`.
 
-The <shortcut>Sever URL</shortcut> should look something like this:
+The <shortcut>Server URL</shortcut> should look something like this:
 
 ```bash
 https://c7dc-2601-644-8722-6250-a138-5443-c3c5-eb1d.ngrok-free.app/inboundCall/vapi4k
@@ -61,7 +61,7 @@ https://c7dc-2601-644-8722-6250-a138-5443-c3c5-eb1d.ngrok-free.app/inboundCall/v
 
 </procedure>
 
-<procedure title="Run the inbound call application">
+<procedure title="Run the Inbound Call Application">
     <step>
         <p>Start the Vapi4k server.</p>
     </step>
@@ -69,13 +69,13 @@ https://c7dc-2601-644-8722-6250-a138-5443-c3c5-eb1d.ngrok-free.app/inboundCall/v
         <p>Call your Vapi phone number and you should see messages in the admin log.</p>
     </step>
     <step>
-        <p>To test a tool call, ask the assistant "What is the weather in "Dallas, Texas?"</p>
+        <p>To test a tool call, ask the assistant "What is the weather in Dallas, Texas?"</p>
     </step>
 </procedure>
 
 ## Outbound Call Application
 
-<procedure title="Run the outbound call application">
+<procedure title="Run the Outbound Call Application">
     <step>
         <p>Start the Vapi4k server.</p>
     </step>
@@ -95,7 +95,7 @@ https://c7dc-2601-644-8722-6250-a138-5443-c3c5-eb1d.ngrok-free.app/inboundCall/v
 
 ## Web Application
 
-<procedure title="Run the web application">
+<procedure title="Run the Web Application">
     <step>
         <p>Start the Vapi4k server.</p>
     </step>
@@ -103,8 +103,6 @@ https://c7dc-2601-644-8722-6250-a138-5443-c3c5-eb1d.ngrok-free.app/inboundCall/v
         <p>Open the <b>$VAPI4K_BASE_URL/talk</b> URL in your browser.</p>
     </step>
     <step>
-        <p>Click on the talk button and ask the assistant "What is the weather in "Miami, Florida?"</p>
+        <p>Click on the talk button and ask the assistant "What is the weather in Miami, Florida?"</p>
     </step>
 </procedure>
-
-
