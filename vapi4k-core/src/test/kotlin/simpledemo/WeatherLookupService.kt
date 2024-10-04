@@ -14,7 +14,7 @@
  *
  */
 
-package simpleDemo
+package simpledemo
 
 import com.vapi4k.api.json.stringValue
 import com.vapi4k.api.json.toJsonElement

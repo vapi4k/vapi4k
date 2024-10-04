@@ -14,7 +14,7 @@
  *
  */
 
-package simpleDemo
+package simpledemo
 
 import com.vapi4k.api.assistant.enums.AssistantServerMessageType
 import com.vapi4k.api.conditions.eq

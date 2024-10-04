@@ -48,9 +48,7 @@ class ButtonColor {
   )
 
   constructor(hex: String) {
-    if (!hex.matches(Regex("^#([A-Fa-f0-9]{6})$"))) {
-      throw IllegalArgumentException("Invalid hex color code: $hex")
-    }
+    require(hex.matches(Regex("^#([A-Fa-f0-9]{6})$"))) { "Invalid hex color code: $hex" }
     val hexColor = hex.removePrefix("#")
     this.red = hexColor.substring(0, 2).toInt(16)
     this.green = hexColor.substring(2, 4).toInt(16)

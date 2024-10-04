@@ -14,14 +14,14 @@
  *
  */
 
-package simpleDemo
+package simpledemo
 
 import com.vapi4k.plugin.Vapi4k
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
-import simpleDemo.SimpleAssistant.simpleAssistantRequest
+import simpledemo.SimpleAssistant.simpleAssistantRequest
 
 fun main() {
   embeddedServer(

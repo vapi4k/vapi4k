@@ -14,10 +14,10 @@
  *
  */
 
-package simpleDemo
+package simpledemo
 
 import com.vapi4k.api.tools.ToolCall
-import simpleDemo.Coasts.EAST
+import simpledemo.Coasts.EAST
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter

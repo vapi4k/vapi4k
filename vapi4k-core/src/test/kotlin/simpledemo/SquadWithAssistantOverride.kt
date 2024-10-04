@@ -14,7 +14,7 @@
  *
  */
 
-package simpleDemo
+package simpledemo
 
 class SquadWithAssistantOverride {
 //  fun getSquadWithAssistantOverride(request: JsonElement) =

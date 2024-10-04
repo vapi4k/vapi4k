@@ -14,13 +14,13 @@
  *
  */
 
-package simpleDemo
+package simpledemo
 
 import com.vapi4k.api.model.enums.GroqModelType
 import com.vapi4k.api.model.enums.OpenAIModelType
 import com.vapi4k.api.reponse.InboundCallAssistantResponse
-import simpleDemo.Coasts.EAST
-import simpleDemo.Coasts.WEST
+import simpledemo.Coasts.EAST
+import simpledemo.Coasts.WEST
 
 class AssistantWithOverrides {
   fun InboundCallAssistantResponse.getAssistantWithOverride() =

@@ -93,9 +93,7 @@ fun String.toJsonElement() = Json.parseToJsonElement(this)
 fun JsonElement.toJsonElementList() = jsonArray.toList()
 
 fun JsonElement.toMap(): Map<String, Any?> {
-  if (this !is JsonObject) {
-    throw IllegalArgumentException("Can only convert JsonObject to Map")
-  }
+  require(this is JsonObject) { "Can only convert JsonObject to Map" }
 
   return entries.associate { (key, value) ->
     key to when (value) {

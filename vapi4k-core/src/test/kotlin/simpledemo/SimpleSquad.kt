@@ -14,7 +14,7 @@
  *
  */
 
-package simpleDemo
+package simpledemo
 
 import com.vapi4k.api.model.enums.GroqModelType
 import com.vapi4k.api.reponse.InboundCallAssistantResponse
