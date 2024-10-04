@@ -7,7 +7,7 @@ We also love [Kotlin](https://kotlinlang.org) and [Ktor](https://ktor.io) and be
 a [Kotlin DSL](https://kotlinlang.org/docs/type-safe-builders.html)
 that makes it easy to define, deploy, and maintain Vapi applications.
 
-Vapi4k allows you to stop wrangling with Vapi REST calls, worrying about hand-coding Vapi JSON messages,
+Vapi4k allows you to stop orchestrating Vapi REST calls, worrying about hand-coding Vapi JSON messages,
 and implementing LLM tool calls.
 Instead, Vapi4k allows you to focus on creating the prompts to build your voice application.
 
