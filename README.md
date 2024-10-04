@@ -9,9 +9,9 @@
 Vapi4k is a [Ktor](https://ktor.io) plugin and a [Kotlin DSL](https://kotlinlang.org/docs/type-safe-builders.html)
 that makes it easy to define, deploy, and maintain [Vapi](https://vapi.ai) applications.
 
-The [Vapi4k Documentation](https://vapi4k.github.io/vapi4k/overview.html)
+The [Vapi4k Documentation](https://vapi4k.com/vapi4k/overview.html)
 and
-[KDocs](https://vapi4k.github.io/vapi4k/kdocs/index.html)
+[KDocs](https://vapi4k.com/kdocs/)
 are a work in progress.
 
 The vapi4k-template GitHub repo can be found [here](https://github.com/vapi4k/vapi4k-template).

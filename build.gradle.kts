@@ -42,7 +42,6 @@ subprojects {
                   "footerMessage": "Vapi4k"
                 }
                 """
-
                 pluginsMapConfiguration.set(
                     mapOf(
                         // fully qualified plugin name to json configuration
@@ -81,4 +80,16 @@ subprojects {
 
 tasks.dokkaHtmlMultiModule.configure {
     outputDirectory.set(buildDir.resolve("kdocs"))
+
+    val dokkaBaseConfiguration = """
+                {
+                  "footerMessage": "Vapi4k"
+                }
+                """
+    pluginsMapConfiguration.set(
+        mapOf(
+            // fully qualified plugin name to json configuration
+            "org.jetbrains.dokka.base.DokkaBase" to dokkaBaseConfiguration
+        )
+    )
 }

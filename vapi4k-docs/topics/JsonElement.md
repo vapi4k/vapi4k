@@ -3,7 +3,7 @@
 The `JsonElement` class is the base class for all JSON elements in Kotlin. It represents a JSON value, which can
 be a JSON object, a JSON array, a JSON string, a JSON number, a JSON boolean, or JSON null.
 
-[JsonElementUtils](%utils_url%.json/index.html)
+[JsonElementUtils](%utils_url%.json/)
 provides utility functions for working with `JsonElement` objects.
 
 Many of the `JsonElement` functions have a `vararg String` path argument.

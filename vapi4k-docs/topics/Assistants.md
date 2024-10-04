@@ -29,7 +29,7 @@ An `assistantId{}` call references a static assistant defined in
 the [Vapi dashboard](https://dashboard.vapi.ai/assistants).
 
 A `assistantOverrides{}` call is used to override the default assistant settings, and its argument has an
-[`AssistantOverrides`](%core_url%.assistant/-assistant-overrides/index.html) context.
+[`AssistantOverrides`](%core_url%.assistant/-assistant-overrides/) context.
 
 <chapter title="Assistant Id Example" id="assistantId" collapsible="false">
 <code-block lang="kotlin" src="src/main/kotlin/assistants/Assistants.kt" include-symbol="assistantIdExample"/>
@@ -45,16 +45,16 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
 
 ## Models
 
-* [Anthropic](%core_url%.model/-anthropic-model/index.html)
-* [Anyscale](%core_url%.model/-anyscale-model/index.html)
-* [CustomLLM](%core_url%.model/-custom-l-l-m-model/index.html)
-* [DeepInfra](%core_url%.model/-deep-infra-model/index.html)
-* [Groq](%core_url%.model/-groq-model/index.html)
-* [OpenAI](%core_url%.model/-open-a-i-model/index.html)
-* [OpenRouter](%core_url%.model/-open-router-model/index.html)
-* [PerplexityAI](%core_url%.model/-perplexity-a-i-model/index.html)
-* [TogetherAI](%core_url%.model/-together-a-i-model/index.html)
-* [Vapi](%core_url%.model/-vapi-model/index.html)
+* [Anthropic](%core_url%.model/-anthropic-model/)
+* [Anyscale](%core_url%.model/-anyscale-model/)
+* [CustomLLM](%core_url%.model/-custom-l-l-m-model/)
+* [DeepInfra](%core_url%.model/-deep-infra-model/)
+* [Groq](%core_url%.model/-groq-model/)
+* [OpenAI](%core_url%.model/-open-a-i-model/)
+* [OpenRouter](%core_url%.model/-open-router-model/)
+* [PerplexityAI](%core_url%.model/-perplexity-a-i-model/)
+* [TogetherAI](%core_url%.model/-together-a-i-model/)
+* [Vapi](%core_url%.model/-vapi-model/)
 
 ### Model Examples
 
@@ -93,15 +93,15 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
 
 ## Voices
 
-* [Azure](%core_url%.voice/-azure-voice/index.html)
-* [Cartesia](%core_url%.voice/-cartesia-voice/index.html)
-* [Deepgram](%core_url%.voice/-deepgram-voice/index.html)
-* [ElevenLabs](%core_url%.voice/-eleven-labs-voice/index.html)
-* [LMNT](%core_url%.voice/-l-m-n-t-voice/index.html)
-* [Neets](%core_url%.voice/-neets-voice/index.html)
-* [OpenAI](%core_url%.voice/-open-a-i-voice/index.html)
-* [PlayHT](%core_url%.voice/-play-h-t-voice/index.html)
-* [RimeAI](%core_url%.voice/-rime-a-i-voice/index.html)
+* [Azure](%core_url%.voice/-azure-voice/)
+* [Cartesia](%core_url%.voice/-cartesia-voice/)
+* [Deepgram](%core_url%.voice/-deepgram-voice/)
+* [ElevenLabs](%core_url%.voice/-eleven-labs-voice/)
+* [LMNT](%core_url%.voice/-l-m-n-t-voice/)
+* [Neets](%core_url%.voice/-neets-voice/)
+* [OpenAI](%core_url%.voice/-open-a-i-voice/)
+* [PlayHT](%core_url%.voice/-play-h-t-voice/)
+* [RimeAI](%core_url%.voice/-rime-a-i-voice/)
 
 ### Voice Examples
 
@@ -137,9 +137,9 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
 
 ## Transcribers
 
-* [Deepgram](%core_url%.transcriber/-deepgram-transcriber/index.html)
-* [Gladia](%core_url%.transcriber/-gladia-transcriber/index.html)
-* [Talkscriber](%core_url%.transcriber/-talkscriber-transcriber/index.html)
+* [Deepgram](%core_url%.transcriber/-deepgram-transcriber/)
+* [Gladia](%core_url%.transcriber/-gladia-transcriber/)
+* [Talkscriber](%core_url%.transcriber/-talkscriber-transcriber/)
 
 ### Transcriber Examples
 
