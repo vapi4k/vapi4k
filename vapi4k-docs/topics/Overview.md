@@ -21,7 +21,7 @@ Vapi4k is a work in progress. We are actively developing it and would love to he
 If you have any questions, comments, or suggestions, please feel free to reach out to us at
 [comments@vapi4k.com](mailto:comments@vapi4k.com).
 
-If you follow the [Setup](https://vapi4k.com/vapi4k/setup.html) guide, you should
+If you follow the [Setup](https://vapi4k.com/setup.html) guide, you should
 be up and running with an example application in less than 15 minutes.
 
 The Vapi4k KDocs can be found [here](https://vapi4k.com/kdocs/).
