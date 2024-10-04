@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: kdocs
-          path: build/kdocs/
+          path: build/
           retention-days: 7
 
   deploy:
@@ -75,7 +75,7 @@ jobs:
           name: kdocs
 
       - name: Move kdocs into wsdocs
-        run: mv ./build/kdocs wsdocs/
+        run: mv ./kdocs wsdocs/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4.0.0
