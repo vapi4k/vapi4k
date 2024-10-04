@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.model
 
-import com.vapi4k.api.model.enums.MetaDataSendModeType
+import com.vapi4k.api.model.MetaDataSendModeType
 
 interface CustomLLMModelProperties {
   /**

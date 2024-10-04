@@ -16,8 +16,8 @@
 
 package com.vapi4k.dtos.api.destination
 
+import com.vapi4k.api.destination.DestinationType
 import com.vapi4k.api.destination.NumberDestination
-import com.vapi4k.api.destination.enums.DestinationType
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Serializable
 

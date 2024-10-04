@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.buttons
 
-import com.vapi4k.api.buttons.enums.ButtonPosition
+import com.vapi4k.api.buttons.ButtonPosition
 import com.vapi4k.dtos.buttons.ButtonStateDto
 
 interface ButtonConfigProperties {

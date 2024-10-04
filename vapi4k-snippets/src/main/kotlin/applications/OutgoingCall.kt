@@ -16,9 +16,9 @@
 
 package applications
 
-import com.vapi4k.api.model.enums.AnthropicModelType
-import com.vapi4k.api.voice.enums.ElevenLabsVoiceIdType
-import com.vapi4k.api.voice.enums.ElevenLabsVoiceModelType
+import com.vapi4k.api.model.AnthropicModelType
+import com.vapi4k.api.voice.ElevenLabsVoiceIdType
+import com.vapi4k.api.voice.ElevenLabsVoiceModelType
 import com.vapi4k.plugin.Vapi4k
 import io.ktor.server.application.Application
 import io.ktor.server.application.install

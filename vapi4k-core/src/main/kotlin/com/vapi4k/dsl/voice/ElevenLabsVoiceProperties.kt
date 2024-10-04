@@ -16,8 +16,8 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.ElevenLabsVoiceIdType
-import com.vapi4k.api.voice.enums.ElevenLabsVoiceModelType
+import com.vapi4k.api.voice.ElevenLabsVoiceIdType
+import com.vapi4k.api.voice.ElevenLabsVoiceModelType
 
 interface ElevenLabsVoiceProperties : CommonVoiceProperties {
   /**

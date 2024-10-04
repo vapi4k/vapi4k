@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.AzureVoiceIdType
+import com.vapi4k.api.voice.AzureVoiceIdType
 
 interface AzureVoiceProperties : CommonVoiceProperties {
   /**

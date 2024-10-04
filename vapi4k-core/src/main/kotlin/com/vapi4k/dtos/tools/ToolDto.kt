@@ -16,8 +16,8 @@
 
 package com.vapi4k.dtos.tools
 
+import com.vapi4k.dsl.tools.ToolType
 import com.vapi4k.dsl.tools.ToolWithMetaDataProperties
-import com.vapi4k.dsl.tools.enums.ToolType
 import com.vapi4k.dtos.api.destination.CommonDestinationDto
 import com.vapi4k.dtos.functions.FunctionDto
 import kotlinx.serialization.EncodeDefault

@@ -16,7 +16,7 @@
 
 package tools
 
-import com.vapi4k.api.destination.enums.AssistantTransferMode
+import com.vapi4k.api.destination.AssistantTransferMode
 import com.vapi4k.dsl.model.CommonModelProperties
 
 object TransferTools {

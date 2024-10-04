@@ -17,11 +17,11 @@
 package applications
 
 import com.vapi4k.api.buttons.ButtonColor
-import com.vapi4k.api.buttons.enums.ButtonPosition
-import com.vapi4k.api.buttons.enums.ButtonType
-import com.vapi4k.api.model.enums.GroqModelType
+import com.vapi4k.api.buttons.ButtonPosition
+import com.vapi4k.api.buttons.ButtonType
+import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.api.vapi4k.RequestContext
-import com.vapi4k.api.voice.enums.PlayHTVoiceIdType
+import com.vapi4k.api.voice.PlayHTVoiceIdType
 import com.vapi4k.dsl.web.VapiWeb.vapiTalkButton
 import com.vapi4k.plugin.Vapi4k
 import io.ktor.server.application.Application

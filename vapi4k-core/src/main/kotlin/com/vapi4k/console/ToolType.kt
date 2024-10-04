@@ -16,9 +16,9 @@
 
 package com.vapi4k.console
 
-import com.vapi4k.api.assistant.enums.AssistantServerMessageType
-import com.vapi4k.api.assistant.enums.AssistantServerMessageType.FUNCTION_CALL
-import com.vapi4k.api.assistant.enums.AssistantServerMessageType.TOOL_CALLS
+import com.vapi4k.api.assistant.AssistantServerMessageType
+import com.vapi4k.api.assistant.AssistantServerMessageType.FUNCTION_CALL
+import com.vapi4k.api.assistant.AssistantServerMessageType.TOOL_CALLS
 
 enum class ToolType(
   val messageType: AssistantServerMessageType,

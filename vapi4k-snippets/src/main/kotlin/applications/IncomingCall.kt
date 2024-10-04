@@ -16,12 +16,12 @@
 
 package applications
 
-import com.vapi4k.api.model.enums.OpenAIModelType
+import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.api.vapi4k.RequestContext
-import com.vapi4k.api.vapi4k.enums.ServerRequestType.ASSISTANT_REQUEST
-import com.vapi4k.api.vapi4k.enums.ServerRequestType.FUNCTION_CALL
-import com.vapi4k.api.vapi4k.enums.ServerRequestType.TOOL_CALL
-import com.vapi4k.api.voice.enums.DeepGramVoiceIdType
+import com.vapi4k.api.vapi4k.ServerRequestType.ASSISTANT_REQUEST
+import com.vapi4k.api.vapi4k.ServerRequestType.FUNCTION_CALL
+import com.vapi4k.api.vapi4k.ServerRequestType.TOOL_CALL
+import com.vapi4k.api.voice.DeepGramVoiceIdType
 import com.vapi4k.plugin.Vapi4k
 import com.vapi4k.plugin.Vapi4kServer.logger
 import io.ktor.server.application.Application

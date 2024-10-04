@@ -22,7 +22,7 @@ import com.vapi4k.api.json.get
 import com.vapi4k.api.json.keys
 import com.vapi4k.api.json.stringValue
 import com.vapi4k.api.json.toJsonElement
-import com.vapi4k.api.model.enums.OpenAIModelType
+import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.tools
 import org.junit.Assert.assertFalse

@@ -20,7 +20,7 @@ import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.tools.TransferDestinationResponse
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.ResponseContext
-import com.vapi4k.api.vapi4k.enums.ServerRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType
 import com.vapi4k.common.ApplicationId.Companion.toApplicationId
 import com.vapi4k.common.AssistantId
 import com.vapi4k.common.CacheKey.Companion.cacheKeyValue

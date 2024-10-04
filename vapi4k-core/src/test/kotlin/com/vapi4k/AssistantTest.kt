@@ -16,20 +16,20 @@
 
 package com.vapi4k
 
-import com.vapi4k.api.assistant.enums.AssistantClientMessageType
-import com.vapi4k.api.assistant.enums.AssistantServerMessageType
-import com.vapi4k.api.assistant.enums.FirstMessageModeType.ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL
+import com.vapi4k.api.assistant.AssistantClientMessageType
+import com.vapi4k.api.assistant.AssistantServerMessageType
+import com.vapi4k.api.assistant.FirstMessageModeType.ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL
 import com.vapi4k.api.conditions.eq
 import com.vapi4k.api.json.intValue
 import com.vapi4k.api.json.jsonElementList
 import com.vapi4k.api.json.stringValue
 import com.vapi4k.api.json.toJsonElement
-import com.vapi4k.api.model.enums.OpenAIModelType
-import com.vapi4k.api.tools.enums.ToolMessageType
-import com.vapi4k.api.transcriber.enums.DeepgramLanguageType
-import com.vapi4k.api.transcriber.enums.DeepgramModelType
-import com.vapi4k.api.transcriber.enums.GladiaModelType
-import com.vapi4k.api.transcriber.enums.TalkscriberModelType
+import com.vapi4k.api.model.OpenAIModelType
+import com.vapi4k.api.tools.ToolMessageType
+import com.vapi4k.api.transcriber.DeepgramLanguageType
+import com.vapi4k.api.transcriber.DeepgramModelType
+import com.vapi4k.api.transcriber.GladiaModelType
+import com.vapi4k.api.transcriber.TalkscriberModelType
 import com.vapi4k.common.AssistantId.Companion.toAssistantId
 import com.vapi4k.common.SessionId.Companion.toSessionId
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL

@@ -21,11 +21,11 @@ import com.vapi4k.api.json.get
 import com.vapi4k.api.json.jsonElementList
 import com.vapi4k.api.json.stringValue
 import com.vapi4k.api.json.toJsonElement
-import com.vapi4k.api.model.enums.GroqModelType
-import com.vapi4k.api.voice.enums.CartesiaVoiceLanguageType
-import com.vapi4k.api.voice.enums.CartesiaVoiceModelType
-import com.vapi4k.api.voice.enums.PlayHTVoiceEmotionType
-import com.vapi4k.api.voice.enums.PlayHTVoiceIdType
+import com.vapi4k.api.model.GroqModelType
+import com.vapi4k.api.voice.CartesiaVoiceLanguageType
+import com.vapi4k.api.voice.CartesiaVoiceModelType
+import com.vapi4k.api.voice.PlayHTVoiceEmotionType
+import com.vapi4k.api.voice.PlayHTVoiceIdType
 import com.vapi4k.utils.assistantResponse
 import kotlinx.serialization.json.jsonArray
 import org.junit.Assert.assertThrows

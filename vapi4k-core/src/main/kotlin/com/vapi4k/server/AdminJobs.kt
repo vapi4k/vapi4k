@@ -16,7 +16,7 @@
 
 package com.vapi4k.server
 
-import com.vapi4k.api.vapi4k.enums.ServerRequestType.Companion.serverRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.common.CoreEnvVars.TOOL_CACHE_CLEAN_PAUSE_MINS
 import com.vapi4k.common.CoreEnvVars.TOOL_CACHE_MAX_AGE_MINS
 import com.vapi4k.common.Utils.errorMsg

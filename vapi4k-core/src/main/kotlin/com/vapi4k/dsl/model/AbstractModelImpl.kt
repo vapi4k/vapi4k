@@ -22,7 +22,6 @@ import com.vapi4k.api.tools.Tools
 import com.vapi4k.common.FunctionName
 import com.vapi4k.common.Utils.trimLeadingSpaces
 import com.vapi4k.dsl.functions.FunctionsImpl
-import com.vapi4k.dsl.model.enums.MessageRoleType
 import com.vapi4k.dsl.tools.ToolsImpl
 import com.vapi4k.dtos.model.CommonModelDto
 import com.vapi4k.dtos.model.KnowledgeBaseDto

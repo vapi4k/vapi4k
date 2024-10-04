@@ -18,16 +18,16 @@ package assistants
 
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.Vapi4kConfig
-import com.vapi4k.api.voice.enums.AzureVoiceIdType
-import com.vapi4k.api.voice.enums.CartesiaVoiceLanguageType
-import com.vapi4k.api.voice.enums.CartesiaVoiceModelType
-import com.vapi4k.api.voice.enums.DeepGramVoiceIdType
-import com.vapi4k.api.voice.enums.ElevenLabsVoiceModelType
-import com.vapi4k.api.voice.enums.LMNTVoiceIdType
-import com.vapi4k.api.voice.enums.NeetsVoiceIdType
-import com.vapi4k.api.voice.enums.OpenAIVoiceIdType
-import com.vapi4k.api.voice.enums.PlayHTVoiceIdType
-import com.vapi4k.api.voice.enums.RimeAIVoiceModelType
+import com.vapi4k.api.voice.AzureVoiceIdType
+import com.vapi4k.api.voice.CartesiaVoiceLanguageType
+import com.vapi4k.api.voice.CartesiaVoiceModelType
+import com.vapi4k.api.voice.DeepGramVoiceIdType
+import com.vapi4k.api.voice.ElevenLabsVoiceModelType
+import com.vapi4k.api.voice.LMNTVoiceIdType
+import com.vapi4k.api.voice.NeetsVoiceIdType
+import com.vapi4k.api.voice.OpenAIVoiceIdType
+import com.vapi4k.api.voice.PlayHTVoiceIdType
+import com.vapi4k.api.voice.RimeAIVoiceModelType
 
 object Voices {
   fun Vapi4kConfig.azureExample() {

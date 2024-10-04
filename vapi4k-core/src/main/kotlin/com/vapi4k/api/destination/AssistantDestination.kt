@@ -16,7 +16,6 @@
 
 package com.vapi4k.api.destination
 
-import com.vapi4k.api.destination.enums.AssistantTransferMode
 import com.vapi4k.dsl.destination.CommonDestination
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 

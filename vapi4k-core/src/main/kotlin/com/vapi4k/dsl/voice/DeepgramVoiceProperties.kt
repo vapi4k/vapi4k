@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.DeepGramVoiceIdType
+import com.vapi4k.api.voice.DeepGramVoiceIdType
 
 interface DeepgramVoiceProperties : CommonVoiceProperties {
   /**

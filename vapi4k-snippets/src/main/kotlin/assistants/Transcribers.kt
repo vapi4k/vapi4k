@@ -16,12 +16,12 @@
 
 package assistants
 
-import com.vapi4k.api.transcriber.enums.DeepgramLanguageType
-import com.vapi4k.api.transcriber.enums.DeepgramModelType
-import com.vapi4k.api.transcriber.enums.GladiaLanguageType
-import com.vapi4k.api.transcriber.enums.GladiaModelType
-import com.vapi4k.api.transcriber.enums.TalkscriberLanguageType
-import com.vapi4k.api.transcriber.enums.TalkscriberModelType
+import com.vapi4k.api.transcriber.DeepgramLanguageType
+import com.vapi4k.api.transcriber.DeepgramModelType
+import com.vapi4k.api.transcriber.GladiaLanguageType
+import com.vapi4k.api.transcriber.GladiaModelType
+import com.vapi4k.api.transcriber.TalkscriberLanguageType
+import com.vapi4k.api.transcriber.TalkscriberModelType
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.Vapi4kConfig
 

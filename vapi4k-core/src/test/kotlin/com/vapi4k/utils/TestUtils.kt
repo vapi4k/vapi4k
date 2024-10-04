@@ -25,7 +25,7 @@ import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.json.toJsonElementList
 import com.vapi4k.api.json.toJsonString
 import com.vapi4k.api.reponse.InboundCallAssistantResponse
-import com.vapi4k.api.tools.enums.ToolMessageType
+import com.vapi4k.api.tools.ToolMessageType
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
 import com.vapi4k.common.Utils.resourceFile
 import com.vapi4k.dsl.response.InboundCallAssistantResponseImpl

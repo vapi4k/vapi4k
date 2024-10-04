@@ -17,7 +17,7 @@
 package com.vapi4k.dsl.buttons
 
 import com.vapi4k.api.buttons.ButtonColor
-import com.vapi4k.api.buttons.enums.ButtonType
+import com.vapi4k.api.buttons.ButtonType
 
 interface ButtonStateProperties {
   var color: ButtonColor?

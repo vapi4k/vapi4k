@@ -16,8 +16,8 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.CartesiaVoiceLanguageType
-import com.vapi4k.api.voice.enums.CartesiaVoiceModelType
+import com.vapi4k.api.voice.CartesiaVoiceLanguageType
+import com.vapi4k.api.voice.CartesiaVoiceModelType
 
 interface CartesiaVoiceProperties : CommonVoiceProperties {
   /**

@@ -16,8 +16,8 @@
 
 package com.vapi4k.dsl.transcriber
 
-import com.vapi4k.api.transcriber.enums.TalkscriberLanguageType
-import com.vapi4k.api.transcriber.enums.TalkscriberModelType
+import com.vapi4k.api.transcriber.TalkscriberLanguageType
+import com.vapi4k.api.transcriber.TalkscriberModelType
 
 interface TalkscriberTranscriberProperties {
   /**

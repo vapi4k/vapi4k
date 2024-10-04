@@ -16,9 +16,9 @@
 
 package com.vapi4k.dtos.voice
 
-import com.vapi4k.api.voice.enums.DeepGramVoiceIdType
-import com.vapi4k.api.voice.enums.PunctuationType
-import com.vapi4k.api.voice.enums.VoiceProviderType
+import com.vapi4k.api.voice.DeepGramVoiceIdType
+import com.vapi4k.api.voice.PunctuationType
+import com.vapi4k.api.voice.VoiceProviderType
 import com.vapi4k.dsl.voice.DeepgramVoiceProperties
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Serializable

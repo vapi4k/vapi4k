@@ -16,10 +16,10 @@
 
 package com.vapi4k.dtos.voice
 
-import com.vapi4k.api.voice.enums.CartesiaVoiceLanguageType
-import com.vapi4k.api.voice.enums.CartesiaVoiceModelType
-import com.vapi4k.api.voice.enums.PunctuationType
-import com.vapi4k.api.voice.enums.VoiceProviderType
+import com.vapi4k.api.voice.CartesiaVoiceLanguageType
+import com.vapi4k.api.voice.CartesiaVoiceModelType
+import com.vapi4k.api.voice.PunctuationType
+import com.vapi4k.api.voice.VoiceProviderType
 import com.vapi4k.dsl.voice.CartesiaVoiceProperties
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Serializable

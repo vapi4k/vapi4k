@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.NeetsVoiceIdType
+import com.vapi4k.api.voice.NeetsVoiceIdType
 
 interface NeetsVoiceProperties : CommonVoiceProperties {
   /**

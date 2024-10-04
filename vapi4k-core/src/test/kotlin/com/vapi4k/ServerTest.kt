@@ -22,7 +22,7 @@ import com.vapi4k.api.json.intValue
 import com.vapi4k.api.json.keys
 import com.vapi4k.api.json.stringValue
 import com.vapi4k.api.json.toJsonString
-import com.vapi4k.api.model.enums.GroqModelType
+import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
 import com.vapi4k.common.Endpoints.CACHES_PATH
 import com.vapi4k.common.Utils.ensureStartsWith

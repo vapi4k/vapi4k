@@ -16,9 +16,9 @@
 
 package assistants
 
-import com.vapi4k.api.model.enums.AnthropicModelType
-import com.vapi4k.api.model.enums.GroqModelType
-import com.vapi4k.api.model.enums.OpenAIModelType
+import com.vapi4k.api.model.AnthropicModelType
+import com.vapi4k.api.model.GroqModelType
+import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.Vapi4kConfig
 

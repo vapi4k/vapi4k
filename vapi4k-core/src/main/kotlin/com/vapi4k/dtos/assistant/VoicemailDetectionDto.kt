@@ -16,7 +16,7 @@
 
 package com.vapi4k.dtos.assistant
 
-import com.vapi4k.api.assistant.enums.VoicemailDetectionType
+import com.vapi4k.api.assistant.VoicemailDetectionType
 import com.vapi4k.dsl.assistant.VoicemailDetectionProperties
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Serializable

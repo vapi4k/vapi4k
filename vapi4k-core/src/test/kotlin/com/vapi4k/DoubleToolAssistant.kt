@@ -16,7 +16,7 @@
 
 package com.vapi4k
 
-import com.vapi4k.api.model.enums.GroqModelType
+import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.api.reponse.InboundCallAssistantResponse
 import com.vapi4k.api.tools.ToolCall
 

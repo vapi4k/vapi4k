@@ -19,7 +19,7 @@ package com.vapi4k
 import com.vapi4k.api.conditions.eq
 import com.vapi4k.api.tools.Param
 import com.vapi4k.api.tools.ToolCall
-import com.vapi4k.api.tools.enums.ToolMessageRoleType
+import com.vapi4k.api.tools.ToolMessageRoleType
 import com.vapi4k.api.toolservice.ToolCallService
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.plugin.Vapi4kServer.logger

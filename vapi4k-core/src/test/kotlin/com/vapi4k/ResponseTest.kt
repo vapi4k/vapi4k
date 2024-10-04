@@ -18,8 +18,8 @@ package com.vapi4k
 
 import com.vapi4k.AssistantTest.Companion.newRequestContext
 import com.vapi4k.api.json.toJsonString
-import com.vapi4k.api.model.enums.AnthropicModelType
-import com.vapi4k.api.transcriber.enums.DeepgramModelType
+import com.vapi4k.api.model.AnthropicModelType
+import com.vapi4k.api.transcriber.DeepgramModelType
 import com.vapi4k.dtos.api.destination.SipDestinationDto
 import com.vapi4k.utils.assistantResponse
 import kotlin.test.Test

@@ -16,8 +16,8 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.RimeAIVoiceIdType
-import com.vapi4k.api.voice.enums.RimeAIVoiceModelType
+import com.vapi4k.api.voice.RimeAIVoiceIdType
+import com.vapi4k.api.voice.RimeAIVoiceModelType
 
 interface RimeAIVoiceProperties : CommonVoiceProperties {
   /**

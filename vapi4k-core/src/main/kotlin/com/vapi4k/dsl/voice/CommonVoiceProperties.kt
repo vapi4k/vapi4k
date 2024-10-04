@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.PunctuationType
+import com.vapi4k.api.voice.PunctuationType
 
 interface CommonVoiceProperties {
   /**

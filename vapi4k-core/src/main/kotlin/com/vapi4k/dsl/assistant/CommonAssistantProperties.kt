@@ -16,10 +16,10 @@
 
 package com.vapi4k.dsl.assistant
 
-import com.vapi4k.api.assistant.enums.AssistantClientMessageType
-import com.vapi4k.api.assistant.enums.AssistantServerMessageType
-import com.vapi4k.api.assistant.enums.BackgroundSoundType
-import com.vapi4k.api.assistant.enums.FirstMessageModeType
+import com.vapi4k.api.assistant.AssistantClientMessageType
+import com.vapi4k.api.assistant.AssistantServerMessageType
+import com.vapi4k.api.assistant.BackgroundSoundType
+import com.vapi4k.api.assistant.FirstMessageModeType
 import com.vapi4k.dtos.assistant.TransportConfigurationDto
 
 interface CommonAssistantProperties {

@@ -66,15 +66,15 @@ function selectApplicationTab(name) {
   // Hide all validation-data divs
   document.querySelectorAll('.validation-data')
     .forEach(item => {
-               item.classList.add('hidden');
-             }
+        item.classList.add('hidden');
+      }
     );
 
   // Show the selected validation-data divs
   document.querySelectorAll(`.${name}-data`)
     .forEach(item => {
-               item.classList.remove('hidden');
-             }
+        item.classList.remove('hidden');
+      }
     );
 }
 

@@ -16,10 +16,10 @@
 
 package com.vapi4k.dtos.voice
 
-import com.vapi4k.api.voice.enums.ElevenLabsVoiceIdType
-import com.vapi4k.api.voice.enums.ElevenLabsVoiceModelType
-import com.vapi4k.api.voice.enums.PunctuationType
-import com.vapi4k.api.voice.enums.VoiceProviderType
+import com.vapi4k.api.voice.ElevenLabsVoiceIdType
+import com.vapi4k.api.voice.ElevenLabsVoiceModelType
+import com.vapi4k.api.voice.PunctuationType
+import com.vapi4k.api.voice.VoiceProviderType
 import com.vapi4k.dsl.voice.ElevenLabsVoiceProperties
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.Serializable

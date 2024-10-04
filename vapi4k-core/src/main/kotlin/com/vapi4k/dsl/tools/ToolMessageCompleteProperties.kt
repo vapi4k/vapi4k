@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.tools
 
-import com.vapi4k.api.tools.enums.ToolMessageRoleType
+import com.vapi4k.api.tools.ToolMessageRoleType
 
 interface ToolMessageCompleteProperties {
   /**

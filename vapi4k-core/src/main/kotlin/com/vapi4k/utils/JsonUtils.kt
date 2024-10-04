@@ -22,7 +22,7 @@ import com.vapi4k.api.json.jsonElementList
 import com.vapi4k.api.json.stringValueOrNull
 import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.json.toJsonElementList
-import com.vapi4k.api.vapi4k.enums.ServerRequestType.Companion.isToolCall
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isToolCall
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement

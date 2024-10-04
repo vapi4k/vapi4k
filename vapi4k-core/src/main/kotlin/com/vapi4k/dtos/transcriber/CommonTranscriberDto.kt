@@ -16,7 +16,7 @@
 
 package com.vapi4k.dtos.transcriber
 
-import com.vapi4k.api.transcriber.enums.TranscriberType
+import com.vapi4k.api.transcriber.TranscriberType
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor

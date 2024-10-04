@@ -10,10 +10,10 @@ function setLiveTailTooltip(title) {
 function scrollToBottom() {
   const scrollingDiv = document.querySelector('#console-div');
   scrollingDiv.scroll({
-                        top: scrollingDiv.scrollHeight,
-                        left: 0,
-                        behavior: 'smooth'
-                      });
+    top: scrollingDiv.scrollHeight,
+    left: 0,
+    behavior: 'smooth'
+  });
 
   const mainDiv = document.querySelector('#log-div');
   let lines = mainDiv.innerText.split('\n');

@@ -16,7 +16,6 @@
 
 package com.vapi4k.api.call
 
-import com.vapi4k.api.call.enums.ApiObjectType
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 import io.ktor.client.statement.HttpResponse
 

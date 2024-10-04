@@ -16,12 +16,12 @@
 
 package simpledemo
 
-import com.vapi4k.api.assistant.enums.AssistantServerMessageType
+import com.vapi4k.api.assistant.AssistantServerMessageType
 import com.vapi4k.api.conditions.eq
-import com.vapi4k.api.model.enums.OpenAIModelType
+import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.api.reponse.InboundCallAssistantResponse
 import com.vapi4k.api.tools.ToolCall
-import com.vapi4k.api.tools.enums.ToolMessageRoleType
+import com.vapi4k.api.tools.ToolMessageRoleType
 import com.vapi4k.api.toolservice.ToolCallService
 import com.vapi4k.api.vapi4k.RequestContext
 

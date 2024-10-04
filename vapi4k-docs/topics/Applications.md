@@ -59,7 +59,7 @@ the desired assistant, assistantId, squad, or squadId for the request.
 All applications allow you to define callbacks for requests and responses using the `onAllRequest{}`,
 `onRequest{}`, `onAllResponse{}`, and `onResponse{}` functions.
 The arguments for `onRequest{}` and `onResponse{}` are of type
-[ServerRequestType](%utils_url%.vapi4k.enums/-server-request-type/index.html).
+[ServerRequestType](%utils_url%.vapi4k/-server-request-type/index.html).
 
 These functions are also available globally
 in the [`Vapi4kConfig` context](%core_url%.vapi4k/-vapi4k-config/index.html).

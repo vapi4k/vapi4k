@@ -19,8 +19,8 @@ package com.vapi4k.api.vapi4k
 import com.vapi4k.api.json.containsKey
 import com.vapi4k.api.json.get
 import com.vapi4k.api.json.stringValue
-import com.vapi4k.api.vapi4k.enums.ServerRequestType.Companion.isFunctionCall
-import com.vapi4k.api.vapi4k.enums.ServerRequestType.Companion.isStatusUpdate
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isFunctionCall
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isStatusUpdate
 import com.vapi4k.common.FunctionName.Companion.toFunctionName
 import kotlinx.serialization.json.JsonElement
 

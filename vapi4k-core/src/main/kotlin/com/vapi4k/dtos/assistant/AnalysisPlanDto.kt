@@ -16,7 +16,7 @@
 
 package com.vapi4k.dtos.assistant
 
-import com.vapi4k.api.assistant.enums.SuccessEvaluationRubricType
+import com.vapi4k.api.assistant.SuccessEvaluationRubricType
 import com.vapi4k.dsl.assistant.AnalysisPlanProperties
 import kotlinx.serialization.Serializable
 

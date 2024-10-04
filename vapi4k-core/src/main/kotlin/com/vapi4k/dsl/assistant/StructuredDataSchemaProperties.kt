@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.assistant
 
-import com.vapi4k.api.assistant.enums.StructureDataSchemeType
+import com.vapi4k.api.assistant.StructureDataSchemeType
 
 interface StructuredDataSchemaProperties {
   var type: StructureDataSchemeType

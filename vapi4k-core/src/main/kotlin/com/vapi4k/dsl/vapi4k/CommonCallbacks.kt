@@ -18,7 +18,7 @@ package com.vapi4k.dsl.vapi4k
 
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.ResponseContext
-import com.vapi4k.api.vapi4k.enums.ServerRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType
 
 interface CommonCallbacks {
   /**

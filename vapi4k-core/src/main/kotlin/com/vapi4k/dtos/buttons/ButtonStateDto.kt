@@ -17,7 +17,7 @@
 package com.vapi4k.dtos.buttons
 
 import com.vapi4k.api.buttons.ButtonColor
-import com.vapi4k.api.buttons.enums.ButtonType
+import com.vapi4k.api.buttons.ButtonType
 import com.vapi4k.dsl.buttons.ButtonStateProperties
 import kotlinx.serialization.Serializable
 

@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.OpenAIVoiceIdType
+import com.vapi4k.api.voice.OpenAIVoiceIdType
 
 interface OpenAIVoiceProperties : CommonVoiceProperties {
   /**

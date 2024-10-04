@@ -16,7 +16,7 @@
 
 package com.vapi4k.dtos.voice
 
-import com.vapi4k.api.voice.enums.PunctuationType
+import com.vapi4k.api.voice.PunctuationType
 import kotlinx.serialization.Serializable
 
 @Serializable

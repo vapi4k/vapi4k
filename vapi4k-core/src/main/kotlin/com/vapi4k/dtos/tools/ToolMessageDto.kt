@@ -16,8 +16,8 @@
 
 package com.vapi4k.dtos.tools
 
-import com.vapi4k.api.tools.enums.ToolMessageRoleType
-import com.vapi4k.api.tools.enums.ToolMessageType
+import com.vapi4k.api.tools.ToolMessageRoleType
+import com.vapi4k.api.tools.ToolMessageType
 import com.vapi4k.dsl.tools.ToolMessageCompleteProperties
 import com.vapi4k.dsl.tools.ToolMessageDelayedProperties
 import com.vapi4k.dsl.tools.ToolMessageFailedProperties

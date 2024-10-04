@@ -16,8 +16,8 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.enums.PlayHTVoiceEmotionType
-import com.vapi4k.api.voice.enums.PlayHTVoiceIdType
+import com.vapi4k.api.voice.PlayHTVoiceEmotionType
+import com.vapi4k.api.voice.PlayHTVoiceIdType
 
 interface PlayHTVoiceProperties : CommonVoiceProperties {
   /**
