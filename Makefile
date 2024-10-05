@@ -13,7 +13,7 @@ clean:
 
 compile: build
 
-build:
+build: clean
 	rm -rf build/
 	./gradlew build -x test
 
