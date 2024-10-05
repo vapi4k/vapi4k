@@ -14,17 +14,17 @@
  *
  */
 
-package com.vapi4k.utils
+package com.vapi4k.dsl.response
 
 import com.vapi4k.common.AssistantId
 import com.vapi4k.common.AssistantId.Companion.toAssistantId
 import com.vapi4k.common.Constants.ASSISTANT_ID_WIDTH
 import com.vapi4k.server.RequestContextImpl
 
-class AssistantIdSource {
+internal class AssistantIdSource {
   private var assistantCounter = 1
 
-  internal fun nextAssistantId(requestContext: RequestContextImpl): AssistantId {
+  fun nextAssistantId(requestContext: RequestContextImpl): AssistantId {
     val newId = (assistantCounter++).toString().padStart(ASSISTANT_ID_WIDTH, '0').toAssistantId()
 
     // Add assistantId to the application's list of them

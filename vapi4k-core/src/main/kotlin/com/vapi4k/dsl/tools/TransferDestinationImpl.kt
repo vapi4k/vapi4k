@@ -21,6 +21,7 @@ import com.vapi4k.api.destination.NumberDestination
 import com.vapi4k.api.destination.SipDestination
 import com.vapi4k.api.destination.StepDestination
 import com.vapi4k.api.tools.TransferDestinationResponse
+import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.dsl.destination.AssistantDestinationImpl
 import com.vapi4k.dsl.destination.NumberDestinationImpl
 import com.vapi4k.dsl.destination.SipDestinationImpl
@@ -30,7 +31,6 @@ import com.vapi4k.dtos.api.destination.NumberDestinationDto
 import com.vapi4k.dtos.api.destination.SipDestinationDto
 import com.vapi4k.dtos.api.destination.StepDestinationDto
 import com.vapi4k.dtos.tools.TransferMessageResponseDto
-import com.vapi4k.utils.DuplicateInvokeChecker
 
 class TransferDestinationImpl internal constructor(
   private val callerName: String,

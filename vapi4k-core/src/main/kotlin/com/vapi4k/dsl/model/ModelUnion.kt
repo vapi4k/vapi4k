@@ -17,6 +17,7 @@
 package com.vapi4k.dsl.model
 
 import com.vapi4k.common.AssistantId
+import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.dtos.assistant.AnalysisPlanDto
 import com.vapi4k.dtos.assistant.ArtifactPlanDto
 import com.vapi4k.dtos.assistant.VoicemailDetectionDto
@@ -24,7 +25,6 @@ import com.vapi4k.dtos.model.CommonModelDto
 import com.vapi4k.dtos.transcriber.CommonTranscriberDto
 import com.vapi4k.dtos.voice.CommonVoiceDto
 import com.vapi4k.server.RequestContextImpl
-import com.vapi4k.utils.DuplicateInvokeChecker
 
 interface ModelUnion {
   val requestContext: RequestContextImpl

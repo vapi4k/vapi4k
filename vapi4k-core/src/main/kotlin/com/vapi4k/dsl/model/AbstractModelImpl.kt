@@ -19,6 +19,7 @@ package com.vapi4k.dsl.model
 import com.vapi4k.api.functions.Functions
 import com.vapi4k.api.model.KnowledgeBase
 import com.vapi4k.api.tools.Tools
+import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.common.FunctionName
 import com.vapi4k.common.Utils.trimLeadingSpaces
 import com.vapi4k.dsl.functions.FunctionsImpl
@@ -26,7 +27,6 @@ import com.vapi4k.dsl.tools.ToolsImpl
 import com.vapi4k.dtos.model.CommonModelDto
 import com.vapi4k.dtos.model.KnowledgeBaseDto
 import com.vapi4k.dtos.model.RoleMessageDto
-import com.vapi4k.utils.DuplicateInvokeChecker
 import kotlin.reflect.KProperty
 
 internal abstract class AbstractModelImpl(
