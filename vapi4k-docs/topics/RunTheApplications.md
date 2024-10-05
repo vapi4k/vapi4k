@@ -56,7 +56,7 @@ defaults to `/vapi4k`.
 The <shortcut>Server URL</shortcut> should look something like this:
 
 ```bash
-https://c7dc-2601-644-8722-6250-a138-5443-c3c5-eb1d.ngrok-free.app/inboundCall/vapi4k
+https://c7dc-2601-644-8722-6250-eb1d.ngrok-free.app/inboundCall/vapi4k
 ```
 
 </procedure>
