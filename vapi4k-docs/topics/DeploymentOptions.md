@@ -78,3 +78,12 @@ make push-docker
 
 [Digital Ocean](https://www.digitalocean.com) makes it easy to deploy a Docker container
 with their [App Platform](https://www.digitalocean.com/products/app-platform) product.
+
+## Generic Deployment
+
+Wherever you deploy your Vapi4k application, you will need to assign the following environment variables:
+
+* VAPI_PRIVATE_KEY
+* VAPI_PUBLIC_KEY
+* VAPI_PHONE_NUMBER_ID
+* VAPI4K_BASE_URL
