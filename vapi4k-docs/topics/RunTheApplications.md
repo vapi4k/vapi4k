@@ -2,6 +2,17 @@
 
 # Run the Template Applications
 
+If you look at `src/main/kotlin/com/myapp/Application.kt`, you will see that the Vapi4k plugin is used like
+any other [Ktor plugin](https://ktor.io/docs/server-plugins.html).
+The Vapi4k plugin has a [`Vapi4kConfig`](%core_url%.vapi4k/-vapi4k-config/index.html)
+context where you can define the desired applications.
+
+The template includes three applications:
+
+1) An inbound call application that uses an assistant to respond to incoming calls.
+2) An outbound call application that calls a phone number and uses the assistant to respond.
+3) A web application that uses the assistant to respond to web page call button.
+
 ## Verify the Applications
 
 Before running the applications, verify that the assistant request responses and tool calls for each
