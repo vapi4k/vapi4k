@@ -9,21 +9,21 @@ context where you can define the desired applications.
 
 The template includes three applications:
 
-1) An inbound call application that uses an assistant to respond to incoming calls.
-2) An outbound call application that calls a phone number and uses the assistant to respond.
-3) A web application that uses the assistant to respond to web page call button.
+1. An inbound call application that uses an assistant to respond to incoming calls.
+2. An outbound call application that calls a phone number and uses the assistant to respond.
+3. A web application that uses the assistant to respond to a web page call button.
 
 ## Verify the Applications
 
-Before running the applications, verify that the assistant request responses and tool calls for each
-of the applications work correctly.
+Before running the applications, verify that the assistant request responses and tool calls work correctly for each
+of the applications.
 
 <procedure title="Verify the Applications">
     <step>
         <p>Start the Vapi4k server.</p>
     </step>
     <step>
-        <p>Click on the VAPI4K_BASE_URL value in the log to open the Vapi4k admin page.</p>
+        <p>Click on the `VAPI4K_BASE_URL` value in the log to open the Vapi4k admin page.</p>
     </step>
     <step>
         <p>Click on <shortcut>/vapi4k</shortcut> under <shortcut>InboundCall Applications</shortcut>.</p>
@@ -33,7 +33,7 @@ of the applications work correctly.
           using the <shortcut>/incomingCall/vapi4k</shortcut> path.</p>
     </step>
     <step>
-        <p>Click on the <shortcut>Service Tools</shortcut> to see the weather tool.</p>
+        <p>Click on <shortcut>Service Tools</shortcut> to see the weather tool.</p>
     </step>
     <step>
         <p>Type some values for city and state, and click <shortcut>Invoke Tool</shortcut> to see the resulting JSON message.</p>
@@ -56,7 +56,7 @@ of the applications work correctly.
         <p>Click on the <shortcut>Settings</shortcut> option and assign the <shortcut>Server URL</shortcut>.</p>
     </step>
 
-The <shortcut>Server URL</shortcut> is a combination of the `VAPI4K_BASE_URL` value and an `/inboundCall/serverPath`
+The <shortcut>Server URL</shortcut> is a combination of the `VAPI4K_BASE_URL` value and a `/inboundCall/serverPath`
 value.
 
 The `/inboundCall` indicates that the URL corresponds to a Vapi4k `inboundCallApplication{}` declaration.
