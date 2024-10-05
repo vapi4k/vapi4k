@@ -18,15 +18,14 @@ package com.vapi4k.server
 
 import com.vapi4k.common.Endpoints.CACHES_PATH
 import com.vapi4k.common.Utils.ensureStartsWith
-import com.vapi4k.dsl.vapi4k.PipelineCall
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
-import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondRedirect
+import io.ktor.server.routing.RoutingContext
 import kotlinx.serialization.json.buildJsonObject
 
 internal object CacheActions {
-  suspend fun PipelineCall.clearCaches(config: Vapi4kConfigImpl) {
+  suspend fun RoutingContext.clearCaches(config: Vapi4kConfigImpl) {
     config.allApplications.forEach { application ->
       with(application) {
         clearServiceToolCache()
@@ -36,7 +35,7 @@ internal object CacheActions {
     call.respondRedirect(CACHES_PATH)
   }
 
-  suspend fun PipelineCall.cachesRequest(config: Vapi4kConfigImpl) {
+  suspend fun RoutingContext.cachesRequest(config: Vapi4kConfigImpl) {
     call.respond(
       buildJsonObject {
         config.allApplications.forEach { application ->

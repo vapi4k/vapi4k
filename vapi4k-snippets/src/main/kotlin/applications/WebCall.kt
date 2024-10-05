@@ -25,7 +25,6 @@ import com.vapi4k.api.voice.PlayHTVoiceIdType
 import com.vapi4k.dsl.web.VapiWeb.vapiTalkButton
 import com.vapi4k.plugin.Vapi4k
 import io.ktor.server.application.Application
-import io.ktor.server.application.call
 import io.ktor.server.application.install
 import io.ktor.server.html.respondHtml
 import io.ktor.server.routing.get

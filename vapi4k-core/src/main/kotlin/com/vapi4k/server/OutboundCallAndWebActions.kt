@@ -43,7 +43,6 @@ import com.vapi4k.common.Utils.toErrorString
 import com.vapi4k.console.ValidateApplication.isValidSecret
 import com.vapi4k.dsl.vapi4k.AbstractApplicationImpl
 import com.vapi4k.dsl.vapi4k.OutboundCallApplicationImpl
-import com.vapi4k.dsl.vapi4k.PipelineCall
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.dsl.vapi4k.WebApplicationImpl
 import com.vapi4k.plugin.Vapi4kServer.logger
@@ -57,9 +56,9 @@ import com.vapi4k.utils.HttpUtils.getQueryParam
 import com.vapi4k.utils.HttpUtils.missingQueryParam
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
+import io.ktor.server.routing.RoutingContext
 import io.ktor.util.filter
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -71,7 +70,7 @@ import kotlinx.serialization.json.put
 import kotlin.time.measureTimedValue
 
 internal object OutboundCallAndWebActions {
-  internal suspend fun PipelineCall.outboundCallAndWebRequest(
+  internal suspend fun RoutingContext.outboundCallAndWebRequest(
     config: Vapi4kConfigImpl,
     application: AbstractApplicationImpl,
     request: JsonElement,
@@ -99,7 +98,7 @@ internal object OutboundCallAndWebActions {
     }
   }
 
-  private suspend fun PipelineCall.processOutboundCallAndWebRequest(
+  private suspend fun RoutingContext.processOutboundCallAndWebRequest(
     config: Vapi4kConfigImpl,
     requestContext: RequestContextImpl,
   ) {
@@ -160,7 +159,7 @@ internal object OutboundCallAndWebActions {
     invokeResponseCallbacks(config, requestContext, response, duration)
   }
 
-  internal fun PipelineCall.buildRequestArg(json: JsonElement) =
+  internal fun RoutingContext.buildRequestArg(json: JsonElement) =
     if (json.isNotEmpty() && json.containsKey("message.type")) {
       json
     } else {

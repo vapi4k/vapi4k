@@ -42,9 +42,9 @@ import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.firstMessageOfType
 import com.vapi4k.utils.withTestApplication
 import kotlinx.serialization.json.JsonElement
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThrows
+import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class AssistantTest {
   init {

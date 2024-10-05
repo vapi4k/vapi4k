@@ -28,7 +28,7 @@ import com.vapi4k.api.voice.PlayHTVoiceEmotionType
 import com.vapi4k.api.voice.PlayHTVoiceIdType
 import com.vapi4k.utils.assistantResponse
 import kotlinx.serialization.json.jsonArray
-import org.junit.Assert.assertThrows
+import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

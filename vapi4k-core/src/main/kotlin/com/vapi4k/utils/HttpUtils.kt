@@ -60,7 +60,7 @@ object HttpUtils {
   fun wsHttpClient(block: HttpClientConfig<CIOEngineConfig>.() -> Unit = {}) =
     HttpClient(CIO) {
       install(WebSockets) {
-        pingInterval = Duration.ofSeconds(15).toMillis()
+        pingIntervalMillis = Duration.ofSeconds(15).toMillis()
         maxFrameSize = Long.MAX_VALUE
       }
 

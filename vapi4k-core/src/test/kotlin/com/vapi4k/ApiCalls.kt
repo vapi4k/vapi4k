@@ -18,9 +18,9 @@ package com.vapi4k
 
 import com.vapi4k.dsl.call.VapiApiImpl
 import com.vapi4k.dsl.call.VapiApiImpl.Companion.vapiApi
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThrows
+import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ApiCalls {

@@ -18,10 +18,10 @@ package com.vapi4k
 
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThrows
-import org.junit.Assert.assertTrue
+import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ApplicationTest {
   @Test

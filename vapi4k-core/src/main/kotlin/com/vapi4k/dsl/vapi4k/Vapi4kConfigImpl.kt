@@ -28,14 +28,11 @@ import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
 import com.vapi4k.dsl.vapi4k.ApplicationType.OUTBOUND_CALL
 import com.vapi4k.dsl.vapi4k.ApplicationType.WEB
 import com.vapi4k.server.RequestResponseCallback
-import io.ktor.server.application.ApplicationCall
 import io.ktor.server.config.ApplicationConfig
-import io.ktor.util.pipeline.PipelineContext
 import kotlinx.coroutines.channels.Channel
 
 typealias RequestArgs = suspend (RequestContext) -> Unit
 typealias ResponseArgs = suspend (ResponseContext) -> Unit
-typealias PipelineCall = PipelineContext<Unit, ApplicationCall>
 
 class Vapi4kConfigImpl internal constructor() : Vapi4kConfig {
   init {

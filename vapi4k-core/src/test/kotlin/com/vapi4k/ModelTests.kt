@@ -25,10 +25,10 @@ import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.tools
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertThrows
+import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class ModelTests {
   @Test

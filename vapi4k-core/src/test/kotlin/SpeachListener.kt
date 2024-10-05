@@ -22,6 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -32,7 +33,8 @@ class DeepGramProperties(
   @EncodeDefault
   var callback: String = "",
   @EncodeDefault
-  var callback_method: Boolean = false,
+  @SerialName("callback_method")
+  var callbackMethod: Boolean = false,
   @EncodeDefault
   var version: String = "latest",
   @EncodeDefault
@@ -42,11 +44,13 @@ class DeepGramProperties(
   @EncodeDefault
   var encoding: String = "linear16",
   @EncodeDefault
-  var sample_rate: Int = 16000,
+  @SerialName("sample_rate")
+  var sampleRate: Int = 16000,
   @EncodeDefault
   var channels: Int = 2,
   @EncodeDefault
-  var smart_format: Boolean = true,
+  @SerialName("smart_format")
+  var smartFormat: Boolean = true,
 )
 
 fun main() {
