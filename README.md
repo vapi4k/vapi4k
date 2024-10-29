@@ -1,6 +1,6 @@
 # Vapi4k
 
-[![JitPack](https://jitpack.io/v/vapi4k/vapi4k.svg)](https://jitpack.io/#vapi4k/vapi4k)
+[![Release](https://jitpack.io/v/vapi4k/vapi4k.svg)](https://jitpack.io/#vapi4k/vapi4k)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=vapi4k_vapi4k&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=vapi4k_vapi4k)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2ec91457b7814a73a7ac70b9e1290f1e)](https://app.codacy.com/gh/vapi4k/vapi4k/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![codebeat badge](https://codebeat.co/badges/02b852d6-0eb0-4e1d-a87b-4c0ee6362c34)](https://codebeat.co/projects/github-com-vapi4k-vapi4k-master)
@@ -11,7 +11,7 @@
 Vapi4k is a [Ktor](https://ktor.io) plugin and a [Kotlin DSL](https://kotlinlang.org/docs/type-safe-builders.html)
 that makes it easy to define, deploy, and maintain [Vapi](https://vapi.ai) applications.
 
-The [Vapi4k Documentation](https://vapi4k.com/vapi4k/overview.html)
+The [Vapi4k Documentation](https://vapi4k.com/overview.html)
 and
 [KDocs](https://vapi4k.com/kdocs/)
 are a work in progress.
