@@ -36,7 +36,6 @@ import com.vapi4k.common.Utils.toErrorString
 import com.vapi4k.console.ValidateApplication.isValidSecret
 import com.vapi4k.dsl.vapi4k.AbstractApplicationImpl
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
-import com.vapi4k.dsl.vapi4k.PipelineCall
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.plugin.Vapi4kServer.logger
 import com.vapi4k.responses.FunctionResponse.Companion.getFunctionCallResponse
@@ -47,14 +46,14 @@ import com.vapi4k.server.AdminJobs.invokeResponseCallbacks
 import com.vapi4k.utils.HttpUtils.getHeader
 import com.vapi4k.utils.HttpUtils.getQueryParam
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
+import io.ktor.server.routing.RoutingContext
 import kotlin.time.measureTimedValue
 
 internal object InboundCallActions {
-  internal suspend fun PipelineCall.inboundCallRequest(
+  internal suspend fun RoutingContext.inboundCallRequest(
     config: Vapi4kConfigImpl,
     application: AbstractApplicationImpl,
   ) {
@@ -81,7 +80,7 @@ internal object InboundCallActions {
     }
   }
 
-  private suspend fun PipelineCall.processInboundCallRequest(
+  private suspend fun RoutingContext.processInboundCallRequest(
     config: Vapi4kConfigImpl,
     requestContext: RequestContextImpl,
   ) {

@@ -8,10 +8,10 @@ hikari = "6.0.0"
 hoplite = "2.7.5"
 kotlin = "2.0.20"
 kotliner = "4.4.1"
-ktor = "2.3.12"
+ktor = "3.0.1-eap-1126"
 logback = "1.5.8"
 logging = "7.0.0"
-micrometer = "1.13.4"
+micrometer = "1.13.5"
 pgjdbc = "0.8.9"
 postgres = "42.7.4"
 serialization = "1.7.3"
@@ -54,7 +54,8 @@ kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = 
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
+ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 
 [plugins]

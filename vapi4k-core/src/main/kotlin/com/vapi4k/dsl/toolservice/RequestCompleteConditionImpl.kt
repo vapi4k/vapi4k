@@ -18,10 +18,10 @@ package com.vapi4k.dsl.toolservice
 
 import com.vapi4k.api.tools.ToolMessageComplete
 import com.vapi4k.api.toolservice.RequestCompleteCondition
-import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.dsl.assistant.ToolMessageCompleteImpl
 import com.vapi4k.dtos.tools.ToolMessageCompleteDto
 import com.vapi4k.dtos.tools.ToolMessageCondition
+import com.vapi4k.utils.DuplicateInvokeChecker
 
 class RequestCompleteConditionImpl internal constructor(
   private val completeMessages: RequestCompleteMessagesImpl,

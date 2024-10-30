@@ -28,7 +28,6 @@ import com.vapi4k.common.QueryParams.TOOL_TYPE
 import com.vapi4k.common.SessionId.Companion.toSessionId
 import com.vapi4k.common.Utils.isNotNull
 import com.vapi4k.common.Utils.toErrorString
-import com.vapi4k.dsl.vapi4k.PipelineCall
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.plugin.Vapi4kServer.logger
 import com.vapi4k.server.RequestContextImpl
@@ -43,13 +42,13 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
+import io.ktor.server.routing.RoutingContext
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
 object InvokeTool {
-  suspend fun PipelineCall.invokeTool(config: Vapi4kConfigImpl) =
+  suspend fun RoutingContext.invokeTool(config: Vapi4kConfigImpl) =
     runCatching {
       val applicationId = call.getQueryParam(APPLICATION_ID)?.toApplicationId() ?: missingQueryParam(APPLICATION_ID)
 

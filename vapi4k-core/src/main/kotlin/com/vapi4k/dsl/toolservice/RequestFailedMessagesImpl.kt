@@ -19,10 +19,10 @@ package com.vapi4k.dsl.toolservice
 import com.vapi4k.api.tools.ToolMessageFailed
 import com.vapi4k.api.toolservice.RequestFailedCondition
 import com.vapi4k.api.toolservice.RequestFailedMessages
-import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.dsl.assistant.ToolMessageFailedImpl
 import com.vapi4k.dtos.tools.ToolMessageCondition
 import com.vapi4k.dtos.tools.ToolMessageFailedDto
+import com.vapi4k.utils.DuplicateInvokeChecker
 
 class RequestFailedMessagesImpl internal constructor() : RequestFailedMessages {
   private val duplicateChecker = DuplicateInvokeChecker()

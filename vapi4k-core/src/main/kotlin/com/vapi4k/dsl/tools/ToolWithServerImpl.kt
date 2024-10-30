@@ -17,9 +17,9 @@
 package com.vapi4k.dsl.tools
 
 import com.vapi4k.api.tools.Server
-import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.dsl.vapi4k.ServerImpl
 import com.vapi4k.dtos.tools.ToolDto
+import com.vapi4k.utils.DuplicateInvokeChecker
 
 open class ToolWithServerImpl internal constructor(
   callerName: String,

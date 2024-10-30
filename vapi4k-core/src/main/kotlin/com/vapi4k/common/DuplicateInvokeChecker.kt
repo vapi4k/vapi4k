@@ -14,7 +14,7 @@
  *
  */
 
-package com.vapi4k.common
+package com.vapi4k.utils
 
 class DuplicateInvokeChecker {
   private var errorMsg = ""
