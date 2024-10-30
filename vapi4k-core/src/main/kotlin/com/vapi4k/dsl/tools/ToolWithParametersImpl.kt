@@ -16,9 +16,9 @@
 
 package com.vapi4k.dsl.tools
 
-import com.vapi4k.api.reponse.DtmfToolResponse
-import com.vapi4k.api.reponse.EndCallToolResponse
-import com.vapi4k.api.reponse.VoiceMailToolResponse
+import com.vapi4k.api.response.DtmfToolResponse
+import com.vapi4k.api.response.EndCallToolResponse
+import com.vapi4k.api.response.VoiceMailToolResponse
 import com.vapi4k.api.tools.DtmfTool
 import com.vapi4k.api.tools.EndCallTool
 import com.vapi4k.api.tools.Parameters

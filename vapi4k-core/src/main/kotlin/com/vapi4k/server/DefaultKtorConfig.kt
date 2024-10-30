@@ -75,10 +75,6 @@ fun Application.defaultKtorConfig(appMicrometerRegistry: PrometheusMeterRegistry
     }
   }
 
-//  if (!pluginRegistry.contains(Routing.key)) {
-//    install(Routing)
-//  }
-
   if (!pluginRegistry.contains(WebSockets.key)) {
     install(WebSockets) {
       pingPeriod = 15.seconds

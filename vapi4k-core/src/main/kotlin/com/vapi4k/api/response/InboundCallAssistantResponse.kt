@@ -14,16 +14,25 @@
  *
  */
 
-package com.vapi4k.api.reponse
+package com.vapi4k.api.response
 
 import com.vapi4k.api.assistant.Assistant
 import com.vapi4k.api.assistant.AssistantId
+import com.vapi4k.api.destination.NumberDestination
+import com.vapi4k.api.destination.SipDestination
 import com.vapi4k.api.squad.Squad
 import com.vapi4k.api.squad.SquadId
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
 @Vapi4KDslMarker
-interface OutboundCallAssistantResponse {
+interface InboundCallAssistantResponse {
+  /**
+  <p>This is the error if the call shouldn't be accepted. This is spoken to the customer.
+  <br>If this is sent, <code>assistantId</code>, <code>assistant</code>, <code>squadId</code>, <code>squad</code>, and <code>destination</code> are ignored.
+  </p>
+   */
+  var error: String
+
   /**
   <p>This is the assistant that will be used for the call. To use an existing assistant, use <code>assistantId</code> instead.
   <br>If you're unsure why you're getting an invalid assistant, try logging your response and send the JSON blob to POST /assistant which will return the validation errors.
@@ -45,4 +54,18 @@ interface OutboundCallAssistantResponse {
   This is the squad that will be used for the call. To use a transient squad, use `squad` instead.
    */
   fun squadId(block: SquadId.() -> Unit): SquadId
+
+  /**
+  <p>This is the destination to transfer the inbound call to. This will immediately transfer to a number without using any assistants.
+  <br>If this is sent, <code>assistantId</code>, <code>assistant</code>, <code>squadId</code>, and <code>squad</code> are ignored.
+  </p>
+   */
+  fun numberDestination(block: NumberDestination.() -> Unit): NumberDestination
+
+  /**
+  <p>This is the destination to transfer the inbound call to. This will immediately transfer to a SIP refer without using any assistants.
+  <br>If this is sent, <code>assistantId</code>, <code>assistant</code>, <code>squadId</code>, and <code>squad</code> are ignored.
+  </p>
+   */
+  fun sipDestination(block: SipDestination.() -> Unit): SipDestination
 }

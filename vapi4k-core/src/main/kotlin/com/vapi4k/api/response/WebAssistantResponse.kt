@@ -14,7 +14,7 @@
  *
  */
 
-package com.vapi4k.api.reponse
+package com.vapi4k.api.response
 
 import com.vapi4k.api.assistant.Assistant
 import com.vapi4k.api.assistant.AssistantId

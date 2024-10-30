@@ -17,7 +17,7 @@
 package com.vapi4k.api.vapi4k
 
 import com.vapi4k.api.buttons.ButtonConfig
-import com.vapi4k.api.reponse.WebAssistantResponse
+import com.vapi4k.api.response.WebAssistantResponse
 import com.vapi4k.api.tools.TransferDestinationResponse
 import com.vapi4k.dsl.vapi4k.CommonCallbacks
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker

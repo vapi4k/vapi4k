@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.vapi4k
 
-import com.vapi4k.api.reponse.OutboundCallAssistantResponse
+import com.vapi4k.api.response.OutboundCallAssistantResponse
 import com.vapi4k.api.vapi4k.OutboundCallApplication
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.common.Utils.isNull

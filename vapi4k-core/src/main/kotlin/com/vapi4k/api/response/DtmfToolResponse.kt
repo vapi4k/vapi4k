@@ -14,17 +14,14 @@
  *
  */
 
-package com.vapi4k.api.reponse
+package com.vapi4k.api.response
 
 import com.vapi4k.api.toolservice.RequestCompleteMessages
 import com.vapi4k.api.toolservice.RequestFailedMessages
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
-/**
-This is the `Tool` response that is expected from the server to the message.
- */
 @Vapi4KDslMarker
-interface VoiceMailToolResponse {
+interface DtmfToolResponse {
   /**
   <p>This is the result if the tool call was successful. This is added to the conversation history.
   <br>Further, if this is returned, assistant will speak:

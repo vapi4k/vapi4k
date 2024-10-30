@@ -17,7 +17,7 @@
 package com.vapi4k
 
 import com.vapi4k.api.model.GroqModelType
-import com.vapi4k.api.reponse.InboundCallAssistantResponse
+import com.vapi4k.api.response.InboundCallAssistantResponse
 import com.vapi4k.api.tools.ToolCall
 
 object DoubleToolAssistant {
