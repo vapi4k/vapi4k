@@ -17,7 +17,7 @@
 package squads
 
 import com.vapi4k.api.model.OpenAIModelType
-import com.vapi4k.api.reponse.InboundCallAssistantResponse
+import com.vapi4k.api.response.InboundCallAssistantResponse
 import com.vapi4k.api.vapi4k.RequestContext
 
 object Squad {

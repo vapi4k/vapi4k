@@ -27,7 +27,7 @@ import io.ktor.server.application.pluginRegistry
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.UserIdPrincipal
 import io.ktor.server.auth.basic
-import io.ktor.server.plugins.callloging.CallLogging
+import io.ktor.server.plugins.calllogging.CallLogging
 import io.ktor.server.plugins.compression.Compression
 import io.ktor.server.plugins.compression.deflate
 import io.ktor.server.plugins.compression.gzip
@@ -35,7 +35,6 @@ import io.ktor.server.plugins.compression.minimumSize
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.request.path
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.Routing
 import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
@@ -43,7 +42,7 @@ import io.micrometer.prometheusmetrics.PrometheusMeterRegistry
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import org.slf4j.event.Level
-import java.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 fun Application.defaultKtorConfig(appMicrometerRegistry: PrometheusMeterRegistry) {
 //  if (!pluginRegistry.contains(ContentNegotiation.key)) {
@@ -71,18 +70,15 @@ fun Application.defaultKtorConfig(appMicrometerRegistry: PrometheusMeterRegistry
         val logPing = if (PING_LOGGING_ENABLED.toBoolean()) true else call.request.path() != PING_PATH
         call.request.path().startsWith("/") && logPing
       }
+      // This is required for the admin web client
       disableDefaultColors()
     }
   }
 
-  if (!pluginRegistry.contains(Routing.key)) {
-    install(Routing)
-  }
-
   if (!pluginRegistry.contains(WebSockets.key)) {
     install(WebSockets) {
-      pingPeriod = Duration.ofSeconds(15)
-      timeout = Duration.ofSeconds(15)
+      pingPeriod = 15.seconds
+      timeout = 15.seconds
       maxFrameSize = Long.MAX_VALUE
       masking = false
     }

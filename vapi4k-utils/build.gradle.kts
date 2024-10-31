@@ -30,7 +30,8 @@ dependencies {
     implementation(libs.kotlin.logging)
     implementation(libs.logback.classic)
 
-    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlin.test)
+    // testImplementation(kotlin("test"))
 }
 
 sourceSets {

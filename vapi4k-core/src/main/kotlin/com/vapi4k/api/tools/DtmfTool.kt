@@ -16,7 +16,7 @@
 
 package com.vapi4k.api.tools
 
-import com.vapi4k.api.reponse.DtmfToolResponse
+import com.vapi4k.api.response.DtmfToolResponse
 import com.vapi4k.dsl.tools.ToolWithParameters
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 import kotlinx.serialization.json.JsonElement

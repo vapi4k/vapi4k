@@ -17,7 +17,7 @@
 package simpledemo
 
 import com.vapi4k.api.model.OpenAIModelType
-import com.vapi4k.api.reponse.InboundCallAssistantResponse
+import com.vapi4k.api.response.InboundCallAssistantResponse
 
 class AssistantIdWithOverride {
   fun InboundCallAssistantResponse.getAssistantIdWithOverride() =

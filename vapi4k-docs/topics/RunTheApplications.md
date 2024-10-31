@@ -15,8 +15,8 @@ The template includes three applications:
 
 ## Verify the Applications
 
-Before running the applications, verify that the assistant request responses and tool calls work correctly for each
-of the applications.
+Before running the applications, verify that the assistant request responses and tool calls for each
+of the applications work correctly.
 
 <procedure title="Verify the Applications">
     <step>

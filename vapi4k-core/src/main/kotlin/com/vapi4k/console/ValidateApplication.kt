@@ -40,7 +40,6 @@ import com.vapi4k.dsl.vapi4k.AbstractApplicationImpl
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
 import com.vapi4k.dsl.vapi4k.ApplicationType.OUTBOUND_CALL
 import com.vapi4k.dsl.vapi4k.ApplicationType.WEB
-import com.vapi4k.dsl.vapi4k.PipelineCall
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.plugin.Vapi4kServer.logger
 import com.vapi4k.server.RequestContextImpl
@@ -58,7 +57,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType.Application
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import io.ktor.server.application.call
+import io.ktor.server.routing.RoutingContext
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.html.classes
 import kotlinx.html.div
@@ -73,7 +72,7 @@ import kotlinx.serialization.json.buildJsonObject
 import java.io.IOException
 
 internal object ValidateApplication {
-  suspend fun PipelineCall.validateApplication(config: Vapi4kConfigImpl): String =
+  suspend fun RoutingContext.validateApplication(config: Vapi4kConfigImpl): String =
     runCatching {
       val appType = call.parameters[APP_TYPE].orEmpty()
       val appName = call.parameters[APP_NAME].orEmpty().toApplicationName()
@@ -164,7 +163,7 @@ internal object ValidateApplication {
       )
     }
 
-  internal fun PipelineCall.isValidSecret(configPropertiesSecret: String): Boolean {
+  internal fun RoutingContext.isValidSecret(configPropertiesSecret: String): Boolean {
     val secret = call.getHeader(VAPI_SECRET_HEADER)
     return (configPropertiesSecret.isBlank() || secret.trim() == configPropertiesSecret.trim()).also {
       if (!it) {

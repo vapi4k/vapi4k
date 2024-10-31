@@ -18,7 +18,7 @@ package com.vapi4k.dsl.response
 
 import com.vapi4k.api.destination.NumberDestination
 import com.vapi4k.api.destination.SipDestination
-import com.vapi4k.api.reponse.InboundCallAssistantResponse
+import com.vapi4k.api.response.InboundCallAssistantResponse
 import com.vapi4k.dsl.destination.NumberDestinationImpl
 import com.vapi4k.dsl.destination.SipDestinationImpl
 import com.vapi4k.dtos.api.destination.NumberDestinationDto

@@ -114,7 +114,7 @@ val Vapi4k: ApplicationPlugin<Vapi4kConfig> =
 
     val config =
       Vapi4kConfigImpl.config.apply {
-        applicationConfig = environment?.config ?: error("No environment config found")
+        applicationConfig = environment.config
         callbackChannel = Channel(Channel.UNLIMITED)
       }
 
@@ -128,15 +128,15 @@ val Vapi4k: ApplicationPlugin<Vapi4kConfig> =
     startCallbackThread(config)
     startCacheCleaningThread(config)
 
-    environment?.monitor?.apply {
-      val name = Vapi4kServer::class.simpleName
-      subscribe(ApplicationStarting) { it.environment.log.info("$name is starting") }
-      subscribe(ApplicationStarted) { it.environment.log.info("$name is started at $vapi4kBaseUrl") }
-      subscribe(ApplicationStopped) { it.environment.log.info("$name is stopped") }
-      subscribe(ApplicationStopping) { it.environment.log.info("$name is stopping") }
-    }
-
     with(application) {
+      monitor.apply {
+        val name = Vapi4kServer::class.simpleName.orEmpty()
+        subscribe(ApplicationStarting) { it.environment.log.info("$name is starting") }
+        subscribe(ApplicationStarted) { it.environment.log.info("$name is started at $vapi4kBaseUrl") }
+        subscribe(ApplicationStopped) { it.environment.log.info("$name is stopped") }
+        subscribe(ApplicationStopping) { it.environment.log.info("$name is stopping") }
+      }
+
       val appMicrometerRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
       defaultKtorConfig(appMicrometerRegistry)
 

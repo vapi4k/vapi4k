@@ -63,9 +63,10 @@ dependencies {
     api(libs.kotlin.logging)
     api(libs.logback.classic)
 
-    testImplementation(libs.ktor.client.mock)
+    // testImplementation(libs.ktor.client.mock)
     testImplementation(libs.ktor.server.tests)
-    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlin.test)
+    //testImplementation(kotlin("test"))
 }
 
 sourceSets {

@@ -38,7 +38,8 @@ dependencies {
     api(libs.logback.classic)
 
     testImplementation(libs.ktor.server.tests)
-    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlin.test)
+    // testImplementation(kotlin("test"))
 }
 
 tasks.test {

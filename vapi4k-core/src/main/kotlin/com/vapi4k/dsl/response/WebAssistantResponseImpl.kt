@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.response
 
-import com.vapi4k.api.reponse.WebAssistantResponse
+import com.vapi4k.api.response.WebAssistantResponse
 import com.vapi4k.server.RequestContextImpl
 
 class WebAssistantResponseImpl internal constructor(

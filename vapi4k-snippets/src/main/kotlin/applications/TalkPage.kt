@@ -19,7 +19,6 @@ package applications
 import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.dsl.web.VapiWeb.vapiTalkButton
 import io.ktor.server.application.Application
-import io.ktor.server.application.call
 import io.ktor.server.html.respondHtml
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
