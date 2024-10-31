@@ -17,10 +17,10 @@
 package com.vapi4k.dsl.assistant
 
 import com.vapi4k.api.assistant.AssistantOverrides
+import com.vapi4k.common.DuplicateInvokeChecker
+import com.vapi4k.dsl.response.AssistantIdSource
 import com.vapi4k.dtos.assistant.AssistantOverridesDto
 import com.vapi4k.server.RequestContextImpl
-import com.vapi4k.utils.AssistantIdSource
-import com.vapi4k.utils.DuplicateInvokeChecker
 
 interface AssistantOverridesProperties : CommonAssistantProperties {
   // Used only in AssistantOverrides

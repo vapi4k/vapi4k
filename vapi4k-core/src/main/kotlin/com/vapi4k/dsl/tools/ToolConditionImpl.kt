@@ -21,6 +21,7 @@ import com.vapi4k.api.tools.ToolMessageComplete
 import com.vapi4k.api.tools.ToolMessageDelayed
 import com.vapi4k.api.tools.ToolMessageFailed
 import com.vapi4k.api.tools.ToolMessageStart
+import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.dsl.assistant.ToolMessageCompleteImpl
 import com.vapi4k.dsl.assistant.ToolMessageDelayedImpl
 import com.vapi4k.dsl.assistant.ToolMessageFailedImpl
@@ -30,7 +31,6 @@ import com.vapi4k.dtos.tools.ToolMessageCondition
 import com.vapi4k.dtos.tools.ToolMessageDelayedDto
 import com.vapi4k.dtos.tools.ToolMessageFailedDto
 import com.vapi4k.dtos.tools.ToolMessageStartDto
-import com.vapi4k.utils.DuplicateInvokeChecker
 
 class ToolConditionImpl internal constructor(
   internal val tool: BaseToolImpl,

@@ -20,9 +20,9 @@ import com.vapi4k.api.assistant.AssistantOverrides
 import com.vapi4k.api.squad.Members
 import com.vapi4k.api.squad.Squad
 import com.vapi4k.dsl.assistant.AssistantOverridesImpl
+import com.vapi4k.dsl.response.AssistantIdSource
 import com.vapi4k.dtos.squad.SquadDto
 import com.vapi4k.server.RequestContextImpl
-import com.vapi4k.utils.AssistantIdSource
 
 interface SquadProperties {
   /**

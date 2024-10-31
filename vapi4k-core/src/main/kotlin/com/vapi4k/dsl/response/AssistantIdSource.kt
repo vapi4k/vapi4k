@@ -14,7 +14,7 @@
  *
  */
 
-package com.vapi4k.utils
+package com.vapi4k.dsl.response
 
 import com.vapi4k.common.AssistantId
 import com.vapi4k.common.AssistantId.Companion.toAssistantId

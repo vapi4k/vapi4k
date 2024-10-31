@@ -20,11 +20,11 @@ import com.vapi4k.api.buttons.ButtonConfig
 import com.vapi4k.api.response.WebAssistantResponse
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.WebApplication
+import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.common.Utils.isNull
 import com.vapi4k.dsl.buttons.ButtonConfigImpl
 import com.vapi4k.dsl.response.WebAssistantResponseImpl
 import com.vapi4k.server.RequestContextImpl
-import com.vapi4k.utils.DuplicateInvokeChecker
 
 class WebApplicationImpl internal constructor() :
   AbstractApplicationImpl(ApplicationType.WEB),
