@@ -10,8 +10,8 @@ val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
 val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 allprojects {
-    extra["versionStr"] = "1.1.0"
-    extra["releaseDate"] = "10/30/2024"
+    extra["versionStr"] = "1.1.1"
+    extra["releaseDate"] = "11/1/2024"
     group = "com.github.vapi4k"
     version = versionStr
 
@@ -80,7 +80,8 @@ subprojects {
 }
 
 tasks.dokkaHtmlMultiModule.configure {
-    outputDirectory.set(buildDir.resolve("kdocs"))
+    outputDirectory.set(layout.buildDirectory.dir("kdocs"))
+
 
     val dokkaBaseConfiguration = """
                 {
