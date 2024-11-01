@@ -1,0 +1,4 @@
+vapi4k-core/src/main/resources/bootstrap/**
+vapi4k-core/src/main/resources/prism/**
+vapi4k-core/src/main/resources/core-static/**
+vapi4k-core/src/main/kotlin/com/vapi4k/console/BootstrapPage2.kt
