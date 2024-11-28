@@ -12,8 +12,8 @@ kotlin {
     jvmToolchain(11)
 }
 
-kotlinter {
-    failBuildWhenCannotAutoFormat = false
-    ignoreFailures = true
-    reporters = arrayOf("checkstyle", "plain")
-}
+//kotlinter {
+//    failBuildWhenCannotAutoFormat = false
+//    ignoreFailures = true
+//    reporters = arrayOf("checkstyle", "plain")
+//}

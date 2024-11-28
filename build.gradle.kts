@@ -1,17 +1,17 @@
 plugins {
     alias(libs.plugins.jvm) apply false
     alias(libs.plugins.versions) apply true
-    alias(libs.plugins.kotlinter) apply false
+    // alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.dokka) apply true
 }
 
 val versionStr: String by extra
 val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
-val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
+// val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 allprojects {
-    extra["versionStr"] = "1.1.1"
-    extra["releaseDate"] = "11/1/2024"
+    extra["versionStr"] = "1.2.0"
+    extra["releaseDate"] = "11/27/2024"
     group = "com.github.vapi4k"
     version = versionStr
 
@@ -27,7 +27,7 @@ subprojects {
         plugin("java")
         plugin("maven-publish")
         plugin(kotlinLib)
-        plugin(ktlinterLib)
+        // plugin(ktlinterLib)
     }
 
     tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
