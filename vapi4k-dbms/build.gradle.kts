@@ -58,8 +58,8 @@ kotlin {
     }
 }
 
-kotlinter {
-    failBuildWhenCannotAutoFormat = false
-    ignoreFailures = true
-    reporters = arrayOf("checkstyle", "plain")
-}
+//kotlinter {
+//    failBuildWhenCannotAutoFormat = false
+//    ignoreFailures = true
+//    reporters = arrayOf("checkstyle", "plain")
+//}

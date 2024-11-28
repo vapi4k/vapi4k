@@ -11,13 +11,11 @@ plugins {
 val versionStr: String by extra
 val releaseDate: String by extra
 
-description = project.name
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = group.toString()
-            artifactId = description
+            artifactId = project.name
             version = versionStr
             from(components["java"])
         }
@@ -116,8 +114,8 @@ tasks {
     }
 }
 
-kotlinter {
-    failBuildWhenCannotAutoFormat = false
-    ignoreFailures = true
-    reporters = arrayOf("checkstyle", "plain")
-}
+//kotlinter {
+//    failBuildWhenCannotAutoFormat = false
+//    ignoreFailures = true
+//    reporters = arrayOf("checkstyle", "plain")
+//}
