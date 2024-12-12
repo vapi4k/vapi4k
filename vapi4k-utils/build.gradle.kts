@@ -24,11 +24,12 @@ publishing {
 }
 
 dependencies {
-    implementation(libs.kotlin.serialization)
     implementation(libs.ktor.server.core)
 
-    implementation(libs.kotlin.logging)
-    implementation(libs.logback.classic)
+    api(libs.kotlin.serialization)
+
+    api(libs.kotlin.logging)
+    api(libs.logback.classic)
 
     testImplementation(libs.kotlin.test)
     // testImplementation(kotlin("test"))

@@ -18,13 +18,12 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-//        maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
     }
 }
 
 subprojects {
     apply {
-        plugin("java")
+        plugin("java-library")
         plugin("maven-publish")
         plugin(kotlinLib)
         // plugin(ktlinterLib)

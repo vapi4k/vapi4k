@@ -35,8 +35,6 @@ buildConfig {
 dependencies {
     api(project(":vapi4k-utils"))
 
-    api(libs.kotlin.reflect)
-
     api(libs.ktor.client.core)
     api(libs.ktor.client.cio)
     api(libs.ktor.client.websockets)
@@ -54,17 +52,15 @@ dependencies {
     api(libs.ktor.server.metrics.micrometer)
 
     api(libs.ktor.serialization)
+
     api(libs.micrometer.registry.prometheus)
 
     api(libs.exposed.kotlin.datetime)
 
-    api(libs.kotlin.logging)
-    api(libs.logback.classic)
-
     // testImplementation(libs.ktor.client.mock)
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test)
-    //testImplementation(kotlin("test"))
+    // testImplementation(kotlin("test"))
 }
 
 sourceSets {

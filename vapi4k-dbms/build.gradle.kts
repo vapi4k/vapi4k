@@ -26,16 +26,14 @@ dependencies {
 
     api(libs.micrometer.registry.prometheus)
 
-    api(libs.hikari)
-    api(libs.pgjdbc.ng)
-    api(libs.postgres)
+    implementation(libs.hikari)
+    implementation(libs.pgjdbc.ng)
+    implementation(libs.postgres)
+
     api(libs.exposed.core)
     api(libs.exposed.jdbc)
     api(libs.exposed.json)
     api(libs.exposed.kotlin.datetime)
-
-    api(libs.kotlin.logging)
-    api(libs.logback.classic)
 
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test)
