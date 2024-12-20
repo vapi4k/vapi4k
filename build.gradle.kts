@@ -1,3 +1,5 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     alias(libs.plugins.jvm) apply false
     alias(libs.plugins.versions) apply true
@@ -11,7 +13,7 @@ val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
 
 allprojects {
     extra["versionStr"] = "1.2.2"
-    extra["releaseDate"] = "12/11/2024"
+    extra["releaseDate"] = "12/19/2024"
     group = "com.github.vapi4k"
     version = versionStr
 
@@ -29,7 +31,7 @@ subprojects {
         // plugin(ktlinterLib)
     }
 
-    tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
+    tasks.withType<DokkaTask>().configureEach {
         dokkaSourceSets {
             configureEach {
 //              "customAssets": ["${file("assets/my-image.png")}"],
@@ -37,11 +39,7 @@ subprojects {
 //              "separateInheritedMembers": false,
 //              "templatesDir": "${file("dokka/templates")}",
 //              "mergeImplicitExpectActualDeclarations": false
-                val dokkaBaseConfiguration = """
-                {
-                  "footerMessage": "Vapi4k"
-                }
-                """
+                val dokkaBaseConfiguration = """{ "footerMessage": "Vapi4k" }"""
                 pluginsMapConfiguration.set(
                     mapOf(
                         // fully qualified plugin name to json configuration
@@ -81,12 +79,7 @@ subprojects {
 tasks.dokkaHtmlMultiModule.configure {
     outputDirectory.set(layout.buildDirectory.dir("kdocs"))
 
-
-    val dokkaBaseConfiguration = """
-                {
-                  "footerMessage": "Vapi4k"
-                }
-                """
+    val dokkaBaseConfiguration = """{ "footerMessage": "Vapi4k" }"""
     pluginsMapConfiguration.set(
         mapOf(
             // fully qualified plugin name to json configuration
@@ -94,3 +87,20 @@ tasks.dokkaHtmlMultiModule.configure {
         )
     )
 }
+
+//dokka {
+//    moduleName.set("Project Name")
+//    dokkaSourceSets.configureEach {
+//        includes.from("README.md")
+//        sourceLink {
+//            localDirectory.set(file("src/main/kotlin"))
+//            remoteUrl("https://example.com/src")
+//            remoteLineSuffix.set("#L")
+//        }
+//    }
+//    pluginsConfiguration.html {
+//        customStyleSheets.from("styles.css")
+//        customAssets.from("logo.png")
+//        footerMessage.set("(c) Your Company")
+//    }
+//}
