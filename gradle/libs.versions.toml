@@ -3,19 +3,19 @@
 [versions]
 config = "5.5.1"
 dokka = "2.0.0"
-exposed = "0.57.0"
+exposed = "0.58.0"
 hikari = "6.2.1"
 hoplite = "2.7.5"
 kotlin = "2.1.0"
 kotliner = "4.5.0"
 ktor = "3.0.3"
-logback = "1.5.14"
+logback = "1.5.16"
 logging = "7.0.3"
-micrometer = "1.14.2"
+micrometer = "1.14.3"
 pgjdbc = "0.8.9"
-postgres = "42.7.4"
-serialization = "1.7.3"
-versions = "0.51.0"
+postgres = "42.7.5"
+serialization = "1.8.0"
+versions = "0.52.0"
 
 
 [libraries]
