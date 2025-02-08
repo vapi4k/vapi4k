@@ -39,7 +39,7 @@ buildconfig:
 	./gradlew generateBuildConfig
 
 kdocs:
-	./gradlew dokkaHtmlMultiModule
+	./gradlew :dokkaGenerate
 
 mddocs:
 	./gradlew dokkaGfm
@@ -51,4 +51,4 @@ publish:
 	./gradlew publishToMavenLocal
 
 upgrade-wrapper:
-	./gradlew wrapper --gradle-version=8.11.1 --distribution-type=bin
+	./gradlew wrapper --gradle-version=8.12.1 --distribution-type=bin

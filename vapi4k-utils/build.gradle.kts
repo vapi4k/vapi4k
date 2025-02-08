@@ -50,7 +50,7 @@ java {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 
     sourceSets.all {
         languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
@@ -78,6 +78,19 @@ tasks {
     withType<DependencyUpdatesTask> {
         rejectVersionIf {
             listOf("BETA", "-RC").any { candidate.version.uppercase().contains(it) }
+        }
+    }
+}
+
+dokka {
+    pluginsConfiguration.html {
+        footerMessage.set("vapi4k-utils")
+    }
+    dokkaSourceSets.configureEach {
+        sourceLink {
+            localDirectory.set(file("src/main/kotlin"))
+            remoteUrl.set(uri("https://github.com/vapi4k/vapi4k/blob/master/vapi4k-utils/src/main/kotlin"))
+            remoteLineSuffix.set("#L")
         }
     }
 }

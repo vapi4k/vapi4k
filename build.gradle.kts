@@ -1,5 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaTask
-
 plugins {
     alias(libs.plugins.jvm) apply false
     alias(libs.plugins.versions) apply true
@@ -9,11 +7,12 @@ plugins {
 
 val versionStr: String by extra
 val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
+val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
 // val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 allprojects {
-    extra["versionStr"] = "1.2.2"
-    extra["releaseDate"] = "12/19/2024"
+    extra["versionStr"] = "1.2.3"
+    extra["releaseDate"] = "1/24/2025"
     group = "com.github.vapi4k"
     version = versionStr
 
@@ -28,29 +27,15 @@ subprojects {
         plugin("java-library")
         plugin("maven-publish")
         plugin(kotlinLib)
+        plugin(dokkaLib)
         // plugin(ktlinterLib)
     }
 
-    tasks.withType<DokkaTask>().configureEach {
+    tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
         dokkaSourceSets {
             configureEach {
-//              "customAssets": ["${file("assets/my-image.png")}"],
-//              "customStyleSheets": ["${file("assets/my-styles.css")}"],
-//              "separateInheritedMembers": false,
-//              "templatesDir": "${file("dokka/templates")}",
-//              "mergeImplicitExpectActualDeclarations": false
-                val dokkaBaseConfiguration = """{ "footerMessage": "Vapi4k" }"""
-                pluginsMapConfiguration.set(
-                    mapOf(
-                        // fully qualified plugin name to json configuration
-                        "org.jetbrains.dokka.base.DokkaBase" to dokkaBaseConfiguration
-                    )
-                )
+                outputDirectory.set(layout.buildDirectory.dir("kdocs"))
 
-                // Include specific markdown files if needed
-                // includes.from("packages.md")
-
-                //displayName.set("Vapi4k")
                 noStdlibLink.set(true)
                 noJdkLink.set(true)
 
@@ -73,34 +58,18 @@ subprojects {
             }
         }
     }
-
 }
 
-tasks.dokkaHtmlMultiModule.configure {
-    outputDirectory.set(layout.buildDirectory.dir("kdocs"))
 
-    val dokkaBaseConfiguration = """{ "footerMessage": "Vapi4k" }"""
-    pluginsMapConfiguration.set(
-        mapOf(
-            // fully qualified plugin name to json configuration
-            "org.jetbrains.dokka.base.DokkaBase" to dokkaBaseConfiguration
-        )
-    )
+dokka {
+    moduleName.set("vapi4k")
+    pluginsConfiguration.html {
+        footerMessage.set("vapi4k")
+    }
 }
 
-//dokka {
-//    moduleName.set("Project Name")
-//    dokkaSourceSets.configureEach {
-//        includes.from("README.md")
-//        sourceLink {
-//            localDirectory.set(file("src/main/kotlin"))
-//            remoteUrl("https://example.com/src")
-//            remoteLineSuffix.set("#L")
-//        }
-//    }
-//    pluginsConfiguration.html {
-//        customStyleSheets.from("styles.css")
-//        customAssets.from("logo.png")
-//        footerMessage.set("(c) Your Company")
-//    }
-//}
+dependencies {
+    dokka(project(":vapi4k-core"))
+    dokka(project(":vapi4k-dbms"))
+    dokka(project(":vapi4k-utils"))
+}
