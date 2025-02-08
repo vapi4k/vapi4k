@@ -39,7 +39,7 @@ buildconfig:
 	./gradlew generateBuildConfig
 
 kdocs:
-	./gradlew dokkaHtmlMultiModule
+	./gradlew :dokkaGenerate
 
 mddocs:
 	./gradlew dokkaGfm

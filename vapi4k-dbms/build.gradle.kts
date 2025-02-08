@@ -49,10 +49,23 @@ java {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 
     sourceSets.all {
         languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
+    }
+}
+
+dokka {
+    pluginsConfiguration.html {
+        footerMessage.set("vapi4k-dbms")
+    }
+    dokkaSourceSets.configureEach {
+        sourceLink {
+            localDirectory.set(file("src/main/kotlin"))
+            remoteUrl.set(uri("https://github.com/vapi4k/vapi4k/blob/master/vapi4k-dbms/src/main/kotlin"))
+            remoteLineSuffix.set("#L")
+        }
     }
 }
 
