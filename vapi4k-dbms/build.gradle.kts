@@ -57,6 +57,9 @@ kotlin {
 }
 
 dokka {
+    dokkaPublications.html {
+        outputDirectory.set(layout.buildDirectory.dir("kdocs"))
+    }
     pluginsConfiguration.html {
         footerMessage.set("vapi4k-dbms")
     }

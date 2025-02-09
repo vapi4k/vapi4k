@@ -12,7 +12,7 @@ val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
 
 allprojects {
     extra["versionStr"] = "1.2.3"
-    extra["releaseDate"] = "1/24/2025"
+    extra["releaseDate"] = "2/8/2025"
     group = "com.github.vapi4k"
     version = versionStr
 
@@ -63,6 +63,9 @@ subprojects {
 
 dokka {
     moduleName.set("vapi4k")
+    dokkaPublications.html {
+        outputDirectory.set(layout.buildDirectory.dir("kdocs"))
+    }
     pluginsConfiguration.html {
         footerMessage.set("vapi4k")
     }
