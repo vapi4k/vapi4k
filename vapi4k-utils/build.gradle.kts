@@ -69,9 +69,6 @@ tasks {
         from({
             configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
         })
-//        manifest {
-//            attributes["Main-Class"] = "com.vapi4k.ApplicationKt"
-//        }
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
