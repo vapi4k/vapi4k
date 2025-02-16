@@ -50,7 +50,7 @@ java {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(11)
 
     sourceSets.all {
         languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
