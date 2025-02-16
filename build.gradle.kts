@@ -1,3 +1,6 @@
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 plugins {
     alias(libs.plugins.jvm) apply false
     alias(libs.plugins.versions) apply true
@@ -10,9 +13,11 @@ val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
 val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
 // val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
+val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+
 allprojects {
-    extra["versionStr"] = "1.2.3"
-    extra["releaseDate"] = "2/8/2025"
+    extra["versionStr"] = "1.2.4"
+    extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k"
     version = versionStr
 

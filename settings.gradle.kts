@@ -10,9 +10,7 @@ plugins {
 
 rootProject.name = "vapi4k"
 
-include(
-    "vapi4k-core",
-    "vapi4k-dbms",
-    "vapi4k-utils",
-    "vapi4k-snippets",
-)
+include(":vapi4k-core")
+include(":vapi4k-dbms")
+include(":vapi4k-utils")
+include(":vapi4k-snippets")
