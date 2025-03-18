@@ -16,7 +16,7 @@ val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
 val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
 allprojects {
-    extra["versionStr"] = "1.2.4"
+    extra["versionStr"] = "1.2.5"
     extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k"
     version = versionStr

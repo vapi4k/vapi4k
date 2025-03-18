@@ -18,24 +18,18 @@ package com.vapi4k.api.json
 
 import com.vapi4k.common.Utils.prettyFormat
 import com.vapi4k.common.Utils.rawFormat
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.*
 
 val JsonElement.keys get() = jsonObject.keys
 
+// Primitive values
 val JsonElement.stringValue get() = jsonPrimitive.content
 val JsonElement.intValue get() = jsonPrimitive.content.toInt()
 val JsonElement.doubleValue get() = jsonPrimitive.content.toDouble()
 val JsonElement.booleanValue get() = jsonPrimitive.content.toBoolean()
+
+// Json object values
+val JsonElement.jsonObjectValue: JsonObject get() = jsonObject
 
 operator fun JsonElement.get(vararg keys: String): JsonElement =
   keys.flatMap { it.split(".") }
@@ -43,6 +37,7 @@ operator fun JsonElement.get(vararg keys: String): JsonElement =
 
 fun JsonElement.getOrNull(vararg keys: String): JsonElement? = if (containsKey(*keys)) get(*keys) else null
 
+// Primitive values
 fun JsonElement.stringValue(vararg keys: String) = get(*keys).stringValue
 
 fun JsonElement.stringValueOrNull(vararg keys: String) = getOrNull(*keys)?.stringValue
@@ -59,6 +54,12 @@ fun JsonElement.booleanValue(vararg keys: String) = get(*keys).booleanValue
 
 fun JsonElement.booleanValueOrNull(vararg keys: String) = getOrNull(*keys)?.booleanValue
 
+// Object values
+fun JsonElement.jsonObjectValue(vararg keys: String): JsonObject = get(*keys).jsonObjectValue
+
+fun JsonElement.jsonObjectValueOrNull(vararg keys: String) = getOrNull(*keys)?.jsonObjectValue
+
+// Array values
 fun JsonElement.jsonElementList(vararg keys: String) = get(*keys).toJsonElementList()
 
 fun JsonElement.jsonElementListOrNull(vararg keys: String) = getOrNull(*keys)?.toJsonElementList()
@@ -93,12 +94,18 @@ fun String.toJsonElement() = Json.parseToJsonElement(this)
 fun JsonElement.toJsonElementList() = jsonArray.toList()
 
 fun JsonElement.toMap(): Map<String, Any?> {
-  require(this is JsonObject) { "Can only convert JsonObject to Map" }
+  require(this is JsonObject) { "Can only convert JsonObject to Map, not a ${this.javaClass.simpleName}" }
 
   return entries.associate { (key, value) ->
     key to when (value) {
       is JsonPrimitive -> value.content
-      is JsonArray -> value.map { it.toMap() }
+      is JsonArray -> value.map {
+        when (it) {
+          is JsonPrimitive -> it.content
+          else -> it.toMap()
+        }
+      }
+
       is JsonObject -> value.toMap()
       JsonNull -> null
     }
