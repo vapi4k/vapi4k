@@ -16,7 +16,7 @@
 
 package com.vapi4k.utils
 
-import com.vapi4k.common.JsonContentUtils.defaultJson
+import com.github.pambrose.common.json.JsonContentUtils.defaultJson
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.cio.CIO

@@ -16,7 +16,7 @@
 
 package com.vapi4k.console
 
-import com.vapi4k.api.json.toJsonElement
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.common.ApplicationName.Companion.toApplicationName
 import com.vapi4k.common.AssistantId.Companion.EMPTY_ASSISTANT_ID
 import com.vapi4k.common.Constants.APP_NAME

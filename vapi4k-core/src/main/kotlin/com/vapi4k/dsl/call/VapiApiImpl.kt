@@ -16,12 +16,12 @@
 
 package com.vapi4k.dsl.call
 
+import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.api.call.ApiObjectType
 import com.vapi4k.api.call.OutboundCall
 import com.vapi4k.api.call.Phone
 import com.vapi4k.api.call.Save
 import com.vapi4k.api.call.VapiApi
-import com.vapi4k.api.json.toJsonString
 import com.vapi4k.common.Constants.PRIVATE_KEY_PROPERTY
 import com.vapi4k.common.CoreEnvVars.vapiBaseUrl
 import com.vapi4k.common.CoreEnvVars.vapiPrivateKey

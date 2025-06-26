@@ -16,7 +16,7 @@
 
 package com.vapi4k.utils
 
-import com.vapi4k.api.json.toJsonString
+import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.plugin.Vapi4kServer.logger
 
 object DslUtils {

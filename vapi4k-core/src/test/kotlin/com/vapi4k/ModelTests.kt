@@ -16,12 +16,12 @@
 
 package com.vapi4k
 
+import com.github.pambrose.common.json.booleanValue
+import com.github.pambrose.common.json.get
+import com.github.pambrose.common.json.keys
+import com.github.pambrose.common.json.stringValue
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.AssistantTest.Companion.newRequestContext
-import com.vapi4k.api.json.booleanValue
-import com.vapi4k.api.json.get
-import com.vapi4k.api.json.keys
-import com.vapi4k.api.json.stringValue
-import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.tools

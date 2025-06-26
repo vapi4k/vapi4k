@@ -17,8 +17,8 @@
 package com.vapi4k
 
 import com.vapi4k.api.prompt.Prompt.Companion.prompt
+import org.amshove.kluent.shouldBeEqualTo
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class StringTest {
   @Test
@@ -28,7 +28,7 @@ class StringTest {
         +"test text"
       }
 
-    assertEquals("test text", str)
+    "test text" shouldBeEqualTo str
   }
 
   @Test
@@ -44,7 +44,7 @@ class StringTest {
 
 test text"""
 
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -64,7 +64,7 @@ text
 test
 text"""
 
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -83,7 +83,7 @@ test text
 
 test text"""
 
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -100,7 +100,7 @@ test text"""
 
     val goal = "Hello team later"
 
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -120,7 +120,7 @@ test text"""
     val goal = """Welcome everyone
 
 team later"""
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -154,7 +154,7 @@ Welcome everyone
 
 team later"""
 
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -185,7 +185,7 @@ Welcome everyone
 
 team later"""
 
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -195,7 +195,7 @@ team later"""
         trimPrefix("    test text")
       }
 
-    assertEquals("test text", str)
+    "test text" shouldBeEqualTo str
   }
 
   @Test
@@ -211,7 +211,7 @@ team later"""
     val goal = """Welcome
 team
 later"""
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -237,7 +237,7 @@ later
 Welcome
 team
 later"""
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 
   @Test
@@ -260,6 +260,6 @@ later
 Welcome
 team
 later"""
-    assertEquals(goal, str)
+    goal shouldBeEqualTo str
   }
 }

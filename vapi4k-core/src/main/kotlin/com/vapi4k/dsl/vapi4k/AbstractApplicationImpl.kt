@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.vapi4k
 
-import com.vapi4k.api.json.toJsonElement
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.api.tools.TransferDestinationResponse
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.ResponseContext

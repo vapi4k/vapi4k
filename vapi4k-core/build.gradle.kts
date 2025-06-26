@@ -1,11 +1,8 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-
 plugins {
     alias(libs.plugins.jvm)
     alias(libs.plugins.serialization)
     alias(libs.plugins.config)
     alias(libs.plugins.dokka)
-    `java-library`
 }
 
 val versionStr: String by extra
@@ -22,6 +19,14 @@ publishing {
     }
 }
 
+java {
+    withSourcesJar()
+}
+
+tasks.withType<Zip> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 buildConfig {
     useKotlinOutput()
     packageName(project.group.toString())
@@ -32,6 +37,12 @@ buildConfig {
     buildConfigField("long", "BUILD_TIME", "${System.currentTimeMillis()}L")
 }
 
+sourceSets {
+    named("main") {
+        java.srcDir("build/generated/sources/buildConfig/main")
+    }
+}
+
 dependencies {
     api(project(":vapi4k-utils"))
 
@@ -40,7 +51,6 @@ dependencies {
     api(libs.ktor.client.websockets)
     api(libs.ktor.client.encoding)
     api(libs.ktor.client.content.negotiation)
-
     api(libs.ktor.server.core)
     api(libs.ktor.server.cio)
     api(libs.ktor.server.websockets)
@@ -50,67 +60,17 @@ dependencies {
     api(libs.ktor.server.call.logging)
     api(libs.ktor.server.html.builder)
     api(libs.ktor.server.metrics.micrometer)
-
     api(libs.ktor.serialization)
-
     api(libs.micrometer.registry.prometheus)
-
     api(libs.exposed.kotlin.datetime)
 
-    // testImplementation(libs.ktor.client.mock)
+    testImplementation(kotlin("test"))
+    testImplementation(libs.kluent)
     testImplementation(libs.ktor.server.tests)
-    testImplementation(libs.kotlin.test)
-    // testImplementation(kotlin("test"))
-}
-
-sourceSets {
-    named("main") {
-        java.srcDir("build/generated/sources/buildConfig/main")
-    }
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
-java {
-    withSourcesJar()
-}
-
-kotlin {
-    jvmToolchain(11)
-
-    sourceSets.all {
-        languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
-    }
-}
-
-tasks.withType<Zip> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-tasks {
-    register<Jar>("uberJar") {
-        archiveClassifier.set("uber")
-        from(sourceSets.main.get().output)
-        dependsOn(configurations.runtimeClasspath)
-        from({
-            configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-        })
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-
-    withType<DependencyUpdatesTask> {
-        rejectVersionIf {
-            listOf("BETA", "-RC").any { candidate.version.uppercase().contains(it) }
-        }
-    }
+    // testImplementation(libs.ktor.client.mock)
 }
 
 dokka {
-    dokkaPublications.html {
-        outputDirectory.set(layout.buildDirectory.dir("kdocs"))
-    }
     pluginsConfiguration.html {
         footerMessage.set("vapi4k-core")
     }
@@ -122,9 +82,3 @@ dokka {
         }
     }
 }
-
-//kotlinter {
-//    failBuildWhenCannotAutoFormat = false
-//    ignoreFailures = true
-//    reporters = arrayOf("checkstyle", "plain")
-//}

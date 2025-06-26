@@ -16,10 +16,10 @@
 
 package com.vapi4k
 
-import com.vapi4k.api.json.get
-import com.vapi4k.api.json.jsonElementList
-import com.vapi4k.api.json.stringValue
-import com.vapi4k.api.json.toJsonElement
+import com.github.pambrose.common.json.get
+import com.github.pambrose.common.json.jsonElementList
+import com.github.pambrose.common.json.stringValue
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.utils.JsonUtils.toObjectList
 import kotlinx.serialization.Serializable
 import kotlin.test.Test

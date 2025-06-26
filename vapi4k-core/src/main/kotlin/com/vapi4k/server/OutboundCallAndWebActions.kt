@@ -16,11 +16,11 @@
 
 package com.vapi4k.server
 
-import com.vapi4k.api.json.containsKey
-import com.vapi4k.api.json.getOrNull
-import com.vapi4k.api.json.isNotEmpty
-import com.vapi4k.api.json.keys
-import com.vapi4k.api.json.toJsonElement
+import com.github.pambrose.common.json.containsKey
+import com.github.pambrose.common.json.getOrNull
+import com.github.pambrose.common.json.isNotEmpty
+import com.github.pambrose.common.json.keys
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.api.vapi4k.ServerRequestType.ASSISTANT_REQUEST
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.END_OF_CALL_REPORT

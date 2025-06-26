@@ -1,26 +1,29 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-config = "5.5.4"
+config = "5.6.7"
 dokka = "2.0.0"
-exposed = "0.60.0"
-hikari = "6.2.1"
+exposed = "0.61.0"
+hikari = "6.3.0"
 hoplite = "2.7.5"
-kotlin = "2.1.10"
-kotliner = "4.5.0"
-ktor = "3.1.1"
-logback = "1.5.17"
-logging = "7.0.5"
-micrometer = "1.14.3"
+kluent = "1.73"
+kotlin = "2.2.0"
+kotliner = "5.1.1"
+ktor = "3.2.0"
+logback = "1.5.18"
+logging = "7.0.7"
+micrometer = "1.15.1"
 pgjdbc = "0.8.9"
-postgres = "42.7.5"
-serialization = "1.8.0"
+postgres = "42.7.7"
+serialization = "1.8.1"
+utils = "2.3.11"
 versions = "0.52.0"
-
 
 [libraries]
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
+utils-json = { module = "com.github.pambrose.common-utils:json-utils", version.ref = "utils" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
@@ -55,8 +58,7 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-
+kluent = { module = "org.amshove.kluent:kluent", version.ref = "kluent" }
 
 [plugins]
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

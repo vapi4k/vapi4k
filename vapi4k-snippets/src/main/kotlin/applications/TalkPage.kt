@@ -16,7 +16,7 @@
 
 package applications
 
-import com.vapi4k.api.json.toJsonElement
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.dsl.web.VapiWeb.vapiTalkButton
 import io.ktor.server.application.Application
 import io.ktor.server.html.respondHtml

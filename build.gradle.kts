@@ -1,19 +1,27 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.dokka.DokkaConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 plugins {
-    alias(libs.plugins.jvm) apply false
+    `java-library`
+    `maven-publish`
+
+    alias(libs.plugins.jvm) apply true
+    alias(libs.plugins.kotlinter) apply true
     alias(libs.plugins.versions) apply true
-    // alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.dokka) apply true
 }
 
 val versionStr: String by extra
-val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
-val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
-// val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+
+val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
+val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
+val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 allprojects {
     extra["versionStr"] = "1.2.5"
@@ -24,6 +32,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -31,12 +40,86 @@ subprojects {
     apply {
         plugin("java-library")
         plugin("maven-publish")
-        plugin(kotlinLib)
         plugin(dokkaLib)
-        // plugin(ktlinterLib)
     }
 
-    tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+    configureKotlin()
+    configureTesting()
+    configureVersions()
+    configureKotlinter()
+    configureDokka()
+}
+
+dokka {
+    moduleName.set("vapi4k")
+    dokkaPublications.html {
+        outputDirectory.set(layout.buildDirectory.dir("kdocs"))
+    }
+    pluginsConfiguration.html {
+        footerMessage.set("vapi4k")
+    }
+}
+
+dependencies {
+    dokka(project(":vapi4k-core"))
+    dokka(project(":vapi4k-dbms"))
+    dokka(project(":vapi4k-utils"))
+}
+
+fun Project.configureKotlin() {
+    apply {
+        plugin(kotlinLib)
+    }
+
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(0, "seconds")
+    }
+
+    kotlin {
+        jvmToolchain(11)
+
+        sourceSets.all {
+            languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
+            languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+            languageSettings.optIn("kotlin.contracts.ExperimentalContracts")
+        }
+    }
+}
+
+fun Project.configureTesting() {
+    tasks.test {
+        useJUnitPlatform()
+
+        testLogging {
+            events("passed", "skipped", "failed", "standardOut", "standardError")
+            exceptionFormat = TestExceptionFormat.FULL
+            showStandardStreams = true
+        }
+    }
+}
+
+fun Project.configureVersions() {
+    tasks {
+        withType<DependencyUpdatesTask> {
+            rejectVersionIf {
+                listOf("BETA", "-RC").any { candidate.version.uppercase().contains(it) }
+            }
+        }
+    }
+}
+
+fun Project.configureKotlinter() {
+    apply {
+        plugin(ktlinterLib)
+    }
+
+    kotlinter {
+        reporters = arrayOf("checkstyle", "plain")
+    }
+}
+
+fun Project.configureDokka() {
+    tasks.withType<DokkaTask>().configureEach {
         dokkaSourceSets {
             configureEach {
                 outputDirectory.set(layout.buildDirectory.dir("kdocs"))
@@ -44,7 +127,7 @@ subprojects {
                 noStdlibLink.set(true)
                 noJdkLink.set(true)
 
-                documentedVisibilities.set(setOf(org.jetbrains.dokka.DokkaConfiguration.Visibility.PUBLIC))
+                documentedVisibilities.set(setOf(DokkaConfiguration.Visibility.PUBLIC))
 
                 // Exclude everything first
                 perPackageOption {
@@ -63,21 +146,4 @@ subprojects {
             }
         }
     }
-}
-
-
-dokka {
-    moduleName.set("vapi4k")
-    dokkaPublications.html {
-        outputDirectory.set(layout.buildDirectory.dir("kdocs"))
-    }
-    pluginsConfiguration.html {
-        footerMessage.set("vapi4k")
-    }
-}
-
-dependencies {
-    dokka(project(":vapi4k-core"))
-    dokka(project(":vapi4k-dbms"))
-    dokka(project(":vapi4k-utils"))
 }

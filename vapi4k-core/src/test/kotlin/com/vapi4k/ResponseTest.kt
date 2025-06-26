@@ -16,8 +16,8 @@
 
 package com.vapi4k
 
+import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.AssistantTest.Companion.newRequestContext
-import com.vapi4k.api.json.toJsonString
 import com.vapi4k.api.model.AnthropicModelType
 import com.vapi4k.api.transcriber.DeepgramModelType
 import com.vapi4k.dtos.api.destination.SipDestinationDto

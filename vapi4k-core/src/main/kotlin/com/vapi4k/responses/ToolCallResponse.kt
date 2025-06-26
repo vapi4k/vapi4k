@@ -16,7 +16,7 @@
 
 package com.vapi4k.responses
 
-import com.vapi4k.api.json.stringValue
+import com.github.pambrose.common.json.stringValue
 import com.vapi4k.api.vapi4k.AssistantRequestUtils.id
 import com.vapi4k.api.vapi4k.AssistantRequestUtils.toolCallArguments
 import com.vapi4k.api.vapi4k.AssistantRequestUtils.toolCallName
