@@ -16,11 +16,11 @@
 
 package utils
 
-import com.vapi4k.api.json.get
-import com.vapi4k.api.json.keys
-import com.vapi4k.api.json.stringValue
-import com.vapi4k.api.json.toJsonElement
-import com.vapi4k.api.json.toJsonString
+import com.github.pambrose.common.json.get
+import com.github.pambrose.common.json.keys
+import com.github.pambrose.common.json.stringValue
+import com.github.pambrose.common.json.toJsonElement
+import com.github.pambrose.common.json.toJsonString
 import kotlinx.serialization.json.JsonElement
 
 object JsonElements {

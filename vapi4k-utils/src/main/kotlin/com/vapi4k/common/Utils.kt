@@ -16,28 +16,22 @@
 
 package com.vapi4k.common
 
-import com.vapi4k.common.JsonContentUtils.defaultJson
-import kotlinx.serialization.json.Json
 import java.net.URLDecoder
 import java.net.URLEncoder
-import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 import kotlin.text.Charsets.UTF_8
 
 object Utils {
-  val prettyFormat by lazy { defaultJson() }
-  val rawFormat by lazy { Json { prettyPrint = false } }
-
   fun <T> lambda(block: T) = block
 
-  fun String.ensureStartsWith(s: String) = if (startsWith(s)) this else s + this
+  fun String.ensureStartsWith(prefix: String) = if (startsWith(prefix)) this else prefix + this
 
-  fun String.ensureEndsWith(s: String) = if (endsWith(s)) this else this + s
+  fun String.ensureEndsWith(suffix: String) = if (endsWith(suffix)) this else this + suffix
 
   fun String.trimLeadingSpaces() = lines().joinToString(separator = "\n") { it.trimStart() }
 
   fun resourceFile(filename: String): String =
-    this::class.java.getResource(filename)?.readText() ?: error("File not found: $filename")
+    this::class.java.getResource(filename)?.readText() ?: error("Resource file not found: $filename")
   // this.javaClass.classLoader.getResource(filename)?.readText() ?: error("File not found: $filename")
 
   fun Int.lpad(
@@ -66,7 +60,6 @@ object Utils {
         .joinToString("\n")
     }\t..."
 
-  @OptIn(ExperimentalContracts::class)
   fun Any?.isNotNull(): Boolean {
     contract {
       returns(true) implies (this@isNotNull != null)
@@ -74,7 +67,6 @@ object Utils {
     return this != null
   }
 
-  @OptIn(ExperimentalContracts::class)
   fun Any?.isNull(): Boolean {
     contract {
       returns(false) implies (this@isNull != null)

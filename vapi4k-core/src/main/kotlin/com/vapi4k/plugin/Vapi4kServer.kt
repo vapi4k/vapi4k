@@ -16,8 +16,9 @@
 
 package com.vapi4k.plugin
 
+import com.github.pambrose.common.json.JsonContentUtils.defaultJsonConfig
+import com.github.pambrose.common.json.toJsonElement
 import com.github.vapi4k.BuildConfig
-import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.vapi4k.Vapi4kConfig
 import com.vapi4k.common.Constants.APP_NAME
 import com.vapi4k.common.Constants.APP_TYPE
@@ -39,7 +40,6 @@ import com.vapi4k.common.Endpoints.INVOKE_TOOL_PATH
 import com.vapi4k.common.Endpoints.PING_PATH
 import com.vapi4k.common.Endpoints.VALIDATE_PATH
 import com.vapi4k.common.Endpoints.VERSION_PATH
-import com.vapi4k.common.JsonContentUtils.defaultJsonConfig
 import com.vapi4k.common.Version
 import com.vapi4k.common.Version.Companion.versionDesc
 import com.vapi4k.console.AdminLog.adminLogWs

@@ -16,14 +16,14 @@
 
 package com.vapi4k
 
-import com.vapi4k.api.json.jsonElementList
-import com.vapi4k.api.json.stringValue
+import com.github.pambrose.common.json.jsonElementList
+import com.github.pambrose.common.json.stringValue
 import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
 import com.vapi4k.utils.JsonFilenames
 import com.vapi4k.utils.withTestApplication
+import org.amshove.kluent.shouldBeEqualTo
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class BaseToolMessageTest {
   @Test
@@ -56,15 +56,13 @@ class BaseToolMessageTest {
         }
       }
 
-    assertEquals(200, response.status.value)
+    response.status.value shouldBeEqualTo 200
     val assistantTools =
       jsonElement
         .jsonElementList("messageResponse.squad.members")
         .first()
         .jsonElementList("assistant.model.tools")
-    assertEquals(
-      "tool 1 start message",
-      assistantTools.first().jsonElementList("messages").first().stringValue("content"),
-    )
+    assistantTools.first().jsonElementList("messages").first()
+      .stringValue("content") shouldBeEqualTo "tool 1 start message"
   }
 }

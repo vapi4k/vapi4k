@@ -16,7 +16,7 @@
 
 package applications
 
-import com.vapi4k.api.json.toJsonElement
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.dsl.call.VapiApiImpl.Companion.vapiApi
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.runBlocking

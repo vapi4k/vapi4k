@@ -16,8 +16,8 @@
 
 package com.vapi4k.console
 
-import com.vapi4k.api.json.toJsonElement
-import com.vapi4k.api.json.toJsonString
+import com.github.pambrose.common.json.toJsonElement
+import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.common.Version.Companion.versionDesc
 import com.vapi4k.console.ValidateAssistant.navBar
 import com.vapi4k.console.ValidateAssistant.singleNavItem

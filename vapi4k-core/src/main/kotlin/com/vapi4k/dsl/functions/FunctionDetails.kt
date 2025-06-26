@@ -16,11 +16,11 @@
 
 package com.vapi4k.dsl.functions
 
-import com.vapi4k.api.json.booleanValue
-import com.vapi4k.api.json.doubleValue
-import com.vapi4k.api.json.intValue
-import com.vapi4k.api.json.keys
-import com.vapi4k.api.json.stringValue
+import com.github.pambrose.common.json.booleanValue
+import com.github.pambrose.common.json.doubleValue
+import com.github.pambrose.common.json.intValue
+import com.github.pambrose.common.json.keys
+import com.github.pambrose.common.json.stringValue
 import com.vapi4k.api.toolservice.ToolCallService
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.common.Utils.errorMsg
@@ -38,7 +38,8 @@ import com.vapi4k.utils.ReflectionUtils.valueParameters
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 import java.lang.reflect.InvocationTargetException
-import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.atomics.AtomicInt
+import kotlin.concurrent.atomics.plusAssign
 import kotlin.reflect.KFunction
 import kotlin.reflect.KType
 import kotlin.reflect.full.callSuspendBy
@@ -48,12 +49,12 @@ class FunctionDetails internal constructor(
   val function: KFunction<*>,
   val toolCallInfo: ToolCallInfo,
 ) {
-  private val invokeCounter = AtomicInteger(0)
+  private val invokeCounter = AtomicInt(0)
   val className: String = obj::class.qualifiedName.orEmpty()
   val functionName: String = function.name
   val toolCall = function.toolCallAnnotation
 
-  val invokeCount get() = invokeCounter.get()
+  val invokeCount get() = invokeCounter.load()
   val fqName get() = "$className.$functionName()"
   val fqNameWithParams get() = "$className.$functionName(${function.parameterSignature})"
   val methodWithParams get() = "$functionName(${function.parameterSignature})"
@@ -71,7 +72,7 @@ class FunctionDetails internal constructor(
     errorAction: (String) -> Unit,
   ) {
     runCatching {
-      invokeCounter.incrementAndGet()
+      invokeCounter += 1
       val result = invokeMethod(requestContext, invokeArgs).also { logger.info { "Tool call result: $it" } }
       successAction(result)
       if (isTool && obj is ToolCallService)

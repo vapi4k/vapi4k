@@ -16,12 +16,12 @@
 
 package com.vapi4k.utils
 
-import com.vapi4k.api.json.containsKey
-import com.vapi4k.api.json.get
-import com.vapi4k.api.json.jsonElementList
-import com.vapi4k.api.json.stringValueOrNull
-import com.vapi4k.api.json.toJsonElement
-import com.vapi4k.api.json.toJsonElementList
+import com.github.pambrose.common.json.containsKey
+import com.github.pambrose.common.json.get
+import com.github.pambrose.common.json.jsonElementList
+import com.github.pambrose.common.json.stringValueOrNull
+import com.github.pambrose.common.json.toJsonElement
+import com.github.pambrose.common.json.toJsonElementList
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isToolCall
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray

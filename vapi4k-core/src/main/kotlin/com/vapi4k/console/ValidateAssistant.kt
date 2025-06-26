@@ -16,7 +16,7 @@
 
 package com.vapi4k.console
 
-import com.vapi4k.api.json.toJsonString
+import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.common.CssNames.ACTIVE
 import com.vapi4k.common.CssNames.ERROR_MSG
 import com.vapi4k.common.CssNames.FUNCTIONS

@@ -18,10 +18,9 @@ package com.vapi4k
 
 import com.vapi4k.dsl.call.VapiApiImpl
 import com.vapi4k.dsl.call.VapiApiImpl.Companion.vapiApi
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class ApiCalls {
   @Test
@@ -33,7 +32,7 @@ class ApiCalls {
         }
       }
     }.also {
-      assertTrue(it.message.orEmpty().contains("VAPI_PRIVATE_KEY"))
+      it.message.orEmpty().contains("VAPI_PRIVATE_KEY") shouldBeEqualTo true
     }
   }
 
@@ -46,7 +45,7 @@ class ApiCalls {
         }
       }
     }.also {
-      assertEquals("serverPath must be assigned in outboundCall{}", it.message)
+      it.message shouldBeEqualTo "serverPath must be assigned in outboundCall{}"
     }
   }
 
@@ -60,7 +59,7 @@ class ApiCalls {
         }
       }
     }.also {
-      assertEquals("phoneNumber must be assigned in outboundCall{}", it.message)
+      it.message shouldBeEqualTo "phoneNumber must be assigned in outboundCall{}"
     }
   }
 
@@ -75,7 +74,7 @@ class ApiCalls {
         }
       }
     }.also {
-      assertTrue(it.message.orEmpty().contains("Missing phoneNumberId value"))
+      it.message.orEmpty().contains("Missing phoneNumberId value") shouldBeEqualTo true
     }
   }
 
@@ -96,7 +95,7 @@ class ApiCalls {
         }
       }
     }.also {
-      assertEquals("outboundCall{} was already called", it.message)
+      it.message shouldBeEqualTo "outboundCall{} was already called"
     }
   }
 }

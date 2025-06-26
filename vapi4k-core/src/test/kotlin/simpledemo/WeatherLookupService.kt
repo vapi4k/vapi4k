@@ -16,9 +16,9 @@
 
 package simpledemo
 
-import com.vapi4k.api.json.stringValue
-import com.vapi4k.api.json.toJsonElement
-import com.vapi4k.api.json.toJsonElementList
+import com.github.pambrose.common.json.stringValue
+import com.github.pambrose.common.json.toJsonElement
+import com.github.pambrose.common.json.toJsonElementList
 import com.vapi4k.api.tools.ToolCall
 import com.vapi4k.utils.HttpUtils.jsonHttpClient
 import io.ktor.client.request.get

@@ -16,19 +16,19 @@
 
 package com.vapi4k
 
+import com.github.pambrose.common.json.booleanValue
+import com.github.pambrose.common.json.get
+import com.github.pambrose.common.json.keys
+import com.github.pambrose.common.json.stringValue
+import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.AssistantTest.Companion.newRequestContext
-import com.vapi4k.api.json.booleanValue
-import com.vapi4k.api.json.get
-import com.vapi4k.api.json.keys
-import com.vapi4k.api.json.stringValue
-import com.vapi4k.api.json.toJsonElement
 import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.tools
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeFalse
 import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 class ModelTests {
   @Test
@@ -55,10 +55,10 @@ class ModelTests {
 
     val je = response.toJsonElement()
     val server = je.tools().first()["server"]
-    assertEquals("zzz", server.stringValue("url"))
-    assertEquals("123", server.stringValue("secret"))
-    assertEquals("10", server.stringValue("timeoutSeconds"))
-    assertFalse(je.tools().first().booleanValue("async"))
+    server.stringValue("url") shouldBeEqualTo "zzz"
+    server.stringValue("secret") shouldBeEqualTo "123"
+    server.stringValue("timeoutSeconds") shouldBeEqualTo "10"
+    je.tools().first().booleanValue("async").shouldBeFalse()
   }
 
   @Test
@@ -82,10 +82,7 @@ class ModelTests {
         }
       }
     }.also {
-      assertEquals(
-        "externalTool{} parameter name is required",
-        it.message,
-      )
+      it.message shouldBeEqualTo "externalTool{} parameter name is required"
     }
   }
 
@@ -112,10 +109,7 @@ class ModelTests {
         }
       }
     }.also {
-      assertEquals(
-        "externalTool{} parameter name is required",
-        it.message,
-      )
+      it.message shouldBeEqualTo "externalTool{} parameter name is required"
     }
   }
 
@@ -147,9 +141,9 @@ class ModelTests {
       }
     val je = response.toJsonElement()
     val tool = je.tools().first()
-    assertEquals("wed", tool["function"].stringValue("name"))
-    assertEquals("a description", tool["function"].stringValue("description"))
-    assertEquals("true", tool.stringValue("async"))
+    tool["function"].stringValue("name") shouldBeEqualTo "wed"
+    tool["function"].stringValue("description") shouldBeEqualTo "a description"
+    tool.stringValue("async") shouldBeEqualTo "true"
   }
 
   @Test
@@ -183,10 +177,7 @@ class ModelTests {
         }
       }
     }.also {
-      assertEquals(
-        "Parameter name must be assigned in externalTool{}",
-        it.message,
-      )
+      it.message shouldBeEqualTo "Parameter name must be assigned in externalTool{}"
     }
   }
 
@@ -309,7 +300,7 @@ class ModelTests {
       }
     val je = response.toJsonElement()
     val tool = je.tools().first()
-    assertEquals(3, tool["function.parameters.properties"].keys.size)
+    tool["function.parameters.properties"].keys.size shouldBeEqualTo 3
   }
 
   @Test
@@ -340,10 +331,7 @@ class ModelTests {
         }
       }
     }.also {
-      assertEquals(
-        "externalTool{} contains multiple calls to server{}",
-        it.message,
-      )
+      it.message shouldBeEqualTo "externalTool{} contains multiple calls to server{}"
     }
   }
 
@@ -364,10 +352,7 @@ class ModelTests {
         }
       }
     }.also {
-      assertEquals(
-        "externalTool{} must contain a call to server{}",
-        it.message,
-      )
+      it.message shouldBeEqualTo "externalTool{} must contain a call to server{}"
     }
   }
 }

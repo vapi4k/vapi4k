@@ -16,7 +16,7 @@
 
 package com.vapi4k.api
 
-import com.vapi4k.api.json.toJsonString
+import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.api.vapi4k.ServerRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.dbms.MessagesTable
