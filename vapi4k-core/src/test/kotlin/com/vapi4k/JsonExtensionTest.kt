@@ -22,6 +22,7 @@ import com.github.pambrose.common.json.stringValue
 import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.utils.JsonUtils.toObjectList
 import kotlinx.serialization.Serializable
+import org.amshove.kluent.shouldBeEqualTo
 import kotlin.test.Test
 
 class JsonExtensionTest {
@@ -306,27 +307,27 @@ class JsonExtensionTest {
   @Test
   fun testStringValue() {
     val obj = json.toJsonElement()
-    assert(obj["message"]["type"].stringValue == "tool-calls")
-    assert(obj.stringValue("message.type") == "tool-calls")
+    obj["message"]["type"].stringValue shouldBeEqualTo "tool-calls"
+    obj.stringValue("message.type") shouldBeEqualTo "tool-calls"
   }
 
   @Test
   fun testPathVarargs() {
     val obj = json.toJsonElement()
-    assert(obj["message", "type"].stringValue == "tool-calls")
-    assert(obj.stringValue("message.type") == "tool-calls")
+    obj["message", "type"].stringValue shouldBeEqualTo "tool-calls"
+    obj.stringValue("message.type") shouldBeEqualTo "tool-calls"
   }
 
   @Test
   fun testPathString() {
     val obj = json.toJsonElement()
-    assert(obj.stringValue("message.type") == "tool-calls")
+    obj.stringValue("message.type") shouldBeEqualTo "tool-calls"
   }
 
   @Test
   fun testArrayValues() {
     val obj = json.toJsonElement()
-    assert(obj.jsonElementList("message.toolWithToolCallList").size == 1)
+    obj.jsonElementList("message.toolWithToolCallList").size shouldBeEqualTo 1
   }
 
   @Test

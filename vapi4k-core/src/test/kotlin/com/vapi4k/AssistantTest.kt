@@ -42,9 +42,9 @@ import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.firstMessageOfType
 import com.vapi4k.utils.withTestApplication
 import kotlinx.serialization.json.JsonElement
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class AssistantTest {
   init {
@@ -100,10 +100,8 @@ class AssistantTest {
         }
       }
 
-    assertEquals(
-      "This is the test request start message",
-      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START).stringValue("content"),
-    )
+    jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START)
+      .stringValue("content") shouldBeEqualTo "This is the test request start message"
   }
 
   @Test
@@ -124,7 +122,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals("assistant{} was already called", it.message)
+      it.message shouldBeEqualTo "assistant{} was already called"
     }
   }
 
@@ -143,7 +141,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals("assistant{} was already called", it.message)
+      it.message shouldBeEqualTo "assistant{} was already called"
     }
   }
 
@@ -153,10 +151,8 @@ class AssistantTest {
       assistantResponse(newRequestContext()) {
       }
     }.also {
-      assertEquals(
-        "assistantResponse{} is missing a call to assistant{}, assistantId{}, squad{}, or squadId{}",
-        it.message,
-      )
+      val msg = "assistantResponse{} is missing a call to assistant{}, assistantId{}, squad{}, or squadId{}"
+      it.message shouldBeEqualTo msg
     }
   }
 
@@ -191,8 +187,8 @@ class AssistantTest {
         }
       }
     with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
-      assertEquals(delayedMessage, stringValue("content"))
-      assertEquals(2000, intValue("timingMilliseconds"))
+      stringValue("content") shouldBeEqualTo delayedMessage
+      intValue("timingMilliseconds") shouldBeEqualTo 2000
     }
   }
 
@@ -225,12 +221,9 @@ class AssistantTest {
           }
         }
       }
-    assertEquals(
-      99,
-      jsonElement
-        .firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
-        .intValue("timingMilliseconds"),
-    )
+    jsonElement
+      .firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
+      .intValue("timingMilliseconds") shouldBeEqualTo 99
   }
 
   @Test
@@ -265,8 +258,8 @@ class AssistantTest {
       }
 
     with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
-      assertEquals(secondDelayedMessage, stringValue("content"))
-      assertEquals(2000, intValue("timingMilliseconds"))
+      stringValue("content") shouldBeEqualTo secondDelayedMessage
+      intValue("timingMilliseconds") shouldBeEqualTo 2000
     }
   }
 
@@ -304,10 +297,8 @@ class AssistantTest {
 
     // println(jsonElement.toJsonString())
 
-    assertEquals(
-      1000,
-      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED).intValue("timingMilliseconds"),
-    )
+    jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
+      .intValue("timingMilliseconds") shouldBeEqualTo 1000
   }
 
   @Test
@@ -342,8 +333,8 @@ class AssistantTest {
         }
       }
     with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
-      assertEquals(secondDelayedMessage, stringValue("content"))
-      assertEquals(1000, intValue("timingMilliseconds"))
+      stringValue("content") shouldBeEqualTo secondDelayedMessage
+      intValue("timingMilliseconds") shouldBeEqualTo 1000
     }
   }
 
@@ -412,16 +403,16 @@ class AssistantTest {
     val defaultFailedMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_FAILED)
     val defaultDelayedMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
 
-    assertEquals(chicagoIllinoisStartMessage, chicagoStartMessage.stringValue("content"))
-    assertEquals(chicagoIllinoisCompleteMessage, chicagoCompleteMessage.stringValue("content"))
-    assertEquals(chicagoIllinoisFailedMessage, chicagoFailedMessage.stringValue("content"))
-    assertEquals(chicagoIllinoisDelayedMessage, chicagoDelayedMessage.stringValue("content"))
-    assertEquals(2000, chicagoDelayedMessage.intValue("timingMilliseconds"))
-    assertEquals(startMessage, defaultStartMessage.stringValue("content"))
-    assertEquals(completeMessage, defaultCompleteMessage.stringValue("content"))
-    assertEquals(failedMessage, defaultFailedMessage.stringValue("content"))
-    assertEquals(delayedMessage, defaultDelayedMessage.stringValue("content"))
-    assertEquals(1000, defaultDelayedMessage.intValue("timingMilliseconds"))
+    chicagoStartMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisStartMessage
+    chicagoCompleteMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisCompleteMessage
+    chicagoFailedMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisFailedMessage
+    chicagoDelayedMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisDelayedMessage
+    chicagoDelayedMessage.intValue("timingMilliseconds") shouldBeEqualTo 2000
+    defaultStartMessage.stringValue("content") shouldBeEqualTo startMessage
+    defaultCompleteMessage.stringValue("content") shouldBeEqualTo completeMessage
+    defaultFailedMessage.stringValue("content") shouldBeEqualTo failedMessage
+    defaultDelayedMessage.stringValue("content") shouldBeEqualTo delayedMessage
+    defaultDelayedMessage.intValue("timingMilliseconds") shouldBeEqualTo 1000
   }
 
   @Test
@@ -524,11 +515,8 @@ class AssistantTest {
         }
       }
 
-    val element = assistant.toJsonElement()
-    assertEquals(
-      ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL.desc,
-      element.stringValue("messageResponse.assistant.firstMessageMode"),
-    )
+    val msg = assistant.toJsonElement().stringValue("messageResponse.assistant.firstMessageMode")
+    msg shouldBeEqualTo ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL.desc
   }
 
   @Test
@@ -544,7 +532,7 @@ class AssistantTest {
       }
 
     val element = assistant.toJsonElement()
-    assertEquals(9, element.assistantClientMessages.size)
+    element.assistantClientMessages.size shouldBeEqualTo 9
   }
 
   @Test
@@ -560,7 +548,7 @@ class AssistantTest {
       }
 
     val element = assistant.toJsonElement()
-    assertEquals(8, element.assistantClientMessages.size)
+    element.assistantClientMessages.size shouldBeEqualTo 8
   }
 
   @Test
@@ -577,7 +565,7 @@ class AssistantTest {
       }
 
     val element = assistant.toJsonElement()
-    assertEquals(8, element.assistantServerMessages.size)
+    element.assistantServerMessages.size shouldBeEqualTo 8
   }
 
   @Test
@@ -593,7 +581,7 @@ class AssistantTest {
       }
 
     val element = assistant.toJsonElement()
-    assertEquals(7, element.assistantServerMessages.size)
+    element.assistantServerMessages.size shouldBeEqualTo 7
   }
 
   @Test
@@ -611,7 +599,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals("deepgramTranscriber{} requires a transcriberLanguage or customLanguagevalue", it.message)
+      it.message shouldBeEqualTo "deepgramTranscriber{} requires a transcriberLanguage or customLanguagevalue"
     }
   }
 
@@ -630,7 +618,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals("gladiaTranscriber{} requires a transcriberLanguage or customLanguage value", it.message)
+      it.message shouldBeEqualTo "gladiaTranscriber{} requires a transcriberLanguage or customLanguage value"
     }
   }
 
@@ -649,7 +637,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals("talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value", it.message)
+      it.message shouldBeEqualTo "talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value"
     }
   }
 
@@ -668,7 +656,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals("talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value", it.message)
+      it.message shouldBeEqualTo "talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value"
     }
   }
 
@@ -687,10 +675,7 @@ class AssistantTest {
         }
       }
     val je = assistant.toJsonElement()
-    assertEquals(
-      DeepgramLanguageType.GERMAN.desc,
-      je.stringValue("messageResponse.assistant.transcriber.language"),
-    )
+    je.stringValue("messageResponse.assistant.transcriber.language") shouldBeEqualTo DeepgramLanguageType.GERMAN.desc
   }
 
   @Test
@@ -709,10 +694,7 @@ class AssistantTest {
         }
       }
     val jsonElement = assistant.toJsonElement()
-    assertEquals(
-      "zzz",
-      jsonElement.stringValue("messageResponse.assistant.transcriber.language"),
-    )
+    jsonElement.stringValue("messageResponse.assistant.transcriber.language") shouldBeEqualTo "zzz"
   }
 
   @Test
@@ -732,10 +714,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals(
-        "deepgramTranscriber{} cannot have both transcriberLanguage and customLanguage values",
-        it.message,
-      )
+      it.message shouldBeEqualTo "deepgramTranscriber{} cannot have both transcriberLanguage and customLanguage values"
     }
   }
 
@@ -748,7 +727,7 @@ class AssistantTest {
         }
       }
     }.also {
-      assertEquals("An assistant{} requires a model{} decl", it.message)
+      it.message shouldBeEqualTo "An assistant{} requires a model{} decl"
     }
   }
 

@@ -39,8 +39,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.server.application.install
 import io.ktor.server.testing.testApplication
+import org.amshove.kluent.shouldBeEqualTo
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class ServerTest {
   companion object {
@@ -56,8 +56,8 @@ class ServerTest {
         install(Vapi4k)
       }
       val response = client.get("/ping")
-      assertEquals(HttpStatusCode.OK, response.status)
-      assertEquals("pong", response.bodyAsText())
+      response.status shouldBeEqualTo HttpStatusCode.OK
+      response.bodyAsText() shouldBeEqualTo "pong"
     }
   }
 
@@ -72,8 +72,8 @@ class ServerTest {
         }
       }
 
-    assertEquals(HttpStatusCode.OK, response.status)
-    assertEquals(GroqModelType.LLAMA3_70B.desc, jsonElement.stringValue("messageResponse.assistant.model.model"))
+    response.status shouldBeEqualTo HttpStatusCode.OK
+    jsonElement.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo GroqModelType.LLAMA3_70B.desc
   }
 
   // @Test
@@ -96,24 +96,20 @@ class ServerTest {
       }
 
     responses.forEachIndexed { i, (response, jsonElement) ->
-      assertEquals(HttpStatusCode.OK, response.status)
+      response.status shouldBeEqualTo HttpStatusCode.OK
       if (i in listOf(1, 2))
-        assertEquals(
-          "The weather in Danville, California is windy",
-          jsonElement["messageResponse.results"].firstInList().stringValue("result"),
-        )
+        jsonElement["messageResponse.results"].firstInList()
+          .stringValue("result") shouldBeEqualTo "The weather in Danville, California is windy"
 
       if (i in listOf(3, 4))
-        assertEquals(
-          "The weather in Boston, Massachusetts is rainy",
-          jsonElement["messageResponse.results"].firstInList().stringValue("result"),
-        )
+        jsonElement["messageResponse.results"].firstInList()
+          .stringValue("result") shouldBeEqualTo "The weather in Boston, Massachusetts is rainy"
 
       if (i == 6) {
         val path = "${INBOUND_CALL.pathPrefix.ensureStartsWith("/")}/$defaultServerPath"
         println(jsonElement.toJsonString())
-        assertEquals(0, jsonElement.intValue("$path.serviceTools.cacheSize"))
-        assertEquals(0, jsonElement.intValue("$path.functions.cacheSize"))
+        jsonElement.intValue("$path.serviceTools.cacheSize") shouldBeEqualTo 0
+        jsonElement.intValue("$path.functions.cacheSize") shouldBeEqualTo 0
       }
     }
   }
@@ -133,12 +129,12 @@ class ServerTest {
         doubleToolAssistant()
       }
     responses.forEachIndexed { i, (response, jsonElement) ->
-      assertEquals(HttpStatusCode.OK, response.status)
+      response.status shouldBeEqualTo HttpStatusCode.OK
       if (i == 2) {
         println(jsonElement.toJsonString())
         val path = "${INBOUND_CALL.pathPrefix.ensureStartsWith("/")}/$defaultServerPath"
-        assertEquals(0, jsonElement["$path.functions.cache"].keys.size)
-        assertEquals(2, jsonElement["$path.serviceTools.cache"].keys.size)
+        jsonElement["$path.functions.cache"].keys.size shouldBeEqualTo 0
+        jsonElement["$path.serviceTools.cache"].keys.size shouldBeEqualTo 2
       }
     }
   }

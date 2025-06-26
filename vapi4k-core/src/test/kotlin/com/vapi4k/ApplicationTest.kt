@@ -18,10 +18,9 @@ package com.vapi4k
 
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class ApplicationTest {
   @Test
@@ -34,8 +33,8 @@ class ApplicationTest {
           serverSecret = "12345"
         }
       }
-    assertEquals(str, app.serverPath)
-    assertEquals("12345", app.serverSecret)
+    app.serverPath shouldBeEqualTo str
+    app.serverSecret shouldBeEqualTo "12345"
   }
 
   @Test
@@ -45,8 +44,8 @@ class ApplicationTest {
         inboundCallApplication {
         }
       }
-    assertEquals(defaultServerPath.removePrefix("/"), app.serverPath)
-    assertEquals("", app.serverSecret)
+    app.serverPath shouldBeEqualTo defaultServerPath.removePrefix("/")
+    app.serverSecret shouldBeEqualTo ""
   }
 
   @Test
@@ -60,7 +59,7 @@ class ApplicationTest {
         }
       }
     }.also {
-      assertTrue(it.message.orEmpty().contains("already exists"))
+      it.message.orEmpty().contains("already exists") shouldBeEqualTo true
     }
   }
 
@@ -77,7 +76,7 @@ class ApplicationTest {
         }
       }
     }.also {
-      assertTrue(it.message.orEmpty().contains("already exists"))
+      it.message.orEmpty().contains("already exists") shouldBeEqualTo true
     }
   }
 }

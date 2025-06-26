@@ -28,9 +28,9 @@ import com.vapi4k.api.voice.PlayHTVoiceEmotionType
 import com.vapi4k.api.voice.PlayHTVoiceIdType
 import com.vapi4k.utils.assistantResponse
 import kotlinx.serialization.json.jsonArray
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class VoiceTest {
   @Test
@@ -59,13 +59,13 @@ class VoiceTest {
       }
     val jsonElement = squad.toJsonElement()
     val members = jsonElement["messageResponse.squad.members"].jsonArray.toList()
-    assertEquals(1, members.size)
-    assertEquals("Receptionist", members.first().stringValue("assistant.name"))
-    assertEquals("Hi there!", members.first().stringValue("assistant.firstMessage"))
-    assertEquals("mixtral-8x7b-32768", members.first().stringValue("assistant.model.model"))
-    assertEquals("groq", members.first().stringValue("assistant.model.provider"))
-    assertEquals("matt", members.first().stringValue("assistant.voice.voiceId"))
-    assertEquals("male_sad", members.first().stringValue("assistant.voice.emotion"))
+    members.size shouldBeEqualTo 1
+    members.first().stringValue("assistant.name") shouldBeEqualTo "Receptionist"
+    members.first().stringValue("assistant.firstMessage") shouldBeEqualTo "Hi there!"
+    members.first().stringValue("assistant.model.model") shouldBeEqualTo "mixtral-8x7b-32768"
+    members.first().stringValue("assistant.model.provider") shouldBeEqualTo "groq"
+    members.first().stringValue("assistant.voice.voiceId") shouldBeEqualTo "matt"
+    members.first().stringValue("assistant.voice.emotion") shouldBeEqualTo "male_sad"
   }
 
   @Test
@@ -94,7 +94,7 @@ class VoiceTest {
         }
       }
     }.also {
-      assertEquals("playHTVoice{} cannot have both voiceIdType and customVoiceId values", it.message)
+      it.message shouldBeEqualTo "playHTVoice{} cannot have both voiceIdType and customVoiceId values"
     }
 
     assertThrows(IllegalStateException::class.java) {
@@ -119,7 +119,7 @@ class VoiceTest {
         }
       }
     }.also {
-      assertEquals("playHTVoice{} requires a voiceIdType or customVoiceId value", it.message)
+      it.message shouldBeEqualTo "playHTVoice{} requires a voiceIdType or customVoiceId value"
     }
   }
 
@@ -149,7 +149,7 @@ class VoiceTest {
         }
       }
     }.also {
-      assertEquals("cartesiaVoice{} cannot have both modelType and customModel values", it.message)
+      it.message shouldBeEqualTo "cartesiaVoice{} cannot have both modelType and customModel values"
     }
 
 //    assertThrows(IllegalStateException::class.java) {
@@ -205,7 +205,7 @@ class VoiceTest {
         }
       }
     }.also {
-      assertEquals("cartesiaVoice{} cannot have both languageType and customLanguage values", it.message)
+      it.message shouldBeEqualTo "cartesiaVoice{} cannot have both languageType and customLanguage values"
     }
   }
 
@@ -239,7 +239,7 @@ class VoiceTest {
         }
       }
     }.also {
-      assertEquals("groqModel{} already called", it.message)
+      it.message shouldBeEqualTo "groqModel{} already called"
     }
   }
 
@@ -273,7 +273,7 @@ class VoiceTest {
         }
       }
     }.also {
-      assertEquals("cartesiaVoice{} already called", it.message)
+      it.message shouldBeEqualTo "cartesiaVoice{} already called"
     }
   }
 
@@ -310,10 +310,12 @@ class VoiceTest {
       }
     val jsonElement = squad.toJsonElement()
     val members = jsonElement.jsonElementList("messageResponse.squad.members")
-    assertEquals("Hello!", members.first().stringValue("assistant.firstMessage"))
-    assertEquals("llama3-8b-8192", members.first().stringValue("assistant.model.model"))
-    assertEquals("jack", members.first().stringValue("assistant.voice.voiceId"))
-    assertEquals("male_angry", members.first().stringValue("assistant.voice.emotion"))
-    assertEquals("10.0", members.first().stringValue("assistant.voice.temperature"))
+    with(members.first()) {
+      stringValue("assistant.firstMessage") shouldBeEqualTo "Hello!"
+      stringValue("assistant.model.model") shouldBeEqualTo "llama3-8b-8192"
+      stringValue("assistant.voice.voiceId") shouldBeEqualTo "jack"
+      stringValue("assistant.voice.emotion") shouldBeEqualTo "male_angry"
+      stringValue("assistant.voice.temperature") shouldBeEqualTo "10.0"
+    }
   }
 }
