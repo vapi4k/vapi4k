@@ -76,7 +76,7 @@ fun Project.configureKotlin() {
     }
 
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
 
         sourceSets.all {
             languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")
