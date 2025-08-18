@@ -24,7 +24,7 @@ val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
 val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 allprojects {
-    extra["versionStr"] = "1.3.1"
+    extra["versionStr"] = "1.3.2"
     extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k"
     version = versionStr

@@ -1,4 +1,4 @@
-import com.github.pambrose.common.json.JsonContentUtils.defaultJson
+import com.github.pambrose.common.json.JsonContentUtils.prettyFormat
 import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.common.CoreEnvVars.deepGramVoiceIdType
 import com.vapi4k.plugin.Vapi4kServer.logger
@@ -175,7 +175,7 @@ object SpeachListener {
   private suspend fun connectToDeepgramWS(dataChannel: Channel<Pair<Boolean, ByteArray>>) {
     println("Deepgram connection taking place")
     wsHttpClient {
-      install(ContentNegotiation) { json(defaultJson()) }
+      install(ContentNegotiation) { json(prettyFormat) }
     }.use { client ->
       // "wss://api.deepgram.com/v1/listen"
       // utterance_end_ms=1000&vad_events=true&interim_results=true
