@@ -16,7 +16,7 @@
 
 package com.vapi4k.utils
 
-import com.github.pambrose.common.json.containsKey
+import com.github.pambrose.common.json.containsKeys
 import com.github.pambrose.common.json.get
 import com.github.pambrose.common.json.jsonElementList
 import com.github.pambrose.common.json.stringValue
@@ -67,11 +67,11 @@ fun JsonElement.firstMessageOfType(
   vararg conditions: ToolMessageCondition,
 ) = if (conditions.isEmpty())
   firstToolMessages()
-    .filter { !it.containsKey("conditions") }
+    .filter { !it.containsKeys("conditions") }
     .first { it.stringValue("type") == type.desc }
 else
   firstToolMessages()
-    .filter { it.containsKey("conditions") }
+    .filter { it.containsKeys("conditions") }
     .filter {
       conditions.all { c -> it.jsonElementList("conditions").contains(c.toJsonElement()) }
     }
@@ -148,7 +148,7 @@ fun withTestApplication(
           val body = response.bodyAsText().toJsonElement()
           println("response: ${body.toJsonString()}")
           val members = "messageResponse.squad.members"
-          if (body.containsKey(members)) {
+          if (body.containsKeys(members)) {
             val qp = body[members].toJsonElementList().first().stringValue("assistant.serverUrl").queryParams()
             url = "$baseUrl?$qp"
             println("response: ${body.toJsonString()}")
