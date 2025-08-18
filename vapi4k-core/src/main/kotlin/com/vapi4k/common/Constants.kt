@@ -99,5 +99,5 @@ object CssNames {
 }
 
 object ErrorMessages {
-  const val INVALID_BASE_URL = "Invalid VAPI4K_BASE_URL env value"
+  const val INVALID_BASE_URL = "Invalid VAPI4K_BASE_URL env var value"
 }

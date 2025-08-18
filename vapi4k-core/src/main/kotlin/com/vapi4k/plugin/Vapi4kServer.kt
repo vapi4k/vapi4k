@@ -16,7 +16,7 @@
 
 package com.vapi4k.plugin
 
-import com.github.pambrose.common.json.JsonContentUtils.defaultJsonConfig
+import com.github.pambrose.common.json.defaultJsonConfig
 import com.github.pambrose.common.json.toJsonElement
 import com.github.vapi4k.BuildConfig
 import com.vapi4k.api.vapi4k.Vapi4kConfig

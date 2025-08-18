@@ -26,7 +26,7 @@ async function fetchJson(fetchMethod, url, userHeaders, jsonBody) {
         console.error(
           'Error:',
           Error(
-            `Invalid VAPI4K_BASE_URL env value or invalid serverPath "/${path}" used in assistant definition: ${stripQueryParams(
+            `Invalid VAPI4K_BASE_URL env var value or invalid serverPath "/${path}" used in assistant definition: ${stripQueryParams(
               url)}`)
         );
       } else {

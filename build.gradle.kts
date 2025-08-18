@@ -24,7 +24,7 @@ val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
 val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 allprojects {
-    extra["versionStr"] = "1.3.0"
+    extra["versionStr"] = "1.3.1"
     extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k"
     version = versionStr
@@ -76,7 +76,7 @@ fun Project.configureKotlin() {
     }
 
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
 
         sourceSets.all {
             languageSettings.optIn("kotlinx.serialization.ExperimentalSerializationApi")

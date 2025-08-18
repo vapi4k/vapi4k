@@ -16,7 +16,7 @@
 
 package com.vapi4k.console
 
-import com.github.pambrose.common.json.containsKey
+import com.github.pambrose.common.json.containsKeys
 import com.github.pambrose.common.json.get
 import com.github.pambrose.common.json.jsonElementList
 import com.github.pambrose.common.json.keys
@@ -85,14 +85,14 @@ object ValidateTools {
   ) {
     val topLevel = responseBody.toJsonElement()
     // Strip messageResponse if it exists
-    val child = if (topLevel.containsKey("messageResponse")) topLevel["messageResponse"] else topLevel
+    val child = if (topLevel.containsKeys("messageResponse")) topLevel["messageResponse"] else topLevel
     when {
-      child.containsKey("assistant") -> {
+      child.containsKeys("assistant") -> {
         assistantRequestToolsBody(requestContext, child["assistant"], "model")
       }
 
-      child.containsKey("squad") -> {
-        if (child.containsKey("squad.members")) {
+      child.containsKeys("squad") -> {
+        if (child.containsKeys("squad.members")) {
           child.jsonElementList("squad.members")
             .forEachIndexed { i, member ->
               val header = """Assistant "${getAssistantName(member, i + 1)}""""
@@ -100,19 +100,19 @@ object ValidateTools {
             }
         }
 
-        if (child.containsKey("squad.membersOverrides")) {
+        if (child.containsKeys("squad.membersOverrides")) {
           val header = "Member Overrides"
           assistantRequestToolsBody(requestContext, child["squad.membersOverrides"], "model", header)
         }
       }
 
-      child.containsKey("assistantId") -> {
-        if (child.containsKey("assistantOverrides")) {
+      child.containsKeys("assistantId") -> {
+        if (child.containsKeys("assistantOverrides")) {
           assistantRequestToolsBody(requestContext, child["assistantOverrides"], "model")
         }
       }
 
-      child.containsKey("squadId") -> {
+      child.containsKeys("squadId") -> {
         // Nothing to do here
       }
 

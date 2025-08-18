@@ -16,7 +16,7 @@
 
 package com.vapi4k.api.vapi4k
 
-import com.github.pambrose.common.json.containsKey
+import com.github.pambrose.common.json.containsKeys
 import com.github.pambrose.common.json.get
 import com.github.pambrose.common.json.stringValue
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isFunctionCall
@@ -31,22 +31,22 @@ object AssistantRequestUtils {
   /**
   Check if the JsonElement is an assistant response.
    */
-  fun JsonElement.isAssistantResponse() = containsKey("messageResponse.assistant")
+  fun JsonElement.isAssistantResponse() = containsKeys("messageResponse.assistant")
 
   /**
   Check if the JsonElement is an assistant id response.
    */
-  fun JsonElement.isAssistantIdResponse() = containsKey("messageResponse.assistantId")
+  fun JsonElement.isAssistantIdResponse() = containsKeys("messageResponse.assistantId")
 
   /**
   Check if the JsonElement is a squad response.
    */
-  fun JsonElement.isSquadResponse() = containsKey("messageResponse.squad")
+  fun JsonElement.isSquadResponse() = containsKeys("messageResponse.squad")
 
   /**
   Check if the JsonElement is a squad id response.
    */
-  fun JsonElement.isSquadIdResponse() = containsKey("messageResponse.squadId")
+  fun JsonElement.isSquadIdResponse() = containsKeys("messageResponse.squadId")
 
   /**
   Extract the id from a JsonElement.
