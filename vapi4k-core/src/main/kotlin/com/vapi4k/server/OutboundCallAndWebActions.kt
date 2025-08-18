@@ -16,7 +16,7 @@
 
 package com.vapi4k.server
 
-import com.github.pambrose.common.json.containsKey
+import com.github.pambrose.common.json.containsKeys
 import com.github.pambrose.common.json.getOrNull
 import com.github.pambrose.common.json.isNotEmpty
 import com.github.pambrose.common.json.keys
@@ -160,7 +160,7 @@ internal object OutboundCallAndWebActions {
   }
 
   internal fun RoutingContext.buildRequestArg(json: JsonElement) =
-    if (json.isNotEmpty() && json.containsKey("message.type")) {
+    if (json.isNotEmpty() && json.containsKeys("message.type")) {
       json
     } else {
       buildJsonObject {

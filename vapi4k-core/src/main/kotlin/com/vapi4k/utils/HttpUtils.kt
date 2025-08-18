@@ -16,7 +16,7 @@
 
 package com.vapi4k.utils
 
-import com.github.pambrose.common.json.JsonContentUtils.defaultJson
+import com.github.pambrose.common.json.JsonContentUtils.prettyFormat
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.cio.CIO
@@ -31,7 +31,7 @@ object HttpUtils {
   val httpClient by lazy {
     HttpClient(CIO) {
       install(ContentNegotiation) {
-        json(defaultJson())
+        json(prettyFormat)
       }
 
       // TODO: Look into this
@@ -45,7 +45,7 @@ object HttpUtils {
   fun jsonHttpClient(block: HttpClientConfig<CIOEngineConfig>.() -> Unit = {}) =
     HttpClient(CIO) {
       install(ContentNegotiation) {
-        json(defaultJson())
+        json(prettyFormat)
       }
 
       block()

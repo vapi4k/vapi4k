@@ -5,9 +5,8 @@ config = "5.6.7"
 dokka = "2.0.0"
 exposed = "0.61.0"
 hikari = "6.3.0"
-hoplite = "2.7.5"
 kluent = "1.73"
-kotlin = "2.2.0"
+kotlin = "2.2.10"
 kotliner = "5.2.0"
 ktor = "3.2.0"
 logback = "1.5.18"
@@ -16,7 +15,7 @@ micrometer = "1.15.1"
 pgjdbc = "0.8.9"
 postgres = "42.7.7"
 serialization = "1.9.0"
-utils = "2.3.11"
+utils = "2.4.2"
 versions = "0.52.0"
 
 [libraries]
@@ -52,7 +51,6 @@ exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "e
 exposed-json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "exposed" }
 exposed-kotlin-datetime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposed" }
 
-#hoplite-core = { module = "com.sksamuel.hoplite:hoplite-core", version.ref = "hoplite" }
 kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "logging" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 

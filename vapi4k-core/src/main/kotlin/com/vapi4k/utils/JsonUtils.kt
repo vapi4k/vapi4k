@@ -16,7 +16,7 @@
 
 package com.vapi4k.utils
 
-import com.github.pambrose.common.json.containsKey
+import com.github.pambrose.common.json.containsKeys
 import com.github.pambrose.common.json.get
 import com.github.pambrose.common.json.jsonElementList
 import com.github.pambrose.common.json.stringValueOrNull
@@ -64,13 +64,13 @@ object JsonUtils {
   val EMPTY_JSON_ELEMENT = "{}".toJsonElement()
 
   internal fun JsonElement.getToolNames(key: String) =
-    if (containsKey("$key.tools"))
+    if (containsKeys("$key.tools"))
       jsonElementList(key, "tools").mapNotNull { it.stringValueOrNull("function.name") }
     else
       emptyList()
 
   internal fun JsonElement.getFunctionNames(key: String) =
-    if (containsKey("$key.functions"))
+    if (containsKeys("$key.functions"))
       jsonElementList(key, "functions").mapNotNull { it.stringValueOrNull("name") }
     else
       emptyList()
