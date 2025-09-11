@@ -1,12 +1,12 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-config = "5.6.7"
+config = "5.6.8"
 dokka = "2.0.0"
 exposed = "0.61.0"
 hikari = "6.3.0"
 kluent = "1.73"
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 kotliner = "5.2.0"
 ktor = "3.2.0"
 logback = "1.5.18"
@@ -15,7 +15,7 @@ micrometer = "1.15.1"
 pgjdbc = "0.8.9"
 postgres = "42.7.7"
 serialization = "1.9.0"
-utils = "2.4.2"
+utils = "2.4.3"
 versions = "0.52.0"
 
 [libraries]
