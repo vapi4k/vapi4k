@@ -34,7 +34,7 @@ enum class ButtonType(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object ButtonTypeSerializer : KSerializer<ButtonType> {
+object ButtonTypeSerializer : KSerializer<ButtonType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ButtonType", STRING)
 
   override fun serialize(

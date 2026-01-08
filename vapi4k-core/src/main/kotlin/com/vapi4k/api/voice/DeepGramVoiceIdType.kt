@@ -56,7 +56,7 @@ enum class DeepGramVoiceIdType {
   }
 }
 
-private object DeepGramVoiceIdTypeSerializer : KSerializer<DeepGramVoiceIdType> {
+object DeepGramVoiceIdTypeSerializer : KSerializer<DeepGramVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("DeepGramVoiceIdType", STRING)
 
   override fun serialize(

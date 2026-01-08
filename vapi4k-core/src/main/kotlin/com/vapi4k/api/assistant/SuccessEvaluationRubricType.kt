@@ -40,7 +40,7 @@ enum class SuccessEvaluationRubricType(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object SuccessEvaluationRubricTypeSerializer : KSerializer<SuccessEvaluationRubricType> {
+object SuccessEvaluationRubricTypeSerializer : KSerializer<SuccessEvaluationRubricType> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("SuccessEvaluationRubricType", PrimitiveKind.STRING)
 

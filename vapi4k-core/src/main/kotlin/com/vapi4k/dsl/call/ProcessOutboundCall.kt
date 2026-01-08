@@ -86,7 +86,9 @@ object ProcessOutboundCall {
             error("""$INVALID_BASE_URL or invalid serverPath "$path" used in assistant definition: $stripped""")
           }
 
-          HttpStatusCode.Unauthorized -> error("Unauthorized to fetch assistant: $stripped")
+          HttpStatusCode.Unauthorized -> {
+            error("Unauthorized to fetch assistant: $stripped")
+          }
 
           else -> {
             val body = assistantResponse.bodyAsText().let { if (it.isBlank()) "" else "- $it" }

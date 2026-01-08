@@ -26,7 +26,7 @@ import kotlinx.serialization.encoding.Encoder
 @Serializable(with = DestinationSerializer::class)
 interface CommonDestinationDto
 
-private object DestinationSerializer : KSerializer<CommonDestinationDto> {
+object DestinationSerializer : KSerializer<CommonDestinationDto> {
   override val descriptor: SerialDescriptor = buildClassSerialDescriptor("CommonDestinationDto")
 
   override fun serialize(

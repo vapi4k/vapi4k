@@ -125,7 +125,7 @@ enum class RimeAIVoiceIdType {
   }
 }
 
-private object RimeAIVoiceIdTypeSerializer : KSerializer<RimeAIVoiceIdType> {
+object RimeAIVoiceIdTypeSerializer : KSerializer<RimeAIVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("RimeAIVoiceIdType", STRING)
 
   override fun serialize(

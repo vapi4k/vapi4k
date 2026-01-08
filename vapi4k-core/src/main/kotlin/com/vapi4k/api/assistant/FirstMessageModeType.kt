@@ -40,7 +40,7 @@ enum class FirstMessageModeType(
   fun isNotSpecified() = this == UNSPECIFIED
 }
 
-private object FirstMessageModeTypeSerializer : KSerializer<FirstMessageModeType> {
+object FirstMessageModeTypeSerializer : KSerializer<FirstMessageModeType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ToolCallMessageType", PrimitiveKind.STRING)
 
   override fun serialize(

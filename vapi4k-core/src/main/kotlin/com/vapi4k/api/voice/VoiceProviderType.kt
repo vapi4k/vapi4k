@@ -46,7 +46,7 @@ enum class VoiceProviderType(
   fun isNotSpecified() = this == UNSPECIFIED
 }
 
-private object VoiceProviderTypeSerializer : KSerializer<VoiceProviderType> {
+object VoiceProviderTypeSerializer : KSerializer<VoiceProviderType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ProviderType", STRING)
 
   override fun serialize(

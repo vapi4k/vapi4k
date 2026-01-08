@@ -35,7 +35,7 @@ sealed interface CommonToolMessageDto {
   val conditions: MutableSet<ToolMessageCondition>
 }
 
-private object ToolMessageSerializer : KSerializer<CommonToolMessageDto> {
+object ToolMessageSerializer : KSerializer<CommonToolMessageDto> {
   override val descriptor: SerialDescriptor = buildClassSerialDescriptor("CommonToolMessage")
 
   override fun serialize(

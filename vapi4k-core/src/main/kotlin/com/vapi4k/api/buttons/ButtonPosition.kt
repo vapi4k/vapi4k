@@ -40,7 +40,7 @@ enum class ButtonPosition(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object ButtonPositionSerializer : KSerializer<ButtonPosition> {
+object ButtonPositionSerializer : KSerializer<ButtonPosition> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ButtonPosition", STRING)
 
   override fun serialize(

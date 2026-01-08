@@ -34,7 +34,7 @@ enum class AssistantTransferMode(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object AssistantTransferModeSerializer : KSerializer<AssistantTransferMode> {
+object AssistantTransferModeSerializer : KSerializer<AssistantTransferMode> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("AssistantTransferMode", STRING)
 
   override fun serialize(

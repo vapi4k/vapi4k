@@ -106,7 +106,9 @@ data class ToolCallResponseDto(
                                 }
                               }
 
-                              else -> error("Tool not found: $funcName")
+                              else -> {
+                                error("Tool not found: $funcName")
+                              }
                             }
                           }.getOrElse { e ->
                             val errorMsg = "Error invoking tool: $funcName ${e.errorMsg}"

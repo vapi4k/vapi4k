@@ -59,7 +59,7 @@ enum class ElevenLabsVoiceIdType {
   }
 }
 
-private object ElevenLabsVoiceIdTypeSerializer : KSerializer<ElevenLabsVoiceIdType> {
+object ElevenLabsVoiceIdTypeSerializer : KSerializer<ElevenLabsVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ElevenLabsVoiceIdType", STRING)
 
   override fun serialize(

@@ -39,7 +39,7 @@ enum class VoicemailDetectionType(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object VoicemailDetectionTypeSerializer : KSerializer<VoicemailDetectionType> {
+object VoicemailDetectionTypeSerializer : KSerializer<VoicemailDetectionType> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("VoicemailDetectionType", PrimitiveKind.STRING)
 

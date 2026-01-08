@@ -36,7 +36,7 @@ enum class ToolMessageType(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object ToolMessageTypeSerializer : KSerializer<ToolMessageType> {
+object ToolMessageTypeSerializer : KSerializer<ToolMessageType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ToolMessageType", STRING)
 
   override fun serialize(

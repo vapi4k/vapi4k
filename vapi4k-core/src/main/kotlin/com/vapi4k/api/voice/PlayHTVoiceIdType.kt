@@ -54,7 +54,7 @@ enum class PlayHTVoiceIdType {
   }
 }
 
-private object PlayHTVoiceIdTypeSerializer : KSerializer<PlayHTVoiceIdType> {
+object PlayHTVoiceIdTypeSerializer : KSerializer<PlayHTVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("PlayHTVoiceIdType", STRING)
 
   override fun serialize(

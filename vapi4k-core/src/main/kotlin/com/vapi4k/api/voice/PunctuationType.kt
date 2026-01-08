@@ -45,7 +45,7 @@ enum class PunctuationType(
   VERTICAL_BAR("|"),
 }
 
-private object PunctuationTypeSerializer : KSerializer<PunctuationType> {
+object PunctuationTypeSerializer : KSerializer<PunctuationType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("PunctuationType", STRING)
 
   override fun serialize(

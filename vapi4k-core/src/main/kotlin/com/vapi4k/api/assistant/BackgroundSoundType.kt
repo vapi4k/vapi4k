@@ -34,7 +34,7 @@ enum class BackgroundSoundType(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object BackgroundSoundTypeSerializer : KSerializer<BackgroundSoundType> {
+object BackgroundSoundTypeSerializer : KSerializer<BackgroundSoundType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BackgroundSoundType", STRING)
 
   override fun serialize(

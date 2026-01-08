@@ -45,7 +45,7 @@ enum class NeetsVoiceIdType {
   }
 }
 
-private object NeetsVoiceIdTypeSerializer : KSerializer<NeetsVoiceIdType> {
+object NeetsVoiceIdTypeSerializer : KSerializer<NeetsVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("NeetsVoiceIdType", STRING)
 
   override fun serialize(

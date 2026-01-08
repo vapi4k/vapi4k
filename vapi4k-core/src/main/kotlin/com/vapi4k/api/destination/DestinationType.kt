@@ -34,7 +34,7 @@ enum class DestinationType(
   STEP("step"),
 }
 
-private object DestinationTypeSerializer : KSerializer<DestinationType> {
+object DestinationTypeSerializer : KSerializer<DestinationType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("DestinationType", STRING)
 
   override fun serialize(

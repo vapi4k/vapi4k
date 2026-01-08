@@ -29,7 +29,7 @@ interface CommonTranscriberDto {
   val provider: TranscriberType
 }
 
-private object TranscriberSerializer : KSerializer<CommonTranscriberDto> {
+object TranscriberSerializer : KSerializer<CommonTranscriberDto> {
   override val descriptor: SerialDescriptor = buildClassSerialDescriptor("CommonTranscriberDto")
 
   override fun serialize(
@@ -52,7 +52,9 @@ private object TranscriberSerializer : KSerializer<CommonTranscriberDto> {
         encoder.encodeSerializableValue(TalkscriberTranscriberDto.serializer(), value)
       }
 
-      else -> error("Invalid transcriber provider: ${value::class.simpleName}")
+      else -> {
+        error("Invalid transcriber provider: ${value::class.simpleName}")
+      }
     }
   }
 

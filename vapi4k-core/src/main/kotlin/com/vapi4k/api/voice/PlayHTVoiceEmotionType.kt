@@ -49,7 +49,7 @@ enum class PlayHTVoiceEmotionType(
   fun isNotSpecified() = this == UNSPECIFIED
 }
 
-private object PlayHTVoiceEmotionTypeSerializer : KSerializer<PlayHTVoiceEmotionType> {
+object PlayHTVoiceEmotionTypeSerializer : KSerializer<PlayHTVoiceEmotionType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("PlayHTVoiceEmotionType", STRING)
 
   override fun serialize(
