@@ -42,39 +42,39 @@ enum class ServerRequestType(
   companion object {
     internal val logger = KotlinLogging.logger {}
 
-    fun JsonElement.isAssistantStarted() = getServerRequestType("isAssistantStarted") == ASSISTANT_STARTED
+    fun JsonElement.isAssistantStarted() = serverRequestType == ASSISTANT_STARTED
 
-    fun JsonElement.isAssistantRequest() = getServerRequestType("isAssistantRequest") == ASSISTANT_REQUEST
+    fun JsonElement.isAssistantRequest() = serverRequestType == ASSISTANT_REQUEST
 
-    fun JsonElement.isConversationUpdate() = getServerRequestType("isConversationUpdate") == CONVERSATION_UPDATE
+    fun JsonElement.isConversationUpdate() = serverRequestType == CONVERSATION_UPDATE
 
-    fun JsonElement.isEndOfCallReport() = getServerRequestType("isEndOfCallReport") == END_OF_CALL_REPORT
+    fun JsonElement.isEndOfCallReport() = serverRequestType == END_OF_CALL_REPORT
 
-    fun JsonElement.isFunctionCall() = getServerRequestType("isFunctionCall") == FUNCTION_CALL
+    fun JsonElement.isFunctionCall() = serverRequestType == FUNCTION_CALL
 
-    fun JsonElement.isHang() = getServerRequestType("isHang") == HANG
+    fun JsonElement.isHang() = serverRequestType == HANG
 
-    fun JsonElement.isPhoneCallControl() = getServerRequestType("isPhoneCallControl") == PHONE_CALL_CONTROL
+    fun JsonElement.isPhoneCallControl() = serverRequestType == PHONE_CALL_CONTROL
 
-    fun JsonElement.isSpeechUpdate() = getServerRequestType("isSpeechUpdate") == SPEECH_UPDATE
+    fun JsonElement.isSpeechUpdate() = serverRequestType == SPEECH_UPDATE
 
-    fun JsonElement.isStatusUpdate() = getServerRequestType("isStatusUpdate") == STATUS_UPDATE
+    fun JsonElement.isStatusUpdate() = serverRequestType == STATUS_UPDATE
 
-    fun JsonElement.isToolCall() = getServerRequestType("isToolCall") == TOOL_CALL
+    fun JsonElement.isToolCall() = serverRequestType == TOOL_CALL
 
-    fun JsonElement.isTransferDestinationRequest() =
-      getServerRequestType("isTransferDestinationRequest") == TRANSFER_DESTINATION_REQUEST
+    fun JsonElement.isTransferDestinationRequest() = serverRequestType == TRANSFER_DESTINATION_REQUEST
 
-    fun JsonElement.isUserInterrupted() = getServerRequestType("isUserInterrupted") == USER_INTERRUPTED
+    fun JsonElement.isUserInterrupted() = serverRequestType == USER_INTERRUPTED
 
-    fun JsonElement.getServerRequestType(context: String): ServerRequestType {
-      val desc = stringValue("message.type")
-      return try {
-        entries.first { it.desc == desc }
-      } catch (e: Exception) {
-        logger.error { "Invalid ServerRequestType: $desc from $context" }
-        UNKNOWN_REQUEST_TYPE
+    val JsonElement.serverRequestType: ServerRequestType
+      get() {
+        val desc = stringValue("message.type")
+        return try {
+          entries.first { it.desc == desc }
+        } catch (e: Exception) {
+          logger.error { "Invalid ServerRequestType: $desc" }
+          UNKNOWN_REQUEST_TYPE
+        }
       }
-    }
   }
 }

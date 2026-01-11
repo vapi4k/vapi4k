@@ -20,7 +20,7 @@ import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.ResponseContext
 import com.vapi4k.api.vapi4k.ServerRequestType
-import com.vapi4k.api.vapi4k.ServerRequestType.Companion.getServerRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import kotlinx.serialization.json.JsonElement
 import kotlin.time.Duration
 
@@ -30,8 +30,7 @@ class ResponseContextImpl(
   override val elapsedTime: Duration,
 ) : ResponseContext {
   override val serverRequestType: ServerRequestType
-    get() =
-      requestContext.request.getServerRequestType("ResponseContextImpl")
+    get() = requestContext.request.serverRequestType
 
   override fun toString(): String =
     "RequestContext:\nRequestType: ${serverRequestType}\nSession ID: ${requestContext.sessionId}\nElapsed: $elapsedTime\nResponse:\n${response.toJsonString()}"

@@ -18,7 +18,7 @@ package com.vapi4k.server
 
 import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.api.vapi4k.ServerRequestType.ASSISTANT_REQUEST
-import com.vapi4k.api.vapi4k.ServerRequestType.Companion.getServerRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.END_OF_CALL_REPORT
 import com.vapi4k.api.vapi4k.ServerRequestType.FUNCTION_CALL
 import com.vapi4k.api.vapi4k.ServerRequestType.TOOL_CALL
@@ -58,7 +58,7 @@ internal object InboundCallActions {
     application: AbstractApplicationImpl,
   ) {
     val postObj = call.receive<String>()
-    logger.info { "Inbound call request: $postObj" }
+    // logger.info { "Inbound call request: $postObj" }
     val requestContext = RequestContextImpl(
       application = application,
       request = postObj.toJsonElement(),
@@ -86,7 +86,7 @@ internal object InboundCallActions {
     config: Vapi4kConfigImpl,
     requestContext: RequestContextImpl,
   ) {
-    val requestType = requestContext.request.getServerRequestType("processInboundCallRequest")
+    val requestType = requestContext.request.serverRequestType
     invokeRequestCallbacks(config, requestContext)
 
     val (response, duration) =
