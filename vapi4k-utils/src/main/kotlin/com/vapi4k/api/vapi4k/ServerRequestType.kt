@@ -23,7 +23,7 @@ import kotlinx.serialization.json.JsonElement
 enum class ServerRequestType(
   val desc: String,
 ) {
-  // ASSISTANT_STARTED("assistant.started"),
+  ASSISTANT_STARTED("assistant.started"),
   ASSISTANT_REQUEST("assistant-request"),
   CONVERSATION_UPDATE("conversation-update"),
   END_OF_CALL_REPORT("end-of-call-report"),
@@ -41,6 +41,8 @@ enum class ServerRequestType(
 
   companion object {
     internal val logger = KotlinLogging.logger {}
+
+    fun JsonElement.isAssistantStarted() = getServerRequestType("isAssistantStarted") == ASSISTANT_STARTED
 
     fun JsonElement.isAssistantRequest() = getServerRequestType("isAssistantRequest") == ASSISTANT_REQUEST
 
