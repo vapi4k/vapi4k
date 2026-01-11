@@ -18,7 +18,7 @@ package com.vapi4k.api
 
 import com.github.pambrose.common.json.toJsonString
 import com.vapi4k.api.vapi4k.ServerRequestType
-import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.getServerRequestType
 import com.vapi4k.dbms.MessagesTable
 import kotlinx.serialization.json.JsonElement
 import org.jetbrains.exposed.sql.insert
@@ -31,7 +31,7 @@ object Messages {
       val str = request.toJsonString()
       MessagesTable.insert { rec ->
         rec[messageType] = "REQUEST"
-        rec[requestType] = request.serverRequestType.desc
+        rec[requestType] = request.getServerRequestType("insertRequest").desc
         rec[messageJsonb] = str
         rec[messageJson] = str
         rec[elapsedTime] = Duration.ZERO

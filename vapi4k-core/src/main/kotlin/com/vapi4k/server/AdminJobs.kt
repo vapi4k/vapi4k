@@ -16,7 +16,7 @@
 
 package com.vapi4k.server
 
-import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.getServerRequestType
 import com.vapi4k.common.CoreEnvVars.TOOL_CACHE_CLEAN_PAUSE_MINS
 import com.vapi4k.common.CoreEnvVars.TOOL_CACHE_MAX_AGE_MINS
 import com.vapi4k.common.Utils.errorMsg
@@ -71,7 +71,7 @@ internal object AdminJobs {
                         with(app) {
                           applicationAllRequests.forEach { launch { it.invoke(callback.toRequestContext(config)) } }
                           applicationPerRequests
-                            .filter { it.first == callback.request.serverRequestType }
+                            .filter { it.first == callback.request.getServerRequestType("startCallbackThread1") }
                             .forEach { (_, block) -> launch { block(callback.toRequestContext(config)) } }
                         }
                       }
@@ -79,7 +79,7 @@ internal object AdminJobs {
                     with(config) {
                       globalAllRequests.forEach { launch { it.invoke(callback.toRequestContext(config)) } }
                       globalPerRequests
-                        .filter { it.first == callback.request.serverRequestType }
+                        .filter { it.first == callback.request.getServerRequestType("startCallbackThread2") }
                         .forEach { (_, block) -> launch { block(callback.toRequestContext(config)) } }
                     }
                   }
@@ -100,7 +100,7 @@ internal object AdminJobs {
                             launch { it.invoke(callback.toResponseContext(config, resp)) }
                           }
                           applicationPerResponses
-                            .filter { it.first == callback.request.serverRequestType }
+                            .filter { it.first == callback.request.getServerRequestType("startCallbackThread3") }
                             .forEach { (_, block) ->
                               launch { block(callback.toResponseContext(config, resp)) }
                             }
@@ -123,7 +123,7 @@ internal object AdminJobs {
                         }
 
                         globalPerResponses
-                          .filter { it.first == callback.request.serverRequestType }
+                          .filter { it.first == callback.request.getServerRequestType("startCallbackThread4") }
                           .forEach { (_, block) ->
                             launch { block(callback.toResponseContext(config, resp)) }
                           }

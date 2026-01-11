@@ -22,7 +22,7 @@ import com.github.pambrose.common.json.isNotEmpty
 import com.github.pambrose.common.json.keys
 import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.api.vapi4k.ServerRequestType.ASSISTANT_REQUEST
-import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
+import com.vapi4k.api.vapi4k.ServerRequestType.Companion.getServerRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.END_OF_CALL_REPORT
 import com.vapi4k.api.vapi4k.ServerRequestType.FUNCTION_CALL
 import com.vapi4k.api.vapi4k.ServerRequestType.TOOL_CALL
@@ -102,7 +102,7 @@ internal object OutboundCallAndWebActions {
     config: Vapi4kConfigImpl,
     requestContext: RequestContextImpl,
   ) {
-    val requestType = requestContext.request.serverRequestType
+    val requestType = requestContext.request.getServerRequestType("processOutboundCallAndWebRequest")
     invokeRequestCallbacks(config, requestContext)
 
     val (response, duration) =
