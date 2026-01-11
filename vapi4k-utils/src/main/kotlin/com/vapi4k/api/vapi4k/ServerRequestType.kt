@@ -23,6 +23,7 @@ import kotlinx.serialization.json.JsonElement
 enum class ServerRequestType(
   val desc: String,
 ) {
+  // ASSISTANT_STARTED("assistant.started"),
   ASSISTANT_REQUEST("assistant-request"),
   CONVERSATION_UPDATE("conversation-update"),
   END_OF_CALL_REPORT("end-of-call-report"),
@@ -69,7 +70,7 @@ enum class ServerRequestType(
         return try {
           entries.first { it.desc == desc }
         } catch (e: Exception) {
-          logger.error { "Invalid ServerMessageType: $desc" }
+          logger.error(e) { "Invalid ServerRequestType: $desc" }
           UNKNOWN_REQUEST_TYPE
         }
       }
