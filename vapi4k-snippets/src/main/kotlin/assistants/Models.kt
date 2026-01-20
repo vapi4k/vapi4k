@@ -28,7 +28,7 @@ object Models {
       onAssistantRequest { requestContext: RequestContext ->
         assistant {
           anthropicModel {
-            modelType = AnthropicModelType.CLAUDE_3_HAIKU
+            modelType = AnthropicModelType.CLAUDE_3_HAIKU_20240307
             emotionRecognitionEnabled = true
             maxTokens = 250
             temperature = 0.5
@@ -93,7 +93,7 @@ object Models {
       onAssistantRequest { requestContext: RequestContext ->
         assistant {
           groqModel {
-            modelType = GroqModelType.LLAMA3_70B
+            modelType = GroqModelType.LLAMA3_70B_8192
             emotionRecognitionEnabled = true
             maxTokens = 250
             temperature = 0.5

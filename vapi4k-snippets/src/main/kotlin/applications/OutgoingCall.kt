@@ -35,7 +35,7 @@ object OutgoingCall {
             firstMessage = "Hello! I am calling to ask you a question."
 
             anthropicModel {
-              modelType = AnthropicModelType.CLAUDE_3_HAIKU
+              modelType = AnthropicModelType.CLAUDE_3_HAIKU_20240307
               systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
             }
 
