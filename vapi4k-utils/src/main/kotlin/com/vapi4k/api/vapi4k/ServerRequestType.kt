@@ -68,11 +68,11 @@ enum class ServerRequestType(
 
     val JsonElement.serverRequestType: ServerRequestType
       get() {
-        val desc = stringValue("message.type")
+        val messageType = stringValue("message.type")
         return try {
-          entries.first { it.desc == desc }
+          entries.first { it.desc == messageType }
         } catch (e: Exception) {
-          logger.error { "Invalid ServerRequestType: $desc" }
+          logger.error { "Invalid ServerRequestType: $messageType" }
           UNKNOWN_REQUEST_TYPE
         }
       }
