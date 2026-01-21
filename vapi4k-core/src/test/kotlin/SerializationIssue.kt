@@ -15,7 +15,7 @@ import kotlinx.serialization.modules.subclass
 @Serializable(with = ChildSerializer::class)
 sealed interface Child
 
-private object ChildSerializer : KSerializer<Child> {
+object ChildSerializer : KSerializer<Child> {
   override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Child")
 
   override fun serialize(

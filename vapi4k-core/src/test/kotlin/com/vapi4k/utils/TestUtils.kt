@@ -102,8 +102,8 @@ fun withTestApplication(
       }
 
     je =
-      if (response!!.status == HttpStatusCode.OK)
-        response!!.bodyAsText().toJsonElement()
+      if (response.status == HttpStatusCode.OK)
+        response.bodyAsText().toJsonElement()
       else
         EMPTY_JSON_ELEMENT
   }
