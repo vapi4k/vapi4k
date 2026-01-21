@@ -27,7 +27,9 @@ class ToolCallInfo(
   private val assistantId: AssistantId,
   private val function: KFunction<*>,
 ) {
-  private val toolCall get() = function.toolCallAnnotation!!
+  private val toolCall
+    get() = function.toolCallAnnotation
+      ?: error("Function ${function.name} is missing @ToolCall annotation")
   private val toolHasName get() = toolCall.name.isNotEmpty()
   private val toolHasDescription get() = toolCall.description.isNotEmpty()
   private val name get() = if (toolHasName) toolCall.name else function.name
