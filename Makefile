@@ -15,6 +15,9 @@ build: clean
 	rm -rf build/
 	./gradlew build -x test
 
+build-tests: clean
+	./gradlew compileTestKotlin
+
 cont-build:
 	./gradlew -t build -x test
 
