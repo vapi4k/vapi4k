@@ -48,7 +48,7 @@ internal class ManualToolCache(
   fun containsTool(toolName: FunctionName) = manualTools.containsKey(toolName)
 
   fun getTool(toolName: FunctionName): ToolWithServerImpl =
-    manualTools[toolName] ?: error("Manual tool name found: $toolName")
+    manualTools[toolName] ?: error("Manual tool not found: $toolName")
 
   private val asDtoMap: Map<FunctionName, ToolDto>
     get() = manualTools.map { (k, v) -> k to v.toolDto }.toMap()
