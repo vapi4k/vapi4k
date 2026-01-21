@@ -67,13 +67,13 @@ class ServerTest {
       withTestApplication(INBOUND_CALL, JsonFilenames.JSON_ASSISTANT_REQUEST) {
         assistant {
           groqModel {
-            modelType = GroqModelType.LLAMA3_70B
+            modelType = GroqModelType.LLAMA3_70B_8192
           }
         }
       }
 
     response.status shouldBeEqualTo HttpStatusCode.OK
-    jsonElement.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo GroqModelType.LLAMA3_70B.desc
+    jsonElement.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo GroqModelType.LLAMA3_70B_8192.desc
   }
 
   // @Test

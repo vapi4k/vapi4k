@@ -45,7 +45,7 @@ object WebCall {
             firstMessage = "Hello! How can I help you today?"
 
             groqModel {
-              modelType = GroqModelType.LLAMA3_70B
+              modelType = GroqModelType.LLAMA3_70B_8192
               systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
             }
 
