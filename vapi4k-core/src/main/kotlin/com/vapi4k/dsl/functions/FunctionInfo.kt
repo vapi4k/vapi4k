@@ -24,6 +24,7 @@ import com.vapi4k.dsl.functions.FunctionDetails.FunctionDetailsDto.Companion.toF
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.DurationUnit
 
 class FunctionInfo internal constructor(
@@ -31,7 +32,7 @@ class FunctionInfo internal constructor(
   val assistantId: AssistantId,
 ) {
   private val created: Instant = Clock.System.now()
-  private val functions = mutableMapOf<FunctionName, FunctionDetails>()
+  private val functions = ConcurrentHashMap<FunctionName, FunctionDetails>()
 
   internal val age get() = Clock.System.now() - created
   internal val ageSecs get() = age.toString(unit = DurationUnit.SECONDS)
