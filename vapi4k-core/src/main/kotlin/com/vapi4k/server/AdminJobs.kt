@@ -36,7 +36,7 @@ import kotlin.time.Duration.Companion.minutes
 
 internal object AdminJobs {
   fun startCacheCleaningThread(config: Vapi4kConfigImpl) {
-    thread {
+    thread(isDaemon = true) {
       val pause = TOOL_CACHE_CLEAN_PAUSE_MINS.toInt().minutes
       val maxAge = TOOL_CACHE_MAX_AGE_MINS.toInt().minutes
       while (true) {
@@ -57,7 +57,7 @@ internal object AdminJobs {
   }
 
   fun startCallbackThread(config: Vapi4kConfigImpl) {
-    thread {
+    thread(isDaemon = true) {
       while (true) {
         runCatching {
           runBlocking {
