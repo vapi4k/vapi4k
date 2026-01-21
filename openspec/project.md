@@ -2,274 +2,101 @@
 
 ## Purpose
 
-Vapi4k is a Ktor plugin and Kotlin DSL for defining, deploying, and maintaining Vapi (vapi.ai) voice AI applications. It
-provides type-safe builders for creating voice assistants, handling tool calls, and managing real-time voice
-interactions through a clean Kotlin API.
-
-**Key Goals:**
-
-- Provide a type-safe, idiomatic Kotlin DSL for Vapi platform integration
-- Support multiple application types: inbound calls, outbound calls, and web-based interactions
-- Enable seamless tool integration with automatic reflection-based service tools
-- Offer comprehensive callback and lifecycle management for voice interactions
-- Maintain clean separation between API, implementation, and serialization layers
+Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with [Vapi.ai](https://vapi.ai). It provides
+type-safe builders for configuring assistants, tools, models, voices, and call workflows. The project enables developers
+to create inbound call handlers, outbound call initiators, and browser-based voice interactions with compile-time safety
+and IDE auto-completion.
 
 ## Tech Stack
 
-### Core Technologies
+- **Language:** Kotlin 2.3.0
+- **Framework:** Ktor 3.3.3 (with WebSocket support)
+- **Build System:** Gradle (multi-module)
+- **JVM Target:** 17
+- **Serialization:** Kotlinx Serialization (JSON)
+- **Testing:** Kluent assertions
+- **Database (optional):** HikariCP + PostgreSQL + Exposed ORM
+- **Metrics:** Prometheus
+- **Documentation:** Dokka
 
-- **Kotlin** (JVM language, latest stable version)
-- **Ktor** (server & client frameworks for HTTP handling and routing)
-- **kotlinx.serialization** (JSON serialization/deserialization)
-- **Gradle** (build system with Kotlin DSL)
+### Module Structure
 
-### Libraries & Frameworks
-
-- **Exposed ORM** (optional database integration in vapi4k-dbms module)
-- **HikariCP** (connection pooling for database module)
-- **PostgreSQL Driver** (database backend support)
-- **Micrometer** (metrics and observability)
-- **ktlint** (code formatting and linting)
-- **Dokka** (KDoc documentation generation)
-
-### Development Tools
-
-- ktlint for code quality
-- Gradle continuous build (`./gradlew -t build`)
-- JUnit for testing
-- Ktor test framework for embedded server testing
+- `vapi4k-utils` - Foundation module with shared utilities (zero external dependencies)
+- `vapi4k-core` - Main module with Ktor plugin, DSL implementations, and Vapi integration
+- `vapi4k-dbms` - Optional database persistence for message history
+- `vapi4k-snippets` - Example code (not published)
 
 ## Project Conventions
 
 ### Code Style
 
-- **Formatting**: Use ktlint for all Kotlin code formatting
-  - Run: `./gradlew formatKotlin`
-  - Check: `./gradlew lintKotlin`
-- **Naming Conventions**:
-  - **Enums**: PascalCase for types/categories (e.g., `OpenAIModelType.GPT_4_TURBO`)
-  - **Classes**: PascalCase with descriptive suffixes (`*Impl`, `*Dto`, `*Service`)
-  - **Interfaces**: Plain PascalCase without "I" prefix
-  - **Properties**: camelCase
-- **API Design**: Use `@SerialName` annotations to map Kotlin names to API field names
-- **Documentation**: KDocs required for all public API surfaces
-- **Mutability**: DTOs use `var` properties by design for builder pattern compatibility
+- Use `@Vapi4KDslMarker` annotation on DSL builder interfaces for type-safe builders
+- Prefix internal implementation properties with underscore (e.g., `_field`)
+- Use inline value classes for type safety (e.g., `ApplicationId`, `AssistantId`, `FunctionName`, `CacheKey`)
+- API interfaces in `com.vapi4k.api.*` packages
+- DSL implementations in `com.vapi4k.dsl.*` packages
+- DTOs in `com.vapi4k.dtos.*` packages with `@Serializable` annotation
+- Run `./gradlew lintKotlin` before committing; use `./gradlew formatKotlin` to auto-fix
 
 ### Architecture Patterns
 
-#### Three-Layer DSL Pattern (CRITICAL)
+**Three-Layer Architecture:**
 
-All DSL components follow this pattern:
+1. **API Layer** (`com.vapi4k.api.*`) - Public interfaces defining the DSL contract
+2. **DSL Layer** (`com.vapi4k.dsl.*`) - Concrete implementations with state management and caching
+3. **DTO Layer** (`com.vapi4k.dtos.*`) - Kotlinx serialization models for JSON serialization
 
-1. **API Layer** (`com.vapi4k.api.*`)
-  - Public interfaces defining the DSL shape
-  - What developers interact with directly
-  - Example: `Assistant`, `Tools`, `OpenAIModel`
+**Core Patterns:**
 
-2. **Implementation Layer** (`com.vapi4k.dsl.*`)
-  - Builder classes using Kotlin delegation (`by dto`)
-  - Collect state and delegate properties to DTOs
-  - Example: `AssistantImpl`, `ToolsImpl`, `OpenAIModelImpl`
+- Ktor `ApplicationPlugin` for server configuration (`Vapi4kServer`)
+- Request/Response flow through `RequestContext` and `ResponseContext`
+- Callback pipeline with `onAllRequests{}`, `onAllResponses{}`, etc.
+- Session-based caching with TTL for tool definitions
+- Multi-provider abstraction for models (10 providers), voices (9 providers), transcribers (3 providers)
 
-3. **DTO Layer** (`com.vapi4k.dtos.*`)
-  - `@Serializable` classes for JSON output
-  - Mutable properties (`var`)
-  - Example: `AssistantDto`, `ToolDto`, `OpenAIModelDto`
+**Three Application Types:**
 
-**Data Flow**: Developer API → Implementation builds state → DTOs serialize to JSON
-
-#### Module Architecture
-
-Four Gradle modules with clear separation:
-
-- **vapi4k-core**: Main plugin, DSL, and Vapi API integration
-- **vapi4k-utils**: Foundation utilities (JSON, logging) - no internal dependencies
-- **vapi4k-dbms**: Optional PostgreSQL/JDBC integration via Exposed ORM
-- **vapi4k-snippets**: Code examples and demonstrations
-
-#### Application Types
-
-Three distinct application patterns:
-
-| Type                      | Endpoint Pattern             | Purpose                      |
-|---------------------------|------------------------------|------------------------------|
-| `InboundCallApplication`  | `/inboundCall/{serverPath}`  | Incoming calls from Vapi     |
-| `OutboundCallApplication` | `/outboundCall/{serverPath}` | App-initiated outbound calls |
-| `WebApplication`          | `/web/{serverPath}`          | WebRTC/web-based calls       |
-
-#### Request-Response Pipeline
-
-```
-HTTP POST from Vapi → Route matched → RequestContextImpl created →
-Application handler invoked → Response built via DSL →
-Implementation delegates to DTOs → DTOs serialize to JSON →
-Callbacks executed → JSON response to Vapi
-```
-
-#### Tool System
-
-Tools expose functionality to voice assistants:
-
-- **Service Tools**: Kotlin methods auto-exposed via reflection (most common)
-- **Manual Tools**: Inline lambda implementations
-- **External Tools**: Remote server integration
-- **Transfer/DTMF/Control Tools**: Call management functions
-
-Service tools are cached per application and auto-purged based on configured duration.
+- `InboundCallApplication` - Handles incoming phone calls (POST endpoint)
+- `OutboundCallApplication` - Initiates outgoing calls (GET/POST endpoints)
+- `WebApplication` - Browser-based voice interactions (GET/POST endpoints)
 
 ### Testing Strategy
 
-#### Test Infrastructure
-
-- Use Ktor's `testApplication` for embedded server testing
-- JSON test files stored in: `vapi4k-core/src/test/resources/json/`
-- Helper function: `withTestApplication()` loads JSON, installs plugin, captures response
-
-#### Standard Test Pattern
-
-```kotlin
-@Test
-fun `test name`() {
-  withTestApplication(INBOUND_CALL, JsonFilenames.JSON_ASSISTANT_REQUEST) {
-    assistant {
-      groqModel { modelType = GroqModelType.LLAMA3_70B }
-    }
-  }.let { (response, jsonElement) ->
-    response.status shouldBeEqualTo HttpStatusCode.OK
-    jsonElement.stringValue("assistant.model.model") shouldBeEqualTo "llama3-70b-8192"
-  }
-}
-```
-
-#### Testing Commands
-
-```bash
-# Run all tests
-./gradlew test
-
-# Run specific module tests
-./gradlew :vapi4k-core:test
-
-# Run single test class
-./gradlew :vapi4k-core:test --tests "com.vapi4k.ServerTest"
-```
-
-#### Test Assertions
-
-Use JSON helper extensions for response validation:
-
-- `stringValue("path.to.field")`
-- `intValue("path.to.field")`
-- Response status validation with `shouldBeEqualTo`
+- Unit tests use Kluent for assertions
+- Test locations:
+  - `vapi4k-core/src/test/kotlin/com/vapi4k/` - Unit tests for DSL builders, serialization, utilities
+  - `vapi4k-core/src/test/kotlin/simpledemo/` - Example applications and integration tests
+- Run specific tests with: `./gradlew :vapi4k-core:test --tests "com.vapi4k.TestClass.testMethod*"`
 
 ### Git Workflow
 
-- **Main Branch**: `master` (use for PRs)
-- **Versioning**: Defined in `build.gradle.kts` as `extra["versionStr"]`
-- **Current Version**: 1.3.2
-- **Commit Conventions**: Standard semantic commit messages recommended
-- **Release Process**: Update version in build.gradle.kts before releases
+- Main branch: `master`
+- Feature branches for development
+- Clean commit messages describing the change
 
 ## Domain Context
 
-### Vapi Voice AI Platform
-
-Vapi4k integrates with the Vapi platform (vapi.ai), which provides:
-
-- Voice AI assistant infrastructure
-- Real-time voice conversation handling
-- Tool calling and action execution
-- Multi-model support (OpenAI, Anthropic, Groq, etc.)
-
-### Key Domain Concepts
-
-**Assistants**: Voice AI entities that can:
-
-- Be defined transiently (inline DSL) or persistently (reference existing Vapi assistant by ID)
-- Use various LLM models (OpenAI, Anthropic, Groq, DeepGram, etc.)
-- Execute tools to perform actions
-- Follow conversation flows and handle interruptions
-
-**Tools**: Functions that assistants can invoke:
-
-- Annotated Kotlin methods (`@ToolCall`) automatically exposed
-- Type-safe parameter mapping from conversation to code
-- Completion callbacks with structured response messages
-
-**Squads**: Multi-assistant configurations for complex interactions
-
-**Request Types**: Various server request types handled:
-
-- `ASSISTANT_REQUEST`: Initial assistant configuration
-- `TOOL_CALL`: Tool invocation from assistant
-- `STATUS_UPDATE`: Call status changes
-- `END_OF_CALL_REPORT`: Final call metrics and transcript
-- `HANG`, `SPEECH_UPDATE`, `TRANSCRIPT`, `CONVERSATION_UPDATE`, etc.
-
-**Callbacks**: Lifecycle hooks at global or application level:
-
-- `onAllRequests` / `onRequest(type)`: Pre-processing
-- `onAllResponses` / `onResponse(type)`: Post-processing
-- Access to `RequestContext` with full request metadata
+- **Voice AI:** The framework integrates with Vapi.ai to handle voice interactions
+- **Assistants:** AI-powered voice assistants with configurable personalities and capabilities
+- **Tools:** Three implementation strategies:
+  - `ServiceTool` - Annotation-based with `@ToolCall` and `@Param`, auto-generates JSON schemas
+  - `ManualTool` - Imperative with `onInvoke{}` blocks
+  - `ExternalTool` - Delegates to external HTTP endpoints
+- **Request Types:** 14 server request types including `ASSISTANT_REQUEST`, `TOOL_CALL`, `FUNCTION_CALL`,
+  `END_OF_CALL_REPORT`, `TRANSCRIPT`, etc.
 
 ## Important Constraints
 
-### Design Constraints
-
-- **Always prefer editing existing files**: Never create new files unless absolutely necessary
-- **Maintain three-layer pattern**: API → Implementation → DTO must be preserved
-- **Backward compatibility**: DTOs must maintain serialization compatibility with Vapi API
-- **Type safety**: Leverage Kotlin's type system; avoid stringly-typed APIs
-
-### Technical Constraints
-
-- **Ktor dependency**: Core framework must remain Ktor-based
-- **kotlinx.serialization**: Required for JSON handling (not Gson or Jackson)
-- **Gradle Kotlin DSL**: Build configuration in Kotlin, not Groovy
-- **JVM target**: Kotlin/JVM, not Kotlin/JS or Kotlin/Native
-
-### API Constraints
-
-- **Vapi Platform Compatibility**: All DTOs must match Vapi's expected JSON structure
-- **HMAC Validation**: Server secret validation via query parameters
-- **Environment Configuration**: Support for `VAPI4K_BASE_URL` and other env vars
-
-### Development Constraints
-
-- **No time estimates**: Never provide timing predictions in responses
-- **Minimal scope**: Only implement what's requested; avoid over-engineering
-- **No unnecessary improvements**: Don't add features, refactoring, or "enhancements" beyond the task
-- **Trust internal code**: Only validate at system boundaries (user input, external APIs)
+- JVM 17+ required
+- Only `com.vapi4k.api.*` packages are included in public documentation
+- Admin endpoints disabled when `VAPI4K_PRODUCTION` environment variable is set
+- Modules should remain loosely coupled (vapi4k-dbms is completely optional)
 
 ## External Dependencies
 
-### Primary External Service
-
-- **Vapi Platform (vapi.ai)**:
-  - Voice AI infrastructure
-  - HTTP callbacks for assistant configuration and tool execution
-  - Real-time conversation management
-  - Requires account and API credentials
-
-### Development Dependencies
-
-- **Maven Central**: For Kotlin and Ktor dependencies
-- **Gradle Plugin Portal**: For build plugins (Dokka, ktlint, etc.)
-
-### Optional External Systems
-
-- **PostgreSQL**: For vapi4k-dbms module (optional database persistence)
-- **LLM Providers**: OpenAI, Anthropic, Groq, etc. (configured through Vapi)
-- **Third-party Integrations**: GHL (GoHighLevel), Make.com (via dedicated tool types)
-
-### Environment Variables
-
-- `VAPI4K_BASE_URL`: Base URL for production deployments
-- `SERVER_SECRET`: HMAC validation secret for each application
-- Custom env vars accessed via `env("VAR_NAME")` helper
-
-### Development URLs
-
-- Admin console: `/admin` (available in dev mode)
-- Application endpoints: `/{applicationType}/{serverPath}`
-- Health/metrics endpoints via Micrometer integration
+- **Vapi.ai API** - Core voice AI platform (requires `VAPI_API_PRIVATE_KEY`)
+- **AI Model Providers:** OpenAI, Anthropic, Groq, DeepInfra, Anyscale, TogetherAI, OpenRouter, PerplexityAI, CustomLLM,
+  Vapi
+- **Voice Providers:** OpenAI, ElevenLabs, Deepgram, Azure, Cartesia, PlayHT, RimeAI, LMNT, Neets
+- **Transcription Providers:** Deepgram, Gladia, Talkscriber
+- **Database (optional):** PostgreSQL via HikariCP connection pool and Exposed ORM

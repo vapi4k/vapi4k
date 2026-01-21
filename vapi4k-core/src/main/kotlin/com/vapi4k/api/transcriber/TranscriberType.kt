@@ -33,7 +33,7 @@ enum class TranscriberType(
   TALKSCRIBER("talkscriber"),
 }
 
-private object TranscriberTypeSerializer : KSerializer<TranscriberType> {
+object TranscriberTypeSerializer : KSerializer<TranscriberType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("TranscriberType", STRING)
 
   override fun serialize(

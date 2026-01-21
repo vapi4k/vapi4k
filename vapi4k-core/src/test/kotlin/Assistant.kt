@@ -28,7 +28,7 @@ import com.vapi4k.api.vapi4k.RequestContext
 
 fun InboundCallAssistantResponse.myAssistantRequest(requestContext: RequestContext) =
   when (requestContext.request.phoneNumber) {
-    "+14156721077" ->
+    "+14156721077" -> {
       assistantId {
         id = "44792a91-d7f9-4915-9445-0991aeef97bc"
 
@@ -40,8 +40,11 @@ fun InboundCallAssistantResponse.myAssistantRequest(requestContext: RequestConte
           }
         }
       }
+    }
 
-    else -> getAssistant()
+    else -> {
+      getAssistant()
+    }
   }
 
 fun InboundCallAssistantResponse.getSquad(requestContext: RequestContext) =

@@ -57,9 +57,11 @@ internal object InboundCallActions {
     config: Vapi4kConfigImpl,
     application: AbstractApplicationImpl,
   ) {
+    val postObj = call.receive<String>()
+    // logger.info { "Inbound call request: $postObj" }
     val requestContext = RequestContextImpl(
       application = application,
-      request = call.receive<String>().toJsonElement(),
+      request = postObj.toJsonElement(),
       sessionId = call.getQueryParam(SESSION_ID)?.toSessionId() ?: INBOUND_CALL.getRandomSessionId(),
       assistantId = call.getQueryParam(ASSISTANT_ID)?.toAssistantId() ?: EMPTY_ASSISTANT_ID,
     )

@@ -39,7 +39,7 @@ enum class ToolType(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object ToolTypeSerializer : KSerializer<ToolType> {
+object ToolTypeSerializer : KSerializer<ToolType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ToolType", STRING)
 
   override fun serialize(

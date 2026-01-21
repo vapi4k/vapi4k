@@ -66,7 +66,7 @@ class ButtonColor {
   }
 }
 
-private object ButtonColorSerializer : KSerializer<ButtonColor> {
+object ButtonColorSerializer : KSerializer<ButtonColor> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ButtonColor", PrimitiveKind.STRING)
 
   override fun serialize(

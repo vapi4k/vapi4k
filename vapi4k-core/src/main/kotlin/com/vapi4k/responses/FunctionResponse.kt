@@ -51,6 +51,7 @@ class FunctionResponse(
             }.getOrElse { e ->
               val errorMsg = e.message ?: "Error invoking function: $funcName ${e.errorMsg}"
               logger.error(e) { errorMsg }
+              response.result = errorMsg
             }
           }
         }

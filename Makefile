@@ -1,5 +1,3 @@
-VERSION=1.0.0
-
 default: versioncheck
 
 build-all: clean stage
@@ -51,4 +49,4 @@ publish:
 	./gradlew publishToMavenLocal
 
 upgrade-wrapper:
-	./gradlew wrapper --gradle-version=9.0.0 --distribution-type=bin
+	./gradlew wrapper --gradle-version=9.2.1 --distribution-type=bin

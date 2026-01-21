@@ -47,7 +47,7 @@ enum class AzureVoiceIdType {
   }
 }
 
-private object AzureVoiceIdTypeSerializer : KSerializer<AzureVoiceIdType> {
+object AzureVoiceIdTypeSerializer : KSerializer<AzureVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("AzureVoiceIdType", STRING)
 
   override fun serialize(

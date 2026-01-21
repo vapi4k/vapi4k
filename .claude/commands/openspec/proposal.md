@@ -4,6 +4,7 @@ description: Scaffold a new OpenSpec change and validate strictly.
 category: OpenSpec
 tags: [openspec, change]
 ---
+
 <!-- OPENSPEC:START -->
 **Guardrails**
 

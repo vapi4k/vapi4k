@@ -31,6 +31,7 @@ data class RequestResponseCallback(
   val created: Instant,
   val applicationId: ApplicationId,
   val sessionId: SessionId,
+  val assistantId: AssistantId,
   val request: JsonElement,
   val response: () -> JsonElement = { EMPTY_JSON_ELEMENT },
   val elapsed: Duration = Duration.ZERO,
@@ -40,7 +41,8 @@ data class RequestResponseCallback(
       application = config.getApplicationById(applicationId),
       request = request,
       sessionId = sessionId,
-      assistantId = AssistantId.EMPTY_ASSISTANT_ID,
+      // assistantId = AssistantId.EMPTY_ASSISTANT_ID,
+      assistantId = assistantId,
       created = created,
     )
 
@@ -57,6 +59,7 @@ data class RequestResponseCallback(
           created = created,
           applicationId = application.applicationId,
           sessionId = sessionId,
+          assistantId = assistantId,
           request = request,
         )
       }
@@ -72,6 +75,7 @@ data class RequestResponseCallback(
           created = created,
           applicationId = application.applicationId,
           sessionId = sessionId,
+          assistantId = assistantId,
           request = request,
           response = response,
           elapsed = elapsed,

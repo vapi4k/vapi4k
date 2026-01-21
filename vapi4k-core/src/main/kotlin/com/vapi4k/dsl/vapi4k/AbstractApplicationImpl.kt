@@ -150,10 +150,7 @@ abstract class AbstractApplicationImpl(
     requestType: ServerRequestType,
     vararg requestTypes: ServerRequestType,
     block: suspend (requestContext: RequestContext) -> Unit,
-  ) {
-    applicationPerRequests += requestType to block
-    requestTypes.forEach { applicationPerRequests += it to block }
-  }
+  ) = (listOf(requestType) + requestTypes).forEach { applicationPerRequests += it to block }
 
   fun onAllResponses(block: suspend (responseContext: ResponseContext) -> Unit) {
     applicationAllResponses += block
@@ -163,10 +160,7 @@ abstract class AbstractApplicationImpl(
     requestType: ServerRequestType,
     vararg requestTypes: ServerRequestType,
     block: suspend (responseContext: ResponseContext) -> Unit,
-  ) {
-    applicationPerResponses += requestType to block
-    requestTypes.forEach { applicationPerResponses += it to block }
-  }
+  ) = (listOf(requestType) + requestTypes).forEach { applicationPerResponses += it to block }
 
   internal suspend fun getTransferDestinationResponse(requestContext: RequestContextImpl) =
     transferDestinationRequest.let { func ->

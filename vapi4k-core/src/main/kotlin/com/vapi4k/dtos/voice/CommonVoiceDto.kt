@@ -28,7 +28,7 @@ interface CommonVoiceDto {
   fun verifyValues()
 }
 
-private object VoiceSerializer : KSerializer<CommonVoiceDto> {
+object VoiceSerializer : KSerializer<CommonVoiceDto> {
   override val descriptor: SerialDescriptor = buildClassSerialDescriptor("CommonVoiceDto")
 
   override fun serialize(
@@ -81,7 +81,9 @@ private object VoiceSerializer : KSerializer<CommonVoiceDto> {
         encoder.encodeSerializableValue(RimeAIVoiceDto.serializer(), value)
       }
 
-      else -> error("Invalid voice provider: ${value::class.simpleName}")
+      else -> {
+        error("Invalid voice provider: ${value::class.simpleName}")
+      }
     }
   }
 

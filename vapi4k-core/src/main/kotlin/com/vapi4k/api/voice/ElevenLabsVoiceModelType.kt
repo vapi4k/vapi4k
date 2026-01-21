@@ -41,7 +41,7 @@ enum class ElevenLabsVoiceModelType(
   fun isNotSpecified() = this == UNSPECIFIED
 }
 
-private object ElevenLabsVoiceModelSerializer : KSerializer<ElevenLabsVoiceModelType> {
+object ElevenLabsVoiceModelSerializer : KSerializer<ElevenLabsVoiceModelType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ElevenLabsVoiceModelType", STRING)
 
   override fun serialize(

@@ -40,7 +40,7 @@ enum class ModelType(
   VAPI("vapi"),
 }
 
-private object ModelTypeSerializer : KSerializer<ModelType> {
+object ModelTypeSerializer : KSerializer<ModelType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ModelType", STRING)
 
   override fun serialize(

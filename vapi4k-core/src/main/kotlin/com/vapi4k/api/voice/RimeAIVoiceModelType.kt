@@ -39,7 +39,7 @@ enum class RimeAIVoiceModelType(
   fun isNotSpecified() = this == UNSPECIFIED
 }
 
-private object RimeAIVoiceModelTypeSerializer : KSerializer<RimeAIVoiceModelType> {
+object RimeAIVoiceModelTypeSerializer : KSerializer<RimeAIVoiceModelType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("RimeAIVoiceModelType", STRING)
 
   override fun serialize(

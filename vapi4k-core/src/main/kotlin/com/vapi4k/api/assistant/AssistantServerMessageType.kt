@@ -43,7 +43,7 @@ enum class AssistantServerMessageType(
   VOICE_INPUT("voice-input"),
 }
 
-private object AssistantServerMessageTypeSerializer : KSerializer<AssistantServerMessageType> {
+object AssistantServerMessageTypeSerializer : KSerializer<AssistantServerMessageType> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("AssistantServerMessageType", PrimitiveKind.STRING)
 

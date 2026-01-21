@@ -46,7 +46,7 @@ enum class LMNTVoiceIdType {
   }
 }
 
-private object LMNTVoiceIdTypeSerializer : KSerializer<LMNTVoiceIdType> {
+object LMNTVoiceIdTypeSerializer : KSerializer<LMNTVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LMNTVoiceIdType", STRING)
 
   override fun serialize(

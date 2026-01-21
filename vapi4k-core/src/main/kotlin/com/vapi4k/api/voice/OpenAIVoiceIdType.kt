@@ -50,7 +50,7 @@ enum class OpenAIVoiceIdType {
   }
 }
 
-private object OpenAIVoiceIdTypeSerializer : KSerializer<OpenAIVoiceIdType> {
+object OpenAIVoiceIdTypeSerializer : KSerializer<OpenAIVoiceIdType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("OpenAIVoiceIdType", STRING)
 
   override fun serialize(

@@ -44,7 +44,7 @@ enum class CartesiaVoiceLanguageType(
   fun isNotSpecified() = this == UNSPECIFIED
 }
 
-private object CartesiaVoiceLanguageSerializer : KSerializer<CartesiaVoiceLanguageType> {
+object CartesiaVoiceLanguageSerializer : KSerializer<CartesiaVoiceLanguageType> {
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("CartesiaVoiceLanguageType", STRING)
 
   override fun serialize(

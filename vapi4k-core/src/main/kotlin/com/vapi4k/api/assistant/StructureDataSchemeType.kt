@@ -38,7 +38,7 @@ enum class StructureDataSchemeType(
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 
-private object StructureDataSchemeTypeSerializer : KSerializer<StructureDataSchemeType> {
+object StructureDataSchemeTypeSerializer : KSerializer<StructureDataSchemeType> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("StructureDataSchemeType", PrimitiveKind.STRING)
 
