@@ -21,11 +21,12 @@ import com.vapi4k.common.Utils.ensureStartsWith
 import com.vapi4k.dtos.tools.ToolDto
 import com.vapi4k.plugin.Vapi4kServer.logger
 import kotlinx.serialization.Serializable
+import java.util.concurrent.ConcurrentHashMap
 
 internal class ManualToolCache(
   private val pathBlock: () -> String,
 ) {
-  private val manualTools = mutableMapOf<FunctionName, ToolWithServerImpl>()
+  private val manualTools = ConcurrentHashMap<FunctionName, ToolWithServerImpl>()
 
   val functions get() = manualTools.values
   private val path get() = pathBlock().ensureStartsWith("/")
