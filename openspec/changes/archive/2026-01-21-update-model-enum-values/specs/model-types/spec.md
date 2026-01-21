@@ -221,8 +221,6 @@ The system SHALL support OpenAI OSS models (20B and 120B) via Groq.
 - **WHEN** developer sets `modelType = GroqModelType.OPENAI_GPT_OSS_120B`
 - **THEN** the serialized model value SHALL be `"openai/gpt-oss-120b"`
 
-## MODIFIED Requirements
-
 ### Requirement: OpenAI GPT-4O Model Variants
 
 The system SHALL support all GPT-4O model variants with updated date versions.
@@ -255,15 +253,3 @@ The system SHALL support both Claude 3.5 Sonnet variants with different release 
 
 - **WHEN** developer sets `modelType = AnthropicModelType.CLAUDE_3_5_SONNET_20241022`
 - **THEN** the serialized model value SHALL be `"claude-3-5-sonnet-20241022"`
-
-## REMOVED Requirements
-
-### Requirement: Llama3 Groq Tool-Use Preview Models
-
-**Reason**: These preview models have been deprecated by Groq and removed from Vapi's supported model list (per December
-30, 2024 changelog).
-
-**Migration**: Use standard Llama 3.x models instead:
-
-- Instead of `llama3-groq-8b-8192-tool-use-preview`, use `LLAMA3_8B_8192`
-- Instead of `llama3-groq-70b-8192-tool-use-preview`, use `LLAMA3_70B_8192` or `LLAMA_3_3_70B_VERSATILE`
