@@ -45,7 +45,7 @@ class VoiceTest {
                 firstMessage = "Hi there!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 playHTVoice {
@@ -62,7 +62,7 @@ class VoiceTest {
     members.size shouldBeEqualTo 1
     members.first().stringValue("assistant.name") shouldBeEqualTo "Receptionist"
     members.first().stringValue("assistant.firstMessage") shouldBeEqualTo "Hi there!"
-    members.first().stringValue("assistant.model.model") shouldBeEqualTo "mixtral-8x7b-32768"
+    members.first().stringValue("assistant.model.model") shouldBeEqualTo "llama3-8b-8192"
     members.first().stringValue("assistant.model.provider") shouldBeEqualTo "groq"
     members.first().stringValue("assistant.voice.voiceId") shouldBeEqualTo "matt"
     members.first().stringValue("assistant.voice.emotion") shouldBeEqualTo "male_sad"
@@ -80,7 +80,7 @@ class VoiceTest {
                 firstMessage = "Hi there!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 playHTVoice {
@@ -107,7 +107,7 @@ class VoiceTest {
                 firstMessage = "Hi there!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 playHTVoice {
@@ -135,7 +135,7 @@ class VoiceTest {
                 firstMessage = "Hi there!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 cartesiaVoice {
@@ -190,7 +190,7 @@ class VoiceTest {
                 firstMessage = "Hi there!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 cartesiaVoice {
@@ -221,11 +221,11 @@ class VoiceTest {
                 firstMessage = "Hi there!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 cartesiaVoice {
@@ -255,7 +255,7 @@ class VoiceTest {
                 firstMessage = "Hi there!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 cartesiaVoice {
@@ -291,8 +291,8 @@ class VoiceTest {
                 firstMessage = "Hello!"
 
                 groqModel {
-                  modelType = GroqModelType.MIXTRAL_8X7B
-                  modelType = GroqModelType.LLAMA3_8B
+                  modelType = GroqModelType.LLAMA3_70B_8192
+                  modelType = GroqModelType.LLAMA3_8B_8192
                 }
 
                 playHTVoice {

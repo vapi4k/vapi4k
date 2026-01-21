@@ -26,6 +26,41 @@ import com.vapi4k.api.toolservice.ToolCallService
 import com.vapi4k.api.vapi4k.RequestContext
 
 object SimpleAssistant {
+  // Workflow feature is currently incomplete/experimental - commented out
+  // fun InboundCallAssistantResponse.simpleWorkflowRequest() {
+//    workflow {
+//    val introNode = "introNode"
+//    val tool1 = "tool1"
+//    val endNode = "endNode"
+//    nodes {
+//      conversationNode(introNode) {
+//        model = openAI.chatgpt4
+//        edges {
+//          tool1 onCondition "User says hello"
+//          endNode onCondition "User says goodbye"
+//        }
+//      }
+//      toolNode(tool1) {
+//        edge(endNode)
+//      }
+//      conversationNode(endNode) {
+//
+//      }
+//    }
+//    edges(introNode) {
+//      tool1 onCondition "User says hello"
+//      endNode onCondition "User says goodbye"
+//    }
+//    edges(tool1) {
+//      endNode onCondition "User says goodbye"
+//    }
+//
+//    transcriber {
+//
+//    }
+//    }
+  // }
+
   fun InboundCallAssistantResponse.simpleAssistantRequest() {
     assistant {
       firstMessage = "Hi there!"

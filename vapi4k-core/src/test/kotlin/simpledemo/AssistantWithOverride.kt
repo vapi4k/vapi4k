@@ -29,7 +29,7 @@ class AssistantWithOverrides {
       firstMessage = "Hi there! I'm assistant1"
 
       groqModel {
-        modelType = GroqModelType.LLAMA3_70B
+        modelType = GroqModelType.LLAMA3_70B_8192
         tools {
           serviceTool(TimeLookupService(EAST))
         }

@@ -47,6 +47,7 @@ fun Application.demoModule() {
 
         // doubleToolAssistant2(requestContext)
         simpleAssistantRequest()
+        // simpleWorkflowRequest()
       }
     }
   }

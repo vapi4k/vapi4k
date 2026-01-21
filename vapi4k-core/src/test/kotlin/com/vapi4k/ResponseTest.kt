@@ -32,7 +32,7 @@ class ResponseTest {
       assistantResponse(requestContext) {
         assistant {
           anthropicModel {
-            modelType = AnthropicModelType.CLAUDE_3_OPUS
+            modelType = AnthropicModelType.CLAUDE_3_OPUS_20240229
 //          maxTokens = 99
             userMessage = "Hello"
             userMessage += " Hello2"

@@ -31,7 +31,7 @@ object SimpleSquad {
             firstMessage = "Hi there! I'm assistant1"
 
             groqModel {
-              modelType = GroqModelType.LLAMA3_70B
+              modelType = GroqModelType.LLAMA3_70B_8192
               tools {
                 serviceTool(TestWeatherLookupService("windy"))
               }
@@ -52,7 +52,7 @@ object SimpleSquad {
             firstMessage = "Hi there! I'm assistant2"
 
             groqModel {
-              modelType = GroqModelType.LLAMA3_70B
+              modelType = GroqModelType.LLAMA3_70B_8192
               tools {
                 serviceTool(TestWeatherLookupService("rainy"))
               }
