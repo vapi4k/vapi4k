@@ -85,43 +85,39 @@ internal object AdminJobs {
                   }
 
                   RESPONSE -> {
-                    config.allApplications.forEach { application ->
-                      with(application) {
-                        if (applicationAllResponses.isNotEmpty() || applicationPerResponses.isNotEmpty()) {
-                          val resp =
-                            runCatching {
-                              callback.response.invoke()
-                            }.onFailure { e ->
-                              logger.error { "Error creating response" }
-                              error("Error creating response")
-                            }.getOrThrow()
+                    val hasAppCallbacks = config.allApplications.any { app ->
+                      app.applicationAllResponses.isNotEmpty() || app.applicationPerResponses.isNotEmpty()
+                    }
+                    val hasGlobalCallbacks = config.globalAllResponses.isNotEmpty() ||
+                      config.globalPerResponses.isNotEmpty()
 
-                          applicationAllResponses.forEach {
-                            launch { it.invoke(callback.toResponseContext(config, resp)) }
-                          }
-                          applicationPerResponses
-                            .filter { it.first == callback.request.serverRequestType }
-                            .forEach { (_, block) ->
-                              launch { block(callback.toResponseContext(config, resp)) }
+                    if (hasAppCallbacks || hasGlobalCallbacks) {
+                      val resp = runCatching {
+                        callback.response.invoke()
+                      }.onFailure { e ->
+                        logger.error { "Error creating response" }
+                        error("Error creating response")
+                      }.getOrThrow()
+
+                      config.allApplications.forEach { application ->
+                        with(application) {
+                          if (applicationAllResponses.isNotEmpty() || applicationPerResponses.isNotEmpty()) {
+                            applicationAllResponses.forEach {
+                              launch { it.invoke(callback.toResponseContext(config, resp)) }
                             }
+                            applicationPerResponses
+                              .filter { it.first == callback.request.serverRequestType }
+                              .forEach { (_, block) ->
+                                launch { block(callback.toResponseContext(config, resp)) }
+                              }
+                          }
                         }
                       }
-                    }
 
-                    with(config) {
-                      if (globalAllResponses.isNotEmpty() || globalPerResponses.isNotEmpty()) {
-                        val resp =
-                          runCatching {
-                            callback.response.invoke()
-                          }.onFailure { e ->
-                            logger.error { "Error creating response" }
-                            error("Error creating response")
-                          }.getOrThrow()
-
+                      with(config) {
                         globalAllResponses.forEach {
                           launch { it.invoke(callback.toResponseContext(config, resp)) }
                         }
-
                         globalPerResponses
                           .filter { it.first == callback.request.serverRequestType }
                           .forEach { (_, block) ->
