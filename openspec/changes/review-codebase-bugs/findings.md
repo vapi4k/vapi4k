@@ -113,6 +113,77 @@ controllable. If `message.type` path doesn't exist in the JSON, behavior depends
 
 ---
 
+## Task 1.2: JSON Serialization Utilities - Malformed Input Handling
+
+### vapi4k-utils/src/main/kotlin/com/vapi4k/envvar/EnvVar.kt
+
+#### INFO-002: Minimal JSON code in vapi4k-utils
+
+**Location:** `EnvVar.kt:92-98`
+
+```kotlin
+fun jsonEnvVarValues() =
+  buildJsonObject {
+    envVars.values
+      .filter { it.reportOnBoot && it.value.isNotBlank() }
+      .sortedBy { it.name }
+      .forEach { put(it.name, JsonPrimitive(it.logValue)) }
+  }
+```
+
+**Note:** This is the only JSON serialization in vapi4k-utils. It builds a simple JSON object for env var reporting.
+No malformed input handling issues - it only outputs pre-validated string values. The main JSON
+serialization/deserialization
+logic resides in vapi4k-core (DTOs) and will be reviewed in task 2.8.
+
+**No bugs found in this task for vapi4k-utils.**
+
+---
+
+## Task 1.3: Logging Utilities - Potential Issues
+
+### vapi4k-utils module
+
+#### INFO-003: No custom logging utilities
+
+**Note:** The vapi4k-utils module uses `KotlinLogging` from the `io.github.oshai` library directly (seen in
+`ServerRequestType.kt:20`). There are no custom logging wrapper utilities in this module that could introduce bugs.
+
+The logging configuration in `EnvVar.kt:70`:
+
+```kotlin
+System.setProperty("kotlin-logging.throwOnMessageError", "true")
+```
+
+This is intentional - it ensures logging errors are surfaced during development rather than silently ignored.
+
+**No bugs found in this task for vapi4k-utils.**
+
+---
+
+## Task 1.4: String/Collection Utilities - Null Safety
+
+### vapi4k-utils/src/main/kotlin/com/vapi4k/common/Utils.kt
+
+#### INFO-004: String utilities reviewed
+
+The string utilities in `Utils.kt` were reviewed in Task 1.1. Key null safety observations:
+
+- `ensureStartsWith()` / `ensureEndsWith()`: Safe - called on non-null String receivers
+- `trimLeadingSpaces()`: Safe - handles empty strings correctly
+- `capitalizeFirstChar()`: Safe - handles empty strings (returns empty)
+- `encode()` / `decode()`: See BUG-002 for decode() issue
+- `isNull()` / `isNotNull()`: Properly use Kotlin contracts for smart casting
+
+#### INFO-005: No collection utilities
+
+The vapi4k-utils module does not contain custom collection utilities. Standard Kotlin collection
+functions are used throughout.
+
+**No additional bugs found in this task.**
+
+---
+
 ## Summary
 
 | ID      | File                       | Severity | Category       |
