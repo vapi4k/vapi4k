@@ -184,15 +184,119 @@ functions are used throughout.
 
 ---
 
+## Task 2.1: Ktor Plugin Initialization and Lifecycle Management
+
+### vapi4k-core/src/main/kotlin/com/vapi4k/server/AdminJobs.kt
+
+#### BUG-007: Callback channel never closed on shutdown (Severity: Medium)
+
+**Location:** `Vapi4kServer.kt:118` and `AdminJobs.kt:59-137`
+
+```kotlin
+// Vapi4kServer.kt:118
+callbackChannel = Channel(Channel.UNLIMITED)
+
+// AdminJobs.kt:64 - waits forever
+for (callback in config.callbackChannel) { ... }
+```
+
+**Issue:** The `callbackChannel` is created but never closed when the application stops. The callback thread
+waits indefinitely on the channel. While daemon threads don't prevent JVM shutdown, callbacks may be
+processed during shutdown when resources are already released.
+**Recommendation:** Subscribe to `ApplicationStopping` and call `callbackChannel.close()` to signal
+the callback thread to exit gracefully.
+
+---
+
+#### BUG-008: Background threads not stopped on shutdown (Severity: Low)
+
+**Location:** `AdminJobs.kt:38-57` and `AdminJobs.kt:59-137`
+
+```kotlin
+thread(isDaemon = true) {
+  while (true) {
+    // runs forever
+  }
+}
+```
+
+**Issue:** Both `startCacheCleaningThread` and `startCallbackThread` run infinite loops. They're daemon
+threads so won't block JVM shutdown, but they continue processing during the shutdown phase.
+**Recommendation:** Use a `volatile var running = true` flag checked in the loop, set to `false` on
+`ApplicationStopping`. Or use coroutines with proper scope cancellation.
+
+---
+
+#### BUG-009: Double error handling in callback thread (Severity: Low)
+
+**Location:** `AdminJobs.kt:95-100`
+
+```kotlin
+val resp = runCatching {
+  callback.response.invoke()
+}.onFailure { e ->
+  logger.error { "Error creating response" }
+  error("Error creating response")  // throws exception
+}.getOrThrow()
+```
+
+**Issue:** On failure, this logs an error, then throws via `error()`, which is caught by the outer
+`runCatching` (line 62) which logs again. The `error()` message lacks context (no exception details).
+**Recommendation:** Either let the exception propagate with context, or handle it fully here without
+re-throwing.
+
+---
+
+### vapi4k-core/src/main/kotlin/com/vapi4k/dsl/vapi4k/Vapi4kConfigImpl.kt
+
+#### BUG-010: Global singleton pattern with mutable state (Severity: Low)
+
+**Location:** `Vapi4kConfigImpl.kt:38-40, 113-115`
+
+```kotlin
+init {
+  config = this  // Overwrites companion object reference
+}
+
+companion object {
+  internal lateinit var config: Vapi4kConfigImpl
+}
+```
+
+**Issue:** If multiple `Vapi4kConfigImpl` instances are created (e.g., in tests), the last one overwrites
+the global reference. This could cause subtle bugs where code references an old or different config.
+**Recommendation:** Use dependency injection, or add a guard to prevent multiple instantiations.
+
+---
+
+#### INFO-006: Lateinit properties risk
+
+**Location:** `Vapi4kConfigImpl.kt:42-43`
+
+```kotlin
+internal lateinit var applicationConfig: ApplicationConfig
+internal lateinit var callbackChannel: Channel<RequestResponseCallback>
+```
+
+**Note:** These properties throw `UninitializedPropertyAccessException` if accessed before plugin
+initialization. Risk is low since they're initialized in `Vapi4kServer.kt:115-118` during plugin setup,
+but could cause confusing errors if accessed from user code before the plugin is installed.
+
+---
+
 ## Summary
 
-| ID      | File                       | Severity | Category       |
-|---------|----------------------------|----------|----------------|
-| BUG-001 | Utils.kt:50                | Medium   | Edge Case      |
-| BUG-002 | Utils.kt:79                | Low      | Error Handling |
-| BUG-003 | EnvVar.kt:53               | Medium   | Error Handling |
-| BUG-004 | EnvVar.kt:61               | Medium   | Error Handling |
-| BUG-005 | EnvVar.kt:81               | Low      | Thread Safety  |
-| BUG-006 | ServerRequestType.kt:72-77 | Low      | Error Handling |
+| ID      | File                         | Severity | Category       |
+|---------|------------------------------|----------|----------------|
+| BUG-001 | Utils.kt:50                  | Medium   | Edge Case      |
+| BUG-002 | Utils.kt:79                  | Low      | Error Handling |
+| BUG-003 | EnvVar.kt:53                 | Medium   | Error Handling |
+| BUG-004 | EnvVar.kt:61                 | Medium   | Error Handling |
+| BUG-005 | EnvVar.kt:81                 | Low      | Thread Safety  |
+| BUG-006 | ServerRequestType.kt:72-77   | Low      | Error Handling |
+| BUG-007 | Vapi4kServer.kt/AdminJobs.kt | Medium   | Lifecycle      |
+| BUG-008 | AdminJobs.kt:38-137          | Low      | Lifecycle      |
+| BUG-009 | AdminJobs.kt:95-100          | Low      | Error Handling |
+| BUG-010 | Vapi4kConfigImpl.kt:38-40    | Low      | Design Pattern |
 
-**Total Issues Found:** 6 bugs, 1 informational note
+**Total Issues Found:** 10 bugs, 6 informational notes
