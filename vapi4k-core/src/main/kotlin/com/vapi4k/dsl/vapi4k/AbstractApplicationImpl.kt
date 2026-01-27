@@ -127,9 +127,13 @@ abstract class AbstractApplicationImpl(
         false
     logger.info { "Service tool cache contains IDs: $containsIds, contains function '$funcName': $containsFunc" }
     logger.info { "Looking for ${cacheKeyValue(requestContext)} in service tool cache" }
-    logger.info { "Service tool cache keys: ${serviceToolCache.cacheMap.keys()}" }
+    logger.info { "Service tool cache keys: ${serviceToolCache.cacheMap.keys().toList().map { "$it\n" }}" }
     logger.info { "Looking for $funcName in service tool cache" }
-    logger.info { "Service tool cache keys: ${serviceToolCache.getFromCache(requestContext).functions.keys()}" }
+    logger.info {
+      "Service tool cache keys: ${
+        serviceToolCache.getFromCache(requestContext).functions.keys().toList().map { "$it\n" }
+      }"
+    }
 
     return serviceToolCache.containsIds(requestContext) &&
       serviceToolCache.getFromCache(requestContext).containsFunction(funcName)
