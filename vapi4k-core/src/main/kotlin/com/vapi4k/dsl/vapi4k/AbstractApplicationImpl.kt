@@ -125,7 +125,7 @@ abstract class AbstractApplicationImpl(
         serviceToolCache.getFromCache(requestContext).containsFunction(funcName)
       else
         false
-    logger.info { "You now have the latest and greatest" }
+    logger.info { "You now have the latest and greatest lol" }
     logger.info { "Service tool cache contains IDs: $containsIds, contains function '$funcName': $containsFunc" }
     logger.info { "Looking for ${cacheKeyValue(requestContext)} in service tool cache" }
     logger.info { "Service tool cache keys: ${serviceToolCache.cacheMap.keys().toList().map { "$it\n" }}" }
