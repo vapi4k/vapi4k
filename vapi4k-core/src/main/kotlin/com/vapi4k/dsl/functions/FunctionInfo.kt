@@ -38,7 +38,7 @@ class FunctionInfo internal constructor(
   internal val ageSecs get() = age.toString(unit = DurationUnit.SECONDS)
   internal val size get() = functions.size
 
-  internal fun containsFunction(funcName: FunctionName) = functions.contains(funcName)
+  internal fun containsFunction(funcName: FunctionName) = functions.containsKey(funcName)
 
   internal fun addFunction(
     funcName: FunctionName,
