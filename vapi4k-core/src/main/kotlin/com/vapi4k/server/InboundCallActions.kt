@@ -58,10 +58,16 @@ internal object InboundCallActions {
     application: AbstractApplicationImpl,
   ) {
     val postObj = call.receive<String>()
+    val postObjJson = try {
+      postObj.toJsonElement()
+    } catch (e: Exception) {
+      logger.error { "Error parsing inbound call request JSON: <<\n$postObj\n>>" }
+      throw e
+    }
     // logger.info { "Inbound call request: $postObj" }
     val requestContext = RequestContextImpl(
       application = application,
-      request = postObj.toJsonElement(),
+      request = postObjJson,
       sessionId = call.getQueryParam(SESSION_ID)?.toSessionId() ?: INBOUND_CALL.getRandomSessionId(),
       assistantId = call.getQueryParam(ASSISTANT_ID)?.toAssistantId() ?: EMPTY_ASSISTANT_ID,
     )
