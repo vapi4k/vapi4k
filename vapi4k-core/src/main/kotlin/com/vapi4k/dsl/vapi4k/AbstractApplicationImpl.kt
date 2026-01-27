@@ -118,9 +118,22 @@ abstract class AbstractApplicationImpl(
   internal fun containsServiceTool(
     requestContext: RequestContextImpl,
     funcName: FunctionName,
-  ): Boolean =
-    serviceToolCache.containsIds(requestContext) &&
+  ): Boolean {
+    val containsIds = serviceToolCache.containsIds(requestContext)
+    val containsFunc =
+      if (containsIds)
+        serviceToolCache.getFromCache(requestContext).containsFunction(funcName)
+      else
+        false
+    logger.info { "Service tool cache contains IDs: $containsIds, contains function '$funcName': $containsFunc" }
+    logger.info { "Looking for ${cacheKeyValue(requestContext)} in service tool cache" }
+    logger.info { "Service tool cache keys: ${serviceToolCache.cacheMap.keys()}" }
+    logger.info { "Looking for $funcName in service tool cache" }
+    logger.info { "Service tool cache keys: ${serviceToolCache.getFromCache(requestContext).functions.keys()}" }
+
+    return serviceToolCache.containsIds(requestContext) &&
       serviceToolCache.getFromCache(requestContext).containsFunction(funcName)
+  }
 
   internal fun containsManualTool(funcName: FunctionName): Boolean = manualToolCache.containsTool(funcName)
 

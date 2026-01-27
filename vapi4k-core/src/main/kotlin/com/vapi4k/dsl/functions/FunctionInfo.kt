@@ -32,7 +32,7 @@ class FunctionInfo internal constructor(
   val assistantId: AssistantId,
 ) {
   private val created: Instant = Clock.System.now()
-  private val functions = ConcurrentHashMap<FunctionName, FunctionDetails>()
+  val functions = ConcurrentHashMap<FunctionName, FunctionDetails>()
 
   internal val age get() = Clock.System.now() - created
   internal val ageSecs get() = age.toString(unit = DurationUnit.SECONDS)

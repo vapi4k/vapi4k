@@ -37,7 +37,7 @@ internal class ServiceCache(
   private val pathBlock: () -> String,
 ) {
   private var lastCacheCleanInstant = Clock.System.now()
-  private val cacheMap = ConcurrentHashMap<CacheKey, FunctionInfo>()
+  val cacheMap = ConcurrentHashMap<CacheKey, FunctionInfo>()
 
   private val path get() = pathBlock().ensureStartsWith("/")
 
