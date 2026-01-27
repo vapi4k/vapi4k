@@ -284,19 +284,95 @@ but could cause confusing errors if accessed from user code before the plugin is
 
 ---
 
+## Task 2.2: Request/Response Handling Pipeline - Error Cases
+
+### vapi4k-core/src/main/kotlin/com/vapi4k/server/InboundCallActions.kt
+
+#### BUG-011: Production mode lacks error handling (Severity: High)
+
+**Location:** `InboundCallActions.kt:71-82` and `OutboundCallAndWebActions.kt:87-98`
+
+```kotlin
+if (isProduction || call.getHeader(VALIDATE_HEADER) != VALIDATE_VALUE) {
+  processInboundCallRequest(config, requestContext)  // No try-catch!
+} else {
+  runCatching {
+    processInboundCallRequest(config, requestContext)
+  }.onFailure { e -> ... }
+}
+```
+
+**Issue:** In production mode, exceptions from request processing are NOT caught. They propagate up
+causing unhandled 500 errors without logging. Error handling only exists in non-production mode with
+a special validate header.
+**Recommendation:** Always wrap request processing in error handling, regardless of production mode.
+Log errors and return appropriate error responses.
+
+---
+
+### vapi4k-core/src/main/kotlin/com/vapi4k/server/OutboundCallAndWebActions.kt
+
+#### BUG-012: Missing query param throws wrong error type (Severity: Medium)
+
+**Location:** `OutboundCallAndWebActions.kt:81`
+
+```kotlin
+sessionId = call.getQueryParam(SESSION_ID)?.toSessionId() ?: missingQueryParam(SESSION_ID),
+
+// HttpUtils.kt:74
+internal fun missingQueryParam(name: String): Nothing = error("Missing query parameter: $name")
+```
+
+**Issue:** When SESSION_ID is missing, `missingQueryParam` throws `IllegalStateException` via `error()`.
+This results in a 500 Internal Server Error instead of 400 Bad Request.
+**Recommendation:** Return `HttpStatusCode.BadRequest` with a clear error message instead of throwing.
+
+---
+
+### vapi4k-core/src/main/kotlin/com/vapi4k/responses/ToolCallResponse.kt
+
+#### BUG-013: Outer runCatching re-throws exception (Severity: Medium)
+
+**Location:** `ToolCallResponse.kt:127-130`
+
+```kotlin
+}.getOrElse { e ->
+  logger.error { "Error receiving tool call: ${e.errorMsg}" }
+  error("Error receiving tool call: ${e.errorMsg}")  // Re-throws!
+}
+```
+
+**Issue:** The outer `runCatching` catches exceptions but then re-throws via `error()`. This defeats
+the purpose of catching and causes the exception to propagate up to the caller.
+**Recommendation:** Return an error response object instead of re-throwing.
+
+---
+
+#### INFO-007: Tool/function error handling design
+
+**Note:** The tool and function call handling properly returns error messages in the `result` or
+`error` fields of the response objects. This is correct behavior for the Vapi API contract.
+The inner error handling (lines 66-117 in ToolCallResponse.kt, lines 37-55 in FunctionResponse.kt)
+is well-designed.
+
+---
+
 ## Summary
 
-| ID      | File                         | Severity | Category       |
-|---------|------------------------------|----------|----------------|
-| BUG-001 | Utils.kt:50                  | Medium   | Edge Case      |
-| BUG-002 | Utils.kt:79                  | Low      | Error Handling |
-| BUG-003 | EnvVar.kt:53                 | Medium   | Error Handling |
-| BUG-004 | EnvVar.kt:61                 | Medium   | Error Handling |
-| BUG-005 | EnvVar.kt:81                 | Low      | Thread Safety  |
-| BUG-006 | ServerRequestType.kt:72-77   | Low      | Error Handling |
-| BUG-007 | Vapi4kServer.kt/AdminJobs.kt | Medium   | Lifecycle      |
-| BUG-008 | AdminJobs.kt:38-137          | Low      | Lifecycle      |
-| BUG-009 | AdminJobs.kt:95-100          | Low      | Error Handling |
-| BUG-010 | Vapi4kConfigImpl.kt:38-40    | Low      | Design Pattern |
+| ID      | File                            | Severity | Category       |
+|---------|---------------------------------|----------|----------------|
+| BUG-001 | Utils.kt:50                     | Medium   | Edge Case      |
+| BUG-002 | Utils.kt:79                     | Low      | Error Handling |
+| BUG-003 | EnvVar.kt:53                    | Medium   | Error Handling |
+| BUG-004 | EnvVar.kt:61                    | Medium   | Error Handling |
+| BUG-005 | EnvVar.kt:81                    | Low      | Thread Safety  |
+| BUG-006 | ServerRequestType.kt:72-77      | Low      | Error Handling |
+| BUG-007 | Vapi4kServer.kt/AdminJobs.kt    | Medium   | Lifecycle      |
+| BUG-008 | AdminJobs.kt:38-137             | Low      | Lifecycle      |
+| BUG-009 | AdminJobs.kt:95-100             | Low      | Error Handling |
+| BUG-010 | Vapi4kConfigImpl.kt:38-40       | Low      | Design Pattern |
+| BUG-011 | InboundCallActions.kt:71-82     | High     | Error Handling |
+| BUG-012 | OutboundCallAndWebActions.kt:81 | Medium   | Error Handling |
+| BUG-013 | ToolCallResponse.kt:127-130     | Medium   | Error Handling |
 
-**Total Issues Found:** 10 bugs, 6 informational notes
+**Total Issues Found:** 13 bugs, 7 informational notes
