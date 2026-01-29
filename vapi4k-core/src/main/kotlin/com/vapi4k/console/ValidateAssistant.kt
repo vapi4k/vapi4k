@@ -51,6 +51,7 @@ object ValidateAssistant {
     requestContext: RequestContextImpl,
     status: HttpStatusCode,
     responseBody: String,
+    verbose: Boolean,
   ): String =
     html {
       navBar {
@@ -63,7 +64,7 @@ object ValidateAssistant {
 
       if (status == HttpStatusCode.OK) {
         displayResponse(application, responseBody)
-        displayTools(responseBody, requestContext)
+        displayTools(responseBody, requestContext, verbose)
       } else {
         displayError(application, status, responseBody)
       }

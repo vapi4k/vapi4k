@@ -61,7 +61,7 @@ internal object InboundCallActions {
     // logger.info { "Inbound call request: $postObj" }
     val requestContext = RequestContextImpl(
       application = application,
-      request = postObj.toJsonElement(),
+      request = postObj.toJsonElement(config.isVerbose),
       sessionId = call.getQueryParam(SESSION_ID)?.toSessionId() ?: INBOUND_CALL.getRandomSessionId(),
       assistantId = call.getQueryParam(ASSISTANT_ID)?.toAssistantId() ?: EMPTY_ASSISTANT_ID,
     )

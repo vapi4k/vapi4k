@@ -82,8 +82,9 @@ object ValidateTools {
   fun TagConsumer<*>.displayTools(
     responseBody: String,
     requestContext: RequestContextImpl,
+    verbose: Boolean,
   ) {
-    val topLevel = responseBody.toJsonElement()
+    val topLevel = responseBody.toJsonElement(verbose)
     // Strip messageResponse if it exists
     val child = if (topLevel.containsKeys("messageResponse")) topLevel["messageResponse"] else topLevel
     when {
@@ -117,7 +118,7 @@ object ValidateTools {
       }
 
       else -> {
-        logger.error { "Unknown response type: ${responseBody.toJsonElement().keys}" }
+        logger.error { "Unknown response type: ${responseBody.toJsonElement(verbose).keys}" }
       }
     }
   }
