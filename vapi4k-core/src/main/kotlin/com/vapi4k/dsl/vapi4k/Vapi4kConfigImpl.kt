@@ -53,10 +53,10 @@ class Vapi4kConfigImpl internal constructor() : Vapi4kConfig {
 
   internal val allApplications get() = inboundCallApplications + outboundCallApplications + webApplications
 
-  override var enableJsonVerboseLogging: Boolean = false
+  override var enableVerboseJsonExceptionLogging: Boolean = false
 
   internal val isVerbose: Boolean
-    get() = enableJsonVerboseLogging
+    get() = enableVerboseJsonExceptionLogging
 
   private fun verifyServerPath(
     serverPath: String,

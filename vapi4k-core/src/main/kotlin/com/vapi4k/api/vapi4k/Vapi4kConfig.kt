@@ -24,7 +24,7 @@ interface Vapi4kConfig : CommonCallbacks {
   /**
    * Enables verbose logging for JSON payload exceptions.
    */
-  var enableJsonVerboseLogging: Boolean
+  var enableVerboseJsonExceptionLogging: Boolean
 
   /**
   Creates a context for an InboundCall application.

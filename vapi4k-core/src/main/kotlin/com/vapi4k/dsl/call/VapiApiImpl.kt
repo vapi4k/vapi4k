@@ -42,10 +42,10 @@ import kotlinx.coroutines.runBlocking
 
 class VapiApiImpl private constructor(
   private val authString: String,
-  private val enableJsonVerboseLogging: Boolean,
+  private val enableVerboseJsonExceptionLogging: Boolean,
 ) : VapiApi {
   override fun phone(block: Phone.() -> OutboundCall): HttpResponse =
-    processOutboundCall(authString, enableJsonVerboseLogging, block)
+    processOutboundCall(authString, enableVerboseJsonExceptionLogging, block)
 
   internal fun test(block: Phone.() -> OutboundCall) =
     runBlocking {
@@ -109,7 +109,7 @@ class VapiApiImpl private constructor(
 
     fun vapiApi(
       authString: String = "",
-      enableJsonVerboseLogging: Boolean = false,
+      enableVerboseJsonExceptionLogging: Boolean = false,
     ): VapiApi {
       val apiAuth =
         authString.ifBlank {
@@ -119,7 +119,7 @@ class VapiApiImpl private constructor(
           }
         }
 
-      return VapiApiImpl(apiAuth, enableJsonVerboseLogging)
+      return VapiApiImpl(apiAuth, enableVerboseJsonExceptionLogging)
     }
   }
 }
