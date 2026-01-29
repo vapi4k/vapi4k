@@ -49,6 +49,7 @@ import java.net.URI
 object ProcessOutboundCall {
   internal fun processOutboundCall(
     authString: String,
+    verbose: Boolean,
     block: Phone.() -> OutboundCall,
   ): HttpResponse =
     runBlocking {
@@ -97,7 +98,7 @@ object ProcessOutboundCall {
         }
       }
 
-      val assistantJson = assistantResponse.bodyAsText().toJsonElement()
+      val assistantJson = assistantResponse.bodyAsText().toJsonElement(verbose)
 
       val outboundDto = (outboundCall as OutboundCallImpl).outboundCallRequestDto
       val outboundJson = outboundDto.toJsonElement()

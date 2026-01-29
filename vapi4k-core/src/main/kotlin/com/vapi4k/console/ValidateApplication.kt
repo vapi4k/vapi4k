@@ -85,7 +85,7 @@ internal object ValidateApplication {
         }.firstOrNull { it.serverPathNoSlash == appName.value }
 
       if (app.isNotNull()) {
-        val request = getNewRequest()
+        val request = getNewRequest(config.isVerbose)
         val secret = call.getQueryParam(SECRET_PARAM).orEmpty()
         val typePrefix = app.applicationType.pathPrefix
         val sessionId = app.applicationType.getRandomSessionId()
@@ -94,7 +94,7 @@ internal object ValidateApplication {
         val url = baseUrl.appendQueryParams(SESSION_ID to sessionId.value)
         logger.info { "Fetching content for url: $url" }
         val (status, responseBody) = fetchContent(app, request, secret, url)
-        validateAssistant(app, requestContext, status, responseBody)
+        validateAssistant(app, requestContext, status, responseBody, config.isVerbose)
       } else {
         html {
           navBar { singleNavItem() }
@@ -143,11 +143,11 @@ internal object ValidateApplication {
       }
     }
 
-  private fun getNewRequest(): JsonElement {
+  private fun getNewRequest(verbose: Boolean): JsonElement {
     val request = runCatching {
       resourceFile(REQUEST_VALIDATION_FILENAME.value)
     }.getOrElse { ASSISTANT_REQUEST_JSON }
-    return copyWithNewCallId(request.toJsonElement())
+    return copyWithNewCallId(request.toJsonElement(verbose))
   }
 
   private fun copyWithNewCallId(je: JsonElement): JsonElement =

@@ -22,6 +22,11 @@ import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 @Vapi4KDslMarker
 interface Vapi4kConfig : CommonCallbacks {
   /**
+   * Enables verbose logging for JSON payload exceptions.
+   */
+  var enableJsonVerboseLogging: Boolean
+
+  /**
   Creates a context for an InboundCall application.
    */
   fun inboundCallApplication(block: InboundCallApplication.() -> Unit): InboundCallApplication

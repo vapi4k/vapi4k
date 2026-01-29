@@ -212,7 +212,7 @@ val Vapi4k: ApplicationPlugin<Vapi4kConfig> =
                 outboundCallAndWebRequest(config, application, request)
               }
               post {
-                val json = call.receive<String>().toJsonElement()
+                val json = call.receive<String>().toJsonElement(config.isVerbose)
                 val request = buildRequestArg(json)
                 outboundCallAndWebRequest(config, application, request)
               }
