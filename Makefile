@@ -52,4 +52,4 @@ publish:
 	./gradlew publishToMavenLocal
 
 upgrade-wrapper:
-	./gradlew wrapper --gradle-version=9.3.1 --distribution-type=bin
+	./gradlew wrapper --gradle-version=9.2.1 --distribution-type=bin

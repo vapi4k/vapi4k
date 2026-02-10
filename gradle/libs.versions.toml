@@ -6,20 +6,19 @@ dokka = "2.0.0"
 exposed = "0.61.0"
 hikari = "7.0.2"
 kluent = "1.73"
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 kotlinter = "5.4.0"
 ktor = "3.4.0"
-logback = "1.5.26"
-logging = "7.0.7"
-micrometer = "1.16.1"
+logback = "1.5.29"
+logging = "7.0.14"
+micrometer = "1.16.3"
 pgjdbc = "0.8.9"
 postgres = "42.7.9"
 serialization = "1.10.0"
-utils = "2.4.10"
+utils = "2.5.3"
 versions = "0.53.0"
 
 [libraries]
-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 utils-json = { module = "com.github.pambrose.common-utils:json-utils", version.ref = "utils" }

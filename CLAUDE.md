@@ -29,7 +29,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with [Vapi.ai](https://vapi.ai). It provides
 type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-**Version:** 1.3.6
+**Version:** 1.3.7
 **Kotlin:** 2.3.0
 **Ktor:** 3.3.3
 **JVM Target:** 17

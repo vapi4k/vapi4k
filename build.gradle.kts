@@ -1,9 +1,9 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 plugins {
     `java-library`
@@ -24,7 +24,7 @@ val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
 val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
 
 allprojects {
-    extra["versionStr"] = "1.3.6"
+    extra["versionStr"] = "1.3.7"
     extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k"
     version = versionStr
@@ -45,10 +45,11 @@ subprojects {
 
     configureKotlin()
     configureTesting()
-    configureVersions()
     configureKotlinter()
     configureDokka()
 }
+
+configureVersions()
 
 dokka {
     moduleName.set("vapi4k")
@@ -102,7 +103,7 @@ fun Project.configureVersions() {
     tasks {
         withType<DependencyUpdatesTask> {
             rejectVersionIf {
-                listOf("BETA", "-RC").any { candidate.version.uppercase().contains(it) }
+                listOf("-BETA", "-RC", "-M").any { candidate.version.uppercase().contains(it) }
             }
         }
     }
