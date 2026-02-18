@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.jvm)
-    alias(libs.plugins.serialization)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.config)
     alias(libs.plugins.dokka)
 }

@@ -1,7 +1,5 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.dokka.DokkaConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
 
@@ -10,9 +8,15 @@ plugins {
     `maven-publish`
 
     alias(libs.plugins.jvm) apply true
-    alias(libs.plugins.kotlinter) apply true
-    alias(libs.plugins.versions) apply true
     alias(libs.plugins.dokka) apply true
+    alias(libs.plugins.kotlin.serialization)
+
+    alias(libs.plugins.pambrose.envvar) apply true
+    alias(libs.plugins.pambrose.stable.versions) apply true
+    alias(libs.plugins.pambrose.kotlinter) apply false
+    alias(libs.plugins.pambrose.repos) apply false
+    alias(libs.plugins.pambrose.snapshot) apply false
+    alias(libs.plugins.pambrose.testing) apply false
 }
 
 val versionStr: String by extra
@@ -21,19 +25,19 @@ val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
 val kotlinLib = libs.plugins.jvm.get().toString().split(":").first()
 val dokkaLib = libs.plugins.dokka.get().toString().split(":").first()
-val ktlinterLib = libs.plugins.kotlinter.get().toString().split(":").first()
+val ktlinterLib = libs.plugins.pambrose.kotlinter.get().toString().split(":").first()
+val repoLib = libs.plugins.pambrose.repos.get().toString().split(":").first()
+val snapshotLib = libs.plugins.pambrose.snapshot.get().toString().split(":").first()
+val testingLib = libs.plugins.pambrose.testing.get().toString().split(":").first()
 
 allprojects {
+    apply {
+        plugin(repoLib)
+    }
     extra["versionStr"] = "1.3.7"
     extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k"
     version = versionStr
-
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-    }
 }
 
 subprojects {
@@ -41,15 +45,14 @@ subprojects {
         plugin("java-library")
         plugin("maven-publish")
         plugin(dokkaLib)
+        plugin(testingLib)
+        plugin(snapshotLib)
+        plugin(ktlinterLib)
     }
 
     configureKotlin()
-    configureTesting()
-    configureKotlinter()
     configureDokka()
 }
-
-configureVersions()
 
 dokka {
     moduleName.set("vapi4k")
@@ -72,10 +75,6 @@ fun Project.configureKotlin() {
         plugin(kotlinLib)
     }
 
-    configurations.all {
-        resolutionStrategy.cacheChangingModulesFor(0, "seconds")
-    }
-
     kotlin {
         jvmToolchain(17)
 
@@ -84,38 +83,6 @@ fun Project.configureKotlin() {
             languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
             languageSettings.optIn("kotlin.contracts.ExperimentalContracts")
         }
-    }
-}
-
-fun Project.configureTesting() {
-    tasks.test {
-        useJUnitPlatform()
-
-        testLogging {
-            events("passed", "skipped", "failed", "standardOut", "standardError")
-            exceptionFormat = TestExceptionFormat.FULL
-            showStandardStreams = true
-        }
-    }
-}
-
-fun Project.configureVersions() {
-    tasks {
-        withType<DependencyUpdatesTask> {
-            rejectVersionIf {
-                listOf("-BETA", "-RC", "-M").any { candidate.version.uppercase().contains(it) }
-            }
-        }
-    }
-}
-
-fun Project.configureKotlinter() {
-    apply {
-        plugin(ktlinterLib)
-    }
-
-    kotlinter {
-        reporters = arrayOf("checkstyle", "plain")
     }
 }
 

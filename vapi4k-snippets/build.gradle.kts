@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.serialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {
