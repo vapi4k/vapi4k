@@ -42,6 +42,12 @@ buildconfig:
 kdocs:
 	./gradlew :dokkaGenerate
 
+trigger-build:
+	curl -s "https://jitpack.io/com/github/vapi4k/vapi4k/1.4.0/build.log"
+
+view-build:
+	curl -s "https://jitpack.io/api/builds/com.github.vapi4k/vapi4k/1.4.0" | python3 -m json.tool
+
 refresh:
 	./gradlew --refresh-dependencies dependencyUpdates
 
