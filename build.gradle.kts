@@ -34,13 +34,17 @@ allprojects {
     apply {
         plugin(repoLib)
     }
-    extra["versionStr"] = "1.3.7"
+    extra["versionStr"] = "1.3.8"
     extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k"
     version = versionStr
 }
 
 subprojects {
+    tasks.withType<GenerateModuleMetadata> {
+        enabled = false
+    }
+
     apply {
         plugin("java-library")
         plugin("maven-publish")
