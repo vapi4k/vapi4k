@@ -1,7 +1,7 @@
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import org.jetbrains.dokka.DokkaConfiguration
-import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.DokkaExtension
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 
 plugins {
     `java-library`
@@ -60,6 +60,7 @@ dokka {
         outputDirectory.set(layout.buildDirectory.dir("kdocs"))
     }
     pluginsConfiguration.html {
+        homepageLink.set("https://github.com/vapi4k/vapi4k")
         footerMessage.set("vapi4k")
     }
 }
@@ -87,30 +88,25 @@ fun Project.configureKotlin() {
 }
 
 fun Project.configureDokka() {
-    tasks.withType<DokkaTask>().configureEach {
-        dokkaSourceSets {
-            configureEach {
-                outputDirectory.set(layout.buildDirectory.dir("kdocs"))
+    extensions.configure<DokkaExtension> {
+        dokkaSourceSets.configureEach {
+            enableKotlinStdLibDocumentationLink.set(false)
+            enableJdkDocumentationLink.set(false)
 
-                noStdlibLink.set(true)
-                noJdkLink.set(true)
+            documentedVisibilities(VisibilityModifier.Public)
 
-                documentedVisibilities.set(setOf(DokkaConfiguration.Visibility.PUBLIC))
+            // Exclude everything first
+            perPackageOption {
+                matchingRegex.set("com.vapi4k.*")
+                suppress.set(true)
+            }
 
-                // Exclude everything first
-                perPackageOption {
-                    matchingRegex.set("com.vapi4k.*")
-                    suppress.set(true)
-                }
-
-                // Include specific packages
-                perPackageOption {
-                    matchingRegex.set("com.vapi4k.api.*")
-                    includeNonPublic.set(false)
-                    reportUndocumented.set(false)
-                    skipDeprecated.set(false)
-                    suppress.set(false)
-                }
+            // Include specific packages
+            perPackageOption {
+                matchingRegex.set("com.vapi4k.api.*")
+                reportUndocumented.set(false)
+                skipDeprecated.set(false)
+                suppress.set(false)
             }
         }
     }

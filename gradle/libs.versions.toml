@@ -2,7 +2,7 @@
 
 [versions]
 config = "6.0.7"
-dokka = "2.0.0"
+dokka = "2.1.0"
 exposed = "0.61.0"
 gradle-plugins = "1.0.2"
 hikari = "7.0.2"

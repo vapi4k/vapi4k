@@ -42,10 +42,12 @@ dependencies {
 
 dokka {
     pluginsConfiguration.html {
+        homepageLink.set("https://github.com/vapi4k/vapi4k")
         footerMessage.set("vapi4k-utils")
     }
     dokkaSourceSets.configureEach {
         sourceLink {
+            includes.from("../docs/packages.md")
             localDirectory.set(file("src/main/kotlin"))
             remoteUrl.set(uri("https://github.com/vapi4k/vapi4k/blob/master/vapi4k-utils/src/main/kotlin"))
             remoteLineSuffix.set("#L")
