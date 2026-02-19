@@ -270,5 +270,5 @@ starts a Ktor test app, posts a JSON fixture, and returns `(HttpResponse, JsonEl
 
 ## Publishing
 
-Published to JitPack: group `com.github.vapi4k`, artifacts `vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`.
+Published to JitPack: group `com.github.vapi4k.vapi4k`, artifacts `vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`.
 All modules include sources JAR. Template repo: [vapi4k-template](https://github.com/vapi4k/vapi4k-template).

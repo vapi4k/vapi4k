@@ -36,7 +36,7 @@ allprojects {
     }
     extra["versionStr"] = "1.3.8"
     extra["releaseDate"] = LocalDate.now().format(formatter)
-    group = "com.github.vapi4k"
+    group = "com.github.vapi4k.vapi4k"
     version = versionStr
 }
 
