@@ -27,9 +27,9 @@ interface AssistantFunctions {
 
   /**
   These are the settings to configure or disable voicemail detection. Alternatively, voicemail detection can be
-  configured using the model.tools=[VoicemailTool]. This uses Twilio's built-in detection while the VoicemailTool
+  configured using the model.tools=[com.vapi4k.api.tools.VoiceMailTool]. This uses Twilio's built-in detection while the VoiceMailTool
   relies on the model to detect if a voicemail was reached. You can use neither of them, one of them, or both of them.
-  By default, Twilio built-in detection is enabled while VoicemailTool is not.
+  By default, Twilio built-in detection is enabled while VoiceMailTool is not.
    */
   fun voicemailDetection(block: VoicemailDetection.() -> Unit): VoicemailDetection
 
