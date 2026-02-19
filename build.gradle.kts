@@ -41,6 +41,10 @@ allprojects {
 }
 
 subprojects {
+    tasks.withType<GenerateModuleMetadata> {
+        enabled = false
+    }
+
     apply {
         plugin("java-library")
         plugin("maven-publish")

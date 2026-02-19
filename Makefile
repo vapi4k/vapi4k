@@ -42,6 +42,9 @@ buildconfig:
 kdocs:
 	./gradlew :dokkaGenerate
 
+refresh:
+	./gradlew --refresh-dependencies dependencyUpdates
+
 mddocs:
 	./gradlew dokkaGfm
 
@@ -52,4 +55,4 @@ publish:
 	./gradlew publishToMavenLocal
 
 upgrade-wrapper:
-	./gradlew wrapper --gradle-version=9.2.1 --distribution-type=bin
+	./gradlew wrapper --gradle-version=9.2.0 --distribution-type=bin
