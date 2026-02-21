@@ -34,7 +34,7 @@ stage:
 	./gradlew stage
 
 versioncheck:
-	./gradlew dependencyUpdates
+	./gradlew dependencyUpdates --no-configuration-cache
 
 buildconfig:
 	./gradlew generateBuildConfig
