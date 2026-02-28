@@ -8,6 +8,7 @@ vapi2.conf
 
 .run/
 secrets/
+.claude/worktrees
 
 src/test/resources/application.conf
 
