@@ -1,3 +1,5 @@
+VERSION := $(shell grep 'extra\["versionStr"\]' build.gradle.kts | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+
 default: versioncheck
 
 build-all: clean stage
@@ -43,10 +45,10 @@ kdocs:
 	./gradlew :dokkaGenerate
 
 trigger-build:
-	curl -s "https://jitpack.io/com/github/vapi4k/vapi4k/1.4.0/build.log"
+	curl --fail-with-body "https://jitpack.io/com/github/vapi4k/vapi4k/$(VERSION)/build.log"
 
 view-build:
-	curl -s "https://jitpack.io/api/builds/com.github.vapi4k/vapi4k/1.4.0" | python3 -m json.tool
+	curl -s "https://jitpack.io/api/builds/com.github.vapi4k/vapi4k/$(VERSION)" | python3 -m json.tool
 
 refresh:
 	./gradlew --refresh-dependencies dependencyUpdates
