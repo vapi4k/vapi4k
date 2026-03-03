@@ -26,8 +26,8 @@ import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.common.AssistantId
 import com.vapi4k.common.SessionId
 import com.vapi4k.dsl.vapi4k.AbstractApplicationImpl
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlinx.serialization.json.JsonElement
 
 class RequestContextImpl(

@@ -42,9 +42,9 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType.Application
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import java.net.URI
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.buildJsonObject
-import java.net.URI
 
 object ProcessOutboundCall {
   internal fun processOutboundCall(

@@ -22,9 +22,9 @@ import com.vapi4k.common.SessionId
 import com.vapi4k.dsl.vapi4k.RequestResponseType
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.utils.JsonUtils.EMPTY_JSON_ELEMENT
-import kotlinx.datetime.Instant
-import kotlinx.serialization.json.JsonElement
 import kotlin.time.Duration
+import kotlin.time.Instant
+import kotlinx.serialization.json.JsonElement
 
 data class RequestResponseCallback(
   val type: RequestResponseType,

@@ -21,11 +21,11 @@ import com.vapi4k.common.FunctionName
 import com.vapi4k.common.SessionId
 import com.vapi4k.dsl.functions.FunctionDetails.FunctionDetailsDto
 import com.vapi4k.dsl.functions.FunctionDetails.FunctionDetailsDto.Companion.toFunctionDetailsDto
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.serialization.Serializable
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Clock
 import kotlin.time.DurationUnit
+import kotlin.time.Instant
+import kotlinx.serialization.Serializable
 
 class FunctionInfo internal constructor(
   val sessionId: SessionId,

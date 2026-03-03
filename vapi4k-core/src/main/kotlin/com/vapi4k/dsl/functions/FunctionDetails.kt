@@ -35,14 +35,14 @@ import com.vapi4k.utils.ReflectionUtils.isUnitReturnType
 import com.vapi4k.utils.ReflectionUtils.parameterSignature
 import com.vapi4k.utils.ReflectionUtils.toolCallAnnotation
 import com.vapi4k.utils.ReflectionUtils.valueParameters
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
 import java.lang.reflect.InvocationTargetException
 import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.plusAssign
 import kotlin.reflect.KFunction
 import kotlin.reflect.KType
 import kotlin.reflect.full.callSuspendBy
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 class FunctionDetails internal constructor(
   val obj: Any,

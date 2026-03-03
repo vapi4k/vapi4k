@@ -59,6 +59,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.server.routing.RoutingContext
 import io.ktor.util.network.UnresolvedAddressException
+import java.io.IOException
 import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h2
@@ -69,7 +70,6 @@ import kotlinx.html.span
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
-import java.io.IOException
 
 internal object ValidateApplication {
   suspend fun RoutingContext.validateApplication(config: Vapi4kConfigImpl): String =

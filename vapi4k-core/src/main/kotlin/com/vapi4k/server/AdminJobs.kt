@@ -26,13 +26,13 @@ import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.plugin.Vapi4kServer.logger
 import com.vapi4k.server.RequestResponseCallback.Companion.requestCallback
 import com.vapi4k.server.RequestResponseCallback.Companion.responseCallback
+import kotlin.concurrent.thread
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.JsonElement
-import kotlin.concurrent.thread
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 
 internal object AdminJobs {
   fun startCacheCleaningThread(config: Vapi4kConfigImpl) {

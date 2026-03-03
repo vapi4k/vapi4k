@@ -21,8 +21,8 @@ import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.ResponseContext
 import com.vapi4k.api.vapi4k.ServerRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
-import kotlinx.serialization.json.JsonElement
 import kotlin.time.Duration
+import kotlinx.serialization.json.JsonElement
 
 class ResponseContextImpl(
   override val requestContext: RequestContext,

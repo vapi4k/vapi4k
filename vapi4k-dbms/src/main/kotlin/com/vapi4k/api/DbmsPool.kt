@@ -19,7 +19,7 @@ package com.vapi4k.api
 import com.vapi4k.dbms.DbmsEnvVars
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.v1.jdbc.Database
 import kotlin.time.Duration.Companion.minutes
 
 object DbmsPool {

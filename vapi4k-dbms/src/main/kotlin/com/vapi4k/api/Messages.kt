@@ -21,8 +21,8 @@ import com.vapi4k.api.vapi4k.ServerRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.dbms.MessagesTable
 import kotlinx.serialization.json.JsonElement
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import kotlin.time.Duration
 
 object Messages {
