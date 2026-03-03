@@ -1,0 +1,50 @@
+# Vapi4k
+
+> Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with Vapi.ai. It provides type-safe builders for configuring assistants, tools, models, voices, and call workflows.
+
+Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.5.0.
+
+Key dependency versions: Kotlin 2.3.10, Ktor 3.4.1, Kotlinx Serialization 1.10.0, Exposed 1.1.1.
+
+## Modules
+
+- **vapi4k-core**: Ktor plugin, DSL implementations, and Vapi integration
+- **vapi4k-dbms**: Optional database persistence for message history (HikariCP + PostgreSQL + Exposed ORM)
+- **vapi4k-utils**: Foundation module with shared utilities; zero external dependencies besides Kotlin stdlib, logging, and JSON
+
+Dependencies: vapi4k-core depends on vapi4k-utils; vapi4k-dbms depends on vapi4k-utils.
+
+## Features
+
+- Type-safe Kotlin DSL for configuring assistants, tools, models, voices, and transcribers
+- Three application types: inbound calls, outbound calls, and browser-based web interactions
+- Multi-provider support: 10 model providers, 9 voice providers, 3 transcriber providers
+- Flexible tool system: annotation-based service tools, imperative manual tools, and external HTTP tools
+- Squad support for multi-assistant configurations with transfer destinations
+- Built-in admin dashboard with cache inspection, live log streaming, and tool validation
+- Optional PostgreSQL persistence for message history
+
+## Installation
+
+Published to JitPack under group `com.github.vapi4k.vapi4k`. Artifacts: `vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`.
+
+```
+repositories {
+  maven("https://jitpack.io")
+}
+
+dependencies {
+  implementation("com.github.vapi4k.vapi4k:vapi4k-core:1.5.0")
+  // Optional: database persistence
+  implementation("com.github.vapi4k.vapi4k:vapi4k-dbms:1.5.0")
+}
+```
+
+## Links
+
+- [Documentation](https://vapi4k.com/overview.html)
+- [KDocs (API Reference)](https://vapi4k.com/kdocs/)
+- [GitHub Repository](https://github.com/vapi4k/vapi4k)
+- [Getting Started Template](https://github.com/vapi4k/vapi4k-template)
+- [JitPack](https://jitpack.io/#vapi4k/vapi4k)
+- [Vapi.ai](https://vapi.ai)
