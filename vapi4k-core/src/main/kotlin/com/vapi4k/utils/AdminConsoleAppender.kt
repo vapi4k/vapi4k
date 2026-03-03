@@ -18,10 +18,10 @@ package com.vapi4k.utils
 
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.ConsoleAppender
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.runBlocking
 import java.lang.reflect.Field
 import kotlin.reflect.full.declaredMemberProperties
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.runBlocking
 
 class AdminConsoleAppender : ConsoleAppender<ILoggingEvent>() {
   private val consoleFlow: MutableSharedFlow<String>

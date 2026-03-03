@@ -39,10 +39,10 @@ import io.ktor.server.websocket.WebSockets
 import io.ktor.server.websocket.pingPeriod
 import io.ktor.server.websocket.timeout
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import org.slf4j.event.Level
-import kotlin.time.Duration.Companion.seconds
 
 fun Application.defaultKtorConfig(appMicrometerRegistry: PrometheusMeterRegistry) {
 //  if (!pluginRegistry.contains(ContentNegotiation.key)) {

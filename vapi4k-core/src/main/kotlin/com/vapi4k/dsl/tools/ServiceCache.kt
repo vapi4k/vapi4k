@@ -27,11 +27,11 @@ import com.vapi4k.dsl.functions.ToolCallInfo
 import com.vapi4k.dsl.model.AbstractModelImpl
 import com.vapi4k.plugin.Vapi4kServer.logger
 import com.vapi4k.server.RequestContextImpl
-import kotlinx.datetime.Clock
-import kotlinx.serialization.Serializable
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KFunction
+import kotlin.time.Clock
 import kotlin.time.Duration
+import kotlinx.serialization.Serializable
 
 internal class ServiceCache(
   private val pathBlock: () -> String,

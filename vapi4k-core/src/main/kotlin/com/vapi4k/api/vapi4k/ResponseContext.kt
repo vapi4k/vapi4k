@@ -16,8 +16,8 @@
 
 package com.vapi4k.api.vapi4k
 
-import kotlinx.serialization.json.JsonElement
 import kotlin.time.Duration
+import kotlinx.serialization.json.JsonElement
 
 interface ResponseContext {
   val requestContext: RequestContext
