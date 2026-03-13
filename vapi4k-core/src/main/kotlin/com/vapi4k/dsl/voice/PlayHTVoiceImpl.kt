@@ -16,10 +16,15 @@
 
 package com.vapi4k.dsl.voice
 
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.api.voice.PlayHTVoice
 import com.vapi4k.dtos.voice.PlayHTVoiceDto
 
 internal class PlayHTVoiceImpl(
   private val dto: PlayHTVoiceDto,
 ) : PlayHTVoiceProperties by dto,
-  PlayHTVoice
+  PlayHTVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}

@@ -16,10 +16,15 @@
 
 package com.vapi4k.dsl.voice
 
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.api.voice.LMNTVoice
 import com.vapi4k.dtos.voice.LMNTVoiceDto
 
 internal class LMNTVoiceImpl(
   private val dto: LMNTVoiceDto,
 ) : LMNTVoiceProperties by dto,
-  LMNTVoice
+  LMNTVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}

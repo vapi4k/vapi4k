@@ -14,17 +14,17 @@
  *
  */
 
-package com.vapi4k.api.voice
+package com.vapi4k.dsl.voice
 
-import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
-import com.vapi4k.dsl.voice.LMNTVoiceProperties
+import com.vapi4k.api.voice.ChunkPlan
+import com.vapi4k.api.voice.FormatPlan
+import com.vapi4k.dtos.voice.ChunkPlanDto
 
-@Vapi4KDslMarker
-interface LMNTVoice : LMNTVoiceProperties {
-  /**
-  <p>This is the chunk plan for controlling how the model output is split into chunks before being sent to the
-  voice provider for generation.
-  </p>
-   */
-  fun chunkPlan(block: ChunkPlan.() -> Unit)
+class ChunkPlanImpl internal constructor(
+  private val dto: ChunkPlanDto,
+) : ChunkPlanProperties by dto,
+  ChunkPlan {
+  override fun formatPlan(block: FormatPlan.() -> Unit) {
+    FormatPlanImpl(dto.formatPlan).apply(block)
+  }
 }

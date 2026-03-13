@@ -16,10 +16,15 @@
 
 package com.vapi4k.dsl.voice
 
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.api.voice.RimeAIVoice
 import com.vapi4k.dtos.voice.RimeAIVoiceDto
 
 internal class RimeAIVoiceImpl(
   private val dto: RimeAIVoiceDto,
 ) : RimeAIVoiceProperties by dto,
-  RimeAIVoice
+  RimeAIVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}

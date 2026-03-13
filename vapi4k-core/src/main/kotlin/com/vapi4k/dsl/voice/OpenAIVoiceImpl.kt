@@ -16,10 +16,15 @@
 
 package com.vapi4k.dsl.voice
 
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.api.voice.OpenAIVoice
 import com.vapi4k.dtos.voice.OpenAIVoiceDto
 
 internal class OpenAIVoiceImpl(
   private val dto: OpenAIVoiceDto,
 ) : OpenAIVoiceProperties by dto,
-  OpenAIVoice
+  OpenAIVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}

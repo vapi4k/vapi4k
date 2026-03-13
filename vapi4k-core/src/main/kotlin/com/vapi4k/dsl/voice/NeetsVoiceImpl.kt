@@ -16,10 +16,15 @@
 
 package com.vapi4k.dsl.voice
 
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.api.voice.NeetsVoice
 import com.vapi4k.dtos.voice.NeetsVoiceDto
 
 internal class NeetsVoiceImpl(
   private val dto: NeetsVoiceDto,
 ) : NeetsVoiceProperties by dto,
-  NeetsVoice
+  NeetsVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}

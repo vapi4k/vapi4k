@@ -20,4 +20,11 @@ import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 import com.vapi4k.dsl.voice.OpenAIVoiceProperties
 
 @Vapi4KDslMarker
-interface OpenAIVoice : OpenAIVoiceProperties
+interface OpenAIVoice : OpenAIVoiceProperties {
+  /**
+  <p>This is the chunk plan for controlling how the model output is split into chunks before being sent to the
+  voice provider for generation.
+  </p>
+   */
+  fun chunkPlan(block: ChunkPlan.() -> Unit)
+}

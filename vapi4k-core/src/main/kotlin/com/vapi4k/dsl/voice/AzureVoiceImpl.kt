@@ -17,9 +17,14 @@
 package com.vapi4k.dsl.voice
 
 import com.vapi4k.api.voice.AzureVoice
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.dtos.voice.AzureVoiceDto
 
 internal class AzureVoiceImpl(
   private val dto: AzureVoiceDto,
 ) : AzureVoiceProperties by dto,
-  AzureVoice
+  AzureVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}

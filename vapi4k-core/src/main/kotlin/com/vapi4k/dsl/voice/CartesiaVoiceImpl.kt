@@ -17,9 +17,14 @@
 package com.vapi4k.dsl.voice
 
 import com.vapi4k.api.voice.CartesiaVoice
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.dtos.voice.CartesiaVoiceDto
 
 internal class CartesiaVoiceImpl(
   private val dto: CartesiaVoiceDto,
 ) : CartesiaVoiceProperties by dto,
-  CartesiaVoice
+  CartesiaVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}
