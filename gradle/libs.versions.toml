@@ -1,7 +1,7 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-config = "6.0.7"
+config = "6.0.9"
 dokka = "2.1.0"
 exposed = "1.1.1"
 gradle-plugins = "1.0.8"
@@ -11,11 +11,11 @@ kotlin = "2.3.10"
 ktor = "3.4.1"
 logback = "1.5.32"
 logging = "8.0.01"
-micrometer = "1.16.3"
+micrometer = "1.16.4"
 pgjdbc = "0.8.9"
 postgres = "42.7.10"
 serialization = "1.10.0"
-utils = "2.6.0"
+utils = "2.6.1"
 
 [libraries]
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
