@@ -29,8 +29,15 @@ import kotlinx.serialization.encoding.Encoder
 enum class CartesiaVoiceModelType(
   val desc: String,
 ) {
+  SONIC("sonic"),
+  SONIC_2("sonic-2"),
+  SONIC_2_2025_06_11("sonic-2-2025-06-11"),
+  SONIC_3("sonic-3"),
+  SONIC_3_2025_10_27("sonic-3-2025-10-27"),
+  SONIC_3_2026_01_12("sonic-3-2026-01-12"),
   SONIC_ENGLISH("sonic-english"),
   SONIC_MULTILINGUAL("sonic-multilingual"),
+  SONIC_PREVIEW("sonic-preview"),
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
   ;
 
