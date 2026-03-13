@@ -63,9 +63,6 @@ enum class GladiaLanguageType(
   INDONESIAN("id"),
   ITALIAN("it"),
   JAPANESE("ja"),
-
-  // TODO: Unknown
-  JP("jp"),
   JAVANESE("jv"),
   KANNADA("kn"),
   KAZAKH("kk"),
@@ -85,9 +82,7 @@ enum class GladiaLanguageType(
   MAORI("mi"),
   MARATHI("mr"),
   MONGOLIAN("mn"),
-
-  // TODO: Unknown
-  MYMR("mymr"),
+  BURMESE("my"),
   NEPALI("ne"),
   NORWEGIAN("no"),
   NORWEGIAN_NYNORSK("nn"),
