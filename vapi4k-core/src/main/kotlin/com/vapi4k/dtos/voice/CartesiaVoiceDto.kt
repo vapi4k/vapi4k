@@ -18,7 +18,6 @@ package com.vapi4k.dtos.voice
 
 import com.vapi4k.api.voice.CartesiaVoiceLanguageType
 import com.vapi4k.api.voice.CartesiaVoiceModelType
-import com.vapi4k.api.voice.PunctuationType
 import com.vapi4k.api.voice.VoiceProviderType
 import com.vapi4k.dsl.voice.CartesiaVoiceProperties
 import kotlinx.serialization.EncodeDefault
@@ -27,11 +26,8 @@ import kotlinx.serialization.Transient
 
 @Serializable
 data class CartesiaVoiceDto(
-  override var inputPreprocessingEnabled: Boolean? = null,
-  override var inputReformattingEnabled: Boolean? = null,
-  override var inputMinCharacters: Int = -1,
-  override val inputPunctuationBoundaries: MutableSet<PunctuationType> = mutableSetOf(),
   override var fillerInjectionEnabled: Boolean? = null,
+  val chunkPlan: ChunkPlanDto = ChunkPlanDto(),
   var model: String = "",
   @Transient
   override var modelType: CartesiaVoiceModelType = CartesiaVoiceModelType.UNSPECIFIED,

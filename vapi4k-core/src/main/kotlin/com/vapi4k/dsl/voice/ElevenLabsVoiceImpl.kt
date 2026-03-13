@@ -16,10 +16,15 @@
 
 package com.vapi4k.dsl.voice
 
+import com.vapi4k.api.voice.ChunkPlan
 import com.vapi4k.api.voice.ElevenLabsVoice
 import com.vapi4k.dtos.voice.ElevenLabsVoiceDto
 
 internal class ElevenLabsVoiceImpl(
   private val dto: ElevenLabsVoiceDto,
 ) : ElevenLabsVoiceProperties by dto,
-  ElevenLabsVoice
+  ElevenLabsVoice {
+  override fun chunkPlan(block: ChunkPlan.() -> Unit) {
+    ChunkPlanImpl(dto.chunkPlan).apply(block)
+  }
+}

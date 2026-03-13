@@ -16,14 +16,9 @@
 
 package com.vapi4k.dtos.voice
 
-import com.vapi4k.api.voice.PunctuationType
 import kotlinx.serialization.Serializable
 
 @Serializable
 abstract class AbstractVoiceDto {
-  var inputPreprocessingEnabled: Boolean? = null
-  var inputReformattingEnabled: Boolean? = null
-  var inputMinCharacters: Int = -1
-  val inputPunctuationBoundaries: MutableSet<PunctuationType> = mutableSetOf()
   var fillerInjectionEnabled: Boolean? = null
 }

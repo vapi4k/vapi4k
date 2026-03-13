@@ -20,4 +20,11 @@ import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 import com.vapi4k.dsl.voice.ElevenLabsVoiceProperties
 
 @Vapi4KDslMarker
-interface ElevenLabsVoice : ElevenLabsVoiceProperties
+interface ElevenLabsVoice : ElevenLabsVoiceProperties {
+  /**
+  <p>This is the chunk plan for controlling how the model output is split into chunks before being sent to the
+  voice provider for generation.
+  </p>
+   */
+  fun chunkPlan(block: ChunkPlan.() -> Unit)
+}

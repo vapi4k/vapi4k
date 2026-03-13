@@ -14,17 +14,13 @@
  *
  */
 
-package com.vapi4k.api.voice
+package com.vapi4k.dtos.voice
 
-import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
-import com.vapi4k.dsl.voice.LMNTVoiceProperties
+import com.vapi4k.dsl.voice.FormatPlanProperties
+import kotlinx.serialization.Serializable
 
-@Vapi4KDslMarker
-interface LMNTVoice : LMNTVoiceProperties {
-  /**
-  <p>This is the chunk plan for controlling how the model output is split into chunks before being sent to the
-  voice provider for generation.
-  </p>
-   */
-  fun chunkPlan(block: ChunkPlan.() -> Unit)
-}
+@Serializable
+data class FormatPlanDto(
+  override var enabled: Boolean? = null,
+  override var numberToDigitsCutoff: Int = -1,
+) : FormatPlanProperties

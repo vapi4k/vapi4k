@@ -16,7 +16,9 @@
 
 package com.vapi4k
 
+import com.github.pambrose.common.json.booleanValue
 import com.github.pambrose.common.json.get
+import com.github.pambrose.common.json.intValue
 import com.github.pambrose.common.json.jsonElementList
 import com.github.pambrose.common.json.stringValue
 import com.github.pambrose.common.json.toJsonElement
@@ -26,9 +28,11 @@ import com.vapi4k.api.voice.CartesiaVoiceLanguageType
 import com.vapi4k.api.voice.CartesiaVoiceModelType
 import com.vapi4k.api.voice.PlayHTVoiceEmotionType
 import com.vapi4k.api.voice.PlayHTVoiceIdType
+import com.vapi4k.api.voice.PunctuationType
 import com.vapi4k.utils.assistantResponse
 import kotlinx.serialization.json.jsonArray
 import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeTrue
 import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
 
@@ -275,6 +279,86 @@ class VoiceTest {
     }.also {
       it.message shouldBeEqualTo "cartesiaVoice{} already called"
     }
+  }
+
+  @Test
+  fun `chunkPlan serializes as nested JSON`() {
+    val squad =
+      assistantResponse(newRequestContext()) {
+        squad {
+          members {
+            member {
+              assistant {
+                name = "Receptionist"
+                firstMessage = "Hi there!"
+
+                groqModel {
+                  modelType = GroqModelType.LLAMA3_8B_8192
+                }
+
+                cartesiaVoice {
+                  voiceId = "test-voice"
+                  chunkPlan {
+                    enabled = true
+                    minCharacters = 40
+                    punctuationBoundaries += PunctuationType.PERIOD
+                    punctuationBoundaries += PunctuationType.COMMA
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    val jsonElement = squad.toJsonElement()
+    val voice = jsonElement["messageResponse.squad.members"].jsonArray.first()["assistant.voice"]
+    voice.stringValue("provider") shouldBeEqualTo "cartesia"
+    voice.stringValue("voiceId") shouldBeEqualTo "test-voice"
+    voice.booleanValue("chunkPlan.enabled").shouldBeTrue()
+    voice.intValue("chunkPlan.minCharacters") shouldBeEqualTo 40
+    voice["chunkPlan.punctuationBoundaries"].jsonArray.size shouldBeEqualTo 2
+  }
+
+  @Test
+  fun `chunkPlan with nested formatPlan serializes correctly`() {
+    val squad =
+      assistantResponse(newRequestContext()) {
+        squad {
+          members {
+            member {
+              assistant {
+                name = "Receptionist"
+                firstMessage = "Hi there!"
+
+                groqModel {
+                  modelType = GroqModelType.LLAMA3_8B_8192
+                }
+
+                cartesiaVoice {
+                  voiceId = "test-voice"
+                  fillerInjectionEnabled = true
+                  chunkPlan {
+                    enabled = true
+                    minCharacters = 50
+                    formatPlan {
+                      enabled = true
+                      numberToDigitsCutoff = 2025
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    val jsonElement = squad.toJsonElement()
+    val voice = jsonElement["messageResponse.squad.members"].jsonArray.first()["assistant.voice"]
+    voice.stringValue("provider") shouldBeEqualTo "cartesia"
+    voice.booleanValue("fillerInjectionEnabled").shouldBeTrue()
+    voice.booleanValue("chunkPlan.enabled").shouldBeTrue()
+    voice.intValue("chunkPlan.minCharacters") shouldBeEqualTo 50
+    voice.booleanValue("chunkPlan.formatPlan.enabled").shouldBeTrue()
+    voice.intValue("chunkPlan.formatPlan.numberToDigitsCutoff") shouldBeEqualTo 2025
   }
 
   @Test

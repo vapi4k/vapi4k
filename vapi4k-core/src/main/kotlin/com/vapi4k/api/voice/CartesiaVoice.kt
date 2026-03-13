@@ -20,4 +20,11 @@ import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 import com.vapi4k.dsl.voice.CartesiaVoiceProperties
 
 @Vapi4KDslMarker
-interface CartesiaVoice : CartesiaVoiceProperties
+interface CartesiaVoice : CartesiaVoiceProperties {
+  /**
+  <p>This is the chunk plan for controlling how the model output is split into chunks before being sent to the
+  voice provider for generation.
+  </p>
+   */
+  fun chunkPlan(block: ChunkPlan.() -> Unit)
+}

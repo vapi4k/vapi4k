@@ -17,14 +17,14 @@
 package com.vapi4k.api.voice
 
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
-import com.vapi4k.dsl.voice.LMNTVoiceProperties
+import com.vapi4k.dsl.voice.FormatPlanProperties
 
+/**
+<p>This is the format plan for the voice output. It controls how text is reformatted before being sent to the voice
+provider. Many things are reformatted including phone numbers, emails and addresses to improve their enunciation.
+<br>Default <code>true</code> because voice generation sounds better with reformatting.
+<br>To disable chunk reformatting, set <code>enabled</code> to <code>false</code>.
+</p>
+ */
 @Vapi4KDslMarker
-interface LMNTVoice : LMNTVoiceProperties {
-  /**
-  <p>This is the chunk plan for controlling how the model output is split into chunks before being sent to the
-  voice provider for generation.
-  </p>
-   */
-  fun chunkPlan(block: ChunkPlan.() -> Unit)
-}
+interface FormatPlan : FormatPlanProperties

@@ -18,7 +18,6 @@ package com.vapi4k.dtos.voice
 
 import com.vapi4k.api.voice.PlayHTVoiceEmotionType
 import com.vapi4k.api.voice.PlayHTVoiceIdType
-import com.vapi4k.api.voice.PunctuationType
 import com.vapi4k.api.voice.VoiceProviderType
 import com.vapi4k.dsl.voice.PlayHTVoiceProperties
 import kotlinx.serialization.EncodeDefault
@@ -27,11 +26,8 @@ import kotlinx.serialization.Transient
 
 @Serializable
 data class PlayHTVoiceDto(
-  override var inputPreprocessingEnabled: Boolean? = null,
-  override var inputReformattingEnabled: Boolean? = null,
-  override var inputMinCharacters: Int = -1,
-  override val inputPunctuationBoundaries: MutableSet<PunctuationType> = mutableSetOf(),
   override var fillerInjectionEnabled: Boolean? = null,
+  val chunkPlan: ChunkPlanDto = ChunkPlanDto(),
   var voiceId: String = "",
   @Transient
   override var voiceIdType: PlayHTVoiceIdType = PlayHTVoiceIdType.UNSPECIFIED,
