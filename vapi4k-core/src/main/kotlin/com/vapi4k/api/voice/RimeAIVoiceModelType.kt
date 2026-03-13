@@ -30,7 +30,8 @@ enum class RimeAIVoiceModelType(
   val desc: String,
 ) {
   MIST("mist"),
-  V1("v1"),
+  ARCANA("arcana"),
+  MISTV2("mistv2"),
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
   ;
 
