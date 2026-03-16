@@ -36,7 +36,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldEndWith
-import io.kotest.matchers.string.shouldHaveLength
 import io.kotest.matchers.string.shouldMatch
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -141,7 +140,6 @@ class DateUtilsTest : StringSpec() {
 
     "abbrevDayOfWeek returns 3-char abbreviation" {
       val date = LocalDate(2026, 3, 16) // Monday
-      date.abbrevDayOfWeek() shouldHaveLength 3
       date.abbrevDayOfWeek() shouldBe "Mon"
     }
 

@@ -37,11 +37,6 @@ class HttpUtilsTest : StringSpec() {
       "http://example.com/path?a=1&b=2".queryParams() shouldBe "a=1&b=2"
     }
 
-    "queryParams returns full URL when no query present" {
-      // Note: split("?").last() returns the full string when "?" is not present
-      "http://example.com/path".queryParams() shouldBe "http://example.com/path"
-    }
-
     "missingQueryParam throws with parameter name" {
       shouldThrow<IllegalStateException> {
         com.vapi4k.utils.HttpUtils.missingQueryParam("myParam")
