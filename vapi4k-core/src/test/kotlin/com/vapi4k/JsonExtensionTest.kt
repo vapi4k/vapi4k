@@ -21,11 +21,11 @@ import com.github.pambrose.common.json.jsonElementList
 import com.github.pambrose.common.json.stringValue
 import com.github.pambrose.common.json.toJsonElement
 import com.vapi4k.utils.JsonUtils.toObjectList
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import kotlinx.serialization.Serializable
-import org.amshove.kluent.shouldBeEqualTo
-import kotlin.test.Test
 
-class JsonExtensionTest {
+class JsonExtensionTest : StringSpec() {
   val json = """
     {
       "message": {
@@ -304,64 +304,58 @@ class JsonExtensionTest {
     }
   """.trimIndent()
 
-  @Test
-  fun testStringValue() {
-    val obj = json.toJsonElement()
-    obj["message"]["type"].stringValue shouldBeEqualTo "tool-calls"
-    obj.stringValue("message.type") shouldBeEqualTo "tool-calls"
-  }
+  init {
+    "testStringValue" {
+      val obj = json.toJsonElement()
+      obj["message"]["type"].stringValue shouldBe "tool-calls"
+      obj.stringValue("message.type") shouldBe "tool-calls"
+    }
 
-  @Test
-  fun testPathVarargs() {
-    val obj = json.toJsonElement()
-    obj["message", "type"].stringValue shouldBeEqualTo "tool-calls"
-    obj.stringValue("message.type") shouldBeEqualTo "tool-calls"
-  }
+    "testPathVarargs" {
+      val obj = json.toJsonElement()
+      obj["message", "type"].stringValue shouldBe "tool-calls"
+      obj.stringValue("message.type") shouldBe "tool-calls"
+    }
 
-  @Test
-  fun testPathString() {
-    val obj = json.toJsonElement()
-    obj.stringValue("message.type") shouldBeEqualTo "tool-calls"
-  }
+    "testPathString" {
+      val obj = json.toJsonElement()
+      obj.stringValue("message.type") shouldBe "tool-calls"
+    }
 
-  @Test
-  fun testArrayValues() {
-    val obj = json.toJsonElement()
-    obj.jsonElementList("message.toolWithToolCallList").size shouldBeEqualTo 1
-  }
+    "testArrayValues" {
+      val obj = json.toJsonElement()
+      obj.jsonElementList("message.toolWithToolCallList").size shouldBe 1
+    }
 
-  @Test
-  fun testOnceAgain() {
-    val str = """
-      {
-        "async": false,
-        "servers": [
-          {
-            "url": "https://myapp.ondigitalocean.app/toolCall1",
-            "secret": "12345"
-          },
-          {
-            "url": "https://myapp.ondigitalocean.app/toolCall2",
-            "secret": "12345"
-          },
-          {
-            "url": "https://myapp.ondigitalocean.app/toolCall3",
-            "secret": "12345"
-          }
-        ]
-      }
-    """.trimIndent()
+    "testOnceAgain" {
+      val str = """
+        {
+          "async": false,
+          "servers": [
+            {
+              "url": "https://myapp.ondigitalocean.app/toolCall1",
+              "secret": "12345"
+            },
+            {
+              "url": "https://myapp.ondigitalocean.app/toolCall2",
+              "secret": "12345"
+            },
+            {
+              "url": "https://myapp.ondigitalocean.app/toolCall3",
+              "secret": "12345"
+            }
+          ]
+        }
+      """.trimIndent()
 
-    @Serializable
-    class Server(
-      val url: String,
-      val secret: String,
-    )
+      @Serializable
+      class Server(
+        val url: String,
+        val secret: String,
+      )
 
-    val jsonElement = str.toJsonElement()
-    val servers = jsonElement["servers"].toObjectList<Server>()
-//    for (server in servers) {
-//      println(server.url)
-//    }
+      val jsonElement = str.toJsonElement()
+      val servers = jsonElement["servers"].toObjectList<Server>()
+    }
   }
 }

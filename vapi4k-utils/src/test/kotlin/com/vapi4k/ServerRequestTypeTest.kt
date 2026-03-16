@@ -22,79 +22,68 @@ import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isAssistantRequest
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isEndOfCallReport
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isToolCall
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
-import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldBeFalse
-import org.amshove.kluent.shouldBeTrue
-import kotlin.test.Test
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class ServerRequestTypeTest {
-  @Test
-  fun `serverRequestType parses assistant-request`() {
-    val json = """{"message": {"type": "assistant-request"}}""".toJsonElement()
-    json.serverRequestType shouldBeEqualTo ServerRequestType.ASSISTANT_REQUEST
-  }
+class ServerRequestTypeTest : StringSpec() {
+  init {
+    "serverRequestType parses assistant-request" {
+      val json = """{"message": {"type": "assistant-request"}}""".toJsonElement()
+      json.serverRequestType shouldBe ServerRequestType.ASSISTANT_REQUEST
+    }
 
-  @Test
-  fun `serverRequestType parses end-of-call-report`() {
-    val json = """{"message": {"type": "end-of-call-report"}}""".toJsonElement()
-    json.serverRequestType shouldBeEqualTo ServerRequestType.END_OF_CALL_REPORT
-  }
+    "serverRequestType parses end-of-call-report" {
+      val json = """{"message": {"type": "end-of-call-report"}}""".toJsonElement()
+      json.serverRequestType shouldBe ServerRequestType.END_OF_CALL_REPORT
+    }
 
-  @Test
-  fun `serverRequestType parses tool-calls`() {
-    val json = """{"message": {"type": "tool-calls"}}""".toJsonElement()
-    json.serverRequestType shouldBeEqualTo ServerRequestType.TOOL_CALL
-  }
+    "serverRequestType parses tool-calls" {
+      val json = """{"message": {"type": "tool-calls"}}""".toJsonElement()
+      json.serverRequestType shouldBe ServerRequestType.TOOL_CALL
+    }
 
-  @Test
-  fun `serverRequestType parses function-call`() {
-    val json = """{"message": {"type": "function-call"}}""".toJsonElement()
-    json.serverRequestType shouldBeEqualTo ServerRequestType.FUNCTION_CALL
-  }
+    "serverRequestType parses function-call" {
+      val json = """{"message": {"type": "function-call"}}""".toJsonElement()
+      json.serverRequestType shouldBe ServerRequestType.FUNCTION_CALL
+    }
 
-  @Test
-  fun `serverRequestType returns UNKNOWN for invalid type`() {
-    val json = """{"message": {"type": "does-not-exist"}}""".toJsonElement()
-    json.serverRequestType shouldBeEqualTo ServerRequestType.UNKNOWN_REQUEST_TYPE
-  }
+    "serverRequestType returns UNKNOWN for invalid type" {
+      val json = """{"message": {"type": "does-not-exist"}}""".toJsonElement()
+      json.serverRequestType shouldBe ServerRequestType.UNKNOWN_REQUEST_TYPE
+    }
 
-  @Test
-  fun `isAssistantRequest returns true for assistant-request`() {
-    val json = """{"message": {"type": "assistant-request"}}""".toJsonElement()
-    json.isAssistantRequest().shouldBeTrue()
-  }
+    "isAssistantRequest returns true for assistant-request" {
+      val json = """{"message": {"type": "assistant-request"}}""".toJsonElement()
+      json.isAssistantRequest() shouldBe true
+    }
 
-  @Test
-  fun `isAssistantRequest returns false for other types`() {
-    val json = """{"message": {"type": "tool-calls"}}""".toJsonElement()
-    json.isAssistantRequest().shouldBeFalse()
-  }
+    "isAssistantRequest returns false for other types" {
+      val json = """{"message": {"type": "tool-calls"}}""".toJsonElement()
+      json.isAssistantRequest() shouldBe false
+    }
 
-  @Test
-  fun `isEndOfCallReport returns true for end-of-call-report`() {
-    val json = """{"message": {"type": "end-of-call-report"}}""".toJsonElement()
-    json.isEndOfCallReport().shouldBeTrue()
-  }
+    "isEndOfCallReport returns true for end-of-call-report" {
+      val json = """{"message": {"type": "end-of-call-report"}}""".toJsonElement()
+      json.isEndOfCallReport() shouldBe true
+    }
 
-  @Test
-  fun `isToolCall returns true for tool-calls`() {
-    val json = """{"message": {"type": "tool-calls"}}""".toJsonElement()
-    json.isToolCall().shouldBeTrue()
-  }
+    "isToolCall returns true for tool-calls" {
+      val json = """{"message": {"type": "tool-calls"}}""".toJsonElement()
+      json.isToolCall() shouldBe true
+    }
 
-  @Test
-  fun `all ServerRequestType entries have unique desc values`() {
-    val descs = ServerRequestType.entries.map { it.desc }
-    descs.size shouldBeEqualTo descs.toSet().size
-  }
+    "all ServerRequestType entries have unique desc values" {
+      val descs = ServerRequestType.entries.map { it.desc }
+      descs.size shouldBe descs.toSet().size
+    }
 
-  @Test
-  fun `serverRequestType parses all known types`() {
-    ServerRequestType.entries
-      .filter { it != ServerRequestType.UNKNOWN_REQUEST_TYPE }
-      .forEach { type ->
-        val json = """{"message": {"type": "${type.desc}"}}""".toJsonElement()
-        json.serverRequestType shouldBeEqualTo type
-      }
+    "serverRequestType parses all known types" {
+      ServerRequestType.entries
+        .filter { it != ServerRequestType.UNKNOWN_REQUEST_TYPE }
+        .forEach { type ->
+          val json = """{"message": {"type": "${type.desc}"}}""".toJsonElement()
+          json.serverRequestType shouldBe type
+        }
+    }
   }
 }

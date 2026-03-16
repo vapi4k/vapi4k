@@ -18,7 +18,8 @@ dependencies {
     api(libs.exposed.kotlin.datetime)
 
     testImplementation(kotlin("test"))
-    testImplementation(libs.kluent)
+    testImplementation(libs.kotest.runner)
+    testImplementation(libs.kotest.assertions)
     testImplementation(libs.ktor.server.tests)
 }
 

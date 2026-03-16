@@ -18,65 +18,60 @@ package com.vapi4k
 
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
-import org.amshove.kluent.shouldBeEqualTo
-import org.junit.jupiter.api.Assertions.assertThrows
-import kotlin.test.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 
-class ApplicationTest {
-  @Test
-  fun `test for serverPath and serverSecret`() {
-    val str = "/something_else"
-    val app =
-      with(Vapi4kConfigImpl()) {
-        inboundCallApplication {
-          serverPath = str
-          serverSecret = "12345"
+class ApplicationTest : StringSpec() {
+  init {
+    "test for serverPath and serverSecret" {
+      val str = "/something_else"
+      val app =
+        with(Vapi4kConfigImpl()) {
+          inboundCallApplication {
+            serverPath = str
+            serverSecret = "12345"
+          }
         }
-      }
-    app.serverPath shouldBeEqualTo str
-    app.serverSecret shouldBeEqualTo "12345"
-  }
-
-  @Test
-  fun `test for default serverPath`() {
-    val app =
-      with(Vapi4kConfigImpl()) {
-        inboundCallApplication {
-        }
-      }
-    app.serverPath shouldBeEqualTo defaultServerPath.removePrefix("/")
-    app.serverSecret shouldBeEqualTo ""
-  }
-
-  @Test
-  fun `test for duplicate default serverPaths`() {
-    val str = "/something_else"
-    assertThrows(IllegalStateException::class.java) {
-      with(Vapi4kConfigImpl()) {
-        inboundCallApplication {
-        }
-        inboundCallApplication {
-        }
-      }
-    }.also {
-      it.message.orEmpty().contains("already exists") shouldBeEqualTo true
+      app.serverPath shouldBe str
+      app.serverSecret shouldBe "12345"
     }
-  }
 
-  @Test
-  fun `test for duplicate serverPaths`() {
-    val str = "/something_else"
-    assertThrows(IllegalStateException::class.java) {
-      with(Vapi4kConfigImpl()) {
-        inboundCallApplication {
-          serverPath = str
+    "test for default serverPath" {
+      val app =
+        with(Vapi4kConfigImpl()) {
+          inboundCallApplication {
+          }
         }
-        inboundCallApplication {
-          serverPath = str
+      app.serverPath shouldBe defaultServerPath.removePrefix("/")
+      app.serverSecret shouldBe ""
+    }
+
+    "test for duplicate default serverPaths" {
+      val str = "/something_else"
+      shouldThrow<IllegalStateException> {
+        with(Vapi4kConfigImpl()) {
+          inboundCallApplication {
+          }
+          inboundCallApplication {
+          }
         }
-      }
-    }.also {
-      it.message.orEmpty().contains("already exists") shouldBeEqualTo true
+      }.message shouldContain "already exists"
+    }
+
+    "test for duplicate serverPaths" {
+      val str = "/something_else"
+      shouldThrow<IllegalStateException> {
+        with(Vapi4kConfigImpl()) {
+          inboundCallApplication {
+            serverPath = str
+          }
+          inboundCallApplication {
+            serverPath = str
+          }
+        }
+      }.message shouldContain "already exists"
     }
   }
 }

@@ -41,15 +41,15 @@ import com.vapi4k.utils.JsonFilenames.JSON_ASSISTANT_REQUEST
 import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.firstMessageOfType
 import com.vapi4k.utils.withTestApplication
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import kotlinx.serialization.json.JsonElement
-import org.amshove.kluent.shouldBeEqualTo
-import org.junit.jupiter.api.Assertions.assertThrows
-import kotlin.test.Test
 
-class AssistantTest {
-  init {
-    Vapi4kConfigImpl()
-  }
+class AssistantTest : StringSpec() {
+  @Suppress("unused")
+  private val configInit = Vapi4kConfigImpl()
 
   private val messageOne = "Hi there test"
   private val sysMessage = "You are the test systemMessage voice"
@@ -69,665 +69,619 @@ class AssistantTest {
   val JsonElement.assistantClientMessages get() = jsonElementList("messageResponse.assistant.clientMessages")
   val JsonElement.assistantServerMessages get() = jsonElementList("messageResponse.assistant.serverMessages")
 
-  @Test
-  fun testRegular() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+  init {
+    "testRegular" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  timingMilliseconds = 2000
-                }
-              }
-            }
-          }
-        }
-      }
-
-    jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START)
-      .stringValue("content") shouldBeEqualTo "This is the test request start message"
-  }
-
-  @Test
-  fun `multiple application{} blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          firstMessage = "Something"
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-        }
-        assistant {
-          firstMessage = "Something"
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "assistant{} was already called"
-    }
-  }
-
-  @Test
-  fun `application{} and squad{} blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          firstMessage = "Something"
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-        }
-        assistantId {
-          id = "12345"
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "assistant{} was already called"
-    }
-  }
-
-  @Test
-  fun `Missing application{} blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-      }
-    }.also {
-      val msg = "assistantResponse{} is missing a call to assistant{}, assistantId{}, squad{}, or squadId{}"
-      it.message shouldBeEqualTo msg
-    }
-  }
-
-  @Test
-  fun `test reverse delay order`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  timingMilliseconds = 2000
-                }
-              }
-            }
-          }
-        }
-      }
-    with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
-      stringValue("content") shouldBeEqualTo delayedMessage
-      intValue("timingMilliseconds") shouldBeEqualTo 2000
-    }
-  }
-
-  @Test
-  fun `test message with no millis`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  timingMilliseconds = 99
-                }
-              }
-            }
-          }
-        }
-      }
-    jsonElement
-      .firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
-      .intValue("timingMilliseconds") shouldBeEqualTo 99
-  }
-
-  @Test
-  fun `multiple message`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  content = secondDelayedMessage
-                  timingMilliseconds = 2000
-                }
-              }
-            }
-          }
-        }
-      }
-
-    with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
-      stringValue("content") shouldBeEqualTo secondDelayedMessage
-      intValue("timingMilliseconds") shouldBeEqualTo 2000
-    }
-  }
-
-  @Test
-  fun `multiple delay time`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  timingMilliseconds = 2000
-                  timingMilliseconds = 1000
-                }
-              }
-            }
-          }
-        }
-      }
-
-    // println(jsonElement.toJsonString())
-
-    jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
-      .intValue("timingMilliseconds") shouldBeEqualTo 1000
-  }
-
-  @Test
-  fun `multiple message multiple delay time`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  content = secondDelayedMessage
-                  timingMilliseconds = 2000
-                  timingMilliseconds = 1000
-                }
-              }
-            }
-          }
-        }
-      }
-    with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
-      stringValue("content") shouldBeEqualTo secondDelayedMessage
-      intValue("timingMilliseconds") shouldBeEqualTo 1000
-    }
-  }
-
-  @Test
-  fun `chicago illinois message`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                condition("city" eq "Chicago", "state" eq "Illinois") {
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
                   requestStartMessage {
-                    content = chicagoIllinoisStartMessage
+                    content = startMessage
                   }
                   requestCompleteMessage {
-                    content = chicagoIllinoisCompleteMessage
+                    content = completeMessage
                   }
                   requestFailedMessage {
-                    content = chicagoIllinoisFailedMessage
+                    content = failedMessage
                   }
                   requestDelayedMessage {
-                    content = chicagoIllinoisDelayedMessage
+                    content = delayedMessage
                     timingMilliseconds = 2000
                   }
                 }
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  timingMilliseconds = 1000
-                }
               }
             }
           }
         }
-      }
 
-    val chicagoCity = "city" eq "Chicago"
-    val illinoisState = "state" eq "Illinois"
-
-    val chicagoStartMessage =
-      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START, chicagoCity, illinoisState)
-
-    val chicagoCompleteMessage =
-      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_COMPLETE, chicagoCity, illinoisState)
-
-    val chicagoFailedMessage =
-      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_FAILED, chicagoCity, illinoisState)
-
-    val chicagoDelayedMessage =
-      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED, chicagoCity, illinoisState)
-
-    val defaultStartMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START)
-    val defaultCompleteMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_COMPLETE)
-    val defaultFailedMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_FAILED)
-    val defaultDelayedMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
-
-    chicagoStartMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisStartMessage
-    chicagoCompleteMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisCompleteMessage
-    chicagoFailedMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisFailedMessage
-    chicagoDelayedMessage.stringValue("content") shouldBeEqualTo chicagoIllinoisDelayedMessage
-    chicagoDelayedMessage.intValue("timingMilliseconds") shouldBeEqualTo 2000
-    defaultStartMessage.stringValue("content") shouldBeEqualTo startMessage
-    defaultCompleteMessage.stringValue("content") shouldBeEqualTo completeMessage
-    defaultFailedMessage.stringValue("content") shouldBeEqualTo failedMessage
-    defaultDelayedMessage.stringValue("content") shouldBeEqualTo delayedMessage
-    defaultDelayedMessage.intValue("timingMilliseconds") shouldBeEqualTo 1000
-  }
-
-  @Test
-  fun `Missing message`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                condition("city" eq "Chicago", "state" eq "Illinois") {
-                }
-              }
-            }
-          }
-        }
-      }
-    }.also {
-      assert(it.message.orEmpty().contains("must have at least one message"))
+      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START)
+        .stringValue("content") shouldBe "This is the test request start message"
     }
-  }
 
-  @Test
-  fun `error on duplicate reverse conditions`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          firstMessage = messageOne
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "multiple application{} blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            firstMessage = "Something"
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+          assistant {
+            firstMessage = "Something"
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+        }
+      }.message shouldBe "assistant{} was already called"
+    }
 
-            systemMessage = sysMessage
-            tools {
-              serviceTool(FavoriteFoodService()) {
-                condition("city" eq "Chicago", "state" eq "Illinois") {
+    "application{} and squad{} blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            firstMessage = "Something"
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+          assistantId {
+            id = "12345"
+          }
+        }
+      }.message shouldBe "assistant{} was already called"
+    }
+
+    "Missing application{} blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+        }
+      }.message shouldBe "assistantResponse{} is missing a call to assistant{}, assistantId{}, squad{}, or squadId{}"
+    }
+
+    "test reverse delay order" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
                   requestStartMessage {
-                    content = chicagoIllinoisStartMessage
+                    content = startMessage
                   }
                   requestCompleteMessage {
-                    content = chicagoIllinoisCompleteMessage
+                    content = completeMessage
                   }
                   requestFailedMessage {
-                    content = chicagoIllinoisFailedMessage
+                    content = failedMessage
                   }
                   requestDelayedMessage {
-                    content = chicagoIllinoisDelayedMessage
+                    content = delayedMessage
                     timingMilliseconds = 2000
                   }
                 }
-                condition("state" eq "Illinois", "city" eq "Chicago") {
+              }
+            }
+          }
+        }
+      with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
+        stringValue("content") shouldBe delayedMessage
+        intValue("timingMilliseconds") shouldBe 2000
+      }
+    }
+
+    "test message with no millis" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
                   requestStartMessage {
-                    content = chicagoIllinoisStartMessage + "2"
+                    content = startMessage
                   }
                   requestCompleteMessage {
-                    content = chicagoIllinoisCompleteMessage + "2"
+                    content = completeMessage
                   }
                   requestFailedMessage {
-                    content = chicagoIllinoisFailedMessage + "2"
+                    content = failedMessage
                   }
                   requestDelayedMessage {
-                    content = chicagoIllinoisDelayedMessage + "2"
-                    timingMilliseconds = 3000
+                    content = delayedMessage
+                    timingMilliseconds = 99
                   }
-                }
-                requestStartMessage {
-                  content = startMessage
-                }
-                requestCompleteMessage {
-                  content = completeMessage
-                }
-                requestFailedMessage {
-                  content = failedMessage
-                }
-                requestDelayedMessage {
-                  content = delayedMessage
-                  timingMilliseconds = 1000
                 }
               }
             }
           }
         }
-      }
-    }.also {
-      assert(it.message.orEmpty().contains("duplicates an existing condition{}"))
+      jsonElement
+        .firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
+        .intValue("timingMilliseconds") shouldBe 99
     }
-  }
 
-  @Test
-  fun `check non-default FirstMessageModeType values`() {
-    val assistant =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          firstMessageMode = ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "multiple message" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
+                  requestStartMessage {
+                    content = startMessage
+                  }
+                  requestCompleteMessage {
+                    content = completeMessage
+                  }
+                  requestFailedMessage {
+                    content = failedMessage
+                  }
+                  requestDelayedMessage {
+                    content = delayedMessage
+                    content = secondDelayedMessage
+                    timingMilliseconds = 2000
+                  }
+                }
+              }
+            }
           }
         }
+
+      with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
+        stringValue("content") shouldBe secondDelayedMessage
+        intValue("timingMilliseconds") shouldBe 2000
       }
-
-    val msg = assistant.toJsonElement().stringValue("messageResponse.assistant.firstMessageMode")
-    msg shouldBeEqualTo ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL.desc
-  }
-
-  @Test
-  fun `check assistant client messages 1`() {
-    val assistant =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          clientMessages -= AssistantClientMessageType.HANG
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-        }
-      }
-
-    val element = assistant.toJsonElement()
-    element.assistantClientMessages.size shouldBeEqualTo 9
-  }
-
-  @Test
-  fun `check assistant client messages 2`() {
-    val assistant =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          clientMessages -= setOf(AssistantClientMessageType.HANG, AssistantClientMessageType.STATUS_UPDATE)
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-        }
-      }
-
-    val element = assistant.toJsonElement()
-    element.assistantClientMessages.size shouldBeEqualTo 8
-  }
-
-  @Test
-  fun `check assistant server messages 1`() {
-    val assistant =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          firstMessage = "Something"
-          serverMessages -= AssistantServerMessageType.HANG
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-        }
-      }
-
-    val element = assistant.toJsonElement()
-    element.assistantServerMessages.size shouldBeEqualTo 8
-  }
-
-  @Test
-  fun `check assistant server messages 2`() {
-    val assistant =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          serverMessages -= setOf(AssistantServerMessageType.HANG, AssistantServerMessageType.SPEECH_UPDATE)
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-        }
-      }
-
-    val element = assistant.toJsonElement()
-    element.assistantServerMessages.size shouldBeEqualTo 7
-  }
-
-  @Test
-  fun `multiple deepgram transcriber blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          deepgramTranscriber {
-            transcriberModel = DeepgramModelType.BASE
-          }
-
-          deepgramTranscriber {
-            transcriberModel = DeepgramModelType.BASE
-          }
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "deepgramTranscriber{} requires a transcriberLanguage or customLanguagevalue"
     }
-  }
 
-  @Test
-  fun `multiple gladia transcriber blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          gladiaTranscriber {
-            transcriberModel = GladiaModelType.FAST
-          }
+    "multiple delay time" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-          gladiaTranscriber {
-            transcriberModel = GladiaModelType.FAST
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
+                  requestStartMessage {
+                    content = startMessage
+                  }
+                  requestCompleteMessage {
+                    content = completeMessage
+                  }
+                  requestFailedMessage {
+                    content = failedMessage
+                  }
+                  requestDelayedMessage {
+                    content = delayedMessage
+                    timingMilliseconds = 2000
+                    timingMilliseconds = 1000
+                  }
+                }
+              }
+            }
           }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "gladiaTranscriber{} requires a transcriberLanguage or customLanguage value"
+
+      // println(jsonElement.toJsonString())
+
+      jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
+        .intValue("timingMilliseconds") shouldBe 1000
     }
-  }
 
-  @Test
-  fun `multiple talkscriber transcriber blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          talkscriberTranscriber {
-            transcriberModel = TalkscriberModelType.WHISPER
-          }
-
-          talkscriberTranscriber {
-            transcriberModel = TalkscriberModelType.WHISPER
+    "multiple message multiple delay time" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
+                  requestStartMessage {
+                    content = startMessage
+                  }
+                  requestCompleteMessage {
+                    content = completeMessage
+                  }
+                  requestFailedMessage {
+                    content = failedMessage
+                  }
+                  requestDelayedMessage {
+                    content = delayedMessage
+                    content = secondDelayedMessage
+                    timingMilliseconds = 2000
+                    timingMilliseconds = 1000
+                  }
+                }
+              }
+            }
           }
         }
+      with(jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)) {
+        stringValue("content") shouldBe secondDelayedMessage
+        intValue("timingMilliseconds") shouldBe 1000
       }
-    }.also {
-      it.message shouldBeEqualTo "talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value"
     }
-  }
 
-  @Test
-  fun `multiple transcriber blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          talkscriberTranscriber {
-            transcriberModel = TalkscriberModelType.WHISPER
-          }
-
-          gladiaTranscriber {
-            transcriberModel = GladiaModelType.FAST
+    "chicago illinois message" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JSON_ASSISTANT_REQUEST) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
+                  condition("city" eq "Chicago", "state" eq "Illinois") {
+                    requestStartMessage {
+                      content = chicagoIllinoisStartMessage
+                    }
+                    requestCompleteMessage {
+                      content = chicagoIllinoisCompleteMessage
+                    }
+                    requestFailedMessage {
+                      content = chicagoIllinoisFailedMessage
+                    }
+                    requestDelayedMessage {
+                      content = chicagoIllinoisDelayedMessage
+                      timingMilliseconds = 2000
+                    }
+                  }
+                  requestStartMessage {
+                    content = startMessage
+                  }
+                  requestCompleteMessage {
+                    content = completeMessage
+                  }
+                  requestFailedMessage {
+                    content = failedMessage
+                  }
+                  requestDelayedMessage {
+                    content = delayedMessage
+                    timingMilliseconds = 1000
+                  }
+                }
+              }
+            }
           }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value"
+
+      val chicagoCity = "city" eq "Chicago"
+      val illinoisState = "state" eq "Illinois"
+
+      val chicagoStartMessage =
+        jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START, chicagoCity, illinoisState)
+
+      val chicagoCompleteMessage =
+        jsonElement.firstMessageOfType(ToolMessageType.REQUEST_COMPLETE, chicagoCity, illinoisState)
+
+      val chicagoFailedMessage =
+        jsonElement.firstMessageOfType(ToolMessageType.REQUEST_FAILED, chicagoCity, illinoisState)
+
+      val chicagoDelayedMessage =
+        jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED, chicagoCity, illinoisState)
+
+      val defaultStartMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_START)
+      val defaultCompleteMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_COMPLETE)
+      val defaultFailedMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_FAILED)
+      val defaultDelayedMessage = jsonElement.firstMessageOfType(ToolMessageType.REQUEST_RESPONSE_DELAYED)
+
+      chicagoStartMessage.stringValue("content") shouldBe chicagoIllinoisStartMessage
+      chicagoCompleteMessage.stringValue("content") shouldBe chicagoIllinoisCompleteMessage
+      chicagoFailedMessage.stringValue("content") shouldBe chicagoIllinoisFailedMessage
+      chicagoDelayedMessage.stringValue("content") shouldBe chicagoIllinoisDelayedMessage
+      chicagoDelayedMessage.intValue("timingMilliseconds") shouldBe 2000
+      defaultStartMessage.stringValue("content") shouldBe startMessage
+      defaultCompleteMessage.stringValue("content") shouldBe completeMessage
+      defaultFailedMessage.stringValue("content") shouldBe failedMessage
+      defaultDelayedMessage.stringValue("content") shouldBe delayedMessage
+      defaultDelayedMessage.intValue("timingMilliseconds") shouldBe 1000
     }
-  }
 
-  @Test
-  fun `deepgram transcriber enum value`() {
-    val assistant =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-          deepgramTranscriber {
-            transcriberModel = DeepgramModelType.BASE
-            transcriberLanguage = DeepgramLanguageType.GERMAN
+    "Missing message" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
+                  condition("city" eq "Chicago", "state" eq "Illinois") {
+                  }
+                }
+              }
+            }
           }
         }
-      }
-    val je = assistant.toJsonElement()
-    je.stringValue("messageResponse.assistant.transcriber.language") shouldBeEqualTo DeepgramLanguageType.GERMAN.desc
-  }
-
-  @Test
-  fun `deepgram transcriber custom value`() {
-    val assistant =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-
-          deepgramTranscriber {
-            transcriberModel = DeepgramModelType.BASE
-            customLanguage = "zzz"
-          }
-        }
-      }
-    val jsonElement = assistant.toJsonElement()
-    jsonElement.stringValue("messageResponse.assistant.transcriber.language") shouldBeEqualTo "zzz"
-  }
-
-  @Test
-  fun `deepgram transcriber conflicting values`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-
-          deepgramTranscriber {
-            transcriberModel = DeepgramModelType.BASE
-            transcriberLanguage = DeepgramLanguageType.GERMAN
-            customLanguage = "zzz"
-          }
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "deepgramTranscriber{} cannot have both transcriberLanguage and customLanguage values"
+      }.message shouldContain "must have at least one message"
     }
-  }
 
-  @Test
-  fun `missing model decl`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          firstMessage = "Something"
+    "error on duplicate reverse conditions" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            firstMessage = messageOne
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+
+              systemMessage = sysMessage
+              tools {
+                serviceTool(FavoriteFoodService()) {
+                  condition("city" eq "Chicago", "state" eq "Illinois") {
+                    requestStartMessage {
+                      content = chicagoIllinoisStartMessage
+                    }
+                    requestCompleteMessage {
+                      content = chicagoIllinoisCompleteMessage
+                    }
+                    requestFailedMessage {
+                      content = chicagoIllinoisFailedMessage
+                    }
+                    requestDelayedMessage {
+                      content = chicagoIllinoisDelayedMessage
+                      timingMilliseconds = 2000
+                    }
+                  }
+                  condition("state" eq "Illinois", "city" eq "Chicago") {
+                    requestStartMessage {
+                      content = chicagoIllinoisStartMessage + "2"
+                    }
+                    requestCompleteMessage {
+                      content = chicagoIllinoisCompleteMessage + "2"
+                    }
+                    requestFailedMessage {
+                      content = chicagoIllinoisFailedMessage + "2"
+                    }
+                    requestDelayedMessage {
+                      content = chicagoIllinoisDelayedMessage + "2"
+                      timingMilliseconds = 3000
+                    }
+                  }
+                  requestStartMessage {
+                    content = startMessage
+                  }
+                  requestCompleteMessage {
+                    content = completeMessage
+                  }
+                  requestFailedMessage {
+                    content = failedMessage
+                  }
+                  requestDelayedMessage {
+                    content = delayedMessage
+                    timingMilliseconds = 1000
+                  }
+                }
+              }
+            }
+          }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "An assistant{} requires a model{} decl"
+      }.message shouldContain "duplicates an existing condition{}"
+    }
+
+    "check non-default FirstMessageModeType values" {
+      val assistant =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            firstMessageMode = ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+        }
+
+      val msg = assistant.toJsonElement().stringValue("messageResponse.assistant.firstMessageMode")
+      msg shouldBe ASSISTANT_SPEAKS_FIRST_WITH_MODEL_GENERATED_MODEL.desc
+    }
+
+    "check assistant client messages 1" {
+      val assistant =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            clientMessages -= AssistantClientMessageType.HANG
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+        }
+
+      val element = assistant.toJsonElement()
+      element.assistantClientMessages.size shouldBe 9
+    }
+
+    "check assistant client messages 2" {
+      val assistant =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            clientMessages -= setOf(AssistantClientMessageType.HANG, AssistantClientMessageType.STATUS_UPDATE)
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+        }
+
+      val element = assistant.toJsonElement()
+      element.assistantClientMessages.size shouldBe 8
+    }
+
+    "check assistant server messages 1" {
+      val assistant =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            firstMessage = "Something"
+            serverMessages -= AssistantServerMessageType.HANG
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+        }
+
+      val element = assistant.toJsonElement()
+      element.assistantServerMessages.size shouldBe 8
+    }
+
+    "check assistant server messages 2" {
+      val assistant =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            serverMessages -= setOf(AssistantServerMessageType.HANG, AssistantServerMessageType.SPEECH_UPDATE)
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+          }
+        }
+
+      val element = assistant.toJsonElement()
+      element.assistantServerMessages.size shouldBe 7
+    }
+
+    "multiple deepgram transcriber blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            deepgramTranscriber {
+              transcriberModel = DeepgramModelType.BASE
+            }
+
+            deepgramTranscriber {
+              transcriberModel = DeepgramModelType.BASE
+            }
+          }
+        }
+      }.message shouldBe "deepgramTranscriber{} requires a transcriberLanguage or customLanguagevalue"
+    }
+
+    "multiple gladia transcriber blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            gladiaTranscriber {
+              transcriberModel = GladiaModelType.FAST
+            }
+
+            gladiaTranscriber {
+              transcriberModel = GladiaModelType.FAST
+            }
+          }
+        }
+      }.message shouldBe "gladiaTranscriber{} requires a transcriberLanguage or customLanguage value"
+    }
+
+    "multiple talkscriber transcriber blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            talkscriberTranscriber {
+              transcriberModel = TalkscriberModelType.WHISPER
+            }
+
+            talkscriberTranscriber {
+              transcriberModel = TalkscriberModelType.WHISPER
+            }
+          }
+        }
+      }.message shouldBe "talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value"
+    }
+
+    "multiple transcriber blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            talkscriberTranscriber {
+              transcriberModel = TalkscriberModelType.WHISPER
+            }
+
+            gladiaTranscriber {
+              transcriberModel = GladiaModelType.FAST
+            }
+          }
+        }
+      }.message shouldBe "talkscriberTranscriber{} requires a transcriberLanguage or customLanguage value"
+    }
+
+    "deepgram transcriber enum value" {
+      val assistant =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+            deepgramTranscriber {
+              transcriberModel = DeepgramModelType.BASE
+              transcriberLanguage = DeepgramLanguageType.GERMAN
+            }
+          }
+        }
+      val je = assistant.toJsonElement()
+      je.stringValue("messageResponse.assistant.transcriber.language") shouldBe DeepgramLanguageType.GERMAN.desc
+    }
+
+    "deepgram transcriber custom value" {
+      val assistant =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+
+            deepgramTranscriber {
+              transcriberModel = DeepgramModelType.BASE
+              customLanguage = "zzz"
+            }
+          }
+        }
+      val jsonElement = assistant.toJsonElement()
+      jsonElement.stringValue("messageResponse.assistant.transcriber.language") shouldBe "zzz"
+    }
+
+    "deepgram transcriber conflicting values" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+
+            deepgramTranscriber {
+              transcriberModel = DeepgramModelType.BASE
+              transcriberLanguage = DeepgramLanguageType.GERMAN
+              customLanguage = "zzz"
+            }
+          }
+        }
+      }.message shouldBe "deepgramTranscriber{} cannot have both transcriberLanguage and customLanguage values"
+    }
+
+    "missing model decl" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            firstMessage = "Something"
+          }
+        }
+      }.message shouldBe "An assistant{} requires a model{} decl"
     }
   }
 

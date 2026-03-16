@@ -31,6 +31,8 @@ import com.vapi4k.plugin.Vapi4k
 import com.vapi4k.utils.JsonFilenames
 import com.vapi4k.utils.JsonUtils.firstInList
 import com.vapi4k.utils.withTestApplication
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
@@ -39,102 +41,98 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.server.application.install
 import io.ktor.server.testing.testApplication
-import org.amshove.kluent.shouldBeEqualTo
-import kotlin.test.Test
 
-class ServerTest {
+class ServerTest : StringSpec() {
   companion object {
     fun HttpRequestBuilder.configPost() {
       contentType(Application.Json)
     }
   }
 
-  @Test
-  fun `ping request`() {
-    testApplication {
-      application {
-        install(Vapi4k)
+  init {
+    "ping request" {
+      testApplication {
+        application {
+          install(Vapi4k)
+        }
+        val response = client.get("/ping")
+        response.status shouldBe HttpStatusCode.OK
+        response.bodyAsText() shouldBe "pong"
       }
-      val response = client.get("/ping")
-      response.status shouldBeEqualTo HttpStatusCode.OK
-      response.bodyAsText() shouldBeEqualTo "pong"
     }
-  }
 
-  @Test
-  fun `simple assistant request`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JsonFilenames.JSON_ASSISTANT_REQUEST) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_70B_8192
+    "simple assistant request" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JsonFilenames.JSON_ASSISTANT_REQUEST) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_70B_8192
+            }
           }
         }
-      }
 
-    response.status shouldBeEqualTo HttpStatusCode.OK
-    jsonElement.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo GroqModelType.LLAMA3_70B_8192.desc
-  }
-
-  // @Test
-  fun `Tool requests arg ordering`() {
-    val responses =
-      withTestApplication(
-        INBOUND_CALL,
-        listOf(
-          JsonFilenames.JSON_ASSISTANT_REQUEST,
-          "/json-tool-tests/toolRequest1.json",
-          "/json-tool-tests/toolRequest2.json",
-          "/json-tool-tests/toolRequest3.json",
-          "/json-tool-tests/toolRequest4.json",
-          "/json-tool-tests/endOfCallReportRequest.json",
-        ),
-        CACHES_PATH,
-        true,
-      ) {
-        doubleToolAssistant()
-      }
-
-    responses.forEachIndexed { i, (response, jsonElement) ->
-      response.status shouldBeEqualTo HttpStatusCode.OK
-      if (i in listOf(1, 2))
-        jsonElement["messageResponse.results"].firstInList()
-          .stringValue("result") shouldBeEqualTo "The weather in Danville, California is windy"
-
-      if (i in listOf(3, 4))
-        jsonElement["messageResponse.results"].firstInList()
-          .stringValue("result") shouldBeEqualTo "The weather in Boston, Massachusetts is rainy"
-
-      if (i == 6) {
-        val path = "${INBOUND_CALL.pathPrefix.ensureStartsWith("/")}/$defaultServerPath"
-        println(jsonElement.toJsonString())
-        jsonElement.intValue("$path.serviceTools.cacheSize") shouldBeEqualTo 0
-        jsonElement.intValue("$path.functions.cacheSize") shouldBeEqualTo 0
-      }
+      response.status shouldBe HttpStatusCode.OK
+      jsonElement.stringValue("messageResponse.assistant.model.model") shouldBe GroqModelType.LLAMA3_70B_8192.desc
     }
-  }
 
-  @Test
-  fun `Check for EOCR cache removal`() {
-    val responses =
-      withTestApplication(
-        INBOUND_CALL,
-        listOf(
-          JsonFilenames.JSON_ASSISTANT_REQUEST,
-          "/json-tool-tests/endOfCallReportRequest.json",
-        ),
-        CACHES_PATH,
-        false,
-      ) {
-        doubleToolAssistant()
-      }
-    responses.forEachIndexed { i, (response, jsonElement) ->
-      response.status shouldBeEqualTo HttpStatusCode.OK
-      if (i == 2) {
-        println(jsonElement.toJsonString())
-        val path = "${INBOUND_CALL.pathPrefix.ensureStartsWith("/")}/$defaultServerPath"
-        jsonElement["$path.functions.cache"].keys.size shouldBeEqualTo 0
-        jsonElement["$path.serviceTools.cache"].keys.size shouldBeEqualTo 2
+    // "Tool requests arg ordering" {
+    //   val responses =
+    //     withTestApplication(
+    //       INBOUND_CALL,
+    //       listOf(
+    //         JsonFilenames.JSON_ASSISTANT_REQUEST,
+    //         "/json-tool-tests/toolRequest1.json",
+    //         "/json-tool-tests/toolRequest2.json",
+    //         "/json-tool-tests/toolRequest3.json",
+    //         "/json-tool-tests/toolRequest4.json",
+    //         "/json-tool-tests/endOfCallReportRequest.json",
+    //       ),
+    //       CACHES_PATH,
+    //       true,
+    //     ) {
+    //       doubleToolAssistant()
+    //     }
+    //
+    //   responses.forEachIndexed { i, (response, jsonElement) ->
+    //     response.status shouldBe HttpStatusCode.OK
+    //     if (i in listOf(1, 2))
+    //       jsonElement["messageResponse.results"].firstInList()
+    //         .stringValue("result") shouldBe "The weather in Danville, California is windy"
+    //
+    //     if (i in listOf(3, 4))
+    //       jsonElement["messageResponse.results"].firstInList()
+    //         .stringValue("result") shouldBe "The weather in Boston, Massachusetts is rainy"
+    //
+    //     if (i == 6) {
+    //       val path = "${INBOUND_CALL.pathPrefix.ensureStartsWith("/")}/$defaultServerPath"
+    //       println(jsonElement.toJsonString())
+    //       jsonElement.intValue("$path.serviceTools.cacheSize") shouldBe 0
+    //       jsonElement.intValue("$path.functions.cacheSize") shouldBe 0
+    //     }
+    //   }
+    // }
+
+    "Check for EOCR cache removal" {
+      val responses =
+        withTestApplication(
+          INBOUND_CALL,
+          listOf(
+            JsonFilenames.JSON_ASSISTANT_REQUEST,
+            "/json-tool-tests/endOfCallReportRequest.json",
+          ),
+          CACHES_PATH,
+          false,
+        ) {
+          doubleToolAssistant()
+        }
+      responses.forEachIndexed { i, (response, jsonElement) ->
+        response.status shouldBe HttpStatusCode.OK
+        if (i == 2) {
+          println(jsonElement.toJsonString())
+          val path = "${INBOUND_CALL.pathPrefix.ensureStartsWith("/")}/$defaultServerPath"
+          jsonElement["$path.functions.cache"].keys.size shouldBe 0
+          jsonElement["$path.serviceTools.cache"].keys.size shouldBe 2
+        }
       }
     }
   }

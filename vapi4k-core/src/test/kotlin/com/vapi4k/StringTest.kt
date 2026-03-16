@@ -17,136 +17,130 @@
 package com.vapi4k
 
 import com.vapi4k.api.prompt.Prompt.Companion.prompt
-import org.amshove.kluent.shouldBeEqualTo
-import kotlin.test.Test
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class StringTest {
-  @Test
-  fun `unaryPlus single test`() {
-    val str =
-      prompt {
-        +"test text"
-      }
+class StringTest : StringSpec() {
+  init {
+    "unaryPlus single test" {
+      val str =
+        prompt {
+          +"test text"
+        }
 
-    "test text" shouldBeEqualTo str
-  }
+      "test text" shouldBe str
+    }
 
-  @Test
-  fun `unaryPlus multi2a test`() {
-    val str =
-      prompt {
-        +"test text"
-        +"test text"
-      }
+    "unaryPlus multi2a test" {
+      val str =
+        prompt {
+          +"test text"
+          +"test text"
+        }
 
-    val goal =
-      """test text
+      val goal =
+        """test text
 
 test text"""
 
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `unaryPlus multi2b test`() {
-    val str =
-      prompt {
-        +"""test
+    "unaryPlus multi2b test" {
+      val str =
+        prompt {
+          +"""test
 text"""
-        +"""test
+          +"""test
 text"""
-      }
+        }
 
-    val goal =
-      """test
+      val goal =
+        """test
 text
 
 test
 text"""
 
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `unaryPlus multi3 test`() {
-    val str =
-      prompt {
-        +"test text"
-        +"test text"
-        +"test text"
-      }
+    "unaryPlus multi3 test" {
+      val str =
+        prompt {
+          +"test text"
+          +"test text"
+          +"test text"
+        }
 
-    val goal =
-      """test text
+      val goal =
+        """test text
 
 test text
 
 test text"""
 
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `singleLine no cr test`() {
-    val str =
-      prompt {
-        singleLine(
-          """Hello
+    "singleLine no cr test" {
+      val str =
+        prompt {
+          singleLine(
+            """Hello
          team
          later
       """,
-        )
-      }
+          )
+        }
 
-    val goal = "Hello team later"
+      val goal = "Hello team later"
 
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `singleLine single with cr test`() {
-    val str =
-      prompt {
-        singleLine(
-          """Welcome
+    "singleLine single with cr test" {
+      val str =
+        prompt {
+          singleLine(
+            """Welcome
             everyone
 
          team
          later
       """,
-        )
-      }
+          )
+        }
 
-    val goal = """Welcome everyone
+      val goal = """Welcome everyone
 
 team later"""
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `singleLine multi with cr test`() {
-    val str =
-      prompt {
-        singleLine(
-          """Welcome
+    "singleLine multi with cr test" {
+      val str =
+        prompt {
+          singleLine(
+            """Welcome
             everyone
 
          team
          later
       """,
-        )
+          )
 
-        singleLine(
-          """Welcome
+          singleLine(
+            """Welcome
             everyone
 
          team
          later
       """,
-        )
-      }
+          )
+        }
 
-    val goal = """Welcome everyone
+      val goal = """Welcome everyone
 
 team later
 
@@ -154,30 +148,29 @@ Welcome everyone
 
 team later"""
 
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `singleLine varargs multi with cr test`() {
-    val str =
-      prompt {
-        singleLine(
-          """Welcome
+    "singleLine varargs multi with cr test" {
+      val str =
+        prompt {
+          singleLine(
+            """Welcome
             everyone
 
          team
          later
       """,
-          """Welcome
+            """Welcome
             everyone
 
          team
          later
       """,
-        )
-      }
+          )
+        }
 
-    val goal = """Welcome everyone
+      val goal = """Welcome everyone
 
 team later
 
@@ -185,81 +178,78 @@ Welcome everyone
 
 team later"""
 
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `trimPrefix single line test`() {
-    val str =
-      prompt {
-        trimPrefix("    test text")
-      }
+    "trimPrefix single line test" {
+      val str =
+        prompt {
+          trimPrefix("    test text")
+        }
 
-    "test text" shouldBeEqualTo str
-  }
+      "test text" shouldBe str
+    }
 
-  @Test
-  fun `trimPrefix single multi line test`() {
-    val str =
-      prompt {
-        trimPrefix(
-          """Welcome
+    "trimPrefix single multi line test" {
+      val str =
+        prompt {
+          trimPrefix(
+            """Welcome
          team
          later""",
-        )
-      }
-    val goal = """Welcome
+          )
+        }
+      val goal = """Welcome
 team
 later"""
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `trimPrefix multi multi line test`() {
-    val str =
-      prompt {
-        trimPrefix(
-          """Welcome
+    "trimPrefix multi multi line test" {
+      val str =
+        prompt {
+          trimPrefix(
+            """Welcome
          team
          later""",
-        )
+          )
 
-        trimPrefix(
-          """Welcome
+          trimPrefix(
+            """Welcome
          team
          later""",
-        )
-      }
-    val goal = """Welcome
+          )
+        }
+      val goal = """Welcome
 team
 later
 
 Welcome
 team
 later"""
-    goal shouldBeEqualTo str
-  }
+      goal shouldBe str
+    }
 
-  @Test
-  fun `trimPrefix varargs multi line test`() {
-    val str =
-      prompt {
-        trimPrefix(
-          """Welcome
+    "trimPrefix varargs multi line test" {
+      val str =
+        prompt {
+          trimPrefix(
+            """Welcome
          team
          later""",
-          """Welcome
+            """Welcome
          team
          later""",
-        )
-      }
-    val goal = """Welcome
+          )
+        }
+      val goal = """Welcome
 team
 later
 
 Welcome
 team
 later"""
-    goal shouldBeEqualTo str
+      goal shouldBe str
+    }
   }
 }

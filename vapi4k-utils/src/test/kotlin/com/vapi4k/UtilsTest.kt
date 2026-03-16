@@ -27,127 +27,104 @@ import com.vapi4k.common.Utils.lpad
 import com.vapi4k.common.Utils.obfuscate
 import com.vapi4k.common.Utils.rpad
 import com.vapi4k.common.Utils.trimLeadingSpaces
-import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldBeFalse
-import org.amshove.kluent.shouldBeTrue
-import kotlin.test.Test
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class UtilsTest {
-  @Test
-  fun `ensureStartsWith already has prefix`() {
-    "/path".ensureStartsWith("/") shouldBeEqualTo "/path"
-  }
+class UtilsTest : StringSpec() {
+  init {
+    "ensureStartsWith already has prefix" {
+      "/path".ensureStartsWith("/") shouldBe "/path"
+    }
 
-  @Test
-  fun `ensureStartsWith missing prefix`() {
-    "path".ensureStartsWith("/") shouldBeEqualTo "/path"
-  }
+    "ensureStartsWith missing prefix" {
+      "path".ensureStartsWith("/") shouldBe "/path"
+    }
 
-  @Test
-  fun `ensureStartsWith with multi-char prefix`() {
-    "example.com".ensureStartsWith("https://") shouldBeEqualTo "https://example.com"
-    "https://example.com".ensureStartsWith("https://") shouldBeEqualTo "https://example.com"
-  }
+    "ensureStartsWith with multi-char prefix" {
+      "example.com".ensureStartsWith("https://") shouldBe "https://example.com"
+      "https://example.com".ensureStartsWith("https://") shouldBe "https://example.com"
+    }
 
-  @Test
-  fun `ensureEndsWith already has suffix`() {
-    "file.kt".ensureEndsWith(".kt") shouldBeEqualTo "file.kt"
-  }
+    "ensureEndsWith already has suffix" {
+      "file.kt".ensureEndsWith(".kt") shouldBe "file.kt"
+    }
 
-  @Test
-  fun `ensureEndsWith missing suffix`() {
-    "file".ensureEndsWith(".kt") shouldBeEqualTo "file.kt"
-  }
+    "ensureEndsWith missing suffix" {
+      "file".ensureEndsWith(".kt") shouldBe "file.kt"
+    }
 
-  @Test
-  fun `trimLeadingSpaces preserves newlines`() {
-    val input = "  line1\n    line2\n  line3"
-    val expected = "line1\nline2\nline3"
-    input.trimLeadingSpaces() shouldBeEqualTo expected
-  }
+    "trimLeadingSpaces preserves newlines" {
+      val input = "  line1\n    line2\n  line3"
+      val expected = "line1\nline2\nline3"
+      input.trimLeadingSpaces() shouldBe expected
+    }
 
-  @Test
-  fun `trimLeadingSpaces with no leading spaces`() {
-    "abc\ndef".trimLeadingSpaces() shouldBeEqualTo "abc\ndef"
-  }
+    "trimLeadingSpaces with no leading spaces" {
+      "abc\ndef".trimLeadingSpaces() shouldBe "abc\ndef"
+    }
 
-  @Test
-  fun `obfuscate with default freq`() {
-    val result = "abcdef".obfuscate()
-    // freq=2 means index 0,2,4 are replaced with '*'
-    result shouldBeEqualTo "*b*d*f"
-  }
+    "obfuscate with default freq" {
+      val result = "abcdef".obfuscate()
+      result shouldBe "*b*d*f"
+    }
 
-  @Test
-  fun `obfuscate with freq 3`() {
-    val result = "abcdef".obfuscate(3)
-    // freq=3 means index 0,3 are replaced with '*'
-    result shouldBeEqualTo "*bc*ef"
-  }
+    "obfuscate with freq 3" {
+      val result = "abcdef".obfuscate(3)
+      result shouldBe "*bc*ef"
+    }
 
-  @Test
-  fun `obfuscate empty string`() {
-    "".obfuscate() shouldBeEqualTo ""
-  }
+    "obfuscate empty string" {
+      "".obfuscate() shouldBe ""
+    }
 
-  @Test
-  fun `capitalizeFirstChar with mixed case`() {
-    "hELLO".capitalizeFirstChar() shouldBeEqualTo "Hello"
-  }
+    "capitalizeFirstChar with mixed case" {
+      "hELLO".capitalizeFirstChar() shouldBe "Hello"
+    }
 
-  @Test
-  fun `capitalizeFirstChar with lowercase`() {
-    "world".capitalizeFirstChar() shouldBeEqualTo "World"
-  }
+    "capitalizeFirstChar with lowercase" {
+      "world".capitalizeFirstChar() shouldBe "World"
+    }
 
-  @Test
-  fun `capitalizeFirstChar with already capitalized`() {
-    "Hello".capitalizeFirstChar() shouldBeEqualTo "Hello"
-  }
+    "capitalizeFirstChar with already capitalized" {
+      "Hello".capitalizeFirstChar() shouldBe "Hello"
+    }
 
-  @Test
-  fun `encode and decode round-trip`() {
-    val original = "a b&c=d+e"
-    original.encode().decode() shouldBeEqualTo original
-  }
+    "encode and decode round-trip" {
+      val original = "a b&c=d+e"
+      original.encode().decode() shouldBe original
+    }
 
-  @Test
-  fun `encode special characters`() {
-    val encoded = "hello world".encode()
-    encoded shouldBeEqualTo "hello+world"
-  }
+    "encode special characters" {
+      val encoded = "hello world".encode()
+      encoded shouldBe "hello+world"
+    }
 
-  @Test
-  fun `isNull and isNotNull with null`() {
-    val value: String? = null
-    value.isNull().shouldBeTrue()
-    value.isNotNull().shouldBeFalse()
-  }
+    "isNull and isNotNull with null" {
+      val value: String? = null
+      value.isNull() shouldBe true
+      value.isNotNull() shouldBe false
+    }
 
-  @Test
-  fun `isNull and isNotNull with non-null`() {
-    val value: String? = "hello"
-    value.isNull().shouldBeFalse()
-    value.isNotNull().shouldBeTrue()
-  }
+    "isNull and isNotNull with non-null" {
+      val value: String? = "hello"
+      value.isNull() shouldBe false
+      value.isNotNull() shouldBe true
+    }
 
-  @Test
-  fun `lpad pads with zeros`() {
-    42.lpad(5) shouldBeEqualTo "00042"
-  }
+    "lpad pads with zeros" {
+      42.lpad(5) shouldBe "00042"
+    }
 
-  @Test
-  fun `lpad with custom char`() {
-    7.lpad(3, ' ') shouldBeEqualTo "  7"
-  }
+    "lpad with custom char" {
+      7.lpad(3, ' ') shouldBe "  7"
+    }
 
-  @Test
-  fun `rpad pads with zeros`() {
-    42.rpad(5) shouldBeEqualTo "42000"
-  }
+    "rpad pads with zeros" {
+      42.rpad(5) shouldBe "42000"
+    }
 
-  @Test
-  fun `rpad with custom char`() {
-    7.rpad(3, ' ') shouldBeEqualTo "7  "
+    "rpad with custom char" {
+      7.rpad(3, ' ') shouldBe "7  "
+    }
   }
 }

@@ -36,7 +36,8 @@ dependencies {
     api(libs.kotlin.logging)
     api(libs.logback.classic)
 
-    testImplementation(libs.kluent)
+    testImplementation(libs.kotest.runner)
+    testImplementation(libs.kotest.assertions)
     testImplementation(kotlin("test"))
 }
 

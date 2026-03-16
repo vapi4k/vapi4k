@@ -22,30 +22,31 @@ import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
 import com.vapi4k.utils.JsonFilenames
 import com.vapi4k.utils.withTestApplication
-import org.amshove.kluent.shouldBeEqualTo
-import kotlin.test.Test
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class BaseToolMessageTest {
-  @Test
-  fun `toolMessageStart test`() {
-    val (response, jsonElement) =
-      withTestApplication(INBOUND_CALL, JsonFilenames.JSON_ASSISTANT_REQUEST) {
-        squad {
-          members {
-            member {
-              assistant {
-                name = "assistant 1"
-                firstMessage = "I'm assistant 1"
+class BaseToolMessageTest : StringSpec() {
+  init {
+    "toolMessageStart test" {
+      val (response, jsonElement) =
+        withTestApplication(INBOUND_CALL, JsonFilenames.JSON_ASSISTANT_REQUEST) {
+          squad {
+            members {
+              member {
+                assistant {
+                  name = "assistant 1"
+                  firstMessage = "I'm assistant 1"
 
-                openAIModel {
-                  modelType = OpenAIModelType.GPT_4_TURBO
-                  tools {
-                    serviceTool(WeatherLookupService1()) {
-                      requestStartMessage {
-                        content = "tool 1 start message"
-                      }
-                      requestCompleteMessage {
-                        content = "tool 1 complete message"
+                  openAIModel {
+                    modelType = OpenAIModelType.GPT_4_TURBO
+                    tools {
+                      serviceTool(WeatherLookupService1()) {
+                        requestStartMessage {
+                          content = "tool 1 start message"
+                        }
+                        requestCompleteMessage {
+                          content = "tool 1 complete message"
+                        }
                       }
                     }
                   }
@@ -54,15 +55,15 @@ class BaseToolMessageTest {
             }
           }
         }
-      }
 
-    response.status.value shouldBeEqualTo 200
-    val assistantTools =
-      jsonElement
-        .jsonElementList("messageResponse.squad.members")
-        .first()
-        .jsonElementList("assistant.model.tools")
-    assistantTools.first().jsonElementList("messages").first()
-      .stringValue("content") shouldBeEqualTo "tool 1 start message"
+      response.status.value shouldBe 200
+      val assistantTools =
+        jsonElement
+          .jsonElementList("messageResponse.squad.members")
+          .first()
+          .jsonElementList("assistant.model.tools")
+      assistantTools.first().jsonElementList("messages").first()
+        .stringValue("content") shouldBe "tool 1 start message"
+    }
   }
 }

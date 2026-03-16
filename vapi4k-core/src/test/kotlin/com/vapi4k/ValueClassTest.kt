@@ -21,62 +21,56 @@ import com.vapi4k.common.AssistantId.Companion.toAssistantId
 import com.vapi4k.common.CacheKey.Companion.cacheKeyValue
 import com.vapi4k.common.SessionId.Companion.EMPTY_SESSION_ID
 import com.vapi4k.common.SessionId.Companion.toSessionId
-import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldBeTrue
-import kotlin.test.Test
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 
-class ValueClassTest {
-  @Test
-  fun `CacheKey composition from sessionId and assistantId`() {
-    val sessionId = "session123".toSessionId()
-    val assistantId = "assistant456".toAssistantId()
-    val cacheKey = cacheKeyValue(sessionId, assistantId)
-    cacheKey.value shouldBeEqualTo "session123_assistant456"
-  }
+class ValueClassTest : StringSpec() {
+  init {
+    "CacheKey composition from sessionId and assistantId" {
+      val sessionId = "session123".toSessionId()
+      val assistantId = "assistant456".toAssistantId()
+      val cacheKey = cacheKeyValue(sessionId, assistantId)
+      cacheKey.value shouldBe "session123_assistant456"
+    }
 
-  @Test
-  fun `CacheKey equality for same session and assistant`() {
-    val sessionId = "sess1".toSessionId()
-    val assistantId = "asst1".toAssistantId()
-    val key1 = cacheKeyValue(sessionId, assistantId)
-    val key2 = cacheKeyValue(sessionId, assistantId)
-    key1 shouldBeEqualTo key2
-  }
+    "CacheKey equality for same session and assistant" {
+      val sessionId = "sess1".toSessionId()
+      val assistantId = "asst1".toAssistantId()
+      val key1 = cacheKeyValue(sessionId, assistantId)
+      val key2 = cacheKeyValue(sessionId, assistantId)
+      key1 shouldBe key2
+    }
 
-  @Test
-  fun `CacheKey differs for different sessions`() {
-    val assistantId = "asst1".toAssistantId()
-    val key1 = cacheKeyValue("sess1".toSessionId(), assistantId)
-    val key2 = cacheKeyValue("sess2".toSessionId(), assistantId)
-    (key1 != key2).shouldBeTrue()
-  }
+    "CacheKey differs for different sessions" {
+      val assistantId = "asst1".toAssistantId()
+      val key1 = cacheKeyValue("sess1".toSessionId(), assistantId)
+      val key2 = cacheKeyValue("sess2".toSessionId(), assistantId)
+      key1 shouldNotBe key2
+    }
 
-  @Test
-  fun `AssistantId getAssistantIdFromSuffix extracts correctly`() {
-    val result = "functionName_assistantXYZ".getAssistantIdFromSuffix()
-    result.value shouldBeEqualTo "assistantXYZ"
-  }
+    "AssistantId getAssistantIdFromSuffix extracts correctly" {
+      val result = "functionName_assistantXYZ".getAssistantIdFromSuffix()
+      result.value shouldBe "assistantXYZ"
+    }
 
-  @Test
-  fun `AssistantId getAssistantIdFromSuffix with multiple separators`() {
-    val result = "some_function_name_asst123".getAssistantIdFromSuffix()
-    result.value shouldBeEqualTo "asst123"
-  }
+    "AssistantId getAssistantIdFromSuffix with multiple separators" {
+      val result = "some_function_name_asst123".getAssistantIdFromSuffix()
+      result.value shouldBe "asst123"
+    }
 
-  @Test
-  fun `SessionId toString returns value`() {
-    val sessionId = "my-session".toSessionId()
-    sessionId.toString() shouldBeEqualTo "my-session"
-  }
+    "SessionId toString returns value" {
+      val sessionId = "my-session".toSessionId()
+      sessionId.toString() shouldBe "my-session"
+    }
 
-  @Test
-  fun `EMPTY_SESSION_ID has empty value`() {
-    EMPTY_SESSION_ID.value shouldBeEqualTo ""
-  }
+    "EMPTY_SESSION_ID has empty value" {
+      EMPTY_SESSION_ID.value shouldBe ""
+    }
 
-  @Test
-  fun `AssistantId toString returns value`() {
-    val assistantId = "my-assistant".toAssistantId()
-    assistantId.toString() shouldBeEqualTo "my-assistant"
+    "AssistantId toString returns value" {
+      val assistantId = "my-assistant".toAssistantId()
+      assistantId.toString() shouldBe "my-assistant"
+    }
   }
 }

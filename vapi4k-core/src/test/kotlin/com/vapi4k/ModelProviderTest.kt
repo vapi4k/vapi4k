@@ -25,124 +25,117 @@ import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.utils.assistantResponse
-import org.amshove.kluent.shouldBeEqualTo
-import org.junit.jupiter.api.Assertions.assertThrows
-import kotlin.test.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class ModelProviderTest {
+class ModelProviderTest : StringSpec() {
   init {
     Vapi4kConfigImpl()
   }
 
-  @Test
-  fun `openAI model serializes provider and modelType`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+  init {
+    "openAI model serializes provider and modelType" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.model.provider") shouldBeEqualTo "openai"
-    je.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo "gpt-3.5-turbo"
-  }
-
-  @Test
-  fun `anthropic model serializes provider and modelType`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          anthropicModel {
-            modelType = AnthropicModelType.CLAUDE_3_5_SONNET_20241022
-          }
-        }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.model.provider") shouldBeEqualTo "anthropic"
-    je.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo "claude-3-5-sonnet-20241022"
-  }
-
-  @Test
-  fun `groq model serializes provider and modelType`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_70B_8192
-          }
-        }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.model.provider") shouldBeEqualTo "groq"
-    je.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo "llama3-70b-8192"
-  }
-
-  @Test
-  fun `customLLM model serializes provider and model`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          customLLMModel {
-            model = "my-model"
-            url = "https://my-llm.example.com/v1"
-            systemMessage = "You are a helpful assistant"
-          }
-        }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.model.provider") shouldBeEqualTo "custom-llm"
-    je.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo "my-model"
-    je.stringValue("messageResponse.assistant.model.url") shouldBeEqualTo "https://my-llm.example.com/v1"
-  }
-
-  @Test
-  fun `openAI model with systemMessage`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-            systemMessage = "You are a test assistant"
-          }
-        }
-      }
-    val je = response.toJsonElement()
-    val messages = je.jsonElementList("messageResponse.assistant.model.messages")
-    messages.first().stringValue("content") shouldBeEqualTo "You are a test assistant"
-  }
-
-  @Test
-  fun `multiple model blocks throws error`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-          }
-          anthropicModel {
-            modelType = AnthropicModelType.CLAUDE_3_5_SONNET_20241022
-          }
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "openAIModel{} already called"
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.model.provider") shouldBe "openai"
+      je.stringValue("messageResponse.assistant.model.model") shouldBe "gpt-3.5-turbo"
     }
-  }
 
-  @Test
-  fun `anthropic model with customModel`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          anthropicModel {
-            customModel = "claude-custom-model"
+    "anthropic model serializes provider and modelType" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            anthropicModel {
+              modelType = AnthropicModelType.CLAUDE_3_5_SONNET_20241022
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.model.provider") shouldBeEqualTo "anthropic"
-    je.stringValue("messageResponse.assistant.model.model") shouldBeEqualTo "claude-custom-model"
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.model.provider") shouldBe "anthropic"
+      je.stringValue("messageResponse.assistant.model.model") shouldBe "claude-3-5-sonnet-20241022"
+    }
+
+    "groq model serializes provider and modelType" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_70B_8192
+            }
+          }
+        }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.model.provider") shouldBe "groq"
+      je.stringValue("messageResponse.assistant.model.model") shouldBe "llama3-70b-8192"
+    }
+
+    "customLLM model serializes provider and model" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            customLLMModel {
+              model = "my-model"
+              url = "https://my-llm.example.com/v1"
+              systemMessage = "You are a helpful assistant"
+            }
+          }
+        }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.model.provider") shouldBe "custom-llm"
+      je.stringValue("messageResponse.assistant.model.model") shouldBe "my-model"
+      je.stringValue("messageResponse.assistant.model.url") shouldBe "https://my-llm.example.com/v1"
+    }
+
+    "openAI model with systemMessage" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+              systemMessage = "You are a test assistant"
+            }
+          }
+        }
+      val je = response.toJsonElement()
+      val messages = je.jsonElementList("messageResponse.assistant.model.messages")
+      messages.first().stringValue("content") shouldBe "You are a test assistant"
+    }
+
+    "multiple model blocks throws error" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+            }
+            anthropicModel {
+              modelType = AnthropicModelType.CLAUDE_3_5_SONNET_20241022
+            }
+          }
+        }
+      }.message shouldBe "openAIModel{} already called"
+    }
+
+    "anthropic model with customModel" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            anthropicModel {
+              customModel = "claude-custom-model"
+            }
+          }
+        }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.model.provider") shouldBe "anthropic"
+      je.stringValue("messageResponse.assistant.model.model") shouldBe "claude-custom-model"
+    }
   }
 }

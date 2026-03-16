@@ -25,334 +25,312 @@ import com.vapi4k.AssistantTest.Companion.newRequestContext
 import com.vapi4k.api.model.OpenAIModelType
 import com.vapi4k.utils.assistantResponse
 import com.vapi4k.utils.tools
-import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldBeFalse
-import org.junit.jupiter.api.Assertions.assertThrows
-import kotlin.test.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 
-class ModelTests {
-  @Test
-  fun `tool server details`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-            tools {
-              dtmfTool {
-                async = false
-                onInvoke { }
-                server {
-                  url = "zzz"
-                  secret = "123"
-                  timeoutSeconds = 10
+class ModelTests : StringSpec() {
+  init {
+    "tool server details" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+              tools {
+                dtmfTool {
+                  async = false
+                  onInvoke { }
+                  server {
+                    url = "zzz"
+                    secret = "123"
+                    timeoutSeconds = 10
+                  }
                 }
               }
             }
           }
         }
-      }
 
-    val je = response.toJsonElement()
-    val server = je.tools().first()["server"]
-    server.stringValue("url") shouldBeEqualTo "zzz"
-    server.stringValue("secret") shouldBeEqualTo "123"
-    server.stringValue("timeoutSeconds") shouldBeEqualTo "10"
-    je.tools().first().booleanValue("async").shouldBeFalse()
-  }
-
-  @Test
-  fun `missing external tool name blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-
-            tools {
-              externalTool {
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
-                }
-              }
-            }
-          }
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "externalTool{} parameter name is required"
+      val je = response.toJsonElement()
+      val server = je.tools().first()["server"]
+      server.stringValue("url") shouldBe "zzz"
+      server.stringValue("secret") shouldBe "123"
+      server.stringValue("timeoutSeconds") shouldBe "10"
+      je.tools().first().booleanValue("async") shouldBe false
     }
-  }
 
-  @Test
-  fun `blank external tool name blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "missing external tool name blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-            tools {
-              externalTool {
-                name = ""
-
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
+              tools {
+                externalTool {
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
                 }
               }
             }
           }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "externalTool{} parameter name is required"
+      }.message shouldBe "externalTool{} parameter name is required"
     }
-  }
 
-  @Test
-  fun `Check description with external tool decl`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "blank external tool name blocks" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-            tools {
-              externalTool {
-                name = "wed"
-                description = "a description"
-                async = true
+              tools {
+                externalTool {
+                  name = ""
+
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      }.message shouldBe "externalTool{} parameter name is required"
+    }
+
+    "Check description with external tool decl" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+
+              tools {
+                externalTool {
+                  name = "wed"
+                  description = "a description"
+                  async = true
 //                onInvoke { args ->
 //
 //                }
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
-                }
-              }
-            }
-          }
-        }
-      }
-    val je = response.toJsonElement()
-    val tool = je.tools().first()
-    tool["function"].stringValue("name") shouldBeEqualTo "wed"
-    tool["function"].stringValue("description") shouldBeEqualTo "a description"
-    tool.stringValue("async") shouldBeEqualTo "true"
-  }
-
-  @Test
-  fun `blank param names with external tool decl`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-
-            tools {
-              externalTool {
-                name = "wed"
-                description = "a description"
-                async = true
-
-                parameters {
-                  parameter {
-                    name = ""
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
                   }
                 }
-
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
-                }
               }
             }
           }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "Parameter name must be assigned in externalTool{}"
+      val je = response.toJsonElement()
+      val tool = je.tools().first()
+      tool["function"].stringValue("name") shouldBe "wed"
+      tool["function"].stringValue("description") shouldBe "a description"
+      tool.stringValue("async") shouldBe "true"
     }
-  }
 
-  @Test
-  fun `Bad type with external tool decl`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "blank param names with external tool decl" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-            tools {
-              externalTool {
-                name = "wed"
-                description = "a description"
-                async = true
+              tools {
+                externalTool {
+                  name = "wed"
+                  description = "a description"
+                  async = true
 
-                parameters {
-                  parameter {
-                    name = "param1"
-                    description = "a description"
-                    type = Any::class
+                  parameters {
+                    parameter {
+                      name = ""
+                    }
                   }
-                }
 
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
                 }
               }
             }
           }
         }
-      }
-    }.also {
-      assert(it.message.orEmpty().contains("externalTool{} parameter type must be one of"))
+      }.message shouldBe "Parameter name must be assigned in externalTool{}"
     }
-  }
 
-  @Test
-  fun `Duplicate param names external tool decl`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "Bad type with external tool decl" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-            tools {
-              externalTool {
-                name = "wed"
-                description = "a description"
-                async = true
+              tools {
+                externalTool {
+                  name = "wed"
+                  description = "a description"
+                  async = true
 
-                parameters {
-                  parameter {
-                    name = "param1"
-                    description = "a description"
+                  parameters {
+                    parameter {
+                      name = "param1"
+                      description = "a description"
+                      type = Any::class
+                    }
                   }
-                  parameter {
-                    name = "param1"
-                    description = "a description"
-                  }
-                }
 
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
                 }
               }
             }
           }
         }
-      }
-    }.also {
-      assert(it.message.orEmpty().contains("already exists"))
+      }.message shouldContain "externalTool{} parameter type must be one of"
     }
-  }
 
-  @Test
-  fun `check parameters with external tool decl`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "Duplicate param names external tool decl" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-            tools {
-              externalTool {
-                name = "wed"
-                description = "a description"
-                async = true
+              tools {
+                externalTool {
+                  name = "wed"
+                  description = "a description"
+                  async = true
 
-                parameters {
-                  parameter {
-                    name = "param1"
-                    description = "a description"
+                  parameters {
+                    parameter {
+                      name = "param1"
+                      description = "a description"
+                    }
+                    parameter {
+                      name = "param1"
+                      description = "a description"
+                    }
                   }
-                  parameter {
-                    name = "param2"
-                    description = "a description"
-                  }
-                  parameter {
-                    name = "param3"
-                    description = "a description"
-                    type = Int::class
-                  }
-                }
 
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
                 }
               }
             }
           }
         }
-      }
-    val je = response.toJsonElement()
-    val tool = je.tools().first()
-    tool["function.parameters.properties"].keys.size shouldBeEqualTo 3
-  }
-
-  @Test
-  fun `multiple server with external tool decl`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
-
-            tools {
-              externalTool {
-                name = "wed"
-
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
-                }
-                server {
-                  url = "yyy"
-                  secret = "456"
-                  timeoutSeconds = 5
-                }
-              }
-            }
-          }
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "externalTool{} contains multiple calls to server{}"
+      }.message shouldContain "already exists"
     }
-  }
 
-  @Test
-  fun `missing server with external tool decl`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          openAIModel {
-            modelType = OpenAIModelType.GPT_3_5_TURBO
+    "check parameters with external tool decl" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
 
-            tools {
-              externalTool {
-                name = "wed"
+              tools {
+                externalTool {
+                  name = "wed"
+                  description = "a description"
+                  async = true
+
+                  parameters {
+                    parameter {
+                      name = "param1"
+                      description = "a description"
+                    }
+                    parameter {
+                      name = "param2"
+                      description = "a description"
+                    }
+                    parameter {
+                      name = "param3"
+                      description = "a description"
+                      type = Int::class
+                    }
+                  }
+
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
+                }
               }
             }
           }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "externalTool{} must contain a call to server{}"
+      val je = response.toJsonElement()
+      val tool = je.tools().first()
+      tool["function.parameters.properties"].keys.size shouldBe 3
+    }
+
+    "multiple server with external tool decl" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+
+              tools {
+                externalTool {
+                  name = "wed"
+
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
+                  server {
+                    url = "yyy"
+                    secret = "456"
+                    timeoutSeconds = 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      }.message shouldBe "externalTool{} contains multiple calls to server{}"
+    }
+
+    "missing server with external tool decl" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            openAIModel {
+              modelType = OpenAIModelType.GPT_3_5_TURBO
+
+              tools {
+                externalTool {
+                  name = "wed"
+                }
+              }
+            }
+          }
+        }
+      }.message shouldBe "externalTool{} must contain a call to server{}"
     }
   }
 }

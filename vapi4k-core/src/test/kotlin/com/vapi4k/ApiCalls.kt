@@ -18,84 +18,72 @@ package com.vapi4k
 
 import com.vapi4k.dsl.call.VapiApiImpl
 import com.vapi4k.dsl.call.VapiApiImpl.Companion.vapiApi
-import org.amshove.kluent.shouldBeEqualTo
-import org.junit.jupiter.api.Assertions.assertThrows
-import kotlin.test.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 
-class ApiCalls {
-  @Test
-  fun `Missing auth`() {
-    assertThrows(IllegalStateException::class.java) {
-      val api = vapiApi() as VapiApiImpl
-      api.test {
-        outboundCall {
+class ApiCalls : StringSpec() {
+  init {
+    "Missing auth" {
+      shouldThrow<IllegalStateException> {
+        val api = vapiApi() as VapiApiImpl
+        api.test {
+          outboundCall {
+          }
         }
-      }
-    }.also {
-      it.message.orEmpty().contains("VAPI_PRIVATE_KEY") shouldBeEqualTo true
+      }.message shouldContain "VAPI_PRIVATE_KEY"
     }
-  }
 
-  @Test
-  fun `Missing serverPath`() {
-    assertThrows(IllegalArgumentException::class.java) {
-      val api = vapiApi("123-445-666") as VapiApiImpl
-      api.test {
-        outboundCall {
+    "Missing serverPath" {
+      shouldThrow<IllegalArgumentException> {
+        val api = vapiApi("123-445-666") as VapiApiImpl
+        api.test {
+          outboundCall {
+          }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "serverPath must be assigned in outboundCall{}"
+      }.message shouldBe "serverPath must be assigned in outboundCall{}"
     }
-  }
 
-  @Test
-  fun `Missing phoneNumber`() {
-    assertThrows(IllegalArgumentException::class.java) {
-      val api = vapiApi("123-445-666") as VapiApiImpl
-      api.test {
-        outboundCall {
-          serverPath = "/outboundRequest"
+    "Missing phoneNumber" {
+      shouldThrow<IllegalArgumentException> {
+        val api = vapiApi("123-445-666") as VapiApiImpl
+        api.test {
+          outboundCall {
+            serverPath = "/outboundRequest"
+          }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "phoneNumber must be assigned in outboundCall{}"
+      }.message shouldBe "phoneNumber must be assigned in outboundCall{}"
     }
-  }
 
-  @Test
-  fun `Missing phoneNumberId`() {
-    assertThrows(IllegalStateException::class.java) {
-      val api = vapiApi("123-445-666") as VapiApiImpl
-      api.test {
-        outboundCall {
-          serverPath = "/outboundRequest"
-          phoneNumber = "+1123-456-7890"
+    "Missing phoneNumberId" {
+      shouldThrow<IllegalStateException> {
+        val api = vapiApi("123-445-666") as VapiApiImpl
+        api.test {
+          outboundCall {
+            serverPath = "/outboundRequest"
+            phoneNumber = "+1123-456-7890"
+          }
         }
-      }
-    }.also {
-      it.message.orEmpty().contains("Missing phoneNumberId value") shouldBeEqualTo true
+      }.message shouldContain "Missing phoneNumberId value"
     }
-  }
 
-  @Test
-  fun `multiple outboundCall{} blocks`() {
-    assertThrows(IllegalStateException::class.java) {
-      val api = vapiApi("123-445-666") as VapiApiImpl
-      api.test {
-        outboundCall {
-          serverPath = "/outboundRequest1"
-          phoneNumber = "+1123-456-7890"
-          phoneNumberId = "123-445-666"
+    "multiple outboundCall{} blocks" {
+      shouldThrow<IllegalStateException> {
+        val api = vapiApi("123-445-666") as VapiApiImpl
+        api.test {
+          outboundCall {
+            serverPath = "/outboundRequest1"
+            phoneNumber = "+1123-456-7890"
+            phoneNumberId = "123-445-666"
+          }
+          outboundCall {
+            serverPath = "/outboundRequest2"
+            phoneNumber = "+1123-456-7890"
+            phoneNumberId = "123-445-666"
+          }
         }
-        outboundCall {
-          serverPath = "/outboundRequest2"
-          phoneNumber = "+1123-456-7890"
-          phoneNumberId = "123-445-666"
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "outboundCall{} was already called"
+      }.message shouldBe "outboundCall{} was already called"
     }
   }
 }
