@@ -22,6 +22,7 @@ import com.vapi4k.common.CacheKey.Companion.cacheKeyValue
 import com.vapi4k.common.SessionId.Companion.EMPTY_SESSION_ID
 import com.vapi4k.common.SessionId.Companion.toSessionId
 import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeTrue
 import kotlin.test.Test
 
 class ValueClassTest {
@@ -47,7 +48,7 @@ class ValueClassTest {
     val assistantId = "asst1".toAssistantId()
     val key1 = cacheKeyValue("sess1".toSessionId(), assistantId)
     val key2 = cacheKeyValue("sess2".toSessionId(), assistantId)
-    (key1 != key2) shouldBeEqualTo true
+    (key1 != key2).shouldBeTrue()
   }
 
   @Test

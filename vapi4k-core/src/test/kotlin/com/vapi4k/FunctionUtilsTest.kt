@@ -23,12 +23,12 @@ import com.vapi4k.dsl.functions.FunctionUtils.verifyIsToolCall
 import com.vapi4k.dsl.functions.FunctionUtils.verifyIsValidReturnType
 import com.vapi4k.dsl.functions.FunctionUtils.verifyObjectHasOnlyOneToolCall
 import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldContain
 import org.junit.jupiter.api.Assertions.assertThrows
+import kotlin.reflect.KFunction
 import kotlin.test.Test
 
 class FunctionUtilsTest {
-  // Test service classes for reflection tests
-
   class NoAnnotationService {
     fun doSomething(): String = "hello"
   }
@@ -71,14 +71,16 @@ class FunctionUtilsTest {
     fun getScore(): Double = 3.14
   }
 
+  private inline fun <reified T : Any> T.memberFunction(name: String): KFunction<*> =
+    this::class.members.first { it.name == name } as KFunction<*>
+
   @Test
   fun `verifyIsToolCall rejects unannotated function`() {
-    val service = NoAnnotationService()
-    val function = service::class.members.first { it.name == "doSomething" }
+    val function = NoAnnotationService().memberFunction("doSomething")
     assertThrows(IllegalStateException::class.java) {
-      verifyIsToolCall(true, function as kotlin.reflect.KFunction<*>)
+      verifyIsToolCall(true, function)
     }.also {
-      assert(it.message.orEmpty().contains("missing @ToolCall annotation"))
+      it.message.orEmpty() shouldContain "missing @ToolCall annotation"
     }
   }
 
@@ -87,7 +89,7 @@ class FunctionUtilsTest {
     assertThrows(IllegalStateException::class.java) {
       verifyObjectHasOnlyOneToolCall(NoAnnotationService())
     }.also {
-      assert(it.message.orEmpty().contains("No method with @ToolCall annotation found"))
+      it.message.orEmpty() shouldContain "No method with @ToolCall annotation found"
     }
   }
 
@@ -96,62 +98,48 @@ class FunctionUtilsTest {
     assertThrows(IllegalStateException::class.java) {
       verifyObjectHasOnlyOneToolCall(TwoAnnotationService())
     }.also {
-      assert(it.message.orEmpty().contains("Only one method with @ToolCall annotation is allowed"))
+      it.message.orEmpty() shouldContain "Only one method with @ToolCall annotation is allowed"
     }
   }
 
   @Test
   fun `verifyObjectHasOnlyOneToolCall accepts valid service`() {
-    // Should not throw
     verifyObjectHasOnlyOneToolCall(ValidService())
   }
 
   @Test
   fun `verifyIsValidReturnType rejects List return`() {
-    val service = ListReturnService()
-    val function = service::class.members.first { it.name == "getItems" }
+    val function = ListReturnService().memberFunction("getItems")
     assertThrows(IllegalStateException::class.java) {
-      verifyIsValidReturnType(true, function as kotlin.reflect.KFunction<*>)
+      verifyIsValidReturnType(true, function)
     }.also {
-      assert(it.message.orEmpty().contains("Allowed return types are String, Int, Double, Boolean or Unit"))
+      it.message.orEmpty() shouldContain "Allowed return types are String, Int, Double, Boolean or Unit"
     }
   }
 
   @Test
   fun `verifyIsValidReturnType accepts String return`() {
-    val service = ValidService()
-    val function = service::class.members.first { it.name == "doWork" }
-    // Should not throw
-    verifyIsValidReturnType(true, function as kotlin.reflect.KFunction<*>)
+    verifyIsValidReturnType(true, ValidService().memberFunction("doWork"))
   }
 
   @Test
   fun `verifyIsValidReturnType accepts Unit return`() {
-    val service = UnitReturnService()
-    val function = service::class.members.first { it.name == "doWork" }
-    // Should not throw
-    verifyIsValidReturnType(true, function as kotlin.reflect.KFunction<*>)
+    verifyIsValidReturnType(true, UnitReturnService().memberFunction("doWork"))
   }
 
   @Test
   fun `verifyIsValidReturnType accepts Int return`() {
-    val service = IntReturnService()
-    val function = service::class.members.first { it.name == "getCount" }
-    verifyIsValidReturnType(true, function as kotlin.reflect.KFunction<*>)
+    verifyIsValidReturnType(true, IntReturnService().memberFunction("getCount"))
   }
 
   @Test
   fun `verifyIsValidReturnType accepts Boolean return`() {
-    val service = BooleanReturnService()
-    val function = service::class.members.first { it.name == "isReady" }
-    verifyIsValidReturnType(true, function as kotlin.reflect.KFunction<*>)
+    verifyIsValidReturnType(true, BooleanReturnService().memberFunction("isReady"))
   }
 
   @Test
   fun `verifyIsValidReturnType accepts Double return`() {
-    val service = DoubleReturnService()
-    val function = service::class.members.first { it.name == "getScore" }
-    verifyIsValidReturnType(true, function as kotlin.reflect.KFunction<*>)
+    verifyIsValidReturnType(true, DoubleReturnService().memberFunction("getScore"))
   }
 
   @Test
