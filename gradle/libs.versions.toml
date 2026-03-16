@@ -6,7 +6,7 @@ dokka = "2.1.0"
 exposed = "1.1.1"
 gradle-plugins = "1.0.8"
 hikari = "7.0.2"
-kluent = "1.73"
+kotest = "6.0.0.M4"
 kotlin = "2.3.10"
 ktor = "3.4.1"
 logback = "1.5.32"
@@ -54,7 +54,8 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
-kluent = { module = "org.amshove.kluent:kluent", version.ref = "kluent" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 
 [plugins]
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

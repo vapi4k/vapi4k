@@ -103,6 +103,15 @@ openAIModel {
 | **vapi4k-dbms**  | Optional database persistence (HikariCP + PostgreSQL + Exposed) |
 | **vapi4k-utils** | Shared utilities with zero external dependencies                |
 
+## Testing
+
+Tests use [Kotest 6](https://kotest.io) with `StringSpec` and Kotest assertions, plus the Ktor test host for
+integration tests. Run with:
+
+```bash
+./gradlew test
+```
+
 ## Documentation
 
 - [Vapi4k Documentation](https://vapi4k.com/overview.html)

@@ -31,219 +31,204 @@ import com.vapi4k.api.voice.RimeAIVoiceIdType
 import com.vapi4k.api.voice.RimeAIVoiceModelType
 import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.utils.assistantResponse
-import org.amshove.kluent.shouldBeEqualTo
-import org.junit.jupiter.api.Assertions.assertThrows
-import kotlin.test.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class VoiceProviderTest {
+class VoiceProviderTest : StringSpec() {
   init {
     Vapi4kConfigImpl()
   }
 
-  @Test
-  fun `elevenLabs voice serializes provider and voiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          elevenLabsVoice {
-            voiceIdType = ElevenLabsVoiceIdType.BURT
-            modelType = ElevenLabsVoiceModelType.ELEVEN_TURBO_V2
-          }
-        }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "11labs"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "burt"
-    je.stringValue("messageResponse.assistant.voice.model") shouldBeEqualTo "eleven_turbo_v2"
-  }
-
-  @Test
-  fun `elevenLabs voice with customVoiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          elevenLabsVoice {
-            customVoiceId = "my-custom-voice"
-            modelType = ElevenLabsVoiceModelType.ELEVEN_TURBO_V2
+  init {
+    "elevenLabs voice serializes provider and voiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            elevenLabsVoice {
+              voiceIdType = ElevenLabsVoiceIdType.BURT
+              modelType = ElevenLabsVoiceModelType.ELEVEN_TURBO_V2
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "11labs"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "my-custom-voice"
-  }
-
-  @Test
-  fun `elevenLabs voice both voiceIdType and customVoiceId throws`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          elevenLabsVoice {
-            voiceIdType = ElevenLabsVoiceIdType.BURT
-            customVoiceId = "custom"
-            modelType = ElevenLabsVoiceModelType.ELEVEN_TURBO_V2
-          }
-        }
-      }
-    }.also {
-      it.message shouldBeEqualTo "elevenLabsVoice{} cannot have both voiceIdType and customVoiceId values"
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "11labs"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "burt"
+      je.stringValue("messageResponse.assistant.voice.model") shouldBe "eleven_turbo_v2"
     }
-  }
 
-  @Test
-  fun `elevenLabs voice missing model throws`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          elevenLabsVoice {
-            voiceIdType = ElevenLabsVoiceIdType.BURT
+    "elevenLabs voice with customVoiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            elevenLabsVoice {
+              customVoiceId = "my-custom-voice"
+              modelType = ElevenLabsVoiceModelType.ELEVEN_TURBO_V2
+            }
           }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "elevenLabsVoice{} requires a modelType or customModel value"
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "11labs"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "my-custom-voice"
     }
-  }
 
-  @Test
-  fun `openAI voice serializes provider and voiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          openAIVoice {
-            voiceIdType = OpenAIVoiceIdType.ALLOY
+    "elevenLabs voice both voiceIdType and customVoiceId throws" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            elevenLabsVoice {
+              voiceIdType = ElevenLabsVoiceIdType.BURT
+              customVoiceId = "custom"
+              modelType = ElevenLabsVoiceModelType.ELEVEN_TURBO_V2
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "openai"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "alloy"
-  }
+      }.message shouldBe "elevenLabsVoice{} cannot have both voiceIdType and customVoiceId values"
+    }
 
-  @Test
-  fun `deepgram voice serializes provider and voiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          deepgramVoice {
-            voiceIdType = DeepGramVoiceIdType.ANGUS
+    "elevenLabs voice missing model throws" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            elevenLabsVoice {
+              voiceIdType = ElevenLabsVoiceIdType.BURT
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "deepgram"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "angus"
-  }
+      }.message shouldBe "elevenLabsVoice{} requires a modelType or customModel value"
+    }
 
-  @Test
-  fun `azure voice serializes provider and voiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          azureVoice {
-            voiceIdType = AzureVoiceIdType.ANDREW
+    "openAI voice serializes provider and voiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            openAIVoice {
+              voiceIdType = OpenAIVoiceIdType.ALLOY
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "azure"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "andrew"
-  }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "openai"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "alloy"
+    }
 
-  @Test
-  fun `lmnt voice serializes provider and voiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          lmntVoice {
-            voiceIdType = LMNTVoiceIdType.DANIEL
+    "deepgram voice serializes provider and voiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            deepgramVoice {
+              voiceIdType = DeepGramVoiceIdType.ANGUS
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "lmnt"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "daniel"
-  }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "deepgram"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "angus"
+    }
 
-  @Test
-  fun `rimeAI voice serializes provider and voiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          rimeAIVoice {
-            voiceIdType = RimeAIVoiceIdType.MARSH
-            modelType = RimeAIVoiceModelType.MIST
+    "azure voice serializes provider and voiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            azureVoice {
+              voiceIdType = AzureVoiceIdType.ANDREW
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "rime-ai"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "marsh"
-  }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "azure"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "andrew"
+    }
 
-  @Test
-  fun `neets voice serializes provider and voiceId`() {
-    val response =
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          neetsVoice {
-            voiceIdType = NeetsVoiceIdType.VITS
+    "lmnt voice serializes provider and voiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            lmntVoice {
+              voiceIdType = LMNTVoiceIdType.DANIEL
+            }
           }
         }
-      }
-    val je = response.toJsonElement()
-    je.stringValue("messageResponse.assistant.voice.provider") shouldBeEqualTo "neets"
-    je.stringValue("messageResponse.assistant.voice.voiceId") shouldBeEqualTo "vits"
-  }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "lmnt"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "daniel"
+    }
 
-  @Test
-  fun `double voice blocks throws error`() {
-    assertThrows(IllegalStateException::class.java) {
-      assistantResponse(newRequestContext()) {
-        assistant {
-          groqModel {
-            modelType = GroqModelType.LLAMA3_8B_8192
-          }
-          openAIVoice {
-            voiceIdType = OpenAIVoiceIdType.ALLOY
-          }
-          deepgramVoice {
-            voiceIdType = DeepGramVoiceIdType.ANGUS
+    "rimeAI voice serializes provider and voiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            rimeAIVoice {
+              voiceIdType = RimeAIVoiceIdType.MARSH
+              modelType = RimeAIVoiceModelType.MIST
+            }
           }
         }
-      }
-    }.also {
-      it.message shouldBeEqualTo "openAIVoice{} already called"
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "rime-ai"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "marsh"
+    }
+
+    "neets voice serializes provider and voiceId" {
+      val response =
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            neetsVoice {
+              voiceIdType = NeetsVoiceIdType.VITS
+            }
+          }
+        }
+      val je = response.toJsonElement()
+      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "neets"
+      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "vits"
+    }
+
+    "double voice blocks throws error" {
+      shouldThrow<IllegalStateException> {
+        assistantResponse(newRequestContext()) {
+          assistant {
+            groqModel {
+              modelType = GroqModelType.LLAMA3_8B_8192
+            }
+            openAIVoice {
+              voiceIdType = OpenAIVoiceIdType.ALLOY
+            }
+            deepgramVoice {
+              voiceIdType = DeepGramVoiceIdType.ANGUS
+            }
+          }
+        }
+      }.message shouldBe "openAIVoice{} already called"
     }
   }
 }

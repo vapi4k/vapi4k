@@ -22,44 +22,45 @@ import com.vapi4k.api.model.AnthropicModelType
 import com.vapi4k.api.transcriber.DeepgramModelType
 import com.vapi4k.dtos.api.destination.SipDestinationDto
 import com.vapi4k.utils.assistantResponse
-import kotlin.test.Test
+import io.kotest.core.spec.style.StringSpec
 
-class ResponseTest {
-  @Test
-  fun testGetTwoSquadIds() {
-    val requestContext = newRequestContext()
-    val assistant =
-      assistantResponse(requestContext) {
-        assistant {
-          anthropicModel {
-            modelType = AnthropicModelType.CLAUDE_3_OPUS_20240229
+class ResponseTest : StringSpec() {
+  init {
+    "testGetTwoSquadIds" {
+      val requestContext = newRequestContext()
+      val assistant =
+        assistantResponse(requestContext) {
+          assistant {
+            anthropicModel {
+              modelType = AnthropicModelType.CLAUDE_3_OPUS_20240229
 //          maxTokens = 99
-            userMessage = "Hello"
-            userMessage += " Hello2"
-            systemMessage = "Hello4"
-            systemMessage += " Hello5"
+              userMessage = "Hello"
+              userMessage += " Hello2"
+              systemMessage = "Hello4"
+              systemMessage += " Hello5"
 
-            knowledgeBase {
-              fileIds += listOf("eeeee", "ffff")
-              topK = 5.3
+              knowledgeBase {
+                fileIds += listOf("eeeee", "ffff")
+                topK = 5.3
+              }
+            }
+
+            deepgramTranscriber {
+              transcriberModel = DeepgramModelType.BASE
+              customLanguage = "zzz"
             }
           }
+        }
 
-          deepgramTranscriber {
-            transcriberModel = DeepgramModelType.BASE
-            customLanguage = "zzz"
+      val dest =
+        assistantResponse(requestContext) {
+          sipDestination {
+            sipUri = "sip:wedwedwed"
+            message = "Hello"
           }
         }
-      }
 
-    val dest =
-      assistantResponse(requestContext) {
-        sipDestination {
-          sipUri = "sip:wedwedwed"
-          message = "Hello"
-        }
-      }
-
-    println((dest.messageResponse.destination as SipDestinationDto).toJsonString())
+      println((dest.messageResponse.destination as SipDestinationDto).toJsonString())
+    }
   }
 }

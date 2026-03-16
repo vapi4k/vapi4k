@@ -17,50 +17,40 @@
 package com.vapi4k
 
 import com.vapi4k.common.DuplicateInvokeChecker
-import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldBeFalse
-import org.amshove.kluent.shouldBeTrue
-import org.junit.jupiter.api.Assertions.assertThrows
-import kotlin.test.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class DuplicateInvokeCheckerTest {
-  @Test
-  fun `wasCalled is false before any call`() {
-    val checker = DuplicateInvokeChecker()
-    checker.wasCalled.shouldBeFalse()
-  }
-
-  @Test
-  fun `first call succeeds and sets wasCalled`() {
-    val checker = DuplicateInvokeChecker()
-    checker.check("assistant{} was already called")
-    checker.wasCalled.shouldBeTrue()
-  }
-
-  @Test
-  fun `second call throws with first message`() {
-    val checker = DuplicateInvokeChecker()
-    checker.check("assistant{} was already called")
-    assertThrows(IllegalStateException::class.java) {
-      checker.check("this message is ignored")
-    }.also {
-      it.message shouldBeEqualTo "assistant{} was already called"
+class DuplicateInvokeCheckerTest : StringSpec() {
+  init {
+    "wasCalled is false before any call" {
+      val checker = DuplicateInvokeChecker()
+      checker.wasCalled shouldBe false
     }
-  }
 
-  @Test
-  fun `third call also throws with first message`() {
-    val checker = DuplicateInvokeChecker()
-    checker.check("first error message")
-    assertThrows(IllegalStateException::class.java) {
-      checker.check("second")
-    }.also {
-      it.message shouldBeEqualTo "first error message"
+    "first call succeeds and sets wasCalled" {
+      val checker = DuplicateInvokeChecker()
+      checker.check("assistant{} was already called")
+      checker.wasCalled shouldBe true
     }
-    assertThrows(IllegalStateException::class.java) {
-      checker.check("third")
-    }.also {
-      it.message shouldBeEqualTo "first error message"
+
+    "second call throws with first message" {
+      val checker = DuplicateInvokeChecker()
+      checker.check("assistant{} was already called")
+      shouldThrow<IllegalStateException> {
+        checker.check("this message is ignored")
+      }.message shouldBe "assistant{} was already called"
+    }
+
+    "third call also throws with first message" {
+      val checker = DuplicateInvokeChecker()
+      checker.check("first error message")
+      shouldThrow<IllegalStateException> {
+        checker.check("second")
+      }.message shouldBe "first error message"
+      shouldThrow<IllegalStateException> {
+        checker.check("third")
+      }.message shouldBe "first error message"
     }
   }
 }

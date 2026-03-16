@@ -235,7 +235,21 @@ The admin UI uses HTMX (CDN) and Bootstrap (bundled static resources under `core
 
 ## Testing
 
-JUnit 5 + Kluent assertions + Ktor test host.
+Kotest 6 (`StringSpec` with `init {}`) + Kotest assertions + Ktor test host.
+
+All test classes extend `StringSpec()` and define tests as string-named lambdas inside an `init {}` block:
+
+```kotlin
+class MyTest : StringSpec() {
+  init {
+    "test name" {
+      result shouldBe expected
+    }
+  }
+}
+```
+
+Use `shouldBe`, `shouldContain`, `shouldThrow<T>`, `shouldNotBe`, etc. from `io.kotest.matchers.*`.
 
 - `vapi4k-core/src/test/kotlin/com/vapi4k/` - Unit tests for DSL builders, serialization, utilities
 - `vapi4k-core/src/test/kotlin/simpledemo/` - Example applications and integration tests
