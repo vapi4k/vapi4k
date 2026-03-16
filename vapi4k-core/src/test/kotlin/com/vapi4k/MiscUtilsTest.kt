@@ -82,5 +82,19 @@ class MiscUtilsTest : StringSpec() {
         obj.findFunction("nonExistent")
       }.message shouldContain "not found"
     }
+
+    "removeEnds with empty string input" {
+      "".removeEnds("/") shouldBe ""
+    }
+
+    "removeEnds strips only matching prefix and suffix" {
+      "/path".removeEnds("/") shouldBe "path"
+      "path/".removeEnds("/") shouldBe "path"
+    }
+
+    "appendQueryParams encodes spaces as plus signs" {
+      val result = "http://example.com".appendQueryParams("city" to "New York")
+      result shouldContain "city=New+York"
+    }
   }
 }
