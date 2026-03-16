@@ -52,6 +52,22 @@ class FunctionDetailsTest : StringSpec() {
     ): Int = a + b
   }
 
+  class DoubleService {
+    @ToolCall("Calculates area")
+    fun area(
+      width: Double,
+      height: Double,
+    ): Double = width * height
+  }
+
+  class BooleanService {
+    @ToolCall("Checks eligibility")
+    fun isEligible(
+      age: Int,
+      hasLicense: Boolean,
+    ): Boolean = age >= 18 && hasLicense
+  }
+
   class ThrowingService {
     @ToolCall("Always fails")
     fun fail(): String = throw IllegalArgumentException("Intentional failure")
@@ -275,6 +291,60 @@ class FunctionDetailsTest : StringSpec() {
       val details = createFunctionDetails(service)
       details.fqName shouldContain "StringService"
       details.fqName shouldContain "greet"
+    }
+
+    "invokeToolMethod handles Double parameters and return type" {
+      val service = DoubleService()
+      val details = createFunctionDetails(service)
+      val requestContext = createRequestContext()
+      val args = """{"width":3.5,"height":2.0}""".toJsonElement()
+      var result = ""
+
+      details.invokeToolMethod(
+        isTool = true,
+        requestContext = requestContext,
+        invokeArgs = args,
+        successAction = { result = it },
+        errorAction = { result = it },
+      )
+
+      result shouldBe "7.0"
+    }
+
+    "invokeToolMethod handles Boolean parameters and return type" {
+      val service = BooleanService()
+      val details = createFunctionDetails(service)
+      val requestContext = createRequestContext()
+      val args = """{"age":21,"hasLicense":true}""".toJsonElement()
+      var result = ""
+
+      details.invokeToolMethod(
+        isTool = true,
+        requestContext = requestContext,
+        invokeArgs = args,
+        successAction = { result = it },
+        errorAction = { result = it },
+      )
+
+      result shouldBe "true"
+    }
+
+    "invokeToolMethod with Boolean false result" {
+      val service = BooleanService()
+      val details = createFunctionDetails(service)
+      val requestContext = createRequestContext()
+      val args = """{"age":15,"hasLicense":false}""".toJsonElement()
+      var result = ""
+
+      details.invokeToolMethod(
+        isTool = true,
+        requestContext = requestContext,
+        invokeArgs = args,
+        successAction = { result = it },
+        errorAction = { result = it },
+      )
+
+      result shouldBe "false"
     }
   }
 }

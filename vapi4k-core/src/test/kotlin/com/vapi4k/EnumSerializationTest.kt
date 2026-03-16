@@ -16,10 +16,14 @@
 
 package com.vapi4k
 
+import com.vapi4k.api.assistant.BackgroundSoundType
+import com.vapi4k.api.assistant.FirstMessageModeType
 import com.vapi4k.api.model.AnthropicModelType
 import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.api.model.OpenAIModelType
+import com.vapi4k.api.transcriber.DeepgramLanguageType
 import com.vapi4k.api.voice.AzureVoiceIdType
+import com.vapi4k.api.voice.CartesiaVoiceModelType
 import com.vapi4k.api.voice.DeepGramVoiceIdType
 import com.vapi4k.api.voice.ElevenLabsVoiceIdType
 import com.vapi4k.api.voice.LMNTVoiceIdType
@@ -99,6 +103,54 @@ class EnumSerializationTest : StringSpec() {
 
     "OpenAIModelType isSpecified returns true for real entry" {
       OpenAIModelType.GPT_4O.isSpecified() shouldBe true
+    }
+
+    "CartesiaVoiceModelType entries have unique desc values" {
+      assertUniqueDescs(CartesiaVoiceModelType.entries) { it.desc }
+    }
+
+    "DeepgramLanguageType entries have unique desc values" {
+      assertUniqueDescs(DeepgramLanguageType.entries) { it.desc }
+    }
+
+    "BackgroundSoundType entries have unique desc values" {
+      assertUniqueDescs(BackgroundSoundType.entries) { it.desc }
+    }
+
+    "BackgroundSoundType UNSPECIFIED has correct desc" {
+      BackgroundSoundType.UNSPECIFIED.desc shouldBe UNSPECIFIED_DEFAULT
+    }
+
+    "FirstMessageModeType entries have unique desc values" {
+      assertUniqueDescs(FirstMessageModeType.entries) { it.desc }
+    }
+
+    "FirstMessageModeType UNSPECIFIED has correct desc" {
+      FirstMessageModeType.UNSPECIFIED.desc shouldBe UNSPECIFIED_DEFAULT
+    }
+
+    "FirstMessageModeType isSpecified returns false for UNSPECIFIED" {
+      FirstMessageModeType.UNSPECIFIED.isSpecified() shouldBe false
+    }
+
+    "FirstMessageModeType isSpecified returns true for real entry" {
+      FirstMessageModeType.ASSISTANT_SPEAKS_FIRST.isSpecified() shouldBe true
+    }
+
+    "CartesiaVoiceModelType UNSPECIFIED has correct desc" {
+      CartesiaVoiceModelType.UNSPECIFIED.desc shouldBe UNSPECIFIED_DEFAULT
+    }
+
+    "CartesiaVoiceModelType isSpecified returns true for real entry" {
+      CartesiaVoiceModelType.SONIC.isSpecified() shouldBe true
+    }
+
+    "DeepgramLanguageType isSpecified returns true for ENGLISH" {
+      DeepgramLanguageType.ENGLISH.isSpecified() shouldBe true
+    }
+
+    "DeepgramLanguageType isNotSpecified returns true for UNSPECIFIED" {
+      DeepgramLanguageType.UNSPECIFIED.isNotSpecified() shouldBe true
     }
   }
 }

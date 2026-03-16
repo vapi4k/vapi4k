@@ -82,5 +82,17 @@ class MiscUtilsTest : StringSpec() {
         obj.findFunction("nonExistent")
       }.message shouldContain "not found"
     }
+
+    "removeEnds with empty string input" {
+      "".removeEnds("/") shouldBe ""
+    }
+
+    "removeEnds with prefix only" {
+      "/path".removeEnds("/") shouldBe "path"
+    }
+
+    "removeEnds with suffix only" {
+      "path/".removeEnds("/") shouldBe "path"
+    }
   }
 }

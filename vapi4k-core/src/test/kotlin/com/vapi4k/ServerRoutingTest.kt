@@ -23,7 +23,9 @@ import com.vapi4k.common.Utils.resourceFile
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
 import com.vapi4k.plugin.Vapi4k
 import io.kotest.core.spec.style.StringSpec
+import com.vapi4k.common.Headers.VAPI_SECRET_HEADER
 import io.kotest.matchers.shouldBe
+import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType.Application
@@ -93,6 +95,34 @@ class ServerRoutingTest : StringSpec() {
           client.post("/${INBOUND_CALL.pathPrefix}/$defaultServerPath") {
             contentType(Application.Json)
             setBody(statusUpdateJson)
+          }
+
+        response.status shouldBe HttpStatusCode.OK
+      }
+    }
+
+    "inboundCallRequest returns 200 when server secret is valid" {
+      testApplication {
+        application {
+          install(Vapi4k) {
+            inboundCallApplication {
+              serverSecret = "correct-secret"
+              onAssistantRequest {
+                assistant {
+                  groqModel {
+                    modelType = GroqModelType.LLAMA3_70B_8192
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        val response =
+          client.post("/${INBOUND_CALL.pathPrefix}/$defaultServerPath?$SECRET_PARAM=correct-secret") {
+            contentType(Application.Json)
+            header(VAPI_SECRET_HEADER, "correct-secret")
+            setBody(resourceFile("/json-tool-tests/assistantRequest.json"))
           }
 
         response.status shouldBe HttpStatusCode.OK
