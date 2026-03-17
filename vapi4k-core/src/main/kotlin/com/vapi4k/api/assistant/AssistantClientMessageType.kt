@@ -17,9 +17,10 @@
 package com.vapi4k.api.assistant
 
 import com.vapi4k.api.assistant.AssistantClientMessageType.entries
+import com.vapi4k.common.Constants.UNSPECIFIED_DEFAULT
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveKind.STRING
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -29,24 +30,35 @@ import kotlinx.serialization.encoding.Encoder
 enum class AssistantClientMessageType(
   val desc: String,
 ) {
+  ASSISTANT_STARTED("assistant.started"),
   CONVERSATION_UPDATE("conversation-update"),
   FUNCTION_CALL("function-call"),
   FUNCTION_CALL_RESULT("function-call-result"),
   HANG("hang"),
+  LANGUAGE_CHANGED("language-changed"),
   METADATA("metadata"),
   MODEL_OUTPUT("model-output"),
   SPEECH_UPDATE("speech-update"),
   STATUS_UPDATE("status-update"),
-  TRANSCRIPT("transcript"),
   TOOL_CALLS("tool-calls"),
+  TOOL_CALLS_RESULT("tool-calls-result"),
   TOOL_CALLS_RESULTS("tool-calls-results"),
+  TOOL_COMPLETED("tool.completed"),
+  TRANSCRIPT("transcript"),
+  TRANSFER_UPDATE("transfer-update"),
   USER_INTERRUPTED("user-interrupted"),
   VOICE_INPUT("voice-input"),
+  WORKFLOW_NODE_STARTED("workflow.node.started"),
+  UNSPECIFIED(UNSPECIFIED_DEFAULT),
+  ;
+
+  fun isSpecified() = this != UNSPECIFIED
+
+  fun isNotSpecified() = this == UNSPECIFIED
 }
 
 object AssistantClientMessageTypeSerializer : KSerializer<AssistantClientMessageType> {
-  override val descriptor: SerialDescriptor =
-    PrimitiveSerialDescriptor("AssistantClientMessageType", PrimitiveKind.STRING)
+  override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("AssistantClientMessageType", STRING)
 
   override fun serialize(
     encoder: Encoder,

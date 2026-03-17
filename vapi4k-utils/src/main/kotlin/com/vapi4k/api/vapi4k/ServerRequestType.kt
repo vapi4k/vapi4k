@@ -25,17 +25,32 @@ enum class ServerRequestType(
 ) {
   ASSISTANT_STARTED("assistant.started"),
   ASSISTANT_REQUEST("assistant-request"),
+  CALL_DELETED("call.deleted"),
+  CALL_DELETE_FAILED("call.delete.failed"),
+  CALL_ENDPOINTING_REQUEST("call.endpointing.request"),
+  CHAT_CREATED("chat.created"),
+  CHAT_DELETED("chat.deleted"),
   CONVERSATION_UPDATE("conversation-update"),
   END_OF_CALL_REPORT("end-of-call-report"),
   FUNCTION_CALL("function-call"),
+  HANDOFF_DESTINATION_REQUEST("handoff-destination-request"),
   HANG("hang"),
+  KNOWLEDGE_BASE_REQUEST("knowledge-base-request"),
+  LANGUAGE_CHANGE_DETECTED("language-change-detected"),
+  MODEL_OUTPUT("model-output"),
   PHONE_CALL_CONTROL("phone-call-control"),
+  SESSION_CREATED("session.created"),
+  SESSION_DELETED("session.deleted"),
+  SESSION_UPDATED("session.updated"),
   SPEECH_UPDATE("speech-update"),
   STATUS_UPDATE("status-update"),
   TOOL_CALL("tool-calls"),
   TRANSCRIPT("transcript"),
   TRANSFER_DESTINATION_REQUEST("transfer-destination-request"),
+  TRANSFER_UPDATE("transfer-update"),
   USER_INTERRUPTED("user-interrupted"),
+  VOICE_INPUT("voice-input"),
+  VOICE_REQUEST("voice-request"),
   UNKNOWN_REQUEST_TYPE("unknown-request-type"),
   ;
 
@@ -46,15 +61,39 @@ enum class ServerRequestType(
 
     fun JsonElement.isAssistantRequest() = serverRequestType == ASSISTANT_REQUEST
 
+    fun JsonElement.isCallDeleted() = serverRequestType == CALL_DELETED
+
+    fun JsonElement.isCallDeleteFailed() = serverRequestType == CALL_DELETE_FAILED
+
+    fun JsonElement.isCallEndpointingRequest() = serverRequestType == CALL_ENDPOINTING_REQUEST
+
+    fun JsonElement.isChatCreated() = serverRequestType == CHAT_CREATED
+
+    fun JsonElement.isChatDeleted() = serverRequestType == CHAT_DELETED
+
     fun JsonElement.isConversationUpdate() = serverRequestType == CONVERSATION_UPDATE
 
     fun JsonElement.isEndOfCallReport() = serverRequestType == END_OF_CALL_REPORT
 
     fun JsonElement.isFunctionCall() = serverRequestType == FUNCTION_CALL
 
+    fun JsonElement.isHandoffDestinationRequest() = serverRequestType == HANDOFF_DESTINATION_REQUEST
+
     fun JsonElement.isHang() = serverRequestType == HANG
 
+    fun JsonElement.isKnowledgeBaseRequest() = serverRequestType == KNOWLEDGE_BASE_REQUEST
+
+    fun JsonElement.isLanguageChangeDetected() = serverRequestType == LANGUAGE_CHANGE_DETECTED
+
+    fun JsonElement.isModelOutput() = serverRequestType == MODEL_OUTPUT
+
     fun JsonElement.isPhoneCallControl() = serverRequestType == PHONE_CALL_CONTROL
+
+    fun JsonElement.isSessionCreated() = serverRequestType == SESSION_CREATED
+
+    fun JsonElement.isSessionDeleted() = serverRequestType == SESSION_DELETED
+
+    fun JsonElement.isSessionUpdated() = serverRequestType == SESSION_UPDATED
 
     fun JsonElement.isSpeechUpdate() = serverRequestType == SPEECH_UPDATE
 
@@ -64,7 +103,13 @@ enum class ServerRequestType(
 
     fun JsonElement.isTransferDestinationRequest() = serverRequestType == TRANSFER_DESTINATION_REQUEST
 
+    fun JsonElement.isTransferUpdate() = serverRequestType == TRANSFER_UPDATE
+
     fun JsonElement.isUserInterrupted() = serverRequestType == USER_INTERRUPTED
+
+    fun JsonElement.isVoiceInput() = serverRequestType == VOICE_INPUT
+
+    fun JsonElement.isVoiceRequest() = serverRequestType == VOICE_REQUEST
 
     val JsonElement.serverRequestType: ServerRequestType
       get() {

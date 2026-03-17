@@ -24,22 +24,27 @@ import kotlinx.serialization.Serializable
 
 internal val DEFAULT_CLIENT_MESSAGES =
   mutableSetOf(
+    AssistantClientMessageType.ASSISTANT_STARTED,
     AssistantClientMessageType.CONVERSATION_UPDATE,
     AssistantClientMessageType.FUNCTION_CALL,
     AssistantClientMessageType.HANG,
     AssistantClientMessageType.MODEL_OUTPUT,
     AssistantClientMessageType.SPEECH_UPDATE,
     AssistantClientMessageType.STATUS_UPDATE,
-    AssistantClientMessageType.TRANSCRIPT,
     AssistantClientMessageType.TOOL_CALLS,
+    AssistantClientMessageType.TRANSCRIPT,
+    AssistantClientMessageType.TRANSFER_UPDATE,
     AssistantClientMessageType.USER_INTERRUPTED,
     AssistantClientMessageType.VOICE_INPUT,
+    AssistantClientMessageType.WORKFLOW_NODE_STARTED,
   )
 internal val DEFAULT_SERVER_MESSAGES =
   mutableSetOf(
+    AssistantServerMessageType.ASSISTANT_STARTED,
     AssistantServerMessageType.CONVERSATION_UPDATE,
     AssistantServerMessageType.END_OF_CALL_REPORT,
     AssistantServerMessageType.FUNCTION_CALL,
+    AssistantServerMessageType.HANDOFF_DESTINATION_REQUEST,
     AssistantServerMessageType.HANG,
     AssistantServerMessageType.SPEECH_UPDATE,
     AssistantServerMessageType.STATUS_UPDATE,
