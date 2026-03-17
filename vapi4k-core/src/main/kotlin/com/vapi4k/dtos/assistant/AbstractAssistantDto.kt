@@ -40,9 +40,11 @@ internal val DEFAULT_CLIENT_MESSAGES =
   )
 internal val DEFAULT_SERVER_MESSAGES =
   mutableSetOf(
+    AssistantServerMessageType.ASSISTANT_STARTED,
     AssistantServerMessageType.CONVERSATION_UPDATE,
     AssistantServerMessageType.END_OF_CALL_REPORT,
     AssistantServerMessageType.FUNCTION_CALL,
+    AssistantServerMessageType.HANDOFF_DESTINATION_REQUEST,
     AssistantServerMessageType.HANG,
     AssistantServerMessageType.SPEECH_UPDATE,
     AssistantServerMessageType.STATUS_UPDATE,

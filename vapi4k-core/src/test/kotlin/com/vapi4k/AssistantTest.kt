@@ -539,7 +539,7 @@ class AssistantTest : StringSpec() {
         }
 
       val element = assistant.toJsonElement()
-      element.assistantServerMessages.size shouldBe 8
+      element.assistantServerMessages.size shouldBe 10
     }
 
     "check assistant server messages 2" {
@@ -554,7 +554,7 @@ class AssistantTest : StringSpec() {
         }
 
       val element = assistant.toJsonElement()
-      element.assistantServerMessages.size shouldBe 7
+      element.assistantServerMessages.size shouldBe 9
     }
 
     "multiple deepgram transcriber blocks" {
