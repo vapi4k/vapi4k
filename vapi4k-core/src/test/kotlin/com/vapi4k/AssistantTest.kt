@@ -508,7 +508,7 @@ class AssistantTest : StringSpec() {
         }
 
       val element = assistant.toJsonElement()
-      element.assistantClientMessages.size shouldBe 9
+      element.assistantClientMessages.size shouldBe 12
     }
 
     "check assistant client messages 2" {
@@ -523,7 +523,7 @@ class AssistantTest : StringSpec() {
         }
 
       val element = assistant.toJsonElement()
-      element.assistantClientMessages.size shouldBe 8
+      element.assistantClientMessages.size shouldBe 11
     }
 
     "check assistant server messages 1" {
