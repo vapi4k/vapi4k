@@ -42,7 +42,6 @@ enum class AssistantClientMessageType(
   STATUS_UPDATE("status-update"),
   TOOL_CALLS("tool-calls"),
   TOOL_CALLS_RESULT("tool-calls-result"),
-  TOOL_CALLS_RESULTS("tool-calls-results"),
   TOOL_COMPLETED("tool.completed"),
   TRANSCRIPT("transcript"),
   TRANSFER_UPDATE("transfer-update"),
