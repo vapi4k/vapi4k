@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import org.jetbrains.dokka.gradle.DokkaExtension
@@ -56,6 +57,7 @@ subprojects {
 
     configureKotlin()
     configureDokka()
+    configureTesting()
 }
 
 dokka {
@@ -114,4 +116,16 @@ fun Project.configureDokka() {
             }
         }
     }
+}
+
+fun Project.configureTesting() {
+  tasks.test {
+    useJUnitPlatform()
+
+    testLogging {
+      events("passed", "skipped", "failed", "standardOut", "standardError")
+      exceptionFormat = TestExceptionFormat.FULL
+      showStandardStreams = true
+    }
+  }
 }
