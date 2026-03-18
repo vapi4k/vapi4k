@@ -36,6 +36,10 @@ enum class DeepgramModelType(
   NOVA_2_DRIVETHRU("nova-2-drivethru"),
   NOVA_2_AUTOMOTIVE("nova-2-automotive"),
 
+  NOVA_3("nova-3"),
+  NOVA_3_GENERAL("nova-3-general"),
+  NOVA_3_MEDICAL("nova-3-medical"),
+
   NOVA("nova"),
   NOVA_GENERAL("nova-general"),
   NOVA_PHONECALL("nova-phonecall"),
@@ -55,6 +59,9 @@ enum class DeepgramModelType(
   BASE_CONVERSATIONAL_AI("base-conversationalai"),
   BASE_VOICEMAIL("base-voicemail"),
   BASE_VIDEO("base-video"),
+
+  FLUX_GENERAL_EN("flux-general-en"),
+  WHISPER("whisper"),
 
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
   ;

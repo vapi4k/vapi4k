@@ -31,13 +31,23 @@ enum class VoiceProviderType(
 ) {
   AZURE("azure"),
   CARTESIA("cartesia"),
+  CUSTOM_VOICE("custom-voice"),
   DEEPGRAM("deepgram"),
   ELEVEN_LABS("11labs"),
+  HUME("hume"),
+  INWORLD("inworld"),
   LMNT("lmnt"),
+  MINIMAX("minimax"),
   NEETS("neets"),
+  NEUPHONIC("neuphonic"),
   OPEN_AI("openai"),
   PLAY_HT("playht"),
   RIME_AI("rime-ai"),
+  SESAME("sesame"),
+  SMALLEST_AI("smallest-ai"),
+  TAVUS("tavus"),
+  VAPI("vapi"),
+  WELLSAID("wellsaid"),
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
   ;
 
