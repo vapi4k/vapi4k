@@ -14,20 +14,13 @@
  *
  */
 
-package com.vapi4k.dtos.api.destination
+package com.vapi4k.api.destination
 
-import com.vapi4k.api.destination.DestinationType
-import com.vapi4k.api.destination.StepDestination
-import kotlinx.serialization.EncodeDefault
-import kotlinx.serialization.Serializable
+import com.vapi4k.dsl.destination.CommonDestination
+import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
-@Serializable
-data class StepDestinationDto(
-  override var message: String = "",
-  override var description: String = "",
-  override var stepName: String = "",
-) : CommonDestinationDto,
-  StepDestination {
-  @EncodeDefault
-  val type: DestinationType = DestinationType.NUMBER
-}
+/**
+This is the dynamic destination where the handoff destination is determined at runtime via a webhook.
+ */
+@Vapi4KDslMarker
+interface DynamicDestination : CommonDestination

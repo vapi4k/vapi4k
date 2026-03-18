@@ -14,17 +14,24 @@
  *
  */
 
-package com.vapi4k.dsl.destination
+package com.vapi4k.api.destination
 
-import com.vapi4k.api.destination.StepDestination
-import com.vapi4k.dtos.api.destination.StepDestinationDto
+import com.vapi4k.dsl.destination.CommonDestination
+import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
-class StepDestinationImpl internal constructor(
-  private val dto: StepDestinationDto,
-) : StepDestination by dto {
-  fun checkForRequiredFields() {
-    if (dto.stepName.isEmpty()) {
-      error("stepDestination{} requires a stepName value")
-    }
-  }
+/**
+This is the squad destination where the call is transferred to a multi-agent squad.
+ */
+@Vapi4KDslMarker
+interface SquadDestination : CommonDestination {
+  /**
+  This is the squad id to transfer the call to.
+   */
+  var squadId: String
+
+  /**
+  This is the name of the entry assistant to start with when handing off to the squad.
+  If not provided, the first assistant in the squad is used.
+   */
+  var entryAssistantName: String
 }

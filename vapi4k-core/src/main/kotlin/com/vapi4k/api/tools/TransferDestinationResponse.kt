@@ -17,9 +17,10 @@
 package com.vapi4k.api.tools
 
 import com.vapi4k.api.destination.AssistantDestination
+import com.vapi4k.api.destination.DynamicDestination
 import com.vapi4k.api.destination.NumberDestination
 import com.vapi4k.api.destination.SipDestination
-import com.vapi4k.api.destination.StepDestination
+import com.vapi4k.api.destination.SquadDestination
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
 /**
@@ -33,6 +34,11 @@ interface TransferDestinationResponse {
   fun assistantDestination(block: AssistantDestination.() -> Unit)
 
   /**
+  Transfers the call to a dynamically determined destination via a webhook.
+   */
+  fun dynamicDestination(block: DynamicDestination.() -> Unit)
+
+  /**
   Transfers the call to a number.
    */
   fun numberDestination(block: NumberDestination.() -> Unit)
@@ -43,7 +49,7 @@ interface TransferDestinationResponse {
   fun sipDestination(block: SipDestination.() -> Unit)
 
   /**
-  Transfers the call to a step.
+  Transfers the call to a multi-agent squad.
    */
-  fun stepDestination(block: StepDestination.() -> Unit)
+  fun squadDestination(block: SquadDestination.() -> Unit)
 }

@@ -14,15 +14,11 @@
  *
  */
 
-package com.vapi4k.api.destination
+package com.vapi4k.dsl.destination
 
-import com.vapi4k.dsl.destination.TransferDestination
-import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
+import com.vapi4k.api.destination.DynamicDestination
+import com.vapi4k.dtos.api.destination.DynamicDestinationDto
 
-@Vapi4KDslMarker
-interface SipDestination : TransferDestination {
-  /**
-  This is the SIP URI to transfer the call to.
-   */
-  var sipUri: String
-}
+class DynamicDestinationImpl internal constructor(
+  private val dto: DynamicDestinationDto,
+) : DynamicDestination by dto

@@ -14,13 +14,17 @@
  *
  */
 
-package com.vapi4k.dtos.api.destination
+package com.vapi4k.dsl.destination
 
-import kotlinx.serialization.Serializable
+import com.vapi4k.api.destination.SquadDestination
+import com.vapi4k.dtos.api.destination.SquadDestinationDto
 
-// Not used for now
-@Serializable
-abstract class AbstractDestinationDto {
-  var message: String = ""
-  var description: String = ""
+class SquadDestinationImpl internal constructor(
+  private val dto: SquadDestinationDto,
+) : SquadDestination by dto {
+  fun checkForRequiredFields() {
+    if (dto.squadId.isEmpty()) {
+      error("squadDestination{} requires a squadId value")
+    }
+  }
 }

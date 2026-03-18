@@ -14,13 +14,18 @@
  *
  */
 
-package com.vapi4k.api.destination
+package com.vapi4k.dtos.api.destination
 
-import com.vapi4k.dsl.destination.CommonDestination
+import com.vapi4k.api.destination.DestinationType
+import com.vapi4k.api.destination.DynamicDestination
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.Serializable
 
-interface StepDestination : CommonDestination {
-  /**
-  This is the step to transfer to.
-   */
-  var stepName: String
+@Serializable
+data class DynamicDestinationDto(
+  override var description: String = "",
+) : CommonDestinationDto,
+  DynamicDestination {
+  @EncodeDefault
+  val type: DestinationType = DestinationType.DYNAMIC
 }
