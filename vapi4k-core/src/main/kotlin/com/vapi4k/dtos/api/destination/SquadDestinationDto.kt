@@ -14,15 +14,20 @@
  *
  */
 
-package com.vapi4k.api.destination
+package com.vapi4k.dtos.api.destination
 
-import com.vapi4k.dsl.destination.TransferDestination
-import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
+import com.vapi4k.api.destination.DestinationType
+import com.vapi4k.api.destination.SquadDestination
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.Serializable
 
-@Vapi4KDslMarker
-interface SipDestination : TransferDestination {
-  /**
-  This is the SIP URI to transfer the call to.
-   */
-  var sipUri: String
+@Serializable
+data class SquadDestinationDto(
+  override var description: String = "",
+  override var squadId: String = "",
+  override var entryAssistantName: String = "",
+) : CommonDestinationDto,
+  SquadDestination {
+  @EncodeDefault
+  val type: DestinationType = DestinationType.SQUAD
 }

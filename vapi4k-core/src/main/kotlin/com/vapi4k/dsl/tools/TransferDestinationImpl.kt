@@ -17,19 +17,22 @@
 package com.vapi4k.dsl.tools
 
 import com.vapi4k.api.destination.AssistantDestination
+import com.vapi4k.api.destination.DynamicDestination
 import com.vapi4k.api.destination.NumberDestination
 import com.vapi4k.api.destination.SipDestination
-import com.vapi4k.api.destination.StepDestination
+import com.vapi4k.api.destination.SquadDestination
 import com.vapi4k.api.tools.TransferDestinationResponse
 import com.vapi4k.common.DuplicateInvokeChecker
 import com.vapi4k.dsl.destination.AssistantDestinationImpl
+import com.vapi4k.dsl.destination.DynamicDestinationImpl
 import com.vapi4k.dsl.destination.NumberDestinationImpl
 import com.vapi4k.dsl.destination.SipDestinationImpl
-import com.vapi4k.dsl.destination.StepDestinationImpl
+import com.vapi4k.dsl.destination.SquadDestinationImpl
 import com.vapi4k.dtos.api.destination.AssistantDestinationDto
+import com.vapi4k.dtos.api.destination.DynamicDestinationDto
 import com.vapi4k.dtos.api.destination.NumberDestinationDto
 import com.vapi4k.dtos.api.destination.SipDestinationDto
-import com.vapi4k.dtos.api.destination.StepDestinationDto
+import com.vapi4k.dtos.api.destination.SquadDestinationDto
 import com.vapi4k.dtos.tools.TransferMessageResponseDto
 
 class TransferDestinationImpl internal constructor(
@@ -44,6 +47,12 @@ class TransferDestinationImpl internal constructor(
     AssistantDestinationImpl(assistantDto).apply(block).checkForRequiredFields()
   }
 
+  override fun dynamicDestination(block: DynamicDestination.() -> Unit) {
+    duplicateChecker.check("dynamicDestination{} already called in $callerName{}")
+    val dynamicDto = DynamicDestinationDto().also { dto.messageResponse.destination = it }
+    DynamicDestinationImpl(dynamicDto).apply(block)
+  }
+
   override fun numberDestination(block: NumberDestination.() -> Unit) {
     duplicateChecker.check("numberDestination{} already called in $callerName{}")
     val numDto = NumberDestinationDto().also { dto.messageResponse.destination = it }
@@ -56,9 +65,9 @@ class TransferDestinationImpl internal constructor(
     SipDestinationImpl(sipDto).apply(block).checkForRequiredFields()
   }
 
-  override fun stepDestination(block: StepDestination.() -> Unit) {
-    duplicateChecker.check("stepDestination{} already called in $callerName{}")
-    val stepDto = StepDestinationDto().also { dto.messageResponse.destination = it }
-    StepDestinationImpl(stepDto).apply(block).checkForRequiredFields()
+  override fun squadDestination(block: SquadDestination.() -> Unit) {
+    duplicateChecker.check("squadDestination{} already called in $callerName{}")
+    val squadDto = SquadDestinationDto().also { dto.messageResponse.destination = it }
+    SquadDestinationImpl(squadDto).apply(block).checkForRequiredFields()
   }
 }

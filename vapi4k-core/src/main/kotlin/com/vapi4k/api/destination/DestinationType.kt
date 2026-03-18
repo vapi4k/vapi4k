@@ -29,9 +29,10 @@ enum class DestinationType(
   val desc: String,
 ) {
   ASSISTANT("assistant"),
+  DYNAMIC("dynamic"),
   NUMBER("number"),
   SIP("sip"),
-  STEP("step"),
+  SQUAD("squad"),
 }
 
 object DestinationTypeSerializer : KSerializer<DestinationType> {

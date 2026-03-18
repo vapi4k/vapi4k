@@ -16,14 +16,14 @@
 
 package com.vapi4k.api.destination
 
-import com.vapi4k.dsl.destination.CommonDestination
+import com.vapi4k.dsl.destination.TransferDestination
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
 /**
 This is the assistant destination you'd like the call to be transferred to.
  */
 @Vapi4KDslMarker
-interface AssistantDestination : CommonDestination {
+interface AssistantDestination : TransferDestination {
   /**
   This is the assistant to transfer the call to.
    */
