@@ -28,8 +28,17 @@ import kotlinx.serialization.encoding.Encoder
 enum class TranscriberType(
   val desc: String,
 ) {
+  ASSEMBLY_AI("assembly-ai"),
+  AZURE("azure"),
+  CARTESIA("cartesia"),
+  CUSTOM_TRANSCRIBER("custom-transcriber"),
   DEEPGRAM("deepgram"),
+  ELEVEN_LABS("11labs"),
   GLADIA("gladia"),
+  GOOGLE("google"),
+  OPEN_AI("openai"),
+  SONIOX("soniox"),
+  SPEECHMATICS("speechmatics"),
   TALKSCRIBER("talkscriber"),
 }
 
