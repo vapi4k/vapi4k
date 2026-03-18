@@ -16,6 +16,7 @@
 
 package com.vapi4k.api.transcriber
 
+import com.vapi4k.common.Constants.UNSPECIFIED_DEFAULT
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind.STRING
@@ -40,6 +41,12 @@ enum class TranscriberType(
   SONIOX("soniox"),
   SPEECHMATICS("speechmatics"),
   TALKSCRIBER("talkscriber"),
+  UNSPECIFIED(UNSPECIFIED_DEFAULT),
+  ;
+
+  fun isSpecified() = this != UNSPECIFIED
+
+  fun isNotSpecified() = this == UNSPECIFIED
 }
 
 object TranscriberTypeSerializer : KSerializer<TranscriberType> {
