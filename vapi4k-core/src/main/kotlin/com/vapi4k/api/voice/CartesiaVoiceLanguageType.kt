@@ -57,6 +57,7 @@ enum class CartesiaVoiceLanguageType(
   MARATHI("mr"),
   NORWEGIAN("no"),
   POLISH("pl"),
+  PUNJABI("pa"),
   PORTUGUESE("pt"),
   ROMANIAN("ro"),
   RUSSIAN("ru"),
