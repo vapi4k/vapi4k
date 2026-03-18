@@ -44,11 +44,15 @@ buildconfig:
 kdocs:
 	./gradlew :dokkaGenerate
 
-trigger-build:
-	curl -s "https://jitpack.io/com/github/vapi4k/vapi4k/$(VERSION)/build.log"
+trigger-jitpack:
+	until curl -s "https://jitpack.io/com/github/vapi4k/vapi4k/$(VERSION)/build.log" | grep -qv "not found"; do \
+		echo "Waiting for JitPack..."; \
+		sleep 10; \
+	done
 
-view-build:
-	curl -s "https://jitpack.io/api/builds/com.github.vapi4k/vapi4k/$(VERSION)" | python3 -m json.tool
+view-jitpack:
+	curl -s "https://jitpack.io/com/github/vapi4k/vapi4k/$(VERSION)/build.log"
+	curl -s "https://jitpack.io/api/builds/com.github.vapi4k/vapi4k/$(VERSION)" | jq
 
 refresh:
 	./gradlew --refresh-dependencies dependencyUpdates
