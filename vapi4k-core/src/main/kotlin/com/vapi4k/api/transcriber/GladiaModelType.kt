@@ -25,6 +25,7 @@ enum class GladiaModelType(
 ) {
   FAST("fast"),
   ACCURATE("accurate"),
+  SOLARIA_1("solaria-1"),
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
   ;
 
