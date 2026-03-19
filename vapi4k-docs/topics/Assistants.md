@@ -45,25 +45,36 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
 
 ## Models
 
+* [AnthropicBedrock](%core_url%.model/-anthropic-bedrock-model/)
 * [Anthropic](%core_url%.model/-anthropic-model/)
 * [Anyscale](%core_url%.model/-anyscale-model/)
+* [Cerebras](%core_url%.model/-cerebras-model/)
 * [CustomLLM](%core_url%.model/-custom-l-l-m-model/)
 * [DeepInfra](%core_url%.model/-deep-infra-model/)
+* [DeepSeek](%core_url%.model/-deep-seek-model/)
+* [Google](%core_url%.model/-google-model/)
 * [Groq](%core_url%.model/-groq-model/)
+* [InflectionAI](%core_url%.model/-inflection-a-i-model/)
 * [OpenAI](%core_url%.model/-open-a-i-model/)
 * [OpenRouter](%core_url%.model/-open-router-model/)
 * [PerplexityAI](%core_url%.model/-perplexity-a-i-model/)
 * [TogetherAI](%core_url%.model/-together-a-i-model/)
-* [Vapi](%core_url%.model/-vapi-model/)
+* [xAI](%core_url%.model/-xai-model/)
 
 ### Model Examples
 
 <tabs>
+  <tab title="AnthropicBedrock">
+    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="anthropicBedrockExample"/>
+  </tab>
   <tab title="Anthropic">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="anthropicExample"/>
   </tab>
   <tab title="Anyscale">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="anyscaleExample"/>
+  </tab>
+  <tab title="Cerebras">
+    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="cerebrasExample"/>
   </tab>
   <tab title="CustomLLM">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="customLLMExample"/>
@@ -71,8 +82,17 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
   <tab title="DeepInfra">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="deepInfraExample"/>
   </tab>
+  <tab title="DeepSeek">
+    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="deepSeekExample"/>
+  </tab>
+  <tab title="Google">
+    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="googleExample"/>
+  </tab>
   <tab title="Groq">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="groqExample"/>
+  </tab>
+  <tab title="InflectionAI">
+    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="inflectionAIExample"/>
   </tab>
   <tab title="OpenAI">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="openAIExample"/>
@@ -86,8 +106,8 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
   <tab title="TogetherAI">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="togetherAIExample"/>
   </tab>
-  <tab title="Vapi">
-    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="vapiExample"/>
+  <tab title="xAI">
+    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="xaiExample"/>
   </tab>
 </tabs>
 

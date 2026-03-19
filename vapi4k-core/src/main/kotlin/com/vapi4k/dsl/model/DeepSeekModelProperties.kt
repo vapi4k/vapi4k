@@ -16,11 +16,18 @@
 
 package com.vapi4k.dsl.model
 
-interface VapiModelProperties {
+import com.vapi4k.api.model.DeepSeekModelType
+
+interface DeepSeekModelProperties {
   /**
   This is the name of the model.
    */
-  var model: String
+  var modelType: DeepSeekModelType
+
+  /**
+  This enables specifying a model that doesn't already exist as a DeepSeekModelType enum.
+   */
+  var customModel: String
 
   /**
   This determines whether we detect user's emotion while they speak and send it as an additional info to model.

@@ -16,16 +16,16 @@
 
 package com.vapi4k.dsl.model
 
-import com.vapi4k.api.model.GroqModelType
+import com.vapi4k.api.model.XaiModelType
 
-interface GroqModelProperties {
+interface XaiModelProperties {
   /**
   This is the name of the model.
    */
-  var modelType: GroqModelType
+  var modelType: XaiModelType
 
   /**
-  This enables specifying a model that doesn't already exist as a GroqModelType enum.
+  This enables specifying a model that doesn't already exist as an XaiModelType enum.
    */
   var customModel: String
 

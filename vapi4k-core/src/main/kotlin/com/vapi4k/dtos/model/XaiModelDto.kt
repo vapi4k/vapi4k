@@ -16,17 +16,23 @@
 
 package com.vapi4k.dtos.model
 
+import com.vapi4k.api.model.XaiModelType
 import com.vapi4k.dsl.model.ModelType
-import com.vapi4k.dsl.model.VapiModelProperties
+import com.vapi4k.dsl.model.XaiModelProperties
 import com.vapi4k.dtos.functions.FunctionDto
 import com.vapi4k.dtos.tools.ToolDto
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
-data class VapiModelDto(
-  override var model: String = "",
+data class XaiModelDto(
+  var model: String = "",
+  @Transient
+  override var modelType: XaiModelType = XaiModelType.UNSPECIFIED,
+  @Transient
+  override var customModel: String = "",
   override var temperature: Double = -1.0,
   override var maxTokens: Int = -1,
   override var emotionRecognitionEnabled: Boolean? = null,
@@ -37,13 +43,20 @@ data class VapiModelDto(
   override val tools: MutableList<ToolDto> = mutableListOf(),
   override val toolIds: MutableSet<String> = mutableSetOf(),
   override val functions: MutableList<FunctionDto> = mutableListOf(),
-) : VapiModelProperties,
+) : XaiModelProperties,
   CommonModelDto {
   @EncodeDefault
-  override val provider: ModelType = ModelType.VAPI
+  override val provider: ModelType = ModelType.XAI
+
+  fun assignEnumOverrides() {
+    model = customModel.ifEmpty { modelType.desc }
+  }
 
   fun verifyValues() {
-    if (model.isEmpty())
-      error("vapiModel{} requires a model value")
+    if (modelType.isSpecified() && customModel.isNotEmpty())
+      error("xaiModel{} cannot have both modelType and customModel values")
+
+    if (modelType.isNotSpecified() && customModel.isEmpty())
+      error("xaiModel{} must have either a modelType or customModel value")
   }
 }

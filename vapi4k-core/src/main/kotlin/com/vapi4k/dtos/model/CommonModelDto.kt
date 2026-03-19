@@ -43,6 +43,11 @@ object ModelSerializer : KSerializer<CommonModelDto> {
     value: CommonModelDto,
   ) {
     when (value) {
+      is AnthropicBedrockModelDto -> {
+        value.assignEnumOverrides()
+        encoder.encodeSerializableValue(AnthropicBedrockModelDto.serializer(), value)
+      }
+
       is AnyscaleModelDto -> {
         encoder.encodeSerializableValue(AnyscaleModelDto.serializer(), value)
       }
@@ -50,6 +55,11 @@ object ModelSerializer : KSerializer<CommonModelDto> {
       is AnthropicModelDto -> {
         value.assignEnumOverrides()
         encoder.encodeSerializableValue(AnthropicModelDto.serializer(), value)
+      }
+
+      is CerebrasModelDto -> {
+        value.assignEnumOverrides()
+        encoder.encodeSerializableValue(CerebrasModelDto.serializer(), value)
       }
 
       is CustomLLMModelDto -> {
@@ -60,9 +70,24 @@ object ModelSerializer : KSerializer<CommonModelDto> {
         encoder.encodeSerializableValue(DeepInfraModelDto.serializer(), value)
       }
 
+      is DeepSeekModelDto -> {
+        value.assignEnumOverrides()
+        encoder.encodeSerializableValue(DeepSeekModelDto.serializer(), value)
+      }
+
+      is GoogleModelDto -> {
+        value.assignEnumOverrides()
+        encoder.encodeSerializableValue(GoogleModelDto.serializer(), value)
+      }
+
       is GroqModelDto -> {
         value.assignEnumOverrides()
         encoder.encodeSerializableValue(GroqModelDto.serializer(), value)
+      }
+
+      is InflectionAIModelDto -> {
+        value.assignEnumOverrides()
+        encoder.encodeSerializableValue(InflectionAIModelDto.serializer(), value)
       }
 
       is OpenAIModelDto -> {
@@ -82,8 +107,9 @@ object ModelSerializer : KSerializer<CommonModelDto> {
         encoder.encodeSerializableValue(TogetherAIModelDto.serializer(), value)
       }
 
-      is VapiModelDto -> {
-        encoder.encodeSerializableValue(VapiModelDto.serializer(), value)
+      is XaiModelDto -> {
+        value.assignEnumOverrides()
+        encoder.encodeSerializableValue(XaiModelDto.serializer(), value)
       }
 
       else -> {

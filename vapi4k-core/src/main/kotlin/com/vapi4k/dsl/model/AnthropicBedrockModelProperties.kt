@@ -16,16 +16,16 @@
 
 package com.vapi4k.dsl.model
 
-import com.vapi4k.api.model.GroqModelType
+import com.vapi4k.api.model.AnthropicBedrockModelType
 
-interface GroqModelProperties {
+interface AnthropicBedrockModelProperties {
   /**
   This is the name of the model.
    */
-  var modelType: GroqModelType
+  var modelType: AnthropicBedrockModelType
 
   /**
-  This enables specifying a model that doesn't already exist as a GroqModelType enum.
+  This enables specifying a model that doesn't already exist as an AnthropicBedrockModelType enum.
    */
   var customModel: String
 

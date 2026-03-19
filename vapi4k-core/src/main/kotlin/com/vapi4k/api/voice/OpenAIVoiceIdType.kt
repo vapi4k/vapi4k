@@ -27,8 +27,10 @@ import kotlinx.serialization.encoding.Encoder
 @Serializable(with = OpenAIVoiceIdTypeSerializer::class)
 enum class OpenAIVoiceIdType {
   ALLOY,
+  CEDAR,
   ECHO,
   FABLE,
+  MARIN,
   NOVA,
   ONYX,
   SHIMMER,

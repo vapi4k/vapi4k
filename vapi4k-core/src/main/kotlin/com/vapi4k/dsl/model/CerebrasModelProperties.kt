@@ -16,16 +16,16 @@
 
 package com.vapi4k.dsl.model
 
-import com.vapi4k.api.model.GroqModelType
+import com.vapi4k.api.model.CerebrasModelType
 
-interface GroqModelProperties {
+interface CerebrasModelProperties {
   /**
   This is the name of the model.
    */
-  var modelType: GroqModelType
+  var modelType: CerebrasModelType
 
   /**
-  This enables specifying a model that doesn't already exist as a GroqModelType enum.
+  This enables specifying a model that doesn't already exist as a CerebrasModelType enum.
    */
   var customModel: String
 

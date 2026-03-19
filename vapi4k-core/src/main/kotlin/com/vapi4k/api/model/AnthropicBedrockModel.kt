@@ -16,11 +16,11 @@
 
 package com.vapi4k.api.model
 
+import com.vapi4k.dsl.model.AnthropicBedrockModelProperties
 import com.vapi4k.dsl.model.CommonModelProperties
-import com.vapi4k.dsl.model.VapiModelProperties
 import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
 @Vapi4KDslMarker
-interface VapiModel :
-  VapiModelProperties,
+interface AnthropicBedrockModel :
+  AnthropicBedrockModelProperties,
   CommonModelProperties

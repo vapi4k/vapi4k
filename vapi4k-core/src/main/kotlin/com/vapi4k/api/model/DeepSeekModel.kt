@@ -14,14 +14,13 @@
  *
  */
 
-package com.vapi4k.dsl.model
+package com.vapi4k.api.model
 
-import com.vapi4k.api.model.VapiModel
-import com.vapi4k.dtos.model.VapiModelDto
+import com.vapi4k.dsl.model.CommonModelProperties
+import com.vapi4k.dsl.model.DeepSeekModelProperties
+import com.vapi4k.dsl.vapi4k.Vapi4KDslMarker
 
-internal class VapiModelImpl(
-  modelUnion: ModelUnion,
-  modelDto: VapiModelDto,
-) : AbstractModelImpl(modelUnion, modelDto),
-  VapiModelProperties by modelDto,
-  VapiModel
+@Vapi4KDslMarker
+interface DeepSeekModel :
+  DeepSeekModelProperties,
+  CommonModelProperties

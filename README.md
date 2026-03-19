@@ -15,7 +15,7 @@ that makes it easy to define, deploy, and maintain [Vapi](https://vapi.ai) voice
 
 - **Type-safe Kotlin DSL** for configuring assistants, tools, models, voices, and transcribers
 - **Three application types**: inbound calls, outbound calls, and browser-based web interactions
-- **Multi-provider support**: 10 model providers (OpenAI, Anthropic, Groq, etc.), 18 voice providers (ElevenLabs,
+- **Multi-provider support**: 15 model providers (OpenAI, Anthropic, Google, Groq, etc.), 18 voice providers (ElevenLabs,
   Cartesia, Deepgram, etc.), and 12 transcriber providers
 - **Flexible tool system**: annotation-based service tools, imperative manual tools, and external HTTP tools
 - **Squad support**: multi-assistant configurations with transfer destinations
