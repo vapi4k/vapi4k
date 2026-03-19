@@ -54,8 +54,6 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
 * [OpenRouter](%core_url%.model/-open-router-model/)
 * [PerplexityAI](%core_url%.model/-perplexity-a-i-model/)
 * [TogetherAI](%core_url%.model/-together-a-i-model/)
-* [Vapi](%core_url%.model/-vapi-model/)
-
 ### Model Examples
 
 <tabs>
@@ -85,9 +83,6 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
   </tab>
   <tab title="TogetherAI">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="togetherAIExample"/>
-  </tab>
-  <tab title="Vapi">
-    <code-block lang="kotlin" src="src/main/kotlin/assistants/Models.kt" include-symbol="vapiExample"/>
   </tab>
 </tabs>
 

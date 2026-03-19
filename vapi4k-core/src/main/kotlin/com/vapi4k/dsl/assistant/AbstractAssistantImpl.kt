@@ -33,7 +33,6 @@ import com.vapi4k.api.model.OpenAIModel
 import com.vapi4k.api.model.OpenRouterModel
 import com.vapi4k.api.model.PerplexityAIModel
 import com.vapi4k.api.model.TogetherAIModel
-import com.vapi4k.api.model.VapiModel
 import com.vapi4k.api.model.XaiModel
 import com.vapi4k.api.transcriber.DeepgramTranscriber
 import com.vapi4k.api.transcriber.GladiaTranscriber
@@ -61,7 +60,6 @@ import com.vapi4k.dsl.model.OpenAIModelImpl
 import com.vapi4k.dsl.model.OpenRouterModelImpl
 import com.vapi4k.dsl.model.PerplexityAIModelImpl
 import com.vapi4k.dsl.model.TogetherAIModelImpl
-import com.vapi4k.dsl.model.VapiModelImpl
 import com.vapi4k.dsl.model.XaiModelImpl
 import com.vapi4k.dsl.transcriber.DeepgramTranscriberImpl
 import com.vapi4k.dsl.transcriber.GladiaTranscriberImpl
@@ -88,7 +86,6 @@ import com.vapi4k.dtos.model.OpenAIModelDto
 import com.vapi4k.dtos.model.OpenRouterModelDto
 import com.vapi4k.dtos.model.PerplexityAIModelDto
 import com.vapi4k.dtos.model.TogetherAIModelDto
-import com.vapi4k.dtos.model.VapiModelDto
 import com.vapi4k.dtos.model.XaiModelDto
 import com.vapi4k.dtos.transcriber.DeepgramTranscriberDto
 import com.vapi4k.dtos.transcriber.GladiaTranscriberDto
@@ -244,14 +241,6 @@ abstract class AbstractAssistantImpl : ModelUnion {
     modelChecker.check("togetherAIModel{} already called")
     val modelDto = TogetherAIModelDto().also { modelDtoUnion.modelDto = it }
     return TogetherAIModelImpl(this, modelDto)
-      .apply(block)
-      .apply { modelDto.verifyValues() }
-  }
-
-  fun vapiModel(block: VapiModel.() -> Unit): VapiModel {
-    modelChecker.check("vapiModel{} already called")
-    val modelDto = VapiModelDto().also { modelDtoUnion.modelDto = it }
-    return VapiModelImpl(this, modelDto)
       .apply(block)
       .apply { modelDto.verifyValues() }
   }

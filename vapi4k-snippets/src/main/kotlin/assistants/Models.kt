@@ -169,20 +169,4 @@ object Models {
       }
     }
   }
-
-  fun Vapi4kConfig.vapiExample() {
-    inboundCallApplication {
-      onAssistantRequest { requestContext: RequestContext ->
-        assistant {
-          vapiModel {
-            model = "Model_Description"
-            emotionRecognitionEnabled = true
-            maxTokens = 250
-            temperature = 0.5
-            systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
-          }
-        }
-      }
-    }
-  }
 }

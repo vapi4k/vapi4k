@@ -30,7 +30,6 @@ import com.vapi4k.api.model.OpenAIModel
 import com.vapi4k.api.model.OpenRouterModel
 import com.vapi4k.api.model.PerplexityAIModel
 import com.vapi4k.api.model.TogetherAIModel
-import com.vapi4k.api.model.VapiModel
 import com.vapi4k.api.model.XaiModel
 
 interface AssistantModels {
@@ -103,11 +102,6 @@ interface AssistantModels {
   Builder for the TogetherAI model.
    */
   fun togetherAIModel(block: TogetherAIModel.() -> Unit): TogetherAIModel
-
-  /**
-  Builder for the Vapi model.
-   */
-  fun vapiModel(block: VapiModel.() -> Unit): VapiModel
 
   /**
   Builder for the xAI model.

@@ -42,7 +42,6 @@ enum class ModelType(
   OPEN_ROUTER("openrouter"),
   PERPLEXITY_AI("perplexity-ai"),
   TOGETHER_AI("together-ai"),
-  VAPI("vapi"),
   XAI("xai"),
 }
 

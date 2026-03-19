@@ -107,10 +107,6 @@ object ModelSerializer : KSerializer<CommonModelDto> {
         encoder.encodeSerializableValue(TogetherAIModelDto.serializer(), value)
       }
 
-      is VapiModelDto -> {
-        encoder.encodeSerializableValue(VapiModelDto.serializer(), value)
-      }
-
       is XaiModelDto -> {
         value.assignEnumOverrides()
         encoder.encodeSerializableValue(XaiModelDto.serializer(), value)
