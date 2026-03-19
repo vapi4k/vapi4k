@@ -16,13 +16,35 @@
 
 package assistants
 
+import com.vapi4k.api.model.AnthropicBedrockModelType
 import com.vapi4k.api.model.AnthropicModelType
+import com.vapi4k.api.model.CerebrasModelType
+import com.vapi4k.api.model.DeepSeekModelType
+import com.vapi4k.api.model.GoogleModelType
 import com.vapi4k.api.model.GroqModelType
+import com.vapi4k.api.model.InflectionAIModelType
 import com.vapi4k.api.model.OpenAIModelType
+import com.vapi4k.api.model.XaiModelType
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.api.vapi4k.Vapi4kConfig
 
 object Models {
+  fun Vapi4kConfig.anthropicBedrockExample() {
+    inboundCallApplication {
+      onAssistantRequest { requestContext: RequestContext ->
+        assistant {
+          anthropicBedrockModel {
+            modelType = AnthropicBedrockModelType.CLAUDE_3_HAIKU_20240307
+            emotionRecognitionEnabled = true
+            maxTokens = 250
+            temperature = 0.5
+            systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
+          }
+        }
+      }
+    }
+  }
+
   fun Vapi4kConfig.anthropicExample() {
     inboundCallApplication {
       onAssistantRequest { requestContext: RequestContext ->
@@ -45,6 +67,22 @@ object Models {
         assistant {
           anyscaleModel {
             model = "Model_Description"
+            emotionRecognitionEnabled = true
+            maxTokens = 250
+            temperature = 0.5
+            systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
+          }
+        }
+      }
+    }
+  }
+
+  fun Vapi4kConfig.cerebrasExample() {
+    inboundCallApplication {
+      onAssistantRequest { requestContext: RequestContext ->
+        assistant {
+          cerebrasModel {
+            modelType = CerebrasModelType.LLAMA_3_3_70B
             emotionRecognitionEnabled = true
             maxTokens = 250
             temperature = 0.5
@@ -88,12 +126,60 @@ object Models {
     }
   }
 
+  fun Vapi4kConfig.deepSeekExample() {
+    inboundCallApplication {
+      onAssistantRequest { requestContext: RequestContext ->
+        assistant {
+          deepSeekModel {
+            modelType = DeepSeekModelType.DEEPSEEK_CHAT
+            emotionRecognitionEnabled = true
+            maxTokens = 250
+            temperature = 0.5
+            systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
+          }
+        }
+      }
+    }
+  }
+
+  fun Vapi4kConfig.googleExample() {
+    inboundCallApplication {
+      onAssistantRequest { requestContext: RequestContext ->
+        assistant {
+          googleModel {
+            modelType = GoogleModelType.GEMINI_2_5_FLASH
+            emotionRecognitionEnabled = true
+            maxTokens = 250
+            temperature = 0.5
+            systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
+          }
+        }
+      }
+    }
+  }
+
   fun Vapi4kConfig.groqExample() {
     inboundCallApplication {
       onAssistantRequest { requestContext: RequestContext ->
         assistant {
           groqModel {
             modelType = GroqModelType.LLAMA3_70B_8192
+            emotionRecognitionEnabled = true
+            maxTokens = 250
+            temperature = 0.5
+            systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
+          }
+        }
+      }
+    }
+  }
+
+  fun Vapi4kConfig.inflectionAIExample() {
+    inboundCallApplication {
+      onAssistantRequest { requestContext: RequestContext ->
+        assistant {
+          inflectionAIModel {
+            modelType = InflectionAIModelType.INFLECTION_3_PI
             emotionRecognitionEnabled = true
             maxTokens = 250
             temperature = 0.5
@@ -160,6 +246,22 @@ object Models {
         assistant {
           togetherAIModel {
             model = "Model_Description"
+            emotionRecognitionEnabled = true
+            maxTokens = 250
+            temperature = 0.5
+            systemMessage = "You're a polite AI assistant named Vapi who is fun to talk with."
+          }
+        }
+      }
+    }
+  }
+
+  fun Vapi4kConfig.xaiExample() {
+    inboundCallApplication {
+      onAssistantRequest { requestContext: RequestContext ->
+        assistant {
+          xaiModel {
+            modelType = XaiModelType.GROK_3
             emotionRecognitionEnabled = true
             maxTokens = 250
             temperature = 0.5
