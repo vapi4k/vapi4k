@@ -25,7 +25,7 @@ interface CerebrasModelProperties {
   var modelType: CerebrasModelType
 
   /**
-  This enables specifying a model that doesn't already exist as an CerebrasModelType enum.
+  This enables specifying a model that doesn't already exist as a CerebrasModelType enum.
    */
   var customModel: String
 

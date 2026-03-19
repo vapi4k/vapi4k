@@ -25,7 +25,7 @@ interface GoogleModelProperties {
   var modelType: GoogleModelType
 
   /**
-  This enables specifying a model that doesn't already exist as an GoogleModelType enum.
+  This enables specifying a model that doesn't already exist as a GoogleModelType enum.
    */
   var customModel: String
 

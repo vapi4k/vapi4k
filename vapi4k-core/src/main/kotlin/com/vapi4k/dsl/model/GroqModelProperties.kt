@@ -25,7 +25,7 @@ interface GroqModelProperties {
   var modelType: GroqModelType
 
   /**
-  This enables specifying a model that doesn't already exist as an GroqModelType enum.
+  This enables specifying a model that doesn't already exist as a GroqModelType enum.
    */
   var customModel: String
 

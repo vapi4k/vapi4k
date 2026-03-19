@@ -25,7 +25,7 @@ interface DeepSeekModelProperties {
   var modelType: DeepSeekModelType
 
   /**
-  This enables specifying a model that doesn't already exist as an DeepSeekModelType enum.
+  This enables specifying a model that doesn't already exist as a DeepSeekModelType enum.
    */
   var customModel: String
 
