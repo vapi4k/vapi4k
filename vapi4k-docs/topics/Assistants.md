@@ -98,7 +98,6 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
 * [Deepgram](%core_url%.voice/-deepgram-voice/)
 * [ElevenLabs](%core_url%.voice/-eleven-labs-voice/)
 * [LMNT](%core_url%.voice/-l-m-n-t-voice/)
-* [Neets](%core_url%.voice/-neets-voice/)
 * [OpenAI](%core_url%.voice/-open-a-i-voice/)
 * [PlayHT](%core_url%.voice/-play-h-t-voice/)
 * [RimeAI](%core_url%.voice/-rime-a-i-voice/)
@@ -120,9 +119,6 @@ A `squadId{}` call references a static squad defined in the [Vapi dashboard](htt
   </tab>
   <tab title="LMNT">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Voices.kt" include-symbol="lmntExample"/>
-  </tab>
-  <tab title="Neets">
-    <code-block lang="kotlin" src="src/main/kotlin/assistants/Voices.kt" include-symbol="neetsExample"/>
   </tab>
   <tab title="OpenAI">
     <code-block lang="kotlin" src="src/main/kotlin/assistants/Voices.kt" include-symbol="openAIExample"/>

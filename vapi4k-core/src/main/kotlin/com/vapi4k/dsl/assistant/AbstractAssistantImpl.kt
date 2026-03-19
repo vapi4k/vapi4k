@@ -37,7 +37,6 @@ import com.vapi4k.api.voice.CartesiaVoice
 import com.vapi4k.api.voice.DeepgramVoice
 import com.vapi4k.api.voice.ElevenLabsVoice
 import com.vapi4k.api.voice.LMNTVoice
-import com.vapi4k.api.voice.NeetsVoice
 import com.vapi4k.api.voice.OpenAIVoice
 import com.vapi4k.api.voice.PlayHTVoice
 import com.vapi4k.api.voice.RimeAIVoice
@@ -60,7 +59,6 @@ import com.vapi4k.dsl.voice.CartesiaVoiceImpl
 import com.vapi4k.dsl.voice.DeepgramVoiceImpl
 import com.vapi4k.dsl.voice.ElevenLabsVoiceImpl
 import com.vapi4k.dsl.voice.LMNTVoiceImpl
-import com.vapi4k.dsl.voice.NeetsVoiceImpl
 import com.vapi4k.dsl.voice.OpenAIVoiceImpl
 import com.vapi4k.dsl.voice.PlayHTVoiceImpl
 import com.vapi4k.dsl.voice.RimeAIVoiceImpl
@@ -82,7 +80,6 @@ import com.vapi4k.dtos.voice.CartesiaVoiceDto
 import com.vapi4k.dtos.voice.DeepgramVoiceDto
 import com.vapi4k.dtos.voice.ElevenLabsVoiceDto
 import com.vapi4k.dtos.voice.LMNTVoiceDto
-import com.vapi4k.dtos.voice.NeetsVoiceDto
 import com.vapi4k.dtos.voice.OpenAIVoiceDto
 import com.vapi4k.dtos.voice.PlayHTVoiceDto
 import com.vapi4k.dtos.voice.RimeAIVoiceDto
@@ -239,14 +236,6 @@ abstract class AbstractAssistantImpl : ModelUnion {
     val voiceDto = LMNTVoiceDto().also { modelDtoUnion.voiceDto = it }
     return LMNTVoiceImpl(voiceDto)
       .apply(block)
-  }
-
-  fun neetsVoice(block: NeetsVoice.() -> Unit): NeetsVoice {
-    voiceChecker.check("neetsVoice{} already called")
-    val voiceDto = NeetsVoiceDto().also { modelDtoUnion.voiceDto = it }
-    return NeetsVoiceImpl(voiceDto)
-      .apply(block)
-      .apply { voiceDto.verifyValues() }
   }
 
   fun openAIVoice(block: OpenAIVoice.() -> Unit): OpenAIVoice {

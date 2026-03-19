@@ -21,7 +21,6 @@ import com.vapi4k.api.voice.CartesiaVoice
 import com.vapi4k.api.voice.DeepgramVoice
 import com.vapi4k.api.voice.ElevenLabsVoice
 import com.vapi4k.api.voice.LMNTVoice
-import com.vapi4k.api.voice.NeetsVoice
 import com.vapi4k.api.voice.OpenAIVoice
 import com.vapi4k.api.voice.PlayHTVoice
 import com.vapi4k.api.voice.RimeAIVoice
@@ -51,11 +50,6 @@ interface AssistantVoices {
   Builder for the LMNT voice.
    */
   fun lmntVoice(block: LMNTVoice.() -> Unit): LMNTVoice
-
-  /**
-  Builder for the Neets voice.
-   */
-  fun neetsVoice(block: NeetsVoice.() -> Unit): NeetsVoice
 
   /**
   Builder for the OpenAI voice.

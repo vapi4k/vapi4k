@@ -231,7 +231,7 @@ The admin UI uses HTMX (CDN) and Bootstrap (bundled static resources under `core
 
 - `vapi4k-core` uses the `com.github.gmazzo.buildconfig` plugin to generate `BuildConfig` with `APP_NAME`, `VERSION`,
   `RELEASE_DATE`, and `BUILD_TIME` constants
-- Multi-provider abstraction covers 10 model providers, 19 voice providers, and 12 transcriber providers
+- Multi-provider abstraction covers 10 model providers, 18 voice providers, and 12 transcriber providers
 
 ## Testing
 

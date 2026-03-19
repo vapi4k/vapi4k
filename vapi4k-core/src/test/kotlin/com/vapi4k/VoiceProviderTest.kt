@@ -25,7 +25,6 @@ import com.vapi4k.api.voice.DeepGramVoiceIdType
 import com.vapi4k.api.voice.ElevenLabsVoiceIdType
 import com.vapi4k.api.voice.ElevenLabsVoiceModelType
 import com.vapi4k.api.voice.LMNTVoiceIdType
-import com.vapi4k.api.voice.NeetsVoiceIdType
 import com.vapi4k.api.voice.OpenAIVoiceIdType
 import com.vapi4k.api.voice.RimeAIVoiceIdType
 import com.vapi4k.api.voice.RimeAIVoiceModelType
@@ -194,23 +193,6 @@ class VoiceProviderTest : StringSpec() {
       val je = response.toJsonElement()
       je.stringValue("messageResponse.assistant.voice.provider") shouldBe "rime-ai"
       je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "marsh"
-    }
-
-    "neets voice serializes provider and voiceId" {
-      val response =
-        assistantResponse(newRequestContext()) {
-          assistant {
-            groqModel {
-              modelType = GroqModelType.LLAMA3_8B_8192
-            }
-            neetsVoice {
-              voiceIdType = NeetsVoiceIdType.VITS
-            }
-          }
-        }
-      val je = response.toJsonElement()
-      je.stringValue("messageResponse.assistant.voice.provider") shouldBe "neets"
-      je.stringValue("messageResponse.assistant.voice.voiceId") shouldBe "vits"
     }
 
     "double voice blocks throws error" {

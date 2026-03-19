@@ -18,7 +18,7 @@ Dependencies: vapi4k-core depends on vapi4k-utils; vapi4k-dbms depends on vapi4k
 
 - Type-safe Kotlin DSL for configuring assistants, tools, models, voices, and transcribers
 - Three application types: inbound calls, outbound calls, and browser-based web interactions
-- Multi-provider support: 10 model providers, 9 voice providers, 3 transcriber providers
+- Multi-provider support: 10 model providers, 8 voice providers, 3 transcriber providers
 - Flexible tool system: annotation-based service tools, imperative manual tools, and external HTTP tools
 - Squad support for multi-assistant configurations with transfer destinations
 - Built-in admin dashboard with cache inspection, live log streaming, and tool validation
