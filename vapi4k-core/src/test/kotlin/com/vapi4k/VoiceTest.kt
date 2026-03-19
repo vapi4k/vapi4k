@@ -28,7 +28,7 @@ import com.vapi4k.api.voice.CartesiaVoiceLanguageType
 import com.vapi4k.api.voice.CartesiaVoiceModelType
 import com.vapi4k.api.voice.PlayHTVoiceEmotionType
 import com.vapi4k.api.voice.PlayHTVoiceIdType
-import com.vapi4k.api.voice.PunctuationType
+import com.vapi4k.api.voice.PunctuationBoundaryType
 import com.vapi4k.utils.assistantResponse
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
@@ -280,8 +280,8 @@ class VoiceTest : StringSpec() {
                     chunkPlan {
                       enabled = true
                       minCharacters = 40
-                      punctuationBoundaries += PunctuationType.PERIOD
-                      punctuationBoundaries += PunctuationType.COMMA
+                      punctuationBoundaries += PunctuationBoundaryType.PERIOD
+                      punctuationBoundaries += PunctuationBoundaryType.COMMA
                     }
                   }
                 }

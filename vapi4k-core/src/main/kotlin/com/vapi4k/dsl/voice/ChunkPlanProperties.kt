@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.voice
 
-import com.vapi4k.api.voice.PunctuationType
+import com.vapi4k.api.voice.PunctuationBoundaryType
 
 interface ChunkPlanProperties {
   /**
@@ -50,5 +50,5 @@ interface ChunkPlanProperties {
   chunks, so it can sound less disjointed across chunks. Eg. ['.'].
   </p>
    */
-  val punctuationBoundaries: MutableSet<PunctuationType>
+  val punctuationBoundaries: MutableSet<PunctuationBoundaryType>
 }
