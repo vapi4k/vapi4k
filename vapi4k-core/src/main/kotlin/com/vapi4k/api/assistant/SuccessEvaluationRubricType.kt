@@ -29,14 +29,14 @@ import kotlinx.serialization.encoding.Encoder
 enum class SuccessEvaluationRubricType(
   val desc: String,
 ) {
-  NUMERICSCALE("numericScale"),
-  DESCRIPTIVESCALE("descriptiveScale"),
-  CHECKLIST("checklist"),
-  MATRIX("matrix"),
-  PERCENTAGESCALE("percentageScale"),
-  LIKERTSCALE("likertScale"),
-  AUTOMATICRUBRIC("automaticRubric"),
-  PASSFAIL("passFail"),
+  NUMERIC_SCALE("NumericScale"),
+  DESCRIPTIVE_SCALE("DescriptiveScale"),
+  CHECKLIST("Checklist"),
+  MATRIX("Matrix"),
+  PERCENTAGE_SCALE("PercentageScale"),
+  LIKERT_SCALE("LikertScale"),
+  AUTOMATIC_RUBRIC("AutomaticRubric"),
+  PASS_FAIL("PassFail"),
   UNSPECIFIED(UNSPECIFIED_DEFAULT),
 }
 

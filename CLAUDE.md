@@ -162,6 +162,7 @@ adds dynamic message generation after tool invocation.
 
 Every enum used in DTOs follows a strict convention:
 
+- Enum entry names use `UPPER_SNAKE_CASE` with underscores between words (e.g., `NUMERIC_SCALE`, `PASS_FAIL`)
 - Has an `UNSPECIFIED` entry with `desc = UNSPECIFIED_DEFAULT`
 - Has a `desc: String` property holding the Vapi API wire value
 - Has `isSpecified()` / `isNotSpecified()` methods
