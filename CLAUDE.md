@@ -12,6 +12,11 @@ type-safe builders for configuring assistants, tools, models, voices, and call w
 
 Key dependency versions are managed in `gradle/libs.versions.toml`.
 
+## Vapi API Spec
+
+The live Vapi OpenAPI spec is at `https://api.vapi.ai/api-json`. Use it to verify enum values, check for new/removed
+providers, and validate wire values. Enum values in this codebase should match the spec exactly (case-sensitive).
+
 ## Module Structure
 
 This is a multi-module Gradle project:
@@ -165,6 +170,9 @@ Every enum used in DTOs follows a strict convention:
 
 `UNSPECIFIED` values are filtered out during serialization.
 
+**Exception:** Some discriminator enums (e.g., `DestinationType`, `VoiceProviderType`) omit `UNSPECIFIED` and the
+custom `KSerializer` — they use the standard pattern but without the sentinel value.
+
 ### DTO Serialization Patterns
 
 - **`assignEnumOverrides()` pattern**: DTOs use `@Transient` on enum properties and store the wire value in a plain
@@ -232,6 +240,19 @@ The admin UI uses HTMX (CDN) and Bootstrap (bundled static resources under `core
 - `vapi4k-core` uses the `com.github.gmazzo.buildconfig` plugin to generate `BuildConfig` with `APP_NAME`, `VERSION`,
   `RELEASE_DATE`, and `BUILD_TIME` constants
 - Multi-provider abstraction covers 15 model providers, 18 voice providers, and 12 transcriber providers
+
+## Adding New Providers
+
+Each model provider requires 5 files following the GroqModel template:
+1. `api/model/XxxModel.kt` — Interface extending `XxxModelProperties` + `CommonModelProperties`, annotated `@Vapi4KDslMarker`
+2. `api/model/XxxModelType.kt` — Enum with `desc: String` constructor, `UNSPECIFIED(UNSPECIFIED_DEFAULT)`, `isSpecified()`/`isNotSpecified()`
+3. `dsl/model/XxxModelProperties.kt` — Interface with `modelType`, `customModel`, `emotionRecognitionEnabled`, `maxTokens`, `numFastTurns`, `temperature`, `toolIds`
+4. `dsl/model/XxxModelImpl.kt` — Internal class extending `AbstractModelImpl`, delegating properties `by modelDto`
+5. `dtos/model/XxxModelDto.kt` — `@Serializable` data class with `@EncodeDefault` provider, `assignEnumOverrides()`, `verifyValues()`
+
+Plus wiring in: `ModelType` enum, `AssistantModels` interface, `AbstractAssistantImpl` builders, `CommonModelDto` serializer.
+
+Voice providers follow the same pattern with 5 files (replace "model" with "voice"), using `CommonVoiceDto` and `AssistantVoices`.
 
 ## Testing
 
