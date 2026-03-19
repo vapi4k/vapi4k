@@ -19,16 +19,22 @@ package com.vapi4k.dsl.assistant
 import com.vapi4k.api.assistant.AnalysisPlan
 import com.vapi4k.api.assistant.ArtifactPlan
 import com.vapi4k.api.assistant.VoicemailDetection
+import com.vapi4k.api.model.AnthropicBedrockModel
 import com.vapi4k.api.model.AnthropicModel
 import com.vapi4k.api.model.AnyscaleModel
+import com.vapi4k.api.model.CerebrasModel
 import com.vapi4k.api.model.CustomLLMModel
 import com.vapi4k.api.model.DeepInfraModel
+import com.vapi4k.api.model.DeepSeekModel
+import com.vapi4k.api.model.GoogleModel
 import com.vapi4k.api.model.GroqModel
+import com.vapi4k.api.model.InflectionAIModel
 import com.vapi4k.api.model.OpenAIModel
 import com.vapi4k.api.model.OpenRouterModel
 import com.vapi4k.api.model.PerplexityAIModel
 import com.vapi4k.api.model.TogetherAIModel
 import com.vapi4k.api.model.VapiModel
+import com.vapi4k.api.model.XaiModel
 import com.vapi4k.api.transcriber.DeepgramTranscriber
 import com.vapi4k.api.transcriber.GladiaTranscriber
 import com.vapi4k.api.transcriber.TalkscriberTranscriber
@@ -40,17 +46,23 @@ import com.vapi4k.api.voice.LMNTVoice
 import com.vapi4k.api.voice.OpenAIVoice
 import com.vapi4k.api.voice.PlayHTVoice
 import com.vapi4k.api.voice.RimeAIVoice
+import com.vapi4k.dsl.model.AnthropicBedrockModelImpl
 import com.vapi4k.dsl.model.AnthropicModelImpl
 import com.vapi4k.dsl.model.AnyscaleModelImpl
+import com.vapi4k.dsl.model.CerebrasModelImpl
 import com.vapi4k.dsl.model.CustomLLMModelImpl
 import com.vapi4k.dsl.model.DeepInfraModelImpl
+import com.vapi4k.dsl.model.DeepSeekModelImpl
+import com.vapi4k.dsl.model.GoogleModelImpl
 import com.vapi4k.dsl.model.GroqModelImpl
+import com.vapi4k.dsl.model.InflectionAIModelImpl
 import com.vapi4k.dsl.model.ModelUnion
 import com.vapi4k.dsl.model.OpenAIModelImpl
 import com.vapi4k.dsl.model.OpenRouterModelImpl
 import com.vapi4k.dsl.model.PerplexityAIModelImpl
 import com.vapi4k.dsl.model.TogetherAIModelImpl
 import com.vapi4k.dsl.model.VapiModelImpl
+import com.vapi4k.dsl.model.XaiModelImpl
 import com.vapi4k.dsl.transcriber.DeepgramTranscriberImpl
 import com.vapi4k.dsl.transcriber.GladiaTranscriberImpl
 import com.vapi4k.dsl.transcriber.TalkscriberTranscriberImpl
@@ -62,16 +74,22 @@ import com.vapi4k.dsl.voice.LMNTVoiceImpl
 import com.vapi4k.dsl.voice.OpenAIVoiceImpl
 import com.vapi4k.dsl.voice.PlayHTVoiceImpl
 import com.vapi4k.dsl.voice.RimeAIVoiceImpl
+import com.vapi4k.dtos.model.AnthropicBedrockModelDto
 import com.vapi4k.dtos.model.AnthropicModelDto
 import com.vapi4k.dtos.model.AnyscaleModelDto
+import com.vapi4k.dtos.model.CerebrasModelDto
 import com.vapi4k.dtos.model.CustomLLMModelDto
 import com.vapi4k.dtos.model.DeepInfraModelDto
+import com.vapi4k.dtos.model.DeepSeekModelDto
+import com.vapi4k.dtos.model.GoogleModelDto
 import com.vapi4k.dtos.model.GroqModelDto
+import com.vapi4k.dtos.model.InflectionAIModelDto
 import com.vapi4k.dtos.model.OpenAIModelDto
 import com.vapi4k.dtos.model.OpenRouterModelDto
 import com.vapi4k.dtos.model.PerplexityAIModelDto
 import com.vapi4k.dtos.model.TogetherAIModelDto
 import com.vapi4k.dtos.model.VapiModelDto
+import com.vapi4k.dtos.model.XaiModelDto
 import com.vapi4k.dtos.transcriber.DeepgramTranscriberDto
 import com.vapi4k.dtos.transcriber.GladiaTranscriberDto
 import com.vapi4k.dtos.transcriber.TalkscriberTranscriberDto
@@ -126,10 +144,26 @@ abstract class AbstractAssistantImpl : ModelUnion {
       .apply { modelDto.verifyValues() }
   }
 
+  fun anthropicBedrockModel(block: AnthropicBedrockModel.() -> Unit): AnthropicBedrockModel {
+    modelChecker.check("anthropicBedrockModel{} already called")
+    val modelDto = AnthropicBedrockModelDto().also { modelDtoUnion.modelDto = it }
+    return AnthropicBedrockModelImpl(this, modelDto)
+      .apply(block)
+      .apply { modelDto.verifyValues() }
+  }
+
   fun anthropicModel(block: AnthropicModel.() -> Unit): AnthropicModel {
     modelChecker.check("anthropicModel{} already called")
     val modelDto = AnthropicModelDto().also { modelDtoUnion.modelDto = it }
     return AnthropicModelImpl(this, modelDto)
+      .apply(block)
+      .apply { modelDto.verifyValues() }
+  }
+
+  fun cerebrasModel(block: CerebrasModel.() -> Unit): CerebrasModel {
+    modelChecker.check("cerebrasModel{} already called")
+    val modelDto = CerebrasModelDto().also { modelDtoUnion.modelDto = it }
+    return CerebrasModelImpl(this, modelDto)
       .apply(block)
       .apply { modelDto.verifyValues() }
   }
@@ -150,10 +184,34 @@ abstract class AbstractAssistantImpl : ModelUnion {
       .apply { modelDto.verifyValues() }
   }
 
+  fun deepSeekModel(block: DeepSeekModel.() -> Unit): DeepSeekModel {
+    modelChecker.check("deepSeekModel{} already called")
+    val modelDto = DeepSeekModelDto().also { modelDtoUnion.modelDto = it }
+    return DeepSeekModelImpl(this, modelDto)
+      .apply(block)
+      .apply { modelDto.verifyValues() }
+  }
+
+  fun googleModel(block: GoogleModel.() -> Unit): GoogleModel {
+    modelChecker.check("googleModel{} already called")
+    val modelDto = GoogleModelDto().also { modelDtoUnion.modelDto = it }
+    return GoogleModelImpl(this, modelDto)
+      .apply(block)
+      .apply { modelDto.verifyValues() }
+  }
+
   fun groqModel(block: GroqModel.() -> Unit): GroqModel {
     modelChecker.check("groqModel{} already called")
     val modelDto = GroqModelDto().also { modelDtoUnion.modelDto = it }
     return GroqModelImpl(this, modelDto)
+      .apply(block)
+      .apply { modelDto.verifyValues() }
+  }
+
+  fun inflectionAIModel(block: InflectionAIModel.() -> Unit): InflectionAIModel {
+    modelChecker.check("inflectionAIModel{} already called")
+    val modelDto = InflectionAIModelDto().also { modelDtoUnion.modelDto = it }
+    return InflectionAIModelImpl(this, modelDto)
       .apply(block)
       .apply { modelDto.verifyValues() }
   }
@@ -194,6 +252,14 @@ abstract class AbstractAssistantImpl : ModelUnion {
     modelChecker.check("vapiModel{} already called")
     val modelDto = VapiModelDto().also { modelDtoUnion.modelDto = it }
     return VapiModelImpl(this, modelDto)
+      .apply(block)
+      .apply { modelDto.verifyValues() }
+  }
+
+  fun xaiModel(block: XaiModel.() -> Unit): XaiModel {
+    modelChecker.check("xaiModel{} already called")
+    val modelDto = XaiModelDto().also { modelDtoUnion.modelDto = it }
+    return XaiModelImpl(this, modelDto)
       .apply(block)
       .apply { modelDto.verifyValues() }
   }

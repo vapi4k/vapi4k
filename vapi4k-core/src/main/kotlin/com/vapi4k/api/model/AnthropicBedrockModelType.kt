@@ -1,0 +1,44 @@
+/*
+ * Copyright © 2024 Matthew Ambrose
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the License.
+ *
+ */
+
+package com.vapi4k.api.model
+
+import com.vapi4k.common.Constants.UNSPECIFIED_DEFAULT
+
+enum class AnthropicBedrockModelType(
+  val desc: String,
+) {
+  CLAUDE_3_OPUS_20240229("claude-3-opus-20240229"),
+  CLAUDE_3_SONNET_20240229("claude-3-sonnet-20240229"),
+  CLAUDE_3_HAIKU_20240307("claude-3-haiku-20240307"),
+  CLAUDE_3_5_SONNET_20240620("claude-3-5-sonnet-20240620"),
+  CLAUDE_3_5_SONNET_20241022("claude-3-5-sonnet-20241022"),
+  CLAUDE_3_5_HAIKU_20241022("claude-3-5-haiku-20241022"),
+  CLAUDE_3_7_SONNET_20250219("claude-3-7-sonnet-20250219"),
+  CLAUDE_OPUS_4_20250514("claude-opus-4-20250514"),
+  CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101"),
+  CLAUDE_OPUS_4_6("claude-opus-4-6"),
+  CLAUDE_SONNET_4_20250514("claude-sonnet-4-20250514"),
+  CLAUDE_SONNET_4_5_20250929("claude-sonnet-4-5-20250929"),
+  CLAUDE_SONNET_4_6("claude-sonnet-4-6"),
+  CLAUDE_HAIKU_4_5_20251001("claude-haiku-4-5-20251001"),
+  UNSPECIFIED(UNSPECIFIED_DEFAULT),
+  ;
+
+  fun isSpecified() = this != UNSPECIFIED
+
+  fun isNotSpecified() = this == UNSPECIFIED
+}

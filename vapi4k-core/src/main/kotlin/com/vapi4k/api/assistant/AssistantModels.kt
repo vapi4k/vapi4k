@@ -16,18 +16,29 @@
 
 package com.vapi4k.api.assistant
 
+import com.vapi4k.api.model.AnthropicBedrockModel
 import com.vapi4k.api.model.AnthropicModel
 import com.vapi4k.api.model.AnyscaleModel
+import com.vapi4k.api.model.CerebrasModel
 import com.vapi4k.api.model.CustomLLMModel
 import com.vapi4k.api.model.DeepInfraModel
+import com.vapi4k.api.model.DeepSeekModel
+import com.vapi4k.api.model.GoogleModel
 import com.vapi4k.api.model.GroqModel
+import com.vapi4k.api.model.InflectionAIModel
 import com.vapi4k.api.model.OpenAIModel
 import com.vapi4k.api.model.OpenRouterModel
 import com.vapi4k.api.model.PerplexityAIModel
 import com.vapi4k.api.model.TogetherAIModel
 import com.vapi4k.api.model.VapiModel
+import com.vapi4k.api.model.XaiModel
 
 interface AssistantModels {
+  /**
+  Builder for the Anthropic Bedrock model.
+   */
+  fun anthropicBedrockModel(block: AnthropicBedrockModel.() -> Unit): AnthropicBedrockModel
+
   /**
   Builder for the Anyscale model.
    */
@@ -37,6 +48,11 @@ interface AssistantModels {
   Builder for the Anthropic model.
    */
   fun anthropicModel(block: AnthropicModel.() -> Unit): AnthropicModel
+
+  /**
+  Builder for the Cerebras model.
+   */
+  fun cerebrasModel(block: CerebrasModel.() -> Unit): CerebrasModel
 
   /**
   Builder for the CustomLLM model.
@@ -49,9 +65,24 @@ interface AssistantModels {
   fun deepInfraModel(block: DeepInfraModel.() -> Unit): DeepInfraModel
 
   /**
+  Builder for the DeepSeek model.
+   */
+  fun deepSeekModel(block: DeepSeekModel.() -> Unit): DeepSeekModel
+
+  /**
+  Builder for the Google model.
+   */
+  fun googleModel(block: GoogleModel.() -> Unit): GoogleModel
+
+  /**
   Builder for the Groq model.
    */
   fun groqModel(block: GroqModel.() -> Unit): GroqModel
+
+  /**
+  Builder for the InflectionAI model.
+   */
+  fun inflectionAIModel(block: InflectionAIModel.() -> Unit): InflectionAIModel
 
   /**
   Builder for the OpenAI model.
@@ -77,4 +108,9 @@ interface AssistantModels {
   Builder for the Vapi model.
    */
   fun vapiModel(block: VapiModel.() -> Unit): VapiModel
+
+  /**
+  Builder for the xAI model.
+   */
+  fun xaiModel(block: XaiModel.() -> Unit): XaiModel
 }

@@ -30,14 +30,20 @@ enum class ModelType(
 ) {
   ANYSCALE("anyscale"),
   ANTHROPIC("anthropic"),
+  ANTHROPIC_BEDROCK("anthropic-bedrock"),
+  CEREBRAS("cerebras"),
   CUSTOM_LLM("custom-llm"),
   DEEP_INFRA("deepinfra"),
+  DEEP_SEEK("deep-seek"),
+  GOOGLE("google"),
   GROQ("groq"),
+  INFLECTION_AI("inflection-ai"),
   OPEN_AI("openai"),
   OPEN_ROUTER("openrouter"),
   PERPLEXITY_AI("perplexity-ai"),
   TOGETHER_AI("together-ai"),
   VAPI("vapi"),
+  XAI("xai"),
 }
 
 object ModelTypeSerializer : KSerializer<ModelType> {
