@@ -61,11 +61,6 @@ object VoiceSerializer : KSerializer<CommonVoiceDto> {
         encoder.encodeSerializableValue(LMNTVoiceDto.serializer(), value)
       }
 
-      is NeetsVoiceDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(NeetsVoiceDto.serializer(), value)
-      }
-
       is OpenAIVoiceDto -> {
         value.assignEnumOverrides()
         encoder.encodeSerializableValue(OpenAIVoiceDto.serializer(), value)

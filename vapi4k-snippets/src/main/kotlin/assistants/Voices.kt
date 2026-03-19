@@ -24,7 +24,6 @@ import com.vapi4k.api.voice.CartesiaVoiceModelType
 import com.vapi4k.api.voice.DeepGramVoiceIdType
 import com.vapi4k.api.voice.ElevenLabsVoiceModelType
 import com.vapi4k.api.voice.LMNTVoiceIdType
-import com.vapi4k.api.voice.NeetsVoiceIdType
 import com.vapi4k.api.voice.OpenAIVoiceIdType
 import com.vapi4k.api.voice.PlayHTVoiceIdType
 import com.vapi4k.api.voice.RimeAIVoiceModelType
@@ -85,18 +84,6 @@ object Voices {
         assistant {
           lmntVoice {
             voiceIdType = LMNTVoiceIdType.DANIEL
-          }
-        }
-      }
-    }
-  }
-
-  fun Vapi4kConfig.neetsExample() {
-    inboundCallApplication {
-      onAssistantRequest { requestContext: RequestContext ->
-        assistant {
-          neetsVoice {
-            voiceIdType = NeetsVoiceIdType.VITS
           }
         }
       }

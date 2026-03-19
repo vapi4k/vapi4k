@@ -38,7 +38,6 @@ enum class VoiceProviderType(
   INWORLD("inworld"),
   LMNT("lmnt"),
   MINIMAX("minimax"),
-  NEETS("neets"),
   NEUPHONIC("neuphonic"),
   OPEN_AI("openai"),
   PLAY_HT("playht"),

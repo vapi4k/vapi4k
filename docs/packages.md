@@ -65,8 +65,8 @@ ResponseContext, and ServerRequestType.
 
 # Package com.vapi4k.api.voice
 
-Voice provider abstractions for all 9 providers (OpenAI, ElevenLabs, Deepgram, Azure, Cartesia, PlayHT, RimeAI, LMNT,
-Neets) with voice IDs and model types.
+Voice provider abstractions for all 8 providers (OpenAI, ElevenLabs, Deepgram, Azure, Cartesia, PlayHT, RimeAI, LMNT)
+with voice IDs and model types.
 
 # Package com.vapi4k.api.web
 

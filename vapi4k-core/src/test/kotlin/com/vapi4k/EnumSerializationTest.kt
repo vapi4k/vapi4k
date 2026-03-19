@@ -27,7 +27,6 @@ import com.vapi4k.api.voice.CartesiaVoiceModelType
 import com.vapi4k.api.voice.DeepGramVoiceIdType
 import com.vapi4k.api.voice.ElevenLabsVoiceIdType
 import com.vapi4k.api.voice.LMNTVoiceIdType
-import com.vapi4k.api.voice.NeetsVoiceIdType
 import com.vapi4k.api.voice.OpenAIVoiceIdType
 import com.vapi4k.api.voice.PlayHTVoiceIdType
 import com.vapi4k.api.voice.RimeAIVoiceIdType
@@ -83,10 +82,6 @@ class EnumSerializationTest : StringSpec() {
 
     "RimeAIVoiceIdType entries have unique desc values" {
       assertUniqueDescs(RimeAIVoiceIdType.entries) { it.desc }
-    }
-
-    "NeetsVoiceIdType entries have unique desc values" {
-      assertUniqueDescs(NeetsVoiceIdType.entries) { it.desc }
     }
 
     "OpenAIModelType UNSPECIFIED has correct desc" {
