@@ -24,8 +24,8 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-@Serializable(with = PunctuationTypeSerializer::class)
-enum class PunctuationType(
+@Serializable(with = PunctuationBoundaryTypeSerializer::class)
+enum class PunctuationBoundaryType(
   val desc: String,
 ) {
   ARABIC_COMMA('\u060C'.toString()),
@@ -45,13 +45,14 @@ enum class PunctuationType(
   VERTICAL_BAR("|"),
 }
 
-object PunctuationTypeSerializer : KSerializer<PunctuationType> {
-  override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("PunctuationType", STRING)
+object PunctuationBoundaryTypeSerializer : KSerializer<PunctuationBoundaryType> {
+  override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("PunctuationBoundaryType", STRING)
 
   override fun serialize(
     encoder: Encoder,
-    value: PunctuationType,
+    value: PunctuationBoundaryType,
   ) = encoder.encodeString(value.desc)
 
-  override fun deserialize(decoder: Decoder) = PunctuationType.entries.first { it.desc == decoder.decodeString() }
+  override fun deserialize(decoder: Decoder) =
+    PunctuationBoundaryType.entries.first { it.desc == decoder.decodeString() }
 }

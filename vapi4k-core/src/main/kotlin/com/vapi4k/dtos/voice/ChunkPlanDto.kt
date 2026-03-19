@@ -16,7 +16,7 @@
 
 package com.vapi4k.dtos.voice
 
-import com.vapi4k.api.voice.PunctuationType
+import com.vapi4k.api.voice.PunctuationBoundaryType
 import com.vapi4k.dsl.voice.ChunkPlanProperties
 import kotlinx.serialization.Serializable
 
@@ -24,6 +24,6 @@ import kotlinx.serialization.Serializable
 data class ChunkPlanDto(
   override var enabled: Boolean? = null,
   override var minCharacters: Int = -1,
-  override val punctuationBoundaries: MutableSet<PunctuationType> = mutableSetOf(),
+  override val punctuationBoundaries: MutableSet<PunctuationBoundaryType> = mutableSetOf(),
   val formatPlan: FormatPlanDto = FormatPlanDto(),
 ) : ChunkPlanProperties
