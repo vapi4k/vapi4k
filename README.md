@@ -32,10 +32,10 @@ repositories {
 }
 
 dependencies {
-  implementation("com.github.vapi4k.vapi4k:vapi4k-core:1.6.1")
+  implementation("com.github.vapi4k.vapi4k:vapi4k-core:1.6.2")
 
   // Optional: database persistence
-  implementation("com.github.vapi4k.vapi4k:vapi4k-dbms:1.6.1")
+  implementation("com.github.vapi4k.vapi4k:vapi4k-dbms:1.6.2")
 }
 ```
 

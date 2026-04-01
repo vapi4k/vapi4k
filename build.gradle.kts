@@ -35,7 +35,7 @@ allprojects {
     apply {
         plugin(repoLib)
     }
-    extra["versionStr"] = "1.6.1"
+    extra["versionStr"] = "1.6.2"
     extra["releaseDate"] = LocalDate.now().format(formatter)
     group = "com.github.vapi4k.vapi4k"
     version = versionStr
