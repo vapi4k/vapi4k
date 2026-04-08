@@ -2,9 +2,9 @@
 
 > Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with Vapi.ai. It provides type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.6.2.
+Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.7.0.
 
-Key dependency versions: Kotlin 2.3.20, Ktor 3.4.1, Kotlinx Serialization 1.10.0, Exposed 1.1.1, Kotest 6.0.0.M4.
+Key dependency versions: Kotlin 2.3.20, Ktor 3.4.2, Kotlinx Serialization 1.10.0, Exposed 1.2.0, Kotest 6.0.0.M4.
 
 ## Modules
 
@@ -26,17 +26,13 @@ Dependencies: vapi4k-core depends on vapi4k-utils; vapi4k-dbms depends on vapi4k
 
 ## Installation
 
-Published to JitPack under group `com.github.vapi4k.vapi4k`. Artifacts: `vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`.
+Published to Maven Central under group `com.vapi4k`. Artifacts: `vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`.
 
 ```
-repositories {
-  maven("https://jitpack.io")
-}
-
 dependencies {
-  implementation("com.github.vapi4k.vapi4k:vapi4k-core:1.6.2")
+  implementation("com.vapi4k:vapi4k-core:1.7.0")
   // Optional: database persistence
-  implementation("com.github.vapi4k.vapi4k:vapi4k-dbms:1.6.2")
+  implementation("com.vapi4k:vapi4k-dbms:1.7.0")
 }
 ```
 
@@ -46,5 +42,4 @@ dependencies {
 - [KDocs (API Reference)](https://vapi4k.com/kdocs/)
 - [GitHub Repository](https://github.com/vapi4k/vapi4k)
 - [Getting Started Template](https://github.com/vapi4k/vapi4k-template)
-- [JitPack](https://jitpack.io/#vapi4k/vapi4k)
 - [Vapi.ai](https://vapi.ai)

@@ -17,10 +17,10 @@
 package simpledemo
 
 import com.vapi4k.api.tools.ToolCall
-import simpledemo.Coasts.EAST
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import simpledemo.Coasts.EAST
 
 class TimeLookupService(
   val coast: Coasts,

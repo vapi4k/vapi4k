@@ -16,14 +16,14 @@
 
 package com.vapi4k.api
 
-import com.github.pambrose.common.json.toJsonString
+import com.pambrose.common.json.toJsonString
 import com.vapi4k.api.vapi4k.ServerRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.dbms.MessagesTable
+import kotlin.time.Duration
 import kotlinx.serialization.json.JsonElement
 import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import kotlin.time.Duration
 
 object Messages {
   fun insertRequest(request: JsonElement) {

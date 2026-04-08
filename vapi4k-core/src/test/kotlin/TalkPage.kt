@@ -1,4 +1,4 @@
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.api.web.MethodType
 import com.vapi4k.dsl.web.VapiWeb.vapiTalkButton
 import kotlinx.html.HTML

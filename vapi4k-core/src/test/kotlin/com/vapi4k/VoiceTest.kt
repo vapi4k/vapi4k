@@ -16,12 +16,12 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.booleanValue
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.intValue
-import com.github.pambrose.common.json.jsonElementList
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.stringValue
+import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.booleanValue
+import com.pambrose.common.json.get
+import com.pambrose.common.json.intValue
+import com.pambrose.common.json.jsonElementList
 import com.vapi4k.AssistantTest.Companion.newRequestContext
 import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.api.voice.CartesiaVoiceLanguageType

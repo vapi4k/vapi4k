@@ -16,11 +16,10 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.intValue
-import com.github.pambrose.common.json.keys
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonString
+import com.pambrose.common.json.toJsonString
+import com.pambrose.common.json.get
+import com.pambrose.common.json.keys
+import com.pambrose.common.json.stringValue
 import com.vapi4k.DoubleToolAssistant.doubleToolAssistant
 import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
@@ -29,7 +28,6 @@ import com.vapi4k.common.Utils.ensureStartsWith
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
 import com.vapi4k.plugin.Vapi4k
 import com.vapi4k.utils.JsonFilenames
-import com.vapi4k.utils.JsonUtils.firstInList
 import com.vapi4k.utils.withTestApplication
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

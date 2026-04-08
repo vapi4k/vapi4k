@@ -16,9 +16,9 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.intValue
-import com.github.pambrose.common.json.keys
+import com.pambrose.common.json.get
+import com.pambrose.common.json.intValue
+import com.pambrose.common.json.keys
 import com.vapi4k.DoubleToolAssistant.doubleToolAssistant
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
 import com.vapi4k.common.Endpoints.CACHES_PATH

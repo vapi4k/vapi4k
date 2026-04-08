@@ -16,7 +16,7 @@
 
 package com.vapi4k.dsl.call
 
-import com.github.pambrose.common.json.toJsonString
+import com.pambrose.common.json.toJsonString
 import com.vapi4k.api.call.ApiObjectType
 import com.vapi4k.api.call.OutboundCall
 import com.vapi4k.api.call.Phone

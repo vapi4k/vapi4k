@@ -29,9 +29,6 @@ tests:
 jar:
 	./gradlew uberJar
 
-dist:
-	./gradlew installDist
-
 stage:
 	./gradlew stage
 
@@ -41,30 +38,33 @@ versioncheck:
 buildconfig:
 	./gradlew generateBuildConfig
 
-kdocs:
-	./gradlew :dokkaGenerate
-
-trigger-jitpack:
-	until curl -s "https://jitpack.io/com/github/vapi4k/vapi4k/$(VERSION)/build.log" | grep -qv "not found"; do \
-		echo "Waiting for JitPack..."; \
-		sleep 10; \
-	done
-
-view-jitpack:
-	curl -s "https://jitpack.io/com/github/vapi4k/vapi4k/$(VERSION)/build.log"
-	curl -s "https://jitpack.io/api/builds/com.github.vapi4k/vapi4k/$(VERSION)" | jq
-
 refresh:
 	./gradlew --refresh-dependencies dependencyUpdates
-
-mddocs:
-	./gradlew dokkaGfm
 
 updatedocs:
 	./bin/update-docs.sh
 
-publish:
+mddocs:
+	./gradlew dokkaGfm
+
+kdocs:
+	./gradlew :dokkaGenerate
+
+publish-local:
 	./gradlew publishToMavenLocal
+
+publish-local-snapshot:
+	./gradlew -PoverrideVersion=$(VERSION)-SNAPSHOT publishToMavenLocal
+
+GPG_ENV = \
+	ORG_GRADLE_PROJECT_signingInMemoryKey="$$(gpg --armor --export-secret-keys $$GPG_SIGNING_KEY_ID)" \
+	ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=$$(security find-generic-password -a "gpg-signing" -s "gradle-signing-password" -w)
+
+publish-snapshot:
+	$(GPG_ENV) ./gradlew -PoverrideVersion=$(VERSION)-SNAPSHOT publishToMavenCentral
+
+publish-maven-central:
+	$(GPG_ENV) ./gradlew publishAndReleaseToMavenCentral
 
 upgrade-wrapper:
 	./gradlew wrapper --gradle-version=9.4.1 --distribution-type=bin

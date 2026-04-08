@@ -16,9 +16,9 @@
 
 package com.vapi4k.api.vapi4k
 
-import com.github.pambrose.common.json.containsKeys
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.stringValue
+import com.pambrose.common.json.containsKeys
+import com.pambrose.common.json.get
+import com.pambrose.common.json.stringValue
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isFunctionCall
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isStatusUpdate
 import com.vapi4k.common.FunctionName.Companion.toFunctionName

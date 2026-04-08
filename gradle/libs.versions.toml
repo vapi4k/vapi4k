@@ -5,24 +5,25 @@ config = "6.0.9"
 dokka = "2.2.0"
 exposed = "1.2.0"
 flyway = "11.8.0"
-gradle-plugins = "1.0.10"
+gradle-plugins = "1.0.12"
 hikari = "7.0.2"
 kotest = "6.0.0.M4"
 kotlin = "2.3.20"
 ktor = "3.4.2"
 logback = "1.5.32"
 logging = "8.0.01"
+maven-publish = "0.36.0"
 micrometer = "1.16.4"
 pgjdbc = "0.8.9"
 postgres = "42.7.10"
 serialization = "1.10.0"
 testcontainers = "1.21.4"
-utils = "2.6.4"
+utils = "2.7.1"
 
 [libraries]
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
-utils-json = { module = "com.github.pambrose.common-utils:json-utils", version.ref = "utils" }
+utils-json = { module = "com.pambrose.common-utils:json-utils", version.ref = "utils" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
@@ -54,7 +55,6 @@ exposed-kotlin-datetime = { module = "org.jetbrains.exposed:exposed-kotlin-datet
 kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "logging" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
-ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -69,10 +69,7 @@ jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 config = { id = "com.github.gmazzo.buildconfig", version.ref = "config" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 
-pambrose-envvar = { id = "com.pambrose.envvar", version.ref = "gradle-plugins" }
 pambrose-stable-versions = { id = "com.pambrose.stable-versions", version.ref = "gradle-plugins" }
 pambrose-kotlinter = { id = "com.pambrose.kotlinter", version.ref = "gradle-plugins" }
-pambrose-repos = { id = "com.pambrose.repos", version.ref = "gradle-plugins" }
-pambrose-snapshot = { id = "com.pambrose.snapshot", version.ref = "gradle-plugins" }
-pambrose-testing = { id = "com.pambrose.testing", version.ref = "gradle-plugins" }
