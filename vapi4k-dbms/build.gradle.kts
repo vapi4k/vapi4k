@@ -29,7 +29,7 @@ dependencies {
 val versionStr: String by extra
 val releaseDate: String by extra
 
-description = project.name
+description = "Database persistence module for the vapi4k framework"
 
 tasks.withType<Zip> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

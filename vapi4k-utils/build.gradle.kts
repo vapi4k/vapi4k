@@ -6,7 +6,7 @@ plugins {
 val versionStr: String by extra
 val releaseDate: String by extra
 
-description = project.name
+description = "Shared utilities for the vapi4k framework"
 
 tasks.withType<Zip> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
