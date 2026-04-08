@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
+description = "Ktor plugin and Kotlin DSL for building voice AI applications with Vapi.ai"
+
 val versionStr: String by extra
 val releaseDate: String by extra
 
