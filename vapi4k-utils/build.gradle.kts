@@ -8,21 +8,6 @@ val releaseDate: String by extra
 
 description = project.name
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = group.toString()
-            artifactId = description
-            version = versionStr
-            from(components["java"])
-        }
-    }
-}
-
-java {
-    withSourcesJar()
-}
-
 tasks.withType<Zip> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

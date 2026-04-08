@@ -16,11 +16,11 @@
 
 package com.vapi4k.dsl.functions
 
-import com.github.pambrose.common.json.booleanValue
-import com.github.pambrose.common.json.doubleValue
-import com.github.pambrose.common.json.intValue
-import com.github.pambrose.common.json.keys
-import com.github.pambrose.common.json.stringValue
+import com.pambrose.common.json.booleanValue
+import com.pambrose.common.json.doubleValue
+import com.pambrose.common.json.intValue
+import com.pambrose.common.json.keys
+import com.pambrose.common.json.stringValue
 import com.vapi4k.api.toolservice.ToolCallService
 import com.vapi4k.api.vapi4k.RequestContext
 import com.vapi4k.common.Utils.errorMsg

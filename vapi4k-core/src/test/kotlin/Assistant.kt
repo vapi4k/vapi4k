@@ -14,7 +14,7 @@
  *
  */
 
-import com.github.pambrose.common.json.stringValue
+import com.pambrose.common.json.stringValue
 import com.vapi4k.FavoriteFoodService
 import com.vapi4k.WeatherLookupByAreaCodeService
 import com.vapi4k.WeatherLookupService1

@@ -16,12 +16,12 @@
 
 package com.vapi4k.console
 
-import com.github.pambrose.common.json.containsKeys
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.jsonElementList
-import com.github.pambrose.common.json.keys
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.containsKeys
+import com.pambrose.common.json.get
+import com.pambrose.common.json.jsonElementList
+import com.pambrose.common.json.keys
+import com.pambrose.common.json.stringValue
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.common.AssistantId
 import com.vapi4k.common.AssistantId.Companion.EMPTY_ASSISTANT_ID
 import com.vapi4k.common.AssistantId.Companion.getAssistantIdFromSuffix

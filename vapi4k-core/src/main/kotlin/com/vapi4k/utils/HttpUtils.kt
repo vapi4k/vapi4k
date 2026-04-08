@@ -16,7 +16,7 @@
 
 package com.vapi4k.utils
 
-import com.github.pambrose.common.json.JsonContentUtils.prettyFormat
+import com.pambrose.common.json.JsonContentUtils.prettyFormat
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.cio.CIO

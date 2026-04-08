@@ -16,9 +16,9 @@
 
 package com.vapi4k.dsl.call
 
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.keys
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.get
+import com.pambrose.common.json.keys
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.api.call.OutboundCall
 import com.vapi4k.api.call.Phone
 import com.vapi4k.common.CoreEnvVars.vapi4kBaseUrl

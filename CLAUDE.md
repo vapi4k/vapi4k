@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with [Vapi.ai](https://vapi.ai). It provides
 type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-**Version:** 1.6.2 (defined in root `build.gradle.kts` via `extra["versionStr"]`)
+**Version:** 1.7.0 (defined in root `build.gradle.kts` via `extra["versionStr"]`)
 **JVM Target:** 17
 
 Key dependency versions are managed in `gradle/libs.versions.toml`.
@@ -185,7 +185,7 @@ custom `KSerializer` — they use the standard pattern but without the sentinel 
 
 ### External JSON Utilities
 
-The codebase heavily uses `com.github.pambrose.common-utils:json-utils` (imported as `utils-json` in the version
+The codebase heavily uses `com.pambrose.common-utils:json-utils` (imported as `utils-json` in the version
 catalog). Provides `toJsonElement()`, `toJsonString()`, dot-path access (`stringValue("a.b.c")`), and more. Imported
 throughout core and tests.
 
@@ -284,5 +284,7 @@ starts a Ktor test app, posts a JSON fixture, and returns `(HttpResponse, JsonEl
 
 ## Publishing
 
-Published to JitPack: group `com.github.vapi4k.vapi4k`, artifacts `vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`.
-All modules include sources JAR. Template repo: [vapi4k-template](https://github.com/vapi4k/vapi4k-template).
+Published to Maven Central: group `com.vapi4k`, artifacts `vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`.
+All modules include sources JAR and Dokka javadoc JAR. Uses the
+[Vanniktech Maven Publish](https://github.com/vanniktech/gradle-maven-publish-plugin) plugin with automatic release.
+Template repo: [vapi4k-template](https://github.com/vapi4k/vapi4k-template).

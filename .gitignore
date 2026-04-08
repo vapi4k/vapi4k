@@ -1,31 +1,24 @@
 .gradle
 build/
+out/
 .kotlin
 TTD.txt
 secrets
 http-client.private.env.json
 vapi2.conf
-
 .DS_Store
 
 .run/
 secrets/
 .claude/worktrees
 
-src/test/resources/application.conf
-
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
 ### VS Code ###
 .vscode/

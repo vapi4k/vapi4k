@@ -16,11 +16,11 @@
 
 package utils
 
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.keys
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonElement
-import com.github.pambrose.common.json.toJsonString
+import com.pambrose.common.json.keys
+import com.pambrose.common.json.stringValue
+import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.toJsonString
+import com.pambrose.common.json.get
 import kotlinx.serialization.json.JsonElement
 
 object JsonElements {

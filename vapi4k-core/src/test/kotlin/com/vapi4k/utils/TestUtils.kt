@@ -16,13 +16,13 @@
 
 package com.vapi4k.utils
 
-import com.github.pambrose.common.json.containsKeys
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.jsonElementList
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonElement
-import com.github.pambrose.common.json.toJsonElementList
-import com.github.pambrose.common.json.toJsonString
+import com.pambrose.common.json.stringValue
+import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.toJsonElementList
+import com.pambrose.common.json.toJsonString
+import com.pambrose.common.json.containsKeys
+import com.pambrose.common.json.get
+import com.pambrose.common.json.jsonElementList
 import com.vapi4k.ServerTest.Companion.configPost
 import com.vapi4k.api.response.InboundCallAssistantResponse
 import com.vapi4k.api.tools.ToolMessageType

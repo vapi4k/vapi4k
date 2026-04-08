@@ -16,8 +16,8 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.stringValue
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.AssistantTest.Companion.newRequestContext
 import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.api.voice.AzureVoiceIdType

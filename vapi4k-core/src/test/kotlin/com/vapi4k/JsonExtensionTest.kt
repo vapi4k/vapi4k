@@ -16,10 +16,10 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.get
-import com.github.pambrose.common.json.jsonElementList
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.get
+import com.pambrose.common.json.jsonElementList
+import com.pambrose.common.json.stringValue
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.utils.JsonUtils.toObjectList
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

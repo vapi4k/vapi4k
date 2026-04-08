@@ -16,7 +16,7 @@
 
 package com.vapi4k.api.vapi4k
 
-import com.github.pambrose.common.json.stringValue
+import com.pambrose.common.json.stringValue
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.JsonElement
 

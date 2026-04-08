@@ -18,12 +18,12 @@ package com.vapi4k
 
 import com.vapi4k.api.model.GroqModelType
 import com.vapi4k.common.CoreEnvVars.defaultServerPath
+import com.vapi4k.common.Headers.VAPI_SECRET_HEADER
 import com.vapi4k.common.QueryParams.SECRET_PARAM
 import com.vapi4k.common.Utils.resourceFile
 import com.vapi4k.dsl.vapi4k.ApplicationType.INBOUND_CALL
 import com.vapi4k.plugin.Vapi4k
 import io.kotest.core.spec.style.StringSpec
-import com.vapi4k.common.Headers.VAPI_SECRET_HEADER
 import io.kotest.matchers.shouldBe
 import io.ktor.client.request.header
 import io.ktor.client.request.post

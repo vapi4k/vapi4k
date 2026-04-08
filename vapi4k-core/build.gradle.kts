@@ -8,21 +8,6 @@ plugins {
 val versionStr: String by extra
 val releaseDate: String by extra
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = group.toString()
-            artifactId = project.name
-            version = versionStr
-            from(components["java"])
-        }
-    }
-}
-
-java {
-    withSourcesJar()
-}
-
 tasks.withType<Zip> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

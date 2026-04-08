@@ -16,9 +16,9 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.jsonElementList
-import com.github.pambrose.common.json.stringValue
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.jsonElementList
+import com.pambrose.common.json.stringValue
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.AssistantTest.Companion.newRequestContext
 import com.vapi4k.api.model.AnthropicModelType
 import com.vapi4k.api.model.GroqModelType

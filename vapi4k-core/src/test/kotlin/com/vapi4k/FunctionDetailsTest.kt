@@ -16,7 +16,7 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.api.tools.ToolCall
 import com.vapi4k.api.toolservice.ToolCallService
 import com.vapi4k.api.vapi4k.RequestContext

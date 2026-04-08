@@ -1,4 +1,4 @@
-import com.github.pambrose.common.json.toJsonString
+import com.pambrose.common.json.toJsonString
 import kotlinx.serialization.EncodeDefault
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

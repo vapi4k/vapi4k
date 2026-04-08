@@ -16,7 +16,7 @@
 
 package com.vapi4k
 
-import com.github.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.toJsonElement
 import com.vapi4k.common.AssistantId.Companion.toAssistantId
 import com.vapi4k.common.SessionId.Companion.toSessionId
 import com.vapi4k.dsl.vapi4k.InboundCallApplicationImpl
