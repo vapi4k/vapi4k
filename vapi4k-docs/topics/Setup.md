@@ -115,11 +115,11 @@ exchanged between your app and the Vapi platform.
 
 Copy the ngrok `Forwarding` URL to your clipboard. You will need this URL in the next step.
 
-## Create a secrets file
+## Create a .env file
 
 The Vapi4k server requires some environment variables to be defined to connect to the Vapi platform.
 
-<procedure title="Create a secrets.env file">
+<procedure title="Create a .env file">
     <step>
         <p>Start IntelliJ.</p>
     </step>
@@ -127,16 +127,10 @@ The Vapi4k server requires some environment variables to be defined to connect t
         <p>Open your vapi4k-template application.</p>
     </step>
     <step>
-        <p>Ctrl-click on the <shortcut>/secrets</shortcut> folder.</p>
-    </step>
-    <step>
-        <p>Choose the <shortcut>New</shortcut>, <shortcut>File</shortcut> options.</p>
-    </step>
-    <step>
-        <p>Create a file named <b>secrets.env</b>.</p>
+        <p>Copy the <b>.env.example</b> file (included in the template) to a new file named <b>.env</b>.</p>
     </step>
 
-The `secrets.env` file should contain values for these environment variables:
+The `.env` file should contain values for these environment variables:
 
 * VAPI_PRIVATE_KEY
 * VAPI_PUBLIC_KEY
@@ -149,18 +143,18 @@ and the phone number ID is found in the `Platform` `Phone Number` section.
 
 The VAPI4K_BASE_URL value is the ngrok `Forwarding` URL.
 
-The `secrets/secrets.env` should look something like this:
+The `.env` should look something like this:
 
 ```bash
-VAPI_PRIVATE_KEY=f3ff6277-8d9b-8873-eec7-743786e2aa42
-VAPI_PUBLIC_KEY=l9lf6233-9s9f-9173-egc1-433786e2aa98
-VAPI_PHONE_NUMBER_ID=8b151b80-5fff-4df9-ad67-993189409d4c
-VAPI4K_BASE_URL=https://fdee-73-71-109-432.ngrok-free.app
+VAPI_PRIVATE_KEY=f3ff6277-8a9b-8873-eec7-743786e2aa42
+VAPI_PUBLIC_KEY=l9lf6233-2s9f-9173-egc1-433786e2aa98
+VAPI_PHONE_NUMBER_ID=8b151b30-5zff-4df9-ad67-993189409d4c
+VAPI4K_BASE_URL=https://fdwe-73-71-109-432.ngrok-free.app
 ```
 
-> **Keeping secrets.env private**
+> **Keeping .env private**
 >
-> Make sure `secrets.env` is not added to your repository. The `secrets` folder is already in the .gitignore file.
+> Make sure `.env` is not added to your repository. The `.env` file is already in the .gitignore file.
 >
 >
 {style="warning"}
@@ -169,7 +163,7 @@ VAPI4K_BASE_URL=https://fdee-73-71-109-432.ngrok-free.app
 
 ## Adjust Run Configuration
 
-<procedure title="Adjust Run Configuration to use secrets.env">
+<procedure title="Adjust Run Configuration to use .env">
     <step>
         <p>Start IntelliJ.</p>
     </step>
@@ -180,7 +174,7 @@ VAPI4K_BASE_URL=https://fdee-73-71-109-432.ngrok-free.app
         <p>Click on the green arrow to the left of <code>fun main()</code> to run the server.</p>
     </step>
     <step>
-        <p>Now run the server with the secrets.env by clicking on the three vertical dots in the Run
+        <p>Now run the server with the .env by clicking on the three vertical dots in the Run
           panel and click on <shortcut>Modify Run Configuration...</shortcut>.</p>
     </step>
     <step>
@@ -188,7 +182,7 @@ VAPI4K_BASE_URL=https://fdee-73-71-109-432.ngrok-free.app
     </step>
     <step>
         <p>Scroll down and click on the <shortcut>➕</shortcut> button, then click on <shortcut>.env file</shortcut>
-          and then select the <shortcut>secrets.env</shortcut> created above.</p>
+          and then select the <shortcut>.env</shortcut> created above.</p>
     </step>
     <step>
         <p>Restart the server and you should see the log saying the <shortcut>Vapi4kServer is started at</shortcut>

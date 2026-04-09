@@ -3,13 +3,13 @@ build/
 out/
 .kotlin
 TTD.txt
-secrets
 http-client.private.env.json
 vapi2.conf
 .DS_Store
 
 .run/
 secrets/
+.env
 .claude/worktrees
 
 !gradle/wrapper/gradle-wrapper.jar
