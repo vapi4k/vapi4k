@@ -31,11 +31,6 @@ allprojects {
     findProperty("overrideVersion")?.toString()?.let { version = it }
     extra["versionStr"] = version.toString()
     extra["releaseDate"] = LocalDate.now().format(formatter)
-
-    repositories {
-        google()
-        mavenCentral()
-    }
 }
 
 subprojects {
