@@ -1,8 +1,14 @@
-VERSION := $(shell grep 'extra\["versionStr"\]' build.gradle.kts | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+VERSION := $(shell grep '^version=' gradle.properties | cut -d= -f2)
+GRADLE_VERSION := $(shell grep '^gradle =' gradle/libs.versions.toml | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?')
+
+.PHONY: default build-all stop clean build build-tests cont-build tests \
+	versioncheck refresh updatedocs kdocs \
+	publish-local publish-local-snapshot check-gpg-env \
+	publish-snapshot publish-maven-central upgrade-wrapper
 
 default: versioncheck
 
-build-all: clean stage
+build-all: clean build
 
 stop:
 	./gradlew --stop
@@ -11,13 +17,10 @@ clean:
 	rm -rf build/
 	./gradlew clean
 
-compile: build
-
 build: clean
-	rm -rf build/
 	./gradlew build -x test
 
-build-tests: clean
+build-tests:
 	./gradlew compileTestKotlin
 
 cont-build:
@@ -26,26 +29,14 @@ cont-build:
 tests:
 	./gradlew --rerun-tasks check
 
-jar:
-	./gradlew uberJar
-
-stage:
-	./gradlew stage
-
 versioncheck:
 	./gradlew dependencyUpdates --no-configuration-cache
 
-buildconfig:
-	./gradlew generateBuildConfig
-
 refresh:
-	./gradlew --refresh-dependencies dependencyUpdates
+	./gradlew --refresh-dependencies dependencyUpdates --no-configuration-cache
 
 updatedocs:
 	./bin/update-docs.sh
-
-mddocs:
-	./gradlew dokkaGfm
 
 kdocs:
 	./gradlew :dokkaGenerate
@@ -60,11 +51,22 @@ GPG_ENV = \
 	ORG_GRADLE_PROJECT_signingInMemoryKey="$$(gpg --armor --export-secret-keys $$GPG_SIGNING_KEY_ID)" \
 	ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=$$(security find-generic-password -a "gpg-signing" -s "gradle-signing-password" -w)
 
-publish-snapshot:
+check-gpg-env:
+	@if [ -z "$$GPG_SIGNING_KEY_ID" ]; then \
+		echo "Error: GPG_SIGNING_KEY_ID is not set" >&2; exit 1; \
+	fi
+	@if ! gpg --list-secret-keys "$$GPG_SIGNING_KEY_ID" >/dev/null 2>&1; then \
+		echo "Error: no GPG secret key found for GPG_SIGNING_KEY_ID=$$GPG_SIGNING_KEY_ID" >&2; exit 1; \
+	fi
+	@if ! security find-generic-password -a "gpg-signing" -s "gradle-signing-password" -w >/dev/null 2>&1; then \
+		echo "Error: keychain entry 'gradle-signing-password' (account 'gpg-signing') not found" >&2; exit 1; \
+	fi
+
+publish-snapshot: check-gpg-env
 	$(GPG_ENV) ./gradlew -PoverrideVersion=$(VERSION)-SNAPSHOT publishToMavenCentral
 
-publish-maven-central:
+publish-maven-central: check-gpg-env
 	$(GPG_ENV) ./gradlew publishAndReleaseToMavenCentral
 
 upgrade-wrapper:
-	./gradlew wrapper --gradle-version=9.4.1 --distribution-type=bin
+	./gradlew wrapper --gradle-version=$(GRADLE_VERSION) --distribution-type=bin
