@@ -1,34 +1,36 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.dokka.gradle.DokkaExtension
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 plugins {
-    alias(libs.plugins.jvm) apply true
-    alias(libs.plugins.dokka) apply true
+    alias(libs.plugins.jvm)
+    alias(libs.plugins.dokka)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.maven.publish) apply false
 
-    alias(libs.plugins.pambrose.stable.versions) apply true
+    alias(libs.plugins.pambrose.stable.versions)
     alias(libs.plugins.pambrose.kotlinter) apply false
 }
-
-val versionStr: String by extra
 
 val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
 val jvmPluginId = libs.plugins.jvm.get().pluginId
 val dokkaPluginId = libs.plugins.dokka.get().pluginId
 val kotlinterPluginId = libs.plugins.pambrose.kotlinter.get().pluginId
+val mavenPublishPluginId = libs.plugins.maven.publish.get().pluginId
+val jvmVersion = libs.versions.jvm.get().toInt()
+
+val moduleName = "vapi4k"
+val projectUrl = "https://github.com/vapi4k/vapi4k"
 
 allprojects {
-    extra["versionStr"] = findProperty("overrideVersion")?.toString() ?: "1.7.0"
+    findProperty("overrideVersion")?.toString()?.let { version = it }
+    extra["versionStr"] = version.toString()
     extra["releaseDate"] = LocalDate.now().format(formatter)
-    group = "com.vapi4k"
-    version = versionStr
 
     repositories {
         google()
@@ -53,13 +55,13 @@ tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
 
 dokka {
-    moduleName.set("vapi4k")
+    moduleName.set(moduleName)
     dokkaPublications.html {
         outputDirectory.set(layout.buildDirectory.dir("kdocs"))
     }
     pluginsConfiguration.html {
-        homepageLink.set("https://github.com/vapi4k/vapi4k")
-        footerMessage.set("vapi4k")
+        homepageLink.set(projectUrl)
+        footerMessage.set(moduleName)
     }
 }
 
@@ -75,7 +77,7 @@ fun Project.configureKotlin() {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(jvmVersion)
 
         sourceSets.all {
             listOf(
@@ -114,7 +116,14 @@ fun Project.configureDokka() {
 
 fun Project.configurePublishing() {
     apply {
-        plugin("com.vanniktech.maven.publish")
+        plugin(dokkaPluginId)
+        plugin(mavenPublishPluginId)
+    }
+
+    dokka {
+        pluginsConfiguration.html {
+            homepageLink.set(projectUrl)
+        }
     }
 
     extensions.configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
@@ -124,12 +133,12 @@ fun Project.configurePublishing() {
                 sourcesJar = SourcesJar.Sources(),
             ),
         )
-        coordinates("com.vapi4k", project.name, version.toString())
+        coordinates(group.toString(), project.name, version.toString())
 
         pom {
             name.set(project.name)
             description.set(provider { project.description })
-            url.set("https://github.com/vapi4k/vapi4k")
+            url.set(projectUrl)
             licenses {
                 license {
                     name.set("Apache License 2.0")
@@ -144,9 +153,9 @@ fun Project.configurePublishing() {
                 }
             }
             scm {
-                connection.set("scm:git:https://github.com/vapi4k/vapi4k.git")
+                connection.set("scm:git:$projectUrl.git")
                 developerConnection.set("scm:git:ssh://github.com/vapi4k/vapi4k.git")
-                url.set("https://github.com/vapi4k/vapi4k")
+                url.set(projectUrl)
             }
         }
 

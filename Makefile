@@ -1,4 +1,5 @@
-VERSION := $(shell grep 'extra\["versionStr"\]' build.gradle.kts | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+VERSION := $(shell grep '^version=' gradle.properties | cut -d= -f2)
+GRADLE_VERSION := $(shell grep '^gradle =' gradle/libs.versions.toml | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?')
 
 default: versioncheck
 
@@ -67,4 +68,4 @@ publish-maven-central:
 	$(GPG_ENV) ./gradlew publishAndReleaseToMavenCentral
 
 upgrade-wrapper:
-	./gradlew wrapper --gradle-version=9.4.1 --distribution-type=bin
+	./gradlew wrapper --gradle-version=$(GRADLE_VERSION) --distribution-type=bin
