@@ -1,3 +1,4 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
@@ -48,6 +49,17 @@ subprojects {
 
 tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
+
+// Test configurations can't be resolved by ben-manes under Gradle 9 because the
+// Kotlin Gradle Plugin tries to add dependency constraints to non-declarable
+// configurations (testCompileClasspath/testRuntimeClasspath), which Gradle 9
+// rejects. ben-manes catches and silently drops the whole config, so test-only
+// deps (kotest, flyway, testcontainers, ktor-server-tests) vanish from the
+// report instead of being flagged "unresolved". Skip them explicitly so the
+// gap is intentional, not invisible.
+tasks.withType<DependencyUpdatesTask>().configureEach {
+    filterConfigurations = Spec { !it.name.startsWith("test") }
+}
 
 dokka {
     moduleName.set(moduleName)
