@@ -16,7 +16,7 @@ ifeq ($(strip $(GRADLE_VERSION)),)
 $(error Could not determine gradle version from gradle/libs.versions.toml)
 endif
 
-GPG_ENV = \
+GPG_ENV := \
 	ORG_GRADLE_PROJECT_signingInMemoryKey="$$(gpg --armor --export-secret-keys $$GPG_SIGNING_KEY_ID)" \
 	ORG_GRADLE_PROJECT_signingInMemoryKeyId="$$GPG_SIGNING_KEY_ID" \
 	ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=$$(security find-generic-password -a "gpg-signing" -s "gradle-signing-password" -w)
@@ -26,7 +26,7 @@ default: versioncheck
 help: ## Show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-build-all: clean build ## Clean and build everything (skips tests)
+build-all: build ## Clean and build everything (skips tests)
 
 stop: ## Stop running Gradle daemons
 	./gradlew --stop
@@ -49,6 +49,9 @@ tests: ## Re-run the full check suite (tests, lint, etc.)
 
 lint: detekt ## Run detekt then kotlinter lintKotlin
 	./gradlew lintKotlin
+
+format: ## Run kotlinter formatKotlin
+	./gradlew formatKotlin
 
 detekt: ## Run detekt static analysis
 	./gradlew detekt
