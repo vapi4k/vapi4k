@@ -3,9 +3,6 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-val versionStr: String by extra
-val releaseDate: String by extra
-
 description = "Shared utilities for the vapi4k framework"
 
 tasks.withType<Zip> {

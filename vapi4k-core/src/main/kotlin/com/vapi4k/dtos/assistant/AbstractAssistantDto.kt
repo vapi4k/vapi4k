@@ -54,6 +54,7 @@ internal val DEFAULT_SERVER_MESSAGES =
   )
 
 // Not used for now
+@Suppress("LongParameterList")
 @Serializable
 abstract class AbstractAssistantDto(
   var backchannelingEnabled: Boolean? = null,

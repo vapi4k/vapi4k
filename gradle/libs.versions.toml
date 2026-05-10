@@ -1,7 +1,6 @@
-# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
-
 [versions]
 config = "6.0.9"
+detekt = "1.23.8"
 dokka = "2.2.0"
 exposed = "1.2.0"
 flyway = "11.8.0"
@@ -11,6 +10,7 @@ hikari = "7.0.2"
 jvm = "17"
 kotest = "6.1.11"
 kotlin = "2.3.21"
+kover = "0.9.8"
 ktor = "3.4.3"
 logback = "1.5.32"
 logging = "8.0.02"
@@ -71,6 +71,8 @@ jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 config = { id = "com.github.gmazzo.buildconfig", version.ref = "config" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 
 pambrose-stable-versions = { id = "com.pambrose.stable-versions", version.ref = "gradle-plugins" }

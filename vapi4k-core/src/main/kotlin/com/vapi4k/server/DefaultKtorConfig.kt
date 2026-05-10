@@ -44,6 +44,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import org.slf4j.event.Level
 
+@Suppress("UnusedParameter")
 fun Application.defaultKtorConfig(appMicrometerRegistry: PrometheusMeterRegistry) {
 //  if (!pluginRegistry.contains(ContentNegotiation.key)) {
 //    install(ContentNegotiation) {

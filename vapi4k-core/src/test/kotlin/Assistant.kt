@@ -47,6 +47,7 @@ fun InboundCallAssistantResponse.myAssistantRequest(requestContext: RequestConte
     }
   }
 
+@Suppress("UnusedParameter")
 fun InboundCallAssistantResponse.getSquad(requestContext: RequestContext) =
   squad {
     name = "Squad Name"

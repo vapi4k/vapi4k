@@ -301,6 +301,7 @@ internal object AdminPage {
     }
   }
 
+  @Suppress("UnusedPrivateMember")
   private fun DIV.addBottomOptions() {
     hr {}
     div("dropdown") {

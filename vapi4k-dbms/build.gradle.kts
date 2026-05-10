@@ -26,9 +26,6 @@ dependencies {
     testImplementation(libs.testcontainers.postgresql)
 }
 
-val versionStr: String by extra
-val releaseDate: String by extra
-
 description = "Database persistence module for the vapi4k framework"
 
 tasks.withType<Zip> {

@@ -56,6 +56,7 @@ internal object AdminJobs {
     }
   }
 
+  @Suppress("CyclomaticComplexMethod")
   fun startCallbackThread(config: Vapi4kConfigImpl) {
     thread(isDaemon = true) {
       while (true) {

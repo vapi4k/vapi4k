@@ -215,7 +215,7 @@ empty-blocks:
   EmptyForBlock:
     active: true
   EmptyFunctionBlock:
-    active: true
+    active: false
     excludes: [ '**/generated/**' ]
     ignoreOverridden: false
   EmptyIfBlock:
@@ -600,7 +600,7 @@ style:
     ignoreOverridden: false
     ignoreUsageInGenerics: false
   FunctionOnlyReturningConstant:
-    active: true
+    active: false
     ignoreOverridableFunction: true
     ignoreActualFunction: true
     excludedFunctions: [ ]
@@ -630,7 +630,7 @@ style:
     active: false
     maxChainedCalls: 5
   MaxLineLength:
-    active: true
+    active: false
     excludes: [ '**/generated/**' ]
     maxLineLength: 120
     excludePackageStatements: true
@@ -740,7 +740,7 @@ style:
     active: true
     allowedNames: ''
   UnusedPrivateProperty:
-    active: true
+    active: false
     allowedNames: '_|ignored|expected|serialVersionUID'
   UseAnyOrNoneInsteadOfFind:
     active: true

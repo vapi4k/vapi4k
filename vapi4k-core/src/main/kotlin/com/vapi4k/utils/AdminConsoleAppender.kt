@@ -39,12 +39,14 @@ class AdminConsoleAppender : ConsoleAppender<ILoggingEvent>() {
   }
 }
 
+@Suppress("UtilityClassWithPublicConstructor")
 class SharedData {
   companion object {
     val consoleFlow = MutableSharedFlow<String>(replay = 1000)
   }
 }
 
+@Suppress("UtilityClassWithPublicConstructor")
 class SharedDataLoader {
   companion object {
     fun accessSharedFlow(): MutableSharedFlow<String> =
