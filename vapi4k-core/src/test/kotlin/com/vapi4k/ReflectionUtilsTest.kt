@@ -43,6 +43,7 @@ class ReflectionUtilsTest : StringSpec() {
     fun doWork() {}
   }
 
+  @Suppress("UnusedParameter")
   class ContextParamService {
     @ToolCall("With context")
     fun withContext(

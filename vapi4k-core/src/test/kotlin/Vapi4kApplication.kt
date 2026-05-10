@@ -65,6 +65,7 @@ data class OutboundMsg(
   val type: String = "say",
 )
 
+@Suppress("LongMethod")
 fun Application.module() {
 //  val appMicrometerRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
 //  defaultKtorConfig(appMicrometerRegistry)

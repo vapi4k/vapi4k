@@ -114,6 +114,7 @@ class FunctionDetails internal constructor(
       else -> error("Unsupported parameter type: $argType")
     }
 
+  @Suppress("CyclomaticComplexMethod")
   private suspend fun invokeMethod(
     requestContext: RequestContextImpl,
     invokeArgs: JsonElement,

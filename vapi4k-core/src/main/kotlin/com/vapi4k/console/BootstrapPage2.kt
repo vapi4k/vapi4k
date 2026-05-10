@@ -38,6 +38,7 @@ import kotlinx.html.title
 import kotlinx.html.ul
 
 internal object BootstrapPage2 {
+  @Suppress("LongMethod")
   fun HTML.bootstrapPage2() {
     head {
       meta {

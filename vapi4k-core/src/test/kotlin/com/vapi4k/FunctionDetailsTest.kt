@@ -95,6 +95,7 @@ class FunctionDetailsTest : StringSpec() {
     }
   }
 
+  @Suppress("TooGenericExceptionThrown")
   class FailingToolCallService : ToolCallService() {
     @ToolCall("Always fails")
     fun fail(): String = throw RuntimeException("Service error")

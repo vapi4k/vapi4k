@@ -38,6 +38,7 @@ interface CommonModelDto {
 object ModelSerializer : KSerializer<CommonModelDto> {
   override val descriptor: SerialDescriptor = buildClassSerialDescriptor("AbstractModelDto")
 
+  @Suppress("CyclomaticComplexMethod")
   override fun serialize(
     encoder: Encoder,
     value: CommonModelDto,

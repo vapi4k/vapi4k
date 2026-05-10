@@ -1,10 +1,11 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.dokka.gradle.DokkaExtension
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 plugins {
     alias(libs.plugins.jvm)
@@ -14,14 +15,16 @@ plugins {
 
     alias(libs.plugins.pambrose.stable.versions)
     alias(libs.plugins.pambrose.kotlinter) apply false
+    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.kover)
 }
-
-val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
 val jvmPluginId = libs.plugins.jvm.get().pluginId
 val dokkaPluginId = libs.plugins.dokka.get().pluginId
 val kotlinterPluginId = libs.plugins.pambrose.kotlinter.get().pluginId
 val mavenPublishPluginId = libs.plugins.maven.publish.get().pluginId
+val detektPluginId = libs.plugins.detekt.get().pluginId
+val koverPluginId = libs.plugins.kover.get().pluginId
 val jvmVersion = libs.versions.jvm.get().toInt()
 
 val moduleName = "vapi4k"
@@ -29,8 +32,6 @@ val projectUrl = "https://github.com/vapi4k/vapi4k"
 
 allprojects {
     findProperty("overrideVersion")?.toString()?.let { version = it }
-    extra["versionStr"] = version.toString()
-    extra["releaseDate"] = LocalDate.now().format(formatter)
 }
 
 subprojects {
@@ -42,12 +43,27 @@ subprojects {
 
     configureKotlin()
     configureDokka()
-    if (project.name != "vapi4k-snippets") configurePublishing()
+    if (project.name != "vapi4k-snippets") {
+        configurePublishing()
+        configureDetekt()
+        configureKover()
+    }
     configureTesting()
 }
 
 tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
+
+// Test configurations can't be resolved by ben-manes under Gradle 9 because the
+// Kotlin Gradle Plugin tries to add dependency constraints to non-declarable
+// configurations (testCompileClasspath/testRuntimeClasspath), which Gradle 9
+// rejects. ben-manes catches and silently drops the whole config, so test-only
+// deps (kotest, flyway, testcontainers, ktor-server-tests) vanish from the
+// report instead of being flagged "unresolved". Skip them explicitly so the
+// gap is intentional, not invisible.
+tasks.withType<DependencyUpdatesTask>().configureEach {
+    filterConfigurations = Spec { !it.name.startsWith("test") }
+}
 
 dokka {
     moduleName.set(moduleName)
@@ -64,6 +80,10 @@ dependencies {
     dokka(project(":vapi4k-core"))
     dokka(project(":vapi4k-dbms"))
     dokka(project(":vapi4k-utils"))
+
+    kover(project(":vapi4k-core"))
+    kover(project(":vapi4k-dbms"))
+    kover(project(":vapi4k-utils"))
 }
 
 fun Project.configureKotlin() {
@@ -174,4 +194,30 @@ fun Project.configureTesting() {
             showStandardStreams = true
         }
     }
+}
+
+fun Project.configureDetekt() {
+    apply { plugin(detektPluginId) }
+
+    extensions.configure<DetektExtension> {
+        buildUponDefaultConfig = true
+        allRules = false
+        ignoreFailures = false
+        config.setFrom(rootProject.files("config/detekt/detekt.yml"))
+        source.setFrom(files("src/main/kotlin", "src/test/kotlin"))
+    }
+
+    tasks.withType<Detekt>().configureEach {
+        jvmTarget = jvmVersion.toString()
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+            sarif.required.set(false)
+            md.required.set(false)
+        }
+    }
+}
+
+fun Project.configureKover() {
+    apply { plugin(koverPluginId) }
 }

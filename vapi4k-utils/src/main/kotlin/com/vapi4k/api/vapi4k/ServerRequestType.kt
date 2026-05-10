@@ -111,12 +111,13 @@ enum class ServerRequestType(
 
     fun JsonElement.isVoiceRequest() = serverRequestType == VOICE_REQUEST
 
+    @Suppress("SwallowedException")
     val JsonElement.serverRequestType: ServerRequestType
       get() {
         val messageType = stringValue("message.type")
         return try {
           entries.first { it.desc == messageType }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
           logger.error { "Invalid ServerRequestType: $messageType" }
           UNKNOWN_REQUEST_TYPE
         }
