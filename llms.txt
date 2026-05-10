@@ -2,9 +2,9 @@
 
 > Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with Vapi.ai. It provides type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.7.0.
+Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.7.1.
 
-Key dependency versions: Kotlin 2.3.20, Ktor 3.4.2, Kotlinx Serialization 1.10.0, Exposed 1.2.0, Kotest 6.0.0.M4.
+Key dependency versions: Kotlin 2.3.21, Ktor 3.4.3, Kotlinx Serialization 1.11.0, Exposed 1.2.0, Kotest 6.1.11.
 
 ## Modules
 
@@ -30,11 +30,18 @@ Published to Maven Central under group `com.vapi4k`. Artifacts: `vapi4k-core`, `
 
 ```
 dependencies {
-  implementation("com.vapi4k:vapi4k-core:1.7.0")
+  implementation("com.vapi4k:vapi4k-core:1.7.1")
   // Optional: database persistence
-  implementation("com.vapi4k:vapi4k-dbms:1.7.0")
+  implementation("com.vapi4k:vapi4k-dbms:1.7.1")
 }
 ```
+
+## Quality
+
+- Static analysis via [detekt](https://detekt.dev) (`./gradlew detekt`)
+- Code style via kotlinter (`./gradlew lintKotlin` / `formatKotlin`)
+- Coverage via [Kover](https://github.com/Kotlin/kotlinx-kover) with aggregated reports at the root (`./gradlew koverHtmlReport`)
+- Coverage uploaded to [Codecov](https://codecov.io/gh/vapi4k/vapi4k) from CI on every push and PR
 
 ## Links
 
