@@ -5,7 +5,7 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=vapi4k_vapi4k&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=vapi4k_vapi4k)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2ec91457b7814a73a7ac70b9e1290f1e)](https://app.codacy.com/gh/vapi4k/vapi4k/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![codecov](https://codecov.io/gh/vapi4k/vapi4k/branch/master/graph/badge.svg)](https://codecov.io/gh/vapi4k/vapi4k)
-[![Kotlin version](https://img.shields.io/badge/kotlin-2.3.20-red?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin version](https://img.shields.io/badge/kotlin-2.3.21-red?logo=kotlin)](http://kotlinlang.org)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
 ![build workflow](https://github.com/vapi4k/vapi4k/actions/workflows/build-all-docs.yml/badge.svg?branch=docs)
 
@@ -29,10 +29,10 @@ Add the dependency to your `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-  implementation("com.vapi4k:vapi4k-core:1.7.0")
+  implementation("com.vapi4k:vapi4k-core:1.7.1")
 
   // Optional: database persistence
-  implementation("com.vapi4k:vapi4k-dbms:1.7.0")
+  implementation("com.vapi4k:vapi4k-dbms:1.7.1")
 }
 ```
 

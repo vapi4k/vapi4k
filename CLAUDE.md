@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with [Vapi.ai](https://vapi.ai). It provides
 type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-**Version:** 1.7.0 (defined in root `build.gradle.kts` via `extra["versionStr"]`)
+**Version:** 1.7.1 (defined in `gradle.properties` via the `version` property)
 **JVM Target:** 17
 
 Key dependency versions are managed in `gradle/libs.versions.toml`.
@@ -47,11 +47,18 @@ This is a multi-module Gradle project:
 # Run a single test method (use * for spaces in test names)
 ./gradlew :vapi4k-core:test --tests "com.vapi4k.ApplicationTest.test for serverPath*"
 
-# Lint Kotlin code
+# Lint Kotlin code (kotlinter / ktlint)
 ./gradlew lintKotlin
 
-# Format Kotlin code
+# Format Kotlin code (kotlinter)
 ./gradlew formatKotlin
+
+# Run detekt static analysis (fails on any finding)
+./gradlew detekt
+
+# Generate aggregated Kover coverage reports (HTML / XML)
+./gradlew koverHtmlReport
+./gradlew koverXmlReport
 
 # Generate API documentation (outputs to build/kdocs)
 ./gradlew dokkaGenerate
@@ -62,6 +69,10 @@ This is a multi-module Gradle project:
 # Publish to Maven Local
 ./gradlew publishToMavenLocal
 ```
+
+A `Makefile` wraps the most common Gradle invocations. Run `make help` to see the full list — frequently-used
+targets include `make build`, `make tests`, `make lint`, `make detekt`, `make format`, `make kdocs`, and
+`make publish-local`.
 
 ## Code Style
 
@@ -78,6 +89,24 @@ Global compiler opt-ins (configured in root `build.gradle.kts`, no per-file anno
 - `kotlinx.serialization.ExperimentalSerializationApi`
 - `kotlin.concurrent.atomics.ExperimentalAtomicApi`
 - `kotlin.contracts.ExperimentalContracts`
+
+## Quality Tooling
+
+- **kotlinter** (`com.pambrose.kotlinter` plugin) provides `lintKotlin` / `formatKotlin`.
+- **detekt** is applied to all publishable subprojects (`vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`) via
+  `Project.configureDetekt()` in the root build. The shared rule config lives at `config/detekt/detekt.yml`;
+  `ignoreFailures = false`, so any finding fails the build. A handful of rules are intentionally disabled in
+  the config (`MaxLineLength`, `FunctionOnlyReturningConstant`, `UnusedPrivateProperty`, `EmptyFunctionBlock`).
+  Where suppression at the call site is a better fit, use `@Suppress("RuleName")` instead of disabling globally.
+- **Kover** is applied to the same publishable subprojects, with the root project aggregating reports via
+  `kover(project(...))` dependencies. Run `koverHtmlReport` for local browsing or `koverXmlReport` to produce
+  `build/reports/kover/report.xml` (the file uploaded to Codecov in CI).
+- **Codecov**: the GitHub Actions `Run tests` workflow runs `./gradlew test koverXmlReport` and uploads the
+  aggregated report via `codecov/codecov-action@v5` using `secrets.CODECOV_TOKEN`. Coverage is visible at
+  https://codecov.io/gh/vapi4k/vapi4k.
+- **BuildConfig**: `vapi4k-core` exposes `BuildConfig.RELEASE_DATE` and `BuildConfig.BUILD_TIME` backed by
+  `ValueSource` providers, so they refresh on every build (configuration-cache safe) instead of being frozen
+  in the cache.
 
 ## Architecture
 

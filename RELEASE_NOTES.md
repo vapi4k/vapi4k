@@ -1,80 +1,48 @@
-# Release Notes — v1.7.0
+# Release Notes — v1.7.1
 
 ## Highlights
 
-This release migrates Vapi4k from JitPack to **Maven Central** and updates the Maven group ID. Downstream
-consumers must update their dependency declarations.
+A build-tooling refresh: detekt and Kover are now wired into all publishable subprojects, code coverage is
+uploaded to Codecov from CI, and `BUILD_TIME` / `RELEASE_DATE` are no longer frozen by the configuration cache.
 
-## Breaking Changes
-
-### Maven coordinates changed
-
-| | Before (1.6.2) | After (1.7.0) |
-|---|---|---|
-| **Repository** | `maven("https://jitpack.io")` | `mavenCentral()` |
-| **Group ID** | `com.github.vapi4k.vapi4k` | `com.vapi4k` |
-| **Example** | `com.github.vapi4k.vapi4k:vapi4k-core:1.6.2` | `com.vapi4k:vapi4k-core:1.7.0` |
-
-**Migration:** Remove the JitPack repository from your `build.gradle.kts` (Maven Central is included by default)
-and update the group ID in all dependency declarations:
-
-```kotlin
-// Before
-repositories {
-  maven("https://jitpack.io")
-}
-dependencies {
-  implementation("com.github.vapi4k.vapi4k:vapi4k-core:1.6.2")
-  implementation("com.github.vapi4k.vapi4k:vapi4k-dbms:1.6.2")
-}
-
-// After
-dependencies {
-  implementation("com.vapi4k:vapi4k-core:1.7.0")
-  implementation("com.vapi4k:vapi4k-dbms:1.7.0")
-}
-```
+There are no API or wire-format changes in this release. Downstream consumers can bump from `1.7.0` to `1.7.1`
+with no source changes.
 
 ## Changes
 
-### Publishing
+### Quality tooling
 
-- Migrate artifact publishing from JitPack to Maven Central
-- Adopt [Vanniktech Maven Publish](https://github.com/vanniktech/gradle-maven-publish-plugin) plugin for
-  streamlined Central publishing with automatic release
-- Add GPG signing support (conditional — skipped when no signing key is provided)
-- Add POM metadata (license, developer info, SCM URLs) required by Maven Central
+- **detekt** is applied to all publishable subprojects (`vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`) via a
+  shared rule config at `config/detekt/detekt.yml`. The build fails on any finding (`ignoreFailures = false`).
+  A small set of rules is intentionally disabled (`MaxLineLength`, `FunctionOnlyReturningConstant`,
+  `UnusedPrivateProperty`, `EmptyFunctionBlock`) — at the call site, prefer `@Suppress("RuleName")` over
+  disabling globally.
+- **Kover** is applied to the same subprojects with root-level aggregation, so a single
+  `./gradlew koverHtmlReport` or `koverXmlReport` produces a unified report.
+- **Codecov**: the `Run tests` GitHub Actions workflow runs `./gradlew test koverXmlReport` and uploads the
+  aggregated XML via `codecov/codecov-action@v5`. The repo's `CODECOV_TOKEN` secret keeps uploads stable.
+- **README** now displays a Codecov coverage badge alongside the existing quality badges.
 
 ### Build
 
-- Update `common-utils` dependency coordinates from `com.github.pambrose` to `com.pambrose` (group `2.7.1`)
-- Update `gradle-plugins` from 1.0.10 to 1.0.12
-- Remove unused Gradle plugins: `pambrose-repos`, `pambrose-snapshot`, `pambrose-testing`
-- Remove unused `ktor-client-mock` test dependency
-- Simplify `settings.gradle.kts` by removing JitPack plugin resolution strategy
-- Centralize publishing configuration in root `build.gradle.kts` (removed per-module publishing blocks)
-- Support version override via Gradle property (`-PoverrideVersion=...`) for snapshot builds
+- `BuildConfig.RELEASE_DATE` and `BuildConfig.BUILD_TIME` are now backed by `ValueSource` providers, so they
+  reflect the actual build time on every invocation rather than the value frozen by the configuration cache.
+- Bump kotest from the `6.0.0.M4` milestone to stable `6.1.11`.
+- Centralize repository declarations in `settings.gradle.kts` and pin the publishing GPG key ID.
+- Centralize Gradle plugin version refs in `gradle/libs.versions.toml`.
+- Exclude test-prefixed configurations from the ben-manes `dependencyUpdates` task so silently-dropped
+  resolution failures stop hiding test deps from the report.
 
 ### Makefile
 
-- Rename `publish` target to `publish-local`
-- Add `publish-local-snapshot`, `publish-snapshot`, and `publish-maven-central` targets
-- Remove JitPack-specific `trigger-jitpack` and `view-jitpack` targets
-- Remove `dist` target
+- New `help` target with auto-discovered descriptions for every target.
+- New `lint`, `detekt`, and `format` targets.
 
-### Documentation
+### Cleanup
 
-- Update README badge from JitPack to Maven Central
-- Update installation instructions to remove JitPack repository requirement
-- Update `llms.txt` with new coordinates and version
-- Remove JitPack link from documentation references
-
-### Internal
-
-- Update all import paths from `com.github.pambrose.common` to `com.pambrose.common` across source and test files
-- Simplify `.gitignore` by removing redundant exclusion rules
-- Clean up opt-in annotations to use a loop instead of repeated calls
+- Drop the unused `extra["versionStr"]` and `extra["releaseDate"]` propagation across modules.
+- Remove stale `gradle.properties` lines.
 
 ## Full Changelog
 
-https://github.com/vapi4k/vapi4k/compare/1.6.2...1.7.0
+https://github.com/vapi4k/vapi4k/compare/1.7.0...1.7.1
