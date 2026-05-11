@@ -4,6 +4,7 @@ import com.vanniktech.maven.publish.SourcesJar
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.gradle.DokkaExtension
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 
@@ -37,13 +38,13 @@ allprojects {
 subprojects {
     apply {
         plugin("java-library")
-        plugin(dokkaPluginId)
         plugin(kotlinterPluginId)
     }
 
     configureKotlin()
-    configureDokka()
     if (project.name != "vapi4k-snippets") {
+        apply { plugin(dokkaPluginId) }
+        configureDokka()
         configurePublishing()
         configureDetekt()
         configureKover()
@@ -60,9 +61,23 @@ tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
 // rejects. ben-manes catches and silently drops the whole config, so test-only
 // deps (kotest, flyway, testcontainers, ktor-server-tests) vanish from the
 // report instead of being flagged "unresolved". Skip them explicitly so the
-// gap is intentional, not invisible.
+// gap is intentional, not invisible, and remind the user at the end of the
+// report to check those versions manually.
+val testOnlyVersionKeys = listOf("kotest", "flyway", "testcontainers")
+val libsCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 tasks.withType<DependencyUpdatesTask>().configureEach {
     filterConfigurations = Spec { !it.name.startsWith("test") }
+
+    doLast {
+        val pad = testOnlyVersionKeys.maxOf { it.length }
+        logger.lifecycle("")
+        logger.lifecycle("Test-only dependencies not checked above (Gradle 9 + KGP limitation).")
+        logger.lifecycle("Verify these versions manually against their release pages:")
+        testOnlyVersionKeys.forEach { key ->
+            val version = libsCatalog.findVersion(key).orElseThrow().requiredVersion
+            logger.lifecycle("  ${key.padEnd(pad)}  $version")
+        }
+    }
 }
 
 dokka {
@@ -131,7 +146,6 @@ fun Project.configureDokka() {
 
 fun Project.configurePublishing() {
     apply {
-        plugin(dokkaPluginId)
         plugin(mavenPublishPluginId)
     }
 
@@ -151,7 +165,12 @@ fun Project.configurePublishing() {
         coordinates(group.toString(), project.name, version.toString())
 
         pom {
-            name.set(project.name)
+            name.set(
+                project.name.split("-").joinToString(" ") { part ->
+                    if (part.equals("dbms", ignoreCase = true)) "DBMS"
+                    else part.replaceFirstChar { it.uppercaseChar() }
+                },
+            )
             description.set(provider { project.description })
             url.set(projectUrl)
             licenses {
@@ -189,9 +208,9 @@ fun Project.configureTesting() {
         useJUnitPlatform()
 
         testLogging {
-            events("passed", "skipped", "failed", "standardOut", "standardError")
+            events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED, TestLogEvent.STANDARD_ERROR)
             exceptionFormat = TestExceptionFormat.FULL
-            showStandardStreams = true
+            showStandardStreams = false
         }
     }
 }

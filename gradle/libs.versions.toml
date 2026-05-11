@@ -1,38 +1,53 @@
 [versions]
+# Toolchain
+gradle = "9.5.0"
+jvm = "17"
+kotlin = "2.3.21"
+
+# Build plugins
 config = "6.0.9"
 detekt = "1.23.8"
 dokka = "2.2.0"
-exposed = "1.2.0"
-flyway = "11.8.0"
-gradle = "9.5.0"
 gradle-plugins = "1.0.14"
-hikari = "7.0.2"
-jvm = "17"
-kotest = "6.1.11"
-kotlin = "2.3.21"
 kover = "0.9.8"
-ktor = "3.4.3"
-logback = "1.5.32"
-logging = "8.0.02"
 maven-publish = "0.36.0"
-micrometer = "1.16.5"
-pgjdbc = "0.8.9"
-postgres = "42.7.11"
+
+# Core libraries
+ktor = "3.4.3"
 serialization = "1.11.0"
-testcontainers = "1.21.4"
 utils = "2.8.2"
 
-[libraries]
-kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+# Logging
+logback = "1.5.32"
+logging = "8.0.02"
 
+# Metrics
+micrometer = "1.16.5"
+
+# Database
+exposed = "1.2.0"
+flyway = "11.8.0"
+hikari = "7.0.2"
+pgjdbc = "0.8.9"
+postgres = "42.7.11"
+
+# Testing
+kotest = "6.1.11"
+testcontainers = "1.21.4"
+
+[libraries]
+# Serialization & JSON
+kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 utils-json = { module = "com.pambrose.common-utils:json-utils", version.ref = "utils" }
 
+# Ktor client
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
 ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 
+# Ktor server
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-cio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
 ktor-server-websockets = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
@@ -42,10 +57,12 @@ ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negoti
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
 ktor-server-html-builder = { module = "io.ktor:ktor-server-html-builder", version.ref = "ktor" }
 ktor-server-metrics-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer", version.ref = "ktor" }
-
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+# Metrics
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
 
+# Database
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 pgjdbc-ng = { module = "com.impossibl.pgjdbc-ng:pgjdbc-ng-all", version.ref = "pgjdbc" }
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
@@ -53,27 +70,35 @@ exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "e
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
 exposed-json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "exposed" }
 exposed-kotlin-datetime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposed" }
-
-kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "logging" }
-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-
-ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
-kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
-
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 
+# Logging
+kotlin-logging = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "logging" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+# Testing
+ktor-server-tests = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
 
 [plugins]
+# Kotlin
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+# Code generation & docs
 config = { id = "com.github.gmazzo.buildconfig", version.ref = "config" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+
+# Code quality
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
-
-pambrose-stable-versions = { id = "com.pambrose.stable-versions", version.ref = "gradle-plugins" }
 pambrose-kotlinter = { id = "com.pambrose.kotlinter", version.ref = "gradle-plugins" }
+
+# Dependency updates
+pambrose-stable-versions = { id = "com.pambrose.stable-versions", version.ref = "gradle-plugins" }
+
+# Publishing
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }

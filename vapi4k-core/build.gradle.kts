@@ -40,12 +40,6 @@ buildConfig {
     buildConfigField("long", "BUILD_TIME", buildTime.map { "${it}L" })
 }
 
-sourceSets {
-    named("main") {
-        java.srcDir("build/generated/sources/buildConfig/main")
-    }
-}
-
 dependencies {
     api(project(":vapi4k-utils"))
 
@@ -71,7 +65,6 @@ dependencies {
     testImplementation(libs.kotest.runner)
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.ktor.server.tests)
-    // testImplementation(libs.ktor.client.mock)
 }
 
 dokka {
