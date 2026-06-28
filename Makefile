@@ -1,19 +1,19 @@
 .PHONY: default help stop clean build build-tests cont-build tests \
 	lint format detekt \
-	versioncheck refresh updatedocs kdocs \
+	versions refresh updatedocs kdocs \
 	publish-local publish-local-snapshot \
 	publish-snapshot publish-maven-central upgrade-wrapper \
 	_check-gpg-env _require-version _require-gradle-version
 
 VERSION := $(shell grep '^version=' gradle.properties | cut -d= -f2)
-GRADLE_VERSION := $(shell grep '^gradle =' gradle/libs.versions.toml | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?')
+GRADLE_VERSION := $(shell grep '^gradle-wrapper =' gradle/libs.versions.toml | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?')
 
 GPG_ENV := \
 	ORG_GRADLE_PROJECT_signingInMemoryKey="$$(gpg --armor --export-secret-keys $$GPG_SIGNING_KEY_ID)" \
 	ORG_GRADLE_PROJECT_signingInMemoryKeyId="$$GPG_SIGNING_KEY_ID" \
 	ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=$$(security find-generic-password -a "gpg-signing" -s "gradle-signing-password" -w)
 
-default: versioncheck ## Default target (runs versioncheck)
+default: help
 
 help: ## Show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -46,8 +46,8 @@ format: ## Run kotlinter formatKotlin
 detekt: ## Run detekt static analysis
 	./gradlew detekt
 
-versioncheck: ## Report dependency updates (default target)
-	./gradlew dependencyUpdates --no-configuration-cache
+versions: ## Report dependency updates
+	./gradlew dependencyUpdates --no-configuration-cache --no-parallel
 
 refresh: ## Refresh deps and report updates
 	./gradlew --refresh-dependencies dependencyUpdates --no-configuration-cache

@@ -101,7 +101,7 @@ internal object ValidateApplication {
           div {
             classes += CONNECT_ERROR
             h2 { +"Error" }
-            p { "Application for /${appName.value} not found" }
+            p { +"Application for /${appName.value} not found" }
           }
         }
       }
@@ -115,7 +115,7 @@ internal object ValidateApplication {
           div {
             classes += CONNECT_ERROR
             h2 { +"Error" }
-            p { it.toErrorString() }
+            p { +it.toErrorString() }
           }
         }
       }

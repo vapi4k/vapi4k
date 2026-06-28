@@ -1,12 +1,13 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
-import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import dev.detekt.gradle.Detekt
+import dev.detekt.gradle.extensions.DetektExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.gradle.DokkaExtension
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.jvm)
@@ -14,7 +15,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.maven.publish) apply false
 
-    alias(libs.plugins.pambrose.stable.versions)
+    alias(libs.plugins.ben.manes.versions)
     alias(libs.plugins.pambrose.kotlinter) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.kover)
@@ -115,6 +116,16 @@ fun Project.configureKotlin() {
                 "kotlin.concurrent.atomics.ExperimentalAtomicApi",
                 "kotlin.contracts.ExperimentalContracts",
             ).forEach { languageSettings.optIn(it) }
+        }
+
+        // Run the unused-return-value checker over production code only. Kotest's
+        // assertion DSL (e.g. shouldBe) returns its receiver, and tests intentionally
+        // discard that result, so applying the checker to the test source set would
+        // emit only false-positive warnings.
+        tasks.named<KotlinCompile>("compileKotlin") {
+            compilerOptions {
+                freeCompilerArgs.add("-Xreturn-value-checker=check")
+            }
         }
     }
 }
@@ -219,20 +230,20 @@ fun Project.configureDetekt() {
     apply { plugin(detektPluginId) }
 
     extensions.configure<DetektExtension> {
-        buildUponDefaultConfig = true
-        allRules = false
-        ignoreFailures = false
+        buildUponDefaultConfig.set(true)
+        allRules.set(false)
+        ignoreFailures.set(false)
         config.setFrom(rootProject.files("config/detekt/detekt.yml"))
         source.setFrom(files("src/main/kotlin", "src/test/kotlin"))
     }
 
     tasks.withType<Detekt>().configureEach {
-        jvmTarget = jvmVersion.toString()
+        jvmTarget.set(jvmVersion.toString())
         reports {
             html.required.set(true)
-            xml.required.set(true)
+            checkstyle.required.set(true)
             sarif.required.set(false)
-            md.required.set(false)
+            markdown.required.set(false)
         }
     }
 }
