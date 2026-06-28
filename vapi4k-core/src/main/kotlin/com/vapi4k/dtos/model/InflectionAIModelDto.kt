@@ -48,7 +48,7 @@ data class InflectionAIModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.INFLECTION_AI
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 

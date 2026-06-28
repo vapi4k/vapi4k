@@ -48,7 +48,7 @@ data class CerebrasModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.CEREBRAS
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 

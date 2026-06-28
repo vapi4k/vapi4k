@@ -54,7 +54,7 @@ data class OpenAIModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.OPEN_AI
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
     fallbackModels.addAll(fallbackModelTypes.map { it.desc } + customFallbackModels)
   }

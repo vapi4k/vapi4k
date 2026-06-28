@@ -48,7 +48,7 @@ data class XaiModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.XAI
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 

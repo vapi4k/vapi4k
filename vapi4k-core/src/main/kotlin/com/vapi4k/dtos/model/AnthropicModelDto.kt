@@ -48,7 +48,7 @@ data class AnthropicModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.ANTHROPIC
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 

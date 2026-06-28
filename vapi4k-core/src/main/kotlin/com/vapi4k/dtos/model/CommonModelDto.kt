@@ -25,6 +25,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlin.reflect.KClass
 
 @Serializable(with = ModelSerializer::class)
 interface CommonModelDto {
@@ -33,90 +34,41 @@ interface CommonModelDto {
   val functions: MutableList<FunctionDto>
   var knowledgeBaseDto: KnowledgeBaseDto?
   val messages: MutableList<RoleMessageDto>
+
+  fun assignEnumOverrides() {} // providers with an enum model type override this
 }
 
 object ModelSerializer : KSerializer<CommonModelDto> {
   override val descriptor: SerialDescriptor = buildClassSerialDescriptor("AbstractModelDto")
 
-  @Suppress("CyclomaticComplexMethod")
+  private val serializers: Map<KClass<out CommonModelDto>, KSerializer<out CommonModelDto>> =
+    mapOf(
+      AnthropicBedrockModelDto::class to AnthropicBedrockModelDto.serializer(),
+      AnthropicModelDto::class to AnthropicModelDto.serializer(),
+      AnyscaleModelDto::class to AnyscaleModelDto.serializer(),
+      CerebrasModelDto::class to CerebrasModelDto.serializer(),
+      CustomLLMModelDto::class to CustomLLMModelDto.serializer(),
+      DeepInfraModelDto::class to DeepInfraModelDto.serializer(),
+      DeepSeekModelDto::class to DeepSeekModelDto.serializer(),
+      GoogleModelDto::class to GoogleModelDto.serializer(),
+      GroqModelDto::class to GroqModelDto.serializer(),
+      InflectionAIModelDto::class to InflectionAIModelDto.serializer(),
+      OpenAIModelDto::class to OpenAIModelDto.serializer(),
+      OpenRouterModelDto::class to OpenRouterModelDto.serializer(),
+      PerplexityAIModelDto::class to PerplexityAIModelDto.serializer(),
+      TogetherAIModelDto::class to TogetherAIModelDto.serializer(),
+      XaiModelDto::class to XaiModelDto.serializer(),
+    )
+
   override fun serialize(
     encoder: Encoder,
     value: CommonModelDto,
   ) {
-    when (value) {
-      is AnthropicBedrockModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(AnthropicBedrockModelDto.serializer(), value)
-      }
-
-      is AnyscaleModelDto -> {
-        encoder.encodeSerializableValue(AnyscaleModelDto.serializer(), value)
-      }
-
-      is AnthropicModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(AnthropicModelDto.serializer(), value)
-      }
-
-      is CerebrasModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(CerebrasModelDto.serializer(), value)
-      }
-
-      is CustomLLMModelDto -> {
-        encoder.encodeSerializableValue(CustomLLMModelDto.serializer(), value)
-      }
-
-      is DeepInfraModelDto -> {
-        encoder.encodeSerializableValue(DeepInfraModelDto.serializer(), value)
-      }
-
-      is DeepSeekModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(DeepSeekModelDto.serializer(), value)
-      }
-
-      is GoogleModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(GoogleModelDto.serializer(), value)
-      }
-
-      is GroqModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(GroqModelDto.serializer(), value)
-      }
-
-      is InflectionAIModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(InflectionAIModelDto.serializer(), value)
-      }
-
-      is OpenAIModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(OpenAIModelDto.serializer(), value)
-      }
-
-      is OpenRouterModelDto -> {
-        encoder.encodeSerializableValue(OpenRouterModelDto.serializer(), value)
-      }
-
-      is PerplexityAIModelDto -> {
-        encoder.encodeSerializableValue(PerplexityAIModelDto.serializer(), value)
-      }
-
-      is TogetherAIModelDto -> {
-        encoder.encodeSerializableValue(TogetherAIModelDto.serializer(), value)
-      }
-
-      is XaiModelDto -> {
-        value.assignEnumOverrides()
-        encoder.encodeSerializableValue(XaiModelDto.serializer(), value)
-      }
-
-      else -> {
-        error("Invalid model provider: ${value::class.simpleName}")
-      }
-    }
+    value.assignEnumOverrides()
+    val serializer = serializers[value::class]
+      ?: error("Invalid model provider: ${value::class.simpleName}")
+    @Suppress("UNCHECKED_CAST")
+    encoder.encodeSerializableValue(serializer as KSerializer<CommonModelDto>, value)
   }
 
   override fun deserialize(decoder: Decoder): CommonModelDto =
