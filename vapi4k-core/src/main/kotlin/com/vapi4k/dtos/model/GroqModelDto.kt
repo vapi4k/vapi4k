@@ -48,7 +48,7 @@ data class GroqModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.GROQ
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 

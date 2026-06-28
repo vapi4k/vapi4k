@@ -48,7 +48,7 @@ data class DeepSeekModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.DEEP_SEEK
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 

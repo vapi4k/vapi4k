@@ -48,7 +48,7 @@ data class GoogleModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.GOOGLE
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 

@@ -48,7 +48,7 @@ data class AnthropicBedrockModelDto(
   @EncodeDefault
   override val provider: ModelType = ModelType.ANTHROPIC_BEDROCK
 
-  fun assignEnumOverrides() {
+  override fun assignEnumOverrides() {
     model = customModel.ifEmpty { modelType.desc }
   }
 
