@@ -44,7 +44,8 @@ abstract class Parent {
 @Serializable
 data class DataChild(
   var street: String = "",
-) : Parent()
+) : Parent(),
+  Child
 
 @Serializable
 class NonDataChild(
