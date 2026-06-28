@@ -16,6 +16,7 @@
 
 package com.vapi4k.server
 
+import com.vapi4k.api.vapi4k.ServerRequestType
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
 import com.vapi4k.common.CoreEnvVars.TOOL_CACHE_CLEAN_PAUSE_MINS
 import com.vapi4k.common.CoreEnvVars.TOOL_CACHE_MAX_AGE_MINS
@@ -26,6 +27,7 @@ import com.vapi4k.dsl.vapi4k.Vapi4kConfigImpl
 import com.vapi4k.plugin.Vapi4kServer.logger
 import com.vapi4k.server.RequestResponseCallback.Companion.requestCallback
 import com.vapi4k.server.RequestResponseCallback.Companion.responseCallback
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -55,7 +57,6 @@ internal object AdminJobs {
       }
     }
 
-  @Suppress("CyclomaticComplexMethod")
   fun startCallbackThread(config: Vapi4kConfigImpl) =
     thread(isDaemon = true) {
       while (true) {
@@ -64,68 +65,8 @@ internal object AdminJobs {
             for (callback in config.callbackChannel) {
               coroutineScope {
                 when (callback.type) {
-                  REQUEST -> {
-                    config.allApplications
-                      .filter { it.applicationId == callback.applicationId }
-                      .forEach { app ->
-                        with(app) {
-                          applicationAllRequests.forEach { launch { it.invoke(callback.toRequestContext(config)) } }
-                          applicationPerRequests
-                            .filter { it.first == callback.request.serverRequestType }
-                            .forEach { (_, block) -> launch { block(callback.toRequestContext(config)) } }
-                        }
-                      }
-
-                    with(config) {
-                      globalAllRequests.forEach { launch { it.invoke(callback.toRequestContext(config)) } }
-                      globalPerRequests
-                        .filter { it.first == callback.request.serverRequestType }
-                        .forEach { (_, block) -> launch { block(callback.toRequestContext(config)) } }
-                    }
-                  }
-
-                  RESPONSE -> {
-                    val hasAppCallbacks = config.allApplications.any { app ->
-                      app.applicationAllResponses.isNotEmpty() || app.applicationPerResponses.isNotEmpty()
-                    }
-                    val hasGlobalCallbacks = config.globalAllResponses.isNotEmpty() ||
-                      config.globalPerResponses.isNotEmpty()
-
-                    if (hasAppCallbacks || hasGlobalCallbacks) {
-                      val resp = runCatching {
-                        callback.response.invoke()
-                      }.onFailure { e ->
-                        logger.error { "Error creating response" }
-                        error("Error creating response")
-                      }.getOrThrow()
-
-                      config.allApplications.forEach { application ->
-                        with(application) {
-                          if (applicationAllResponses.isNotEmpty() || applicationPerResponses.isNotEmpty()) {
-                            applicationAllResponses.forEach {
-                              launch { it.invoke(callback.toResponseContext(config, resp)) }
-                            }
-                            applicationPerResponses
-                              .filter { it.first == callback.request.serverRequestType }
-                              .forEach { (_, block) ->
-                                launch { block(callback.toResponseContext(config, resp)) }
-                              }
-                          }
-                        }
-                      }
-
-                      with(config) {
-                        globalAllResponses.forEach {
-                          launch { it.invoke(callback.toResponseContext(config, resp)) }
-                        }
-                        globalPerResponses
-                          .filter { it.first == callback.request.serverRequestType }
-                          .forEach { (_, block) ->
-                            launch { block(callback.toResponseContext(config, resp)) }
-                          }
-                      }
-                    }
-                  }
+                  REQUEST -> dispatchRequestCallbacks(config, callback)
+                  RESPONSE -> dispatchResponseCallbacks(config, callback)
                 }
               }
             }
@@ -135,6 +76,67 @@ internal object AdminJobs {
         }
       }
     }
+
+  private fun CoroutineScope.dispatchRequestCallbacks(
+    config: Vapi4kConfigImpl,
+    callback: RequestResponseCallback,
+  ) {
+    val requestType = callback.request.serverRequestType
+    config.allApplications
+      .filter { it.applicationId == callback.applicationId }
+      .forEach { app ->
+        launchCallbacks(app.applicationAllRequests, app.applicationPerRequests, requestType) {
+          callback.toRequestContext(config)
+        }
+      }
+    launchCallbacks(config.globalAllRequests, config.globalPerRequests, requestType) {
+      callback.toRequestContext(config)
+    }
+  }
+
+  private fun CoroutineScope.dispatchResponseCallbacks(
+    config: Vapi4kConfigImpl,
+    callback: RequestResponseCallback,
+  ) {
+    val hasAppCallbacks = config.allApplications.any { app ->
+      app.applicationAllResponses.isNotEmpty() || app.applicationPerResponses.isNotEmpty()
+    }
+    val hasGlobalCallbacks =
+      config.globalAllResponses.isNotEmpty() || config.globalPerResponses.isNotEmpty()
+
+    if (!hasAppCallbacks && !hasGlobalCallbacks)
+      return
+
+    val resp = runCatching {
+      callback.response.invoke()
+    }.onFailure {
+      logger.error { "Error creating response" }
+      error("Error creating response")
+    }.getOrThrow()
+
+    val requestType = callback.request.serverRequestType
+    config.allApplications.forEach { app ->
+      launchCallbacks(app.applicationAllResponses, app.applicationPerResponses, requestType) {
+        callback.toResponseContext(config, resp)
+      }
+    }
+
+    launchCallbacks(config.globalAllResponses, config.globalPerResponses, requestType) {
+      callback.toResponseContext(config, resp)
+    }
+  }
+
+  private fun <C> CoroutineScope.launchCallbacks(
+    all: List<suspend (C) -> Unit>,
+    per: List<Pair<ServerRequestType, suspend (C) -> Unit>>,
+    requestType: ServerRequestType,
+    context: () -> C,
+  ) {
+    all.forEach { block -> launch { block(context()) } }
+    per
+      .filter { it.first == requestType }
+      .forEach { (_, block) -> launch { block(context()) } }
+  }
 
   suspend fun invokeRequestCallbacks(
     config: Vapi4kConfigImpl,
