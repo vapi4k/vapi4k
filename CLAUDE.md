@@ -93,11 +93,20 @@ Global compiler opt-ins (configured in root `build.gradle.kts`, no per-file anno
 ## Quality Tooling
 
 - **kotlinter** (`com.pambrose.kotlinter` plugin) provides `lintKotlin` / `formatKotlin`.
-- **detekt** is applied to all publishable subprojects (`vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`) via
-  `Project.configureDetekt()` in the root build. The shared rule config lives at `config/detekt/detekt.yml`;
-  `ignoreFailures = false`, so any finding fails the build. A handful of rules are intentionally disabled in
-  the config (`MaxLineLength`, `FunctionOnlyReturningConstant`, `UnusedPrivateProperty`, `EmptyFunctionBlock`).
-  Where suppression at the call site is a better fit, use `@Suppress("RuleName")` instead of disabling globally.
+- **detekt** (2.x, applied via the `dev.detekt` plugin) runs on all publishable subprojects (`vapi4k-core`,
+  `vapi4k-dbms`, `vapi4k-utils`) via `Project.configureDetekt()` in the root build. `ignoreFailures = false`, so
+  any finding fails the build. The rule config at `config/detekt/detekt.yml` is **overrides-only**: it sets
+  `buildUponDefaultConfig = true` and carries just the project's deviations from detekt's defaults — it is *not*
+  a full copy of the default config. Current deviations:
+  - Rules disabled: `MaxLineLength`, `FunctionOnlyReturningConstant`, `UnusedPrivateProperty`, `EmptyFunctionBlock`,
+    `MagicNumber`, `MatchingDeclarationName`, `MemberNameEqualsClassName`, `ForbiddenComment`.
+  - Thresholds raised: `LongMethod` (`allowedLines: 140`), `LongParameterList` (10 params), `TooManyFunctions`
+    (raised per-scope limits, excludes test sources).
+
+  Where suppression at the call site is a better fit, use `@Suppress("RuleName")` instead of editing the global
+  config. Note: detekt 2.x renamed packages from `io.gitlab.arturbosch.detekt.*` to `dev.detekt.gradle.*` and
+  reworked the config schema (rule `threshold` → `allowedX`; report `xml` → `checkstyle`, `md` → `markdown`); the
+  pinned `2.0.0-alpha.4` is a pre-release.
 - **Kover** is applied to the same publishable subprojects, with the root project aggregating reports via
   `kover(project(...))` dependencies. Run `koverHtmlReport` for local browsing or `koverXmlReport` to produce
   `build/reports/kover/report.xml` (the file uploaded to Codecov in CI).
