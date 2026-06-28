@@ -39,6 +39,7 @@ import java.lang.reflect.InvocationTargetException
 import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.plusAssign
 import kotlin.reflect.KFunction
+import kotlin.reflect.KParameter
 import kotlin.reflect.KType
 import kotlin.reflect.full.callSuspendBy
 import kotlinx.serialization.Serializable
@@ -114,39 +115,44 @@ class FunctionDetails internal constructor(
       else -> error("Unsupported parameter type: $argType")
     }
 
-  @Suppress("CyclomaticComplexMethod")
   private suspend fun invokeMethod(
     requestContext: RequestContextImpl,
     invokeArgs: JsonElement,
   ): String {
     val function = obj.findFunction(functionName)
-    val argNames = invokeArgs.keys
-    logger.info { "Invoking method $fqName with args $argNames" }
+    logger.info { "Invoking method $fqName with args ${invokeArgs.keys}" }
+
+    // Value-parameter map (declared args + auto-injected RequestContext), used for both the
+    // call and the debug log. The instance receiver is added separately below.
+    val argMap = buildArgMap(function, requestContext, invokeArgs)
+    logger.info { "Calling \"${toolCall?.description.orEmpty()}\" tool service: $functionName(${formatArgs(argMap)})" }
+
+    val callMap = function.instanceParameter?.let { argMap + (it to obj) } ?: argMap
+    return invokeFunction(function, callMap)
+  }
+
+  private fun buildArgMap(
+    function: KFunction<*>,
+    requestContext: RequestContextImpl,
+    invokeArgs: JsonElement,
+  ): Map<KParameter, Any> {
     val paramMap = function.valueParameters.toMap()
     val valueMap =
-      argNames
-        .associate { argName ->
-          val param = paramMap[argName] ?: error("Parameter $argName not found in method $fqName")
-          param to getArgValue(invokeArgs, argName, param.type)
-        }
+      invokeArgs.keys.associate { argName ->
+        val param = paramMap[argName] ?: error("Parameter $argName not found in method $fqName")
+        param to getArgValue(invokeArgs, argName, param.type)
+      }
 
-    // Check if the function has a RequestContext parameter
-    val requestContextParam =
-      function.valueParameters.firstOrNull { it.second.isRequestContextClass() }?.second
+    // If the function declares a RequestContext parameter, inject it (it is not in the JSON args).
+    val requestContextParam = function.valueParameters.firstOrNull { it.second.isRequestContextClass() }?.second
+    return requestContextParam?.let { valueMap + (it to requestContext) } ?: valueMap
+  }
 
-    // If the function has a request parameter, add it to the valueMap
-    val valueMapWithRequestContext =
-      requestContextParam?.let { param -> valueMap.toMutableMap().also { it[param] = requestContext } } ?: valueMap
-
-    val callMap =
-      function.instanceParameter?.let { param ->
-        valueMapWithRequestContext.toMutableMap().also { it[param] = obj }
-      } ?: valueMapWithRequestContext
-
-    val funcArgs = if (valueMapWithRequestContext.isEmpty()) {
+  private fun formatArgs(argMap: Map<KParameter, Any>): String =
+    if (argMap.isEmpty()) {
       "with no args"
     } else {
-      valueMapWithRequestContext
+      argMap
         .mapNotNull { (param, value) ->
           when (param.type.asKClass()) {
             RequestContext::class -> "${param.name}: RequestContext Value"
@@ -158,9 +164,11 @@ class FunctionDetails internal constructor(
           }
         }.joinToString(", ")
     }
-    logger.info { "Calling \"${toolCall?.description.orEmpty()}\" tool service: $functionName($funcArgs)" }
 
-    // Invoke the function with the arguments
+  private suspend fun invokeFunction(
+    function: KFunction<*>,
+    callMap: Map<KParameter, Any>,
+  ): String {
     val result =
       if (function.isSuspend)
         function.callSuspendBy(callMap)

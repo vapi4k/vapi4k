@@ -16,6 +16,9 @@
 
 package com.vapi4k
 
+import ch.qos.logback.classic.Logger
+import ch.qos.logback.classic.spi.ILoggingEvent
+import ch.qos.logback.core.read.ListAppender
 import com.pambrose.common.json.toJsonElement
 import com.vapi4k.api.tools.ToolCall
 import com.vapi4k.api.toolservice.ToolCallService
@@ -32,6 +35,8 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import kotlinx.coroutines.delay
+import org.slf4j.LoggerFactory
 
 class FunctionDetailsTest : StringSpec() {
   class StringService {
@@ -107,6 +112,30 @@ class FunctionDetailsTest : StringSpec() {
       requestFailedMessage {
         content = "Failed: $errorMessage"
       }
+    }
+  }
+
+  class SuspendService {
+    @ToolCall("Suspends then greets")
+    suspend fun slowGreet(name: String): String {
+      delay(1)
+      return "Hi, $name!"
+    }
+  }
+
+  // Captures the log lines emitted during [block], keeping only the "...tool service:..." line
+  // produced by FunctionDetails.formatArgs() (its only observable surface).
+  private suspend fun captureToolServiceLogs(block: suspend () -> Unit): List<String> {
+    val rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger
+    val appender = ListAppender<ILoggingEvent>()
+    appender.start()
+    rootLogger.addAppender(appender)
+    return try {
+      block()
+      appender.list.map { it.formattedMessage }.filter { it.contains("tool service:") }
+    } finally {
+      rootLogger.detachAppender(appender)
+      appender.stop()
     }
   }
 
@@ -346,6 +375,98 @@ class FunctionDetailsTest : StringSpec() {
       )
 
       result shouldBe "false"
+    }
+
+    "invokeToolMethod handles suspend ToolCall functions" {
+      val service = SuspendService()
+      val details = createFunctionDetails(service)
+      val requestContext = createRequestContext()
+      val args = """{"name":"World"}""".toJsonElement()
+      var result = ""
+
+      details.invokeToolMethod(
+        isTool = true,
+        requestContext = requestContext,
+        invokeArgs = args,
+        successAction = { result = it },
+        errorAction = { result = it },
+      )
+
+      result shouldBe "Hi, World!"
+    }
+
+    "invokeToolMethod calls errorAction when a JSON arg has no matching parameter" {
+      val service = StringService()
+      val details = createFunctionDetails(service)
+      val requestContext = createRequestContext()
+      val args = """{"unknown":"x"}""".toJsonElement()
+      var errorResult = ""
+
+      details.invokeToolMethod(
+        isTool = true,
+        requestContext = requestContext,
+        invokeArgs = args,
+        successAction = {},
+        errorAction = { errorResult = it },
+      )
+
+      errorResult shouldContain "Parameter unknown not found"
+    }
+
+    "logs 'with no args' for a zero-arg tool" {
+      val details = createFunctionDetails(UnitService())
+      val requestContext = createRequestContext()
+
+      val logs =
+        captureToolServiceLogs {
+          details.invokeToolMethod(
+            isTool = true,
+            requestContext = requestContext,
+            invokeArgs = """{}""".toJsonElement(),
+            successAction = {},
+            errorAction = {},
+          )
+        }
+
+      logs.single { it.contains("doNothing(") } shouldContain "doNothing(with no args)"
+    }
+
+    "logs numeric arguments without quotes" {
+      val details = createFunctionDetails(IntService())
+      val requestContext = createRequestContext()
+
+      val logs =
+        captureToolServiceLogs {
+          details.invokeToolMethod(
+            isTool = true,
+            requestContext = requestContext,
+            invokeArgs = """{"a":3,"b":4}""".toJsonElement(),
+            successAction = {},
+            errorAction = {},
+          )
+        }
+
+      logs.single { it.contains("add(") } shouldContain "add(a: 3, b: 4)"
+    }
+
+    "logs string arguments quoted and the injected RequestContext label" {
+      val details = createFunctionDetails(ContextService())
+      val requestContext = createRequestContext()
+
+      val logs =
+        captureToolServiceLogs {
+          details.invokeToolMethod(
+            isTool = true,
+            requestContext = requestContext,
+            invokeArgs = """{"name":"Alice"}""".toJsonElement(),
+            successAction = {},
+            errorAction = {},
+          )
+        }
+
+      val line = logs.single { it.contains("withContext(") }
+      line shouldContain "name: \"Alice\""
+      line shouldContain "requestContext: RequestContext Value"
     }
   }
 }
