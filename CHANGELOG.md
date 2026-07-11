@@ -33,12 +33,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Swap the dependency-updates plugin from `com.pambrose.stable-versions` to the ben-manes
   `com.github.ben-manes.versions`; `configureVersions()` rejects pre-release candidates unless the current version is
   already on a pre-release line, and holds the whole `DependencyUpdatesTask` configuration in a single block so the
-  configuration-cache opt-out sits next to the `doLast` it protects (#53, working tree)
+  configuration-cache opt-out sits next to the `doLast` it protects (#53, #58)
 - Enable the Kotlin `-Xreturn-value-checker` on production code (#53)
 - Bump dependencies: Ktor `3.4.2 → 3.5.1`, Kotlinx Serialization `1.10.0 → 1.11.0`, Kotest `6.0.0.M4 → 6.2.2`
   (milestone → stable), Exposed `1.2.0 → 1.3.1`, Flyway `11.8.0 → 12.11.0`, HikariCP `7.0.2 → 7.1.0`,
   PostgreSQL `42.7.10 → 42.7.13`, Micrometer `1.16.4 → 1.17.0`, logback `1.5.32 → 1.5.38`,
-  kotlin-logging `8.0.01 → 8.0.4`, common-utils `2.7.1 → 3.1.0` (#49, #51, #53, working tree)
+  kotlin-logging `8.0.01 → 8.0.4`, common-utils `2.7.1 → 3.1.0` (#49, #51, #53, #58)
 - Reduce cyclomatic complexity of `AdminJobs.startCallbackThread`, `FunctionDetails.invokeMethod()`, and
   `ModelSerializer.serialize()` by extracting focused helpers and dropping their `@Suppress("CyclomaticComplexMethod")`
   annotations — no behavior change (#55, #56, #57)
@@ -65,9 +65,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `com.github.dockerjava` in the `vapi4k-core` test logback (#53)
 - `dokkaGenerate` failed with "Circular evaluation detected: extension 'dokka' property 'moduleName'" because the
   top-level `moduleName` constant was shadowed by the Dokka extension's own `moduleName` property, so
-  `moduleName.set(moduleName)` wired the property to itself; rename the constant to `dokkaModuleName` (working tree)
+  `moduleName.set(moduleName)` wired the property to itself; rename the constant to `dokkaModuleName` (#58)
 - Test stderr was silently suppressed: `showStandardStreams = false` removes `STANDARD_ERROR` from the test-logging
-  event set, negating the `STANDARD_ERROR` added on the line above it; drop it so test stderr surfaces (working tree)
+  event set, negating the `STANDARD_ERROR` added on the line above it; drop it so test stderr surfaces (#58)
 
 ### Removed
 
