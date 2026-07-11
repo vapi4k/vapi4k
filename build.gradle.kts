@@ -29,7 +29,7 @@ val detektPluginId = libs.plugins.detekt.get().pluginId
 val koverPluginId = libs.plugins.kover.get().pluginId
 val jvmVersion = libs.versions.jvm.get().toInt()
 
-val moduleName = "vapi4k"
+val dokkaModuleName = "vapi4k"
 val projectUrl = "https://github.com/vapi4k/vapi4k"
 
 allprojects {
@@ -45,7 +45,7 @@ subprojects {
     configureKotlin()
     if (project.name != "vapi4k-snippets") {
         apply { plugin(dokkaPluginId) }
-        configureDokka()
+        configureSubDokka()
         configurePublishing()
         configureDetekt()
         configureKover()
@@ -53,44 +53,8 @@ subprojects {
     configureTesting()
 }
 
-tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
-tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
-
-// Test configurations can't be resolved by ben-manes under Gradle 9 because the
-// Kotlin Gradle Plugin tries to add dependency constraints to non-declarable
-// configurations (testCompileClasspath/testRuntimeClasspath), which Gradle 9
-// rejects. ben-manes catches and silently drops the whole config, so test-only
-// deps (kotest, flyway, testcontainers, ktor-server-tests) vanish from the
-// report instead of being flagged "unresolved". Skip them explicitly so the
-// gap is intentional, not invisible, and remind the user at the end of the
-// report to check those versions manually.
-val testOnlyVersionKeys = listOf("kotest", "flyway", "testcontainers")
-val libsCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
-tasks.withType<DependencyUpdatesTask>().configureEach {
-    filterConfigurations = Spec { !it.name.startsWith("test") }
-
-    doLast {
-        val pad = testOnlyVersionKeys.maxOf { it.length }
-        logger.lifecycle("")
-        logger.lifecycle("Test-only dependencies not checked above (Gradle 9 + KGP limitation).")
-        logger.lifecycle("Verify these versions manually against their release pages:")
-        testOnlyVersionKeys.forEach { key ->
-            val version = libsCatalog.findVersion(key).orElseThrow().requiredVersion
-            logger.lifecycle("  ${key.padEnd(pad)}  $version")
-        }
-    }
-}
-
-dokka {
-    moduleName.set(moduleName)
-    dokkaPublications.html {
-        outputDirectory.set(layout.buildDirectory.dir("kdocs"))
-    }
-    pluginsConfiguration.html {
-        homepageLink.set(projectUrl)
-        footerMessage.set(moduleName)
-    }
-}
+configureDokka()
+configureVersions()
 
 dependencies {
     dokka(project(":vapi4k-core"))
@@ -101,6 +65,9 @@ dependencies {
     kover(project(":vapi4k-dbms"))
     kover(project(":vapi4k-utils"))
 }
+
+tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
+tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
 
 fun Project.configureKotlin() {
     apply {
@@ -130,7 +97,7 @@ fun Project.configureKotlin() {
     }
 }
 
-fun Project.configureDokka() {
+fun Project.configureSubDokka() {
     extensions.configure<DokkaExtension> {
         dokkaSourceSets.configureEach {
             enableKotlinStdLibDocumentationLink.set(false)
@@ -219,9 +186,12 @@ fun Project.configureTesting() {
         useJUnitPlatform()
 
         testLogging {
+            // Omitting STANDARD_OUT suppresses test stdout; STANDARD_ERROR is kept so test
+            // stderr still surfaces. Don't set showStandardStreams here — its setter removes
+            // both STANDARD_OUT and STANDARD_ERROR from the event set, which would erase the
+            // STANDARD_ERROR added above.
             events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED, TestLogEvent.STANDARD_ERROR)
             exceptionFormat = TestExceptionFormat.FULL
-            showStandardStreams = false
         }
     }
 }
@@ -250,4 +220,65 @@ fun Project.configureDetekt() {
 
 fun Project.configureKover() {
     apply { plugin(koverPluginId) }
+}
+
+fun Project.configureDokka() {
+    dokka {
+        moduleName.set(dokkaModuleName)
+        dokkaPublications.html {
+            outputDirectory.set(layout.buildDirectory.dir("kdocs"))
+        }
+        pluginsConfiguration.html {
+            homepageLink.set(projectUrl)
+            footerMessage.set(dokkaModuleName)
+        }
+    }
+}
+
+fun Project.configureVersions() {
+    // Test configurations can't be resolved by ben-manes under Gradle 9 because the
+    // Kotlin Gradle Plugin tries to add dependency constraints to non-declarable
+    // configurations (testCompileClasspath/testRuntimeClasspath), which Gradle 9
+    // rejects. ben-manes catches and silently drops the whole config, so test-only
+    // deps (kotest, flyway, testcontainers, ktor-server-tests) vanish from the
+    // report instead of being flagged "unresolved". Skip them explicitly so the
+    // gap is intentional, not invisible, and remind the user at the end of the
+    // report to check those versions manually.
+    val testOnlyVersionKeys = listOf("kotest", "flyway", "testcontainers")
+    val libsCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+    // A pre-release qualifier is a `.` or `-` delimiter followed by a known unstable
+    // keyword. `m\d` matches milestones (`-M1`/`.M2`) without catching stable classifiers
+    // like `-macos`/`-MR1`, and the `[.-]` delimiter catches both dash-style (`-alpha`)
+    // and dot-style (Netty's `.Beta1`) qualifiers while leaving `-jre`/`.Final` stable.
+    val preReleaseQualifier =
+        Regex("""[.-](rc|beta|alpha|m\d|cr|snapshot|eap|dev|milestone|pre)""", RegexOption.IGNORE_CASE)
+
+    fun isNonStable(version: String): Boolean = preReleaseQualifier.containsMatchIn(version)
+
+    // The doLast below captures libsCatalog at configuration time and reads it in the task
+    // action, which is only safe because this task opts out of the configuration cache.
+    // Keep that opt-out co-located with the capturing action.
+    tasks.withType<DependencyUpdatesTask>().configureEach {
+        notCompatibleWithConfigurationCache("the dependency updates plugin is not compatible with the configuration cache")
+        filterConfigurations = Spec { !it.name.startsWith("test") }
+
+        // Reject a pre-release candidate only when the current version is stable. For
+        // dependencies we intentionally track on a pre-release line (e.g. a detekt
+        // alpha), newer pre-releases are still surfaced as available updates.
+        rejectVersionIf {
+            isNonStable(candidate.version) && !isNonStable(currentVersion)
+        }
+
+        doLast {
+            val pad = testOnlyVersionKeys.maxOf { it.length }
+            logger.lifecycle("")
+            logger.lifecycle("Test-only dependencies not checked above (Gradle 9 + KGP limitation).")
+            logger.lifecycle("Verify these versions manually against their release pages:")
+            testOnlyVersionKeys.forEach { key ->
+                val version = libsCatalog.findVersion(key).orElseThrow().requiredVersion
+                logger.lifecycle("  ${key.padEnd(pad)}  $version")
+            }
+        }
+    }
 }
