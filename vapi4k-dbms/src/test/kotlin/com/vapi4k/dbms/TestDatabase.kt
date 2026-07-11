@@ -21,7 +21,12 @@ object TestDatabase {
 
     val ds = HikariDataSource(
       HikariConfig().apply {
-        jdbcUrl = container.jdbcUrl.replace("jdbc:postgresql://", "jdbc:pgsql://")
+        // Testcontainers appends pgjdbc-only params (e.g. loggerLevel) to the JDBC URL; strip the
+        // query string so they aren't handed to the pgjdbc-ng driver, which logs
+        // "Applying unknown setting" warnings for them.
+        jdbcUrl = container.jdbcUrl
+          .substringBefore("?")
+          .replace("jdbc:postgresql://", "jdbc:pgsql://")
         username = container.username
         password = container.password
         driverClassName = "com.impossibl.postgres.jdbc.PGDriver"
