@@ -36,6 +36,11 @@
         <td><shortcut>https://api.vapi.ai</shortcut></td>
     </tr>
     <tr>
+        <td>DEEPGRAM_PRIVATE_KEY</td>
+        <td>Deepgram private key. Used by web applications with Deepgram voices.</td>
+        <td></td>
+    </tr>
+    <tr>
         <td>IS_PRODUCTION</td>
         <td>Development endpoints and verbose error logging disabled if true.</td>
         <td><shortcut>false</shortcut></td>
@@ -49,6 +54,21 @@
         <td>DEFAULT_SERVER_PATH</td>
         <td>Default value for application <shortcut>serverPath</shortcut> value</td>
         <td><shortcut>/vapi4k</shortcut></td>
+    </tr>
+    <tr>
+        <td>PORT</td>
+        <td>Port the Vapi4k server listens on</td>
+        <td><shortcut>8080</shortcut></td>
+    </tr>
+    <tr>
+        <td>TOOL_CACHE_CLEAN_PAUSE_MINS</td>
+        <td>Interval (in minutes) between tool cache sweep runs</td>
+        <td><shortcut>30</shortcut></td>
+    </tr>
+    <tr>
+        <td>TOOL_CACHE_MAX_AGE_MINS</td>
+        <td>Max age (in minutes) before cache entries are purged</td>
+        <td><shortcut>60</shortcut></td>
     </tr>
 </table>
 

@@ -4,35 +4,75 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [1.7.1] - 2026-05-10
+## [1.8.0] - 2026-07-10
 
 ### Added
 
-- detekt static analysis applied to all publishable subprojects with shared config at
-  `config/detekt/detekt.yml`; `MaxLineLength`, `FunctionOnlyReturningConstant`, `UnusedPrivateProperty`, and
-  `EmptyFunctionBlock` are intentionally disabled (#49)
-- Kover code coverage applied to all publishable subprojects with root-level aggregation (#49)
-- Codecov upload step in the `Run tests` GitHub Actions workflow via `codecov/codecov-action@v5` (#49)
-- Codecov coverage badge in `README.md` (#50)
-- `Makefile` `help` target with auto-discovered descriptions, plus `lint`, `detekt`, and `format` targets (#49)
+- **detekt** static analysis on all publishable subprojects (`vapi4k-core`, `vapi4k-dbms`, `vapi4k-utils`) via an
+  overrides-only `config/detekt/detekt.yml` (`buildUponDefaultConfig = true`); the build fails on any finding
+  (`ignoreFailures = false`). `MaxLineLength`, `FunctionOnlyReturningConstant`, `UnusedPrivateProperty`,
+  `EmptyFunctionBlock`, and others are intentionally disabled (#49, #53)
+- **Kover** code coverage on all publishable subprojects with root-level aggregation
+  (`koverHtmlReport` / `koverXmlReport`) (#49)
+- **Codecov** upload step in the `Run tests` GitHub Actions workflow via `codecov/codecov-action@v5`, plus a coverage
+  badge in `README.md` (#49, #50)
+- Callback dispatch tests (`CallbackDispatchTest`) covering global and per-application request/response fan-out,
+  per-type filtering, and applicationId routing (#55)
+- `ModelSerializerTest` covering all 15 model providers plus the registry-miss error branch (#57)
+- Tests for the tool-call failure path, the admin `validate` route's not-found rendering, and the restructured
+  `FunctionDetails.invokeMethod()` paths (suspend invocation, parameter-not-found, arg-log rendering) (#54, #56)
+- `make help` target with auto-discovered descriptions and a usage header, plus `lint`, `detekt`, and `format`
+  targets (#49, #52)
 
 ### Changed
 
-- Bump kotest from `6.0.0.M4` (milestone) to stable `6.1.11` (#49)
-- Switch `BuildConfig.RELEASE_DATE` and `BuildConfig.BUILD_TIME` to `ValueSource`-backed providers so they
-  refresh on every build instead of being frozen in the configuration cache (#49)
-- Centralize repositories in `settings.gradle.kts`; add explicit GPG key ID to publishing config (#48)
-- Consolidate build configuration and centralize versions in `gradle/libs.versions.toml` (#47)
-
-### Removed
-
-- Unused `extra["versionStr"]` and `extra["releaseDate"]` propagation across modules (#49)
-- Stale `gradle.properties` lines (#49)
+- Upgrade to **Kotlin 2.4.0** (from 2.3.20) and the **Gradle wrapper 9.6.1** (from 9.5.0) (#51, #53)
+- detekt uses the 2.x `dev.detekt` plugin id; `configureDetekt()` adopts the 2.x API (lazy `.set(...)`, reports
+  `checkstyle` / `markdown`), and the config is a minimal overrides file instead of a full copy of detekt's defaults
+  (#53)
+- Swap the dependency-updates plugin from `com.pambrose.stable-versions` to the ben-manes
+  `com.github.ben-manes.versions`; `configureVersions()` rejects pre-release candidates unless the current version is
+  already on a pre-release line, and holds the whole `DependencyUpdatesTask` configuration in a single block so the
+  configuration-cache opt-out sits next to the `doLast` it protects (#53, #58)
+- Enable the Kotlin `-Xreturn-value-checker` on production code (#53)
+- Bump dependencies: Ktor `3.4.2 → 3.5.1`, Kotlinx Serialization `1.10.0 → 1.11.0`, Kotest `6.0.0.M4 → 6.2.2`
+  (milestone → stable), Exposed `1.2.0 → 1.3.1`, Flyway `11.8.0 → 12.11.0`, HikariCP `7.0.2 → 7.1.0`,
+  PostgreSQL `42.7.10 → 42.7.13`, Micrometer `1.16.4 → 1.17.0`, logback `1.5.32 → 1.5.38`,
+  kotlin-logging `8.0.01 → 8.0.4`, common-utils `2.7.1 → 3.1.0` (#49, #51, #53, #58)
+- Reduce cyclomatic complexity of `AdminJobs.startCallbackThread`, `FunctionDetails.invokeMethod()`, and
+  `ModelSerializer.serialize()` by extracting focused helpers and dropping their `@Suppress("CyclomaticComplexMethod")`
+  annotations — no behavior change (#55, #56, #57)
+- Replace `ModelSerializer`'s 15-branch `when` with a `KClass`-keyed serializer registry and promote
+  `assignEnumOverrides()` to a default no-op on `CommonModelDto` so it applies uniformly across model DTOs (#57)
+- Switch `BuildConfig.RELEASE_DATE` and `BuildConfig.BUILD_TIME` to `ValueSource`-backed providers so they refresh on
+  every build instead of being frozen in the configuration cache (#49)
+- Centralize repositories in `settings.gradle.kts` and versions in `gradle/libs.versions.toml`; add an explicit GPG key
+  ID to the publishing config; group the version catalog by purpose (#47, #48, #51)
+- Scope Dokka generation to publishable subprojects (skip `vapi4k-snippets`); enable the Gradle build cache; capitalize
+  the DBMS POM name (#51)
 
 ### Fixed
 
-- Exclude test-prefixed configurations from the ben-manes `dependencyUpdates` task so silently-dropped
-  resolution failures stop hiding test deps from the report (#49)
+- `ValidateApplication`: two `p { ... }` blocks were missing the kotlinx.html `unaryPlus`, so error text rendered as
+  empty `<p>` elements — add the `+` so the message appears (#53)
+- `ToolCallResponse`: use `onFailure` instead of `getOrElse` for the tool-invocation result to express side-effect
+  intent (#53)
+- `SerializationIssue`: make `DataChild` implement the sealed `Child` interface so the `value as DataChild` cast is
+  valid (#53)
+- Exclude test-prefixed configurations from the `dependencyUpdates` task so silently-dropped resolution failures stop
+  hiding test deps from the report (#49)
+- Quiet testcontainers/docker-java wire logging by adding a `vapi4k-dbms` test `logback.xml` and quieting
+  `com.github.dockerjava` in the `vapi4k-core` test logback (#53)
+- `dokkaGenerate` failed with "Circular evaluation detected: extension 'dokka' property 'moduleName'" because the
+  top-level `moduleName` constant was shadowed by the Dokka extension's own `moduleName` property, so
+  `moduleName.set(moduleName)` wired the property to itself; rename the constant to `dokkaModuleName` (#58)
+- Test stderr was silently suppressed: `showStandardStreams = false` removes `STANDARD_ERROR` from the test-logging
+  event set, negating the `STANDARD_ERROR` added on the line above it; drop it so test stderr surfaces (#58)
+
+### Removed
+
+- Unused `extra["versionStr"]` and `extra["releaseDate"]` propagation across modules, and stale `gradle.properties`
+  lines (#49)
 
 ## [1.7.0] - 2026-04-08
 
@@ -257,6 +297,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Prometheus metrics integration
 - Maven Central publishing
 
+[1.8.0]: https://github.com/vapi4k/vapi4k/compare/1.7.0...1.8.0
+[1.7.0]: https://github.com/vapi4k/vapi4k/compare/1.6.2...1.7.0
 [1.6.2]: https://github.com/vapi4k/vapi4k/compare/1.6.1...1.6.2
 [1.6.1]: https://github.com/vapi4k/vapi4k/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/vapi4k/vapi4k/compare/1.5.0...1.6.0

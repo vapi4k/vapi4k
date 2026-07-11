@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with [Vapi.ai](https://vapi.ai). It provides
 type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-**Version:** 1.7.1 (defined in `gradle.properties` via the `version` property)
+**Version:** 1.8.0 (defined in `gradle.properties` via the `version` property)
 **JVM Target:** 17
 
 Key dependency versions are managed in `gradle/libs.versions.toml`.
@@ -106,13 +106,17 @@ Global compiler opt-ins (configured in root `build.gradle.kts`, no per-file anno
   Where suppression at the call site is a better fit, use `@Suppress("RuleName")` instead of editing the global
   config. Note: detekt 2.x renamed packages from `io.gitlab.arturbosch.detekt.*` to `dev.detekt.gradle.*` and
   reworked the config schema (rule `threshold` → `allowedX`; report `xml` → `checkstyle`, `md` → `markdown`); the
-  pinned `2.0.0-alpha.4` is a pre-release.
+  pinned `2.0.0-alpha.5` is a pre-release.
 - **Kover** is applied to the same publishable subprojects, with the root project aggregating reports via
   `kover(project(...))` dependencies. Run `koverHtmlReport` for local browsing or `koverXmlReport` to produce
   `build/reports/kover/report.xml` (the file uploaded to Codecov in CI).
 - **Codecov**: the GitHub Actions `Run tests` workflow runs `./gradlew test koverXmlReport` and uploads the
   aggregated report via `codecov/codecov-action@v5` using `secrets.CODECOV_TOKEN`. Coverage is visible at
   https://codecov.io/gh/vapi4k/vapi4k.
+- **Dependency updates**: `./gradlew dependencyUpdates` runs the ben-manes `com.github.ben-manes.versions` plugin
+  (replacing the former `com.pambrose.stable-versions`). `Project.configureVersions()` in the root build rejects
+  pre-release candidates (`rc`/`beta`/`alpha`/milestone/`snapshot`/`eap`/`dev`/`pre`) **unless the current version is
+  already on a pre-release line** — so a detekt alpha still surfaces newer alphas, while stable deps ignore pre-releases.
 - **BuildConfig**: `vapi4k-core` exposes `BuildConfig.RELEASE_DATE` and `BuildConfig.BUILD_TIME` backed by
   `ValueSource` providers, so they refresh on every build (configuration-cache safe) instead of being frozen
   in the cache.
@@ -279,6 +283,13 @@ The admin UI uses HTMX (CDN) and Bootstrap (bundled static resources under `core
 - `vapi4k-core` uses the `com.github.gmazzo.buildconfig` plugin to generate `BuildConfig` with `APP_NAME`, `VERSION`,
   `RELEASE_DATE`, and `BUILD_TIME` constants
 - Multi-provider abstraction covers 15 model providers, 18 voice providers, and 12 transcriber providers
+- **Dokka gotcha**: the root project's module-name constant is named `dokkaModuleName` (not `moduleName`). Inside a
+  `dokka { }` block the extension has its own `moduleName` property, so a top-level `val moduleName` would be shadowed
+  and `moduleName.set(moduleName)` would wire the property to itself — a "Circular evaluation detected" failure at
+  `dokkaGenerate`. Keep DSL-property names and top-level constants distinct.
+- **Test logging gotcha**: `configureTesting()` lists `STANDARD_ERROR` in `testLogging.events` but does *not* set
+  `showStandardStreams`. Its setter removes both `STANDARD_OUT` and `STANDARD_ERROR` from the event set, so
+  `showStandardStreams = false` after configuring `events` would silently erase the `STANDARD_ERROR` entry.
 
 ## Adding New Providers
 
