@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.1] - 2026-08-01
+
+### Added
+
+- `make depends` target that runs `./gradlew dependencies` to print the project dependency tree (#59)
+
+### Changed
+
+- Bump dependencies: Kotlin `2.4.0 → 2.4.10`, Ktor `3.5.1 → 3.5.2`, logback `1.5.38 → 1.6.1`,
+  Flyway `12.11.0 → 13.1.0`, Kotest `6.2.2 → 6.2.3`, Kover `0.9.8 → 0.9.9`, common-utils `3.1.0 → 3.2.2`,
+  pambrose gradle-plugins `1.1.0 → 1.1.1`, ben-manes versions plugin `0.54.0 → 0.57.0` (#59)
+
+### Fixed
+
+- Point the dependency-updates plugin at its relocated id: `com.github.ben-manes.versions` →
+  `io.github.ben-manes.versions`. The old id is frozen at `0.54.0`, so `dependencyUpdates` was pinned to a stale
+  plugin line (#59)
+
 ## [1.8.0] - 2026-07-10
 
 ### Added
@@ -297,6 +315,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Prometheus metrics integration
 - Maven Central publishing
 
+[1.8.1]: https://github.com/vapi4k/vapi4k/compare/1.8.0...1.8.1
 [1.8.0]: https://github.com/vapi4k/vapi4k/compare/1.7.0...1.8.0
 [1.7.0]: https://github.com/vapi4k/vapi4k/compare/1.6.2...1.7.0
 [1.6.2]: https://github.com/vapi4k/vapi4k/compare/1.6.1...1.6.2
