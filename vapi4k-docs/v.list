@@ -2,7 +2,7 @@
 <!DOCTYPE vars SYSTEM "https://resources.jetbrains.com/writerside/1.0/vars.dtd">
 <vars>
     <var name="product" value="vapi4k"/>
-    <var name="latest_version" value="1.8.0"/>
+    <var name="latest_version" value="1.8.1"/>
     <var name="core_url" value="https://vapi4k.com/kdocs/vapi4k-core/com.vapi4k.api"/>
     <var name="utils_url" value="https://vapi4k.com/kdocs/vapi4k-utils/com.vapi4k.api"/>
 </vars>

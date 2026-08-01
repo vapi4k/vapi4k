@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with [Vapi.ai](https://vapi.ai). It provides
 type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-**Version:** 1.8.0 (defined in `gradle.properties` via the `version` property)
+**Version:** 1.8.1 (defined in `gradle.properties` via the `version` property)
 **JVM Target:** 17
 
 Key dependency versions are managed in `gradle/libs.versions.toml`.
@@ -66,13 +66,16 @@ This is a multi-module Gradle project:
 # Check for dependency updates
 ./gradlew dependencyUpdates
 
+# Show the project dependency tree
+./gradlew dependencies
+
 # Publish to Maven Local
 ./gradlew publishToMavenLocal
 ```
 
 A `Makefile` wraps the most common Gradle invocations. Run `make help` to see the full list — frequently-used
-targets include `make build`, `make tests`, `make lint`, `make detekt`, `make format`, `make kdocs`, and
-`make publish-local`.
+targets include `make build`, `make tests`, `make lint`, `make detekt`, `make format`, `make kdocs`,
+`make depends`, and `make publish-local`.
 
 ## Code Style
 
@@ -113,10 +116,12 @@ Global compiler opt-ins (configured in root `build.gradle.kts`, no per-file anno
 - **Codecov**: the GitHub Actions `Run tests` workflow runs `./gradlew test koverXmlReport` and uploads the
   aggregated report via `codecov/codecov-action@v5` using `secrets.CODECOV_TOKEN`. Coverage is visible at
   https://codecov.io/gh/vapi4k/vapi4k.
-- **Dependency updates**: `./gradlew dependencyUpdates` runs the ben-manes `com.github.ben-manes.versions` plugin
-  (replacing the former `com.pambrose.stable-versions`). `Project.configureVersions()` in the root build rejects
-  pre-release candidates (`rc`/`beta`/`alpha`/milestone/`snapshot`/`eap`/`dev`/`pre`) **unless the current version is
-  already on a pre-release line** — so a detekt alpha still surfaces newer alphas, while stable deps ignore pre-releases.
+- **Dependency updates**: `./gradlew dependencyUpdates` runs the ben-manes versions plugin (replacing the former
+  `com.pambrose.stable-versions`). As of plugin `0.57.0` the id is **`io.github.ben-manes.versions`** — it moved from
+  `com.github.ben-manes.versions`, so the old id resolves to the stale `0.54.0` line and must not be reintroduced.
+  `Project.configureVersions()` in the root build rejects pre-release candidates
+  (`rc`/`beta`/`alpha`/milestone/`snapshot`/`eap`/`dev`/`pre`) **unless the current version is already on a
+  pre-release line** — so a detekt alpha still surfaces newer alphas, while stable deps ignore pre-releases.
 - **BuildConfig**: `vapi4k-core` exposes `BuildConfig.RELEASE_DATE` and `BuildConfig.BUILD_TIME` backed by
   `ValueSource` providers, so they refresh on every build (configuration-cache safe) instead of being frozen
   in the cache.
