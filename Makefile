@@ -1,5 +1,5 @@
 .PHONY: default help stop clean build build-tests cont-build tests \
-	lint format detekt \
+	lint format detekt depends \
 	versions refresh updatedocs kdocs \
 	publish-local publish-local-snapshot \
 	publish-snapshot publish-maven-central upgrade-wrapper \
@@ -46,6 +46,9 @@ format: ## Run kotlinter formatKotlin
 
 detekt: ## Run detekt static analysis
 	./gradlew detekt
+
+depends: ## Show project dependency tree
+	./gradlew dependencies
 
 versions: ## Report dependency updates
 	./gradlew dependencyUpdates --no-configuration-cache --no-parallel
