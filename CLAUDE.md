@@ -17,65 +17,17 @@ Key dependency versions are managed in `gradle/libs.versions.toml`.
 The live Vapi OpenAPI spec is at `https://api.vapi.ai/api-json`. Use it to verify enum values, check for new/removed
 providers, and validate wire values. Enum values in this codebase should match the spec exactly (case-sensitive).
 
-## Module Structure
-
-This is a multi-module Gradle project:
-
-- **vapi4k-utils** - Foundation module with shared utilities (EnvVar, ServerRequestType, common utils). Zero external
-  dependencies besides Kotlin stdlib, logging, and JSON.
-- **vapi4k-core** - Main module containing the Ktor plugin, DSL implementations, and Vapi integration
-- **vapi4k-dbms** - Optional database persistence module for message history (HikariCP + PostgreSQL + Exposed ORM)
-- **vapi4k-snippets** - Example code demonstrating usage patterns (not published as a library)
-
-**Dependencies:** `vapi4k-core` → `vapi4k-utils`, `vapi4k-dbms` → `vapi4k-utils`, `vapi4k-snippets` → `vapi4k-core`
-
 ## Build Commands
 
+A `Makefile` wraps the common Gradle invocations — run `make help` for the full list. Non-obvious invocations:
+
 ```bash
-# Build all modules
-./gradlew build
-
-# Run tests
-./gradlew test
-
-# Run tests for a specific module
-./gradlew :vapi4k-core:test
-
-# Run a single test class
-./gradlew :vapi4k-core:test --tests "com.vapi4k.ApplicationTest"
-
-# Run a single test method (use * for spaces in test names)
+# Run a single test method — use * for the spaces in Kotest test names
 ./gradlew :vapi4k-core:test --tests "com.vapi4k.ApplicationTest.test for serverPath*"
-
-# Lint Kotlin code (kotlinter / ktlint)
-./gradlew lintKotlin
-
-# Format Kotlin code (kotlinter)
-./gradlew formatKotlin
-
-# Run detekt static analysis (fails on any finding)
-./gradlew detekt
-
-# Generate aggregated Kover coverage reports (HTML / XML)
-./gradlew koverHtmlReport
-./gradlew koverXmlReport
-
-# Generate API documentation (outputs to build/kdocs)
-./gradlew dokkaGenerate
-
-# Check for dependency updates
-./gradlew dependencyUpdates
-
-# Show the project dependency tree
-./gradlew dependencies
-
-# Publish to Maven Local
-./gradlew publishToMavenLocal
 ```
 
-A `Makefile` wraps the most common Gradle invocations. Run `make help` to see the full list — frequently-used
-targets include `make build`, `make tests`, `make lint`, `make detekt`, `make format`, `make kdocs`,
-`make depends`, and `make publish-local`.
+Note that `detekt` fails the build on **any** finding, and `dependencyUpdates` must run with
+`--no-configuration-cache --no-parallel`.
 
 ## Code Style
 
@@ -133,34 +85,6 @@ Global compiler opt-ins (configured in root `build.gradle.kts`, no per-file anno
 1. **API Layer** (`com.vapi4k.api.*`) - Public interfaces defining the DSL contract, annotated with `@Vapi4KDslMarker`
 2. **DSL Layer** (`com.vapi4k.dsl.*`) - Concrete implementations with state management and caching
 3. **DTO Layer** (`com.vapi4k.dtos.*`) - Kotlinx serialization models for JSON serialization to Vapi API format
-
-### Ktor Plugin
-
-`Vapi4kServer` (`vapi4k-core/src/main/kotlin/com/vapi4k/plugin/Vapi4kServer.kt`) is the core `ApplicationPlugin`. It
-auto-configures Ktor with WebSocket support, routing, lifecycle events, admin endpoints, and Prometheus metrics.
-`DefaultKtorConfig` (`vapi4k-core/src/main/kotlin/com/vapi4k/server/DefaultKtorConfig.kt`) handles the
-auto-configuration.
-
-### Application Types
-
-Three types, all inheriting from `AbstractApplicationImpl`:
-
-1. **InboundCallApplication** - Incoming phone calls (POST endpoint)
-2. **OutboundCallApplication** - Outgoing calls (GET and POST endpoints)
-3. **WebApplication** - Browser-based voice interactions (GET and POST endpoints)
-
-Defined in `vapi4k-core/src/main/kotlin/com/vapi4k/api/vapi4k/Vapi4kConfig.kt`.
-
-InboundCallApplication also supports **Squads** (multi-assistant configurations) via `squad{}`, `squadId{}`,
-`assistantId{}`, plus `numberDestination{}` and `sipDestination{}` for immediate call transfer.
-
-### Request/Response Flow
-
-1. **RequestContext** - Session ID, timestamp, request type, phone number metadata
-2. **ServerRequestType** - 14 message types (`ASSISTANT_REQUEST`, `TOOL_CALL`, `FUNCTION_CALL`, `END_OF_CALL_REPORT`,
-   `CONVERSATION_UPDATE`, `STATUS_UPDATE`, `TRANSCRIPT`, `SPEECH_UPDATE`, `TRANSFER_DESTINATION_REQUEST`, `HANG`,
-   `USER_INTERRUPTED`, `ASSISTANT_STARTED`, `PHONE_CALL_CONTROL`, `UNKNOWN_REQUEST_TYPE`)
-3. **ResponseContext** - Wraps response with timing and request reference
 
 ### Callback Pipeline
 
@@ -238,40 +162,15 @@ throughout core and tests.
 
 ## Environment Variables
 
-Defined in `vapi4k-core/src/main/kotlin/com/vapi4k/common/CoreEnvVars.kt`. Values are read from `System.getenv()` first,
-then fall back to HOCON config (`application.conf`).
+Defined in `vapi4k-core/src/main/kotlin/com/vapi4k/common/CoreEnvVars.kt` (plus `DBMS_*` for vapi4k-dbms). Values are
+read from `System.getenv()` first, then fall back to HOCON config (`application.conf`) — that fallback is easy to miss
+when a var appears unset.
 
-| Variable                      | Default                 | Description                               |
-|-------------------------------|-------------------------|-------------------------------------------|
-| `IS_PRODUCTION`               | `false`                 | Disables admin endpoints when `true`      |
-| `VAPI4K_BASE_URL`             | `http://localhost:8080` | Server base URL                           |
-| `DEFAULT_SERVER_PATH`         | `/vapi4k`               | Default server path                       |
-| `VAPI_BASE_URL`               | `https://api.vapi.ai`   | Vapi API base URL                         |
-| `VAPI_PRIVATE_KEY`            | `""`                    | Vapi API private key (masked in logs)     |
-| `VAPI_PUBLIC_KEY`             | `""`                    | Vapi API public key                       |
-| `VAPI_PHONE_NUMBER_ID`        | `""`                    | Phone number ID                           |
-| `DEEPGRAM_PRIVATE_KEY`        | `""`                    | Deepgram API key (masked in logs)         |
-| `ADMIN_PASSWORD`              | `"admin"`               | Admin dashboard password (masked in logs) |
-| `PORT`                        | `8080`                  | Server port                               |
-| `TOOL_CACHE_CLEAN_PAUSE_MINS` | `30`                    | Interval between cache sweep runs         |
-| `TOOL_CACHE_MAX_AGE_MINS`     | `60`                    | Max age before cache entries are purged   |
+## Admin Endpoints
 
-Database variables (for vapi4k-dbms): `DBMS_DRIVER_CLASSNAME`, `DBMS_URL`, `DBMS_USERNAME`, `DBMS_PASSWORD`,
-`DBMS_MAX_POOL_SIZE`, `DBMS_MAX_LIFETIME_MINS`.
-
-## Admin Endpoints (Non-Production)
-
-When `IS_PRODUCTION` is not `true`:
-
-- `/admin` - Dashboard (HTTP Basic Auth, user `admin`, password from `ADMIN_PASSWORD`)
-- `/caches`, `/clear-caches` - Cache inspection/clearing
-- `/invokeTool`, `/validate` - Tool invocation/validation UI
-- `/env`, `/admin-env-vars` - Environment variable viewer
-- `/admin-log` - WebSocket live log streaming
-
-Always available: `/ping` (returns `"pong"`), `/version` (JSON version info).
-
-The admin UI uses HTMX (CDN) and Bootstrap (bundled static resources under `core_static/`, `bootstrap/`, `prism/`).
+The admin UI (dashboard, cache inspection, tool validation, live log streaming) is registered **only when
+`IS_PRODUCTION` is not `true`**; `/ping` and `/version` are always available. The UI pulls HTMX from a CDN and bundles
+Bootstrap under `core_static/`, `bootstrap/`, `prism/`.
 
 ## Code Organization Conventions
 
@@ -298,34 +197,13 @@ The admin UI uses HTMX (CDN) and Bootstrap (bundled static resources under `core
 
 ## Adding New Providers
 
-Each model provider requires 5 files following the GroqModel template:
-1. `api/model/XxxModel.kt` — Interface extending `XxxModelProperties` + `CommonModelProperties`, annotated `@Vapi4KDslMarker`
-2. `api/model/XxxModelType.kt` — Enum with `desc: String` constructor, `UNSPECIFIED(UNSPECIFIED_DEFAULT)`, `isSpecified()`/`isNotSpecified()`
-3. `dsl/model/XxxModelProperties.kt` — Interface with `modelType`, `customModel`, `emotionRecognitionEnabled`, `maxTokens`, `numFastTurns`, `temperature`, `toolIds`
-4. `dsl/model/XxxModelImpl.kt` — Internal class extending `AbstractModelImpl`, delegating properties `by modelDto`
-5. `dtos/model/XxxModelDto.kt` — `@Serializable` data class with `@EncodeDefault` provider, `assignEnumOverrides()`, `verifyValues()`
-
-Plus wiring in: `ModelType` enum, `AssistantModels` interface, `AbstractAssistantImpl` builders, `CommonModelDto` serializer.
-
-Voice providers follow the same pattern with 5 files (replace "model" with "voice"), using `CommonVoiceDto` and `AssistantVoices`.
+See the `adding-a-provider` skill (`.claude/skills/adding-a-provider/SKILL.md`) for the per-provider file set and the
+wiring points that are easy to miss.
 
 ## Testing
 
-Kotest 6 (`StringSpec` with `init {}`) + Kotest assertions + Ktor test host.
-
-All test classes extend `StringSpec()` and define tests as string-named lambdas inside an `init {}` block:
-
-```kotlin
-class MyTest : StringSpec() {
-  init {
-    "test name" {
-      result shouldBe expected
-    }
-  }
-}
-```
-
-Use `shouldBe`, `shouldContain`, `shouldThrow<T>`, `shouldNotBe`, etc. from `io.kotest.matchers.*`.
+Kotest 6 (`StringSpec` with `init {}`) + Kotest assertions + Ktor test host. All test classes extend `StringSpec()` and
+define tests as string-named lambdas inside an `init {}` block.
 
 - `vapi4k-core/src/test/kotlin/com/vapi4k/` - Unit tests for DSL builders, serialization, utilities
 - `vapi4k-core/src/test/kotlin/simpledemo/` - Example applications and integration tests
