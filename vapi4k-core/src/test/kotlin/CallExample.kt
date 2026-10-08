@@ -14,7 +14,7 @@
  *
  */
 
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.dsl.call.VapiApiImpl.Companion.vapiApi
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.runBlocking
@@ -33,7 +33,7 @@ object CallExample {
 
     runBlocking {
       println("Call status: ${callResp.status}")
-      println("Call response: ${callResp.bodyAsText().toJsonElement()}")
+      println("Call response: ${callResp.bodyAsText().parseJson()}")
     }
 
 //    val listResp = api.list(ASSISTANTS)

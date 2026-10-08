@@ -16,7 +16,7 @@
 
 package com.vapi4k.console
 
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.common.ApplicationName.Companion.toApplicationName
 import com.vapi4k.common.AssistantId.Companion.EMPTY_ASSISTANT_ID
 import com.vapi4k.common.Constants.APP_NAME
@@ -147,7 +147,7 @@ internal object ValidateApplication {
     val request = runCatching {
       resourceFile(REQUEST_VALIDATION_FILENAME.value)
     }.getOrElse { ASSISTANT_REQUEST_JSON }
-    return copyWithNewCallId(request.toJsonElement(verbose))
+    return copyWithNewCallId(request.parseJson(verbose))
   }
 
   private fun copyWithNewCallId(je: JsonElement): JsonElement =

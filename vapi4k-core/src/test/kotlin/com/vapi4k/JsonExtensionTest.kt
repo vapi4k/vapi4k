@@ -18,8 +18,8 @@ package com.vapi4k
 
 import com.pambrose.common.json.get
 import com.pambrose.common.json.jsonElementList
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.stringValue
-import com.pambrose.common.json.toJsonElement
 import com.vapi4k.utils.JsonUtils.toObjectList
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -306,24 +306,24 @@ class JsonExtensionTest : StringSpec() {
 
   init {
     "testStringValue" {
-      val obj = json.toJsonElement()
+      val obj = json.parseJson()
       obj["message"]["type"].stringValue shouldBe "tool-calls"
       obj.stringValue("message.type") shouldBe "tool-calls"
     }
 
     "testPathVarargs" {
-      val obj = json.toJsonElement()
+      val obj = json.parseJson()
       obj["message", "type"].stringValue shouldBe "tool-calls"
       obj.stringValue("message.type") shouldBe "tool-calls"
     }
 
     "testPathString" {
-      val obj = json.toJsonElement()
+      val obj = json.parseJson()
       obj.stringValue("message.type") shouldBe "tool-calls"
     }
 
     "testArrayValues" {
-      val obj = json.toJsonElement()
+      val obj = json.parseJson()
       obj.jsonElementList("message.toolWithToolCallList").size shouldBe 1
     }
 
@@ -354,7 +354,7 @@ class JsonExtensionTest : StringSpec() {
         val secret: String,
       )
 
-      val jsonElement = str.toJsonElement()
+      val jsonElement = str.parseJson()
       val servers = jsonElement["servers"].toObjectList<Server>()
     }
   }

@@ -157,7 +157,7 @@ custom `KSerializer` — they use the standard pattern but without the sentinel 
 ### External JSON Utilities
 
 The codebase heavily uses `com.pambrose.common-utils:json-utils` (imported as `utils-json` in the version
-catalog). Provides `toJsonElement()`, `toJsonString()`, dot-path access (`stringValue("a.b.c")`), and more. Imported
+catalog). Provides `parseJson()`, `toJsonString()`, dot-path access (`stringValue("a.b.c")`), and more. Imported
 throughout core and tests.
 
 ## Environment Variables

@@ -16,7 +16,7 @@
 
 package applications
 
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.dsl.call.VapiApiImpl.Companion.vapiApi
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.runBlocking
@@ -40,6 +40,6 @@ fun outboundCallExample() {
 
   runBlocking {
     println("Call status: ${response.status}")
-    println("Call response: ${response.bodyAsText().toJsonElement()}")
+    println("Call response: ${response.bodyAsText().parseJson()}")
   }
 }

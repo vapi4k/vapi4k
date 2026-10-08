@@ -16,7 +16,7 @@
 
 package com.vapi4k.console
 
-import com.pambrose.common.json.toJsonString
+import com.pambrose.common.json.reformatJson
 import com.vapi4k.common.CssNames.ACTIVE
 import com.vapi4k.common.CssNames.ERROR_MSG
 import com.vapi4k.common.CssNames.FUNCTIONS
@@ -175,7 +175,7 @@ object ValidateAssistant {
           // "line-numbers" is added in the JS code. It is a work-around for it getting dropped on the 2nd selection
           classes = setOf("language-json", "match-braces")
           id = "response-main"
-          +responseBody.toJsonString()
+          +responseBody.reformatJson()
         }
       }
     }
