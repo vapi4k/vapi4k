@@ -1,5 +1,5 @@
 .PHONY: default help stop clean build build-tests cont-build tests \
-	lint format detekt depends \
+	lint format detekt zizmor depends \
 	versions refresh updatedocs kdocs \
 	publish-local publish-local-snapshot \
 	publish-snapshot publish-maven-central upgrade-wrapper \
@@ -7,6 +7,8 @@
 
 VERSION := $(shell grep '^version=' gradle.properties | cut -d= -f2)
 GRADLE_VERSION := $(shell grep '^gradle-wrapper =' gradle/libs.versions.toml | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?')
+
+GRADLE := ./gradlew
 
 GPG_ENV := \
 	ORG_GRADLE_PROJECT_signingInMemoryKey="$$(gpg --armor --export-secret-keys $$GPG_SIGNING_KEY_ID)" \
@@ -20,66 +22,69 @@ help:  ## Show this help (list of targets)
 		/^[a-zA-Z0-9_-]+:.*?## / {printf "  \033[36m%-22s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 stop: ## Stop running Gradle daemons
-	./gradlew --stop
+	$(GRADLE) --stop
 
 clean: ## Remove root build/ and run gradle clean
 	rm -rf build/
-	./gradlew clean
+	$(GRADLE) clean
 
 build: clean ## Compile and assemble all modules (skips tests)
-	./gradlew build -x test
+	$(GRADLE) build -x test
 
 build-tests: ## Compile test sources only
-	./gradlew compileTestKotlin
+	$(GRADLE) compileTestKotlin
 
 cont-build: ## Continuous build watch (skips tests)
-	./gradlew -t build -x test
+	$(GRADLE) -t build -x test
 
 tests: ## Re-run the full check suite (tests, lint, etc.)
-	./gradlew --rerun-tasks check
+	$(GRADLE) --rerun-tasks check
 
 lint: ## Run kotlinter lintKotlin then detekt
-	./gradlew lintKotlin detekt
+	$(GRADLE) lintKotlin detekt
 
 format: ## Run kotlinter formatKotlin
-	./gradlew formatKotlin
+	$(GRADLE) formatKotlin
 
 detekt: ## Run detekt static analysis
-	./gradlew detekt
+	$(GRADLE) detekt
+
+zizmor: ## Audit GitHub Actions workflows with zizmor
+	zizmor .
 
 depends: ## Show project dependency tree
-	./gradlew dependencies
+	$(GRADLE) dependencies
 
 versions: ## Report dependency updates
-	./gradlew dependencyUpdates --no-configuration-cache --no-parallel
+	$(GRADLE) dependencyUpdates --no-configuration-cache --no-parallel
 
 refresh: ## Refresh deps and report updates
-	./gradlew --refresh-dependencies dependencyUpdates --no-configuration-cache
+	$(GRADLE) --refresh-dependencies dependencyUpdates --no-configuration-cache
 
 updatedocs: ## Run bin/update-docs.sh
 	./bin/update-docs.sh
 
 kdocs: ## Generate KDoc HTML via Dokka
-	./gradlew :dokkaGenerate
+	$(GRADLE) :dokkaGenerate
 
 publish-local: _require-version ## Publish all artifacts to ~/.m2 (Maven Local)
-	./gradlew publishToMavenLocal
+	$(GRADLE) publishToMavenLocal
 
 publish-local-snapshot: _require-version ## Publish -SNAPSHOT artifacts to ~/.m2/repositories
-	./gradlew -PoverrideVersion=$(VERSION)-SNAPSHOT publishToMavenLocal
+	$(GRADLE) -PoverrideVersion=$(VERSION)-SNAPSHOT publishToMavenLocal
 
 publish-snapshot: _require-version _check-gpg-env ## Publish -SNAPSHOT artifacts to Maven Central
-	$(GPG_ENV) ./gradlew -PoverrideVersion=$(VERSION)-SNAPSHOT publishToMavenCentral
+	$(GPG_ENV) $(GRADLE) -PoverrideVersion=$(VERSION)-SNAPSHOT publishToMavenCentral
 
 publish-maven-central: _require-version _check-gpg-env ## Publish and release to Maven Central
-	$(GPG_ENV) ./gradlew publishAndReleaseToMavenCentral
+	$(GPG_ENV) $(GRADLE) publishAndReleaseToMavenCentral
 
 # Gradle's documented upgrade procedure: the first run rewrites
 # gradle-wrapper.properties using the *old* wrapper jar; the second run
 # regenerates the wrapper itself with the new version.
 upgrade-wrapper: _require-gradle-version ## Upgrade the Gradle wrapper to the version in libs.versions.toml
-	./gradlew wrapper --gradle-version=$(GRADLE_VERSION) --distribution-type=bin
-	./gradlew wrapper --gradle-version=$(GRADLE_VERSION) --distribution-type=bin
+	$(GRADLE) wrapper --gradle-version=$(GRADLE_VERSION) --distribution-type=bin
+	$(GRADLE) wrapper --gradle-version=$(GRADLE_VERSION) --distribution-type=bin
 
 _check-gpg-env:
 	@if [ -z "$$GPG_SIGNING_KEY_ID" ]; then \

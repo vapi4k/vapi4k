@@ -20,7 +20,7 @@ import com.pambrose.common.json.containsKeys
 import com.pambrose.common.json.get
 import com.pambrose.common.json.jsonElementList
 import com.pambrose.common.json.stringValueOrNull
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.toJsonElementList
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.isToolCall
 import kotlinx.serialization.json.Json
@@ -61,7 +61,7 @@ object JsonUtils {
     else
       error("JsonElement is not a tool call request")
 
-  val EMPTY_JSON_ELEMENT = "{}".toJsonElement()
+  val EMPTY_JSON_ELEMENT = "{}".parseJson()
 
   internal fun JsonElement.getToolNames(key: String) =
     if (containsKeys("$key.tools"))

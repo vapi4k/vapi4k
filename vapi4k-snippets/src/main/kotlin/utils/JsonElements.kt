@@ -18,7 +18,7 @@ package utils
 
 import com.pambrose.common.json.keys
 import com.pambrose.common.json.stringValue
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.toJsonString
 import com.pambrose.common.json.get
 import kotlinx.serialization.json.JsonElement
@@ -44,7 +44,7 @@ object JsonElements {
     """
 
     // Convert the json string to a JsonElement
-    val je: JsonElement = json.toJsonElement()
+    val je: JsonElement = json.parseJson()
 
     println(je.keys) // [person]
 

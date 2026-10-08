@@ -17,7 +17,7 @@
 package com.vapi4k.plugin
 
 import com.pambrose.common.json.defaultJsonConfig
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.BuildConfig
 import com.vapi4k.api.vapi4k.Vapi4kConfig
 import com.vapi4k.common.Constants.APP_NAME
@@ -212,7 +212,7 @@ val Vapi4k: ApplicationPlugin<Vapi4kConfig> =
                 outboundCallAndWebRequest(config, application, request)
               }
               post {
-                val json = call.receive<String>().toJsonElement(config.isVerbose)
+                val json = call.receive<String>().parseJson(config.isVerbose)
                 val request = buildRequestArg(json)
                 outboundCallAndWebRequest(config, application, request)
               }

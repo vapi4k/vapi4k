@@ -19,7 +19,7 @@ package com.vapi4k
 import ch.qos.logback.classic.Logger
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.read.ListAppender
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.api.tools.ToolCall
 import com.vapi4k.api.toolservice.ToolCallService
 import com.vapi4k.api.vapi4k.RequestContext
@@ -143,7 +143,7 @@ class FunctionDetailsTest : StringSpec() {
     val app = InboundCallApplicationImpl()
     return RequestContextImpl(
       application = app,
-      request = """{"message":{"type":"tool-calls"}}""".toJsonElement(),
+      request = """{"message":{"type":"tool-calls"}}""".parseJson(),
       sessionId = "test-session".toSessionId(),
       assistantId = "test-assistant".toAssistantId(),
     )
@@ -160,7 +160,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = StringService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"name":"World"}""".toJsonElement()
+      val args = """{"name":"World"}""".parseJson()
       var result = ""
 
       details.invokeToolMethod(
@@ -179,7 +179,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = UnitService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{}""".toJsonElement()
+      val args = """{}""".parseJson()
       var result = "not-set"
 
       details.invokeToolMethod(
@@ -197,7 +197,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = IntService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"a":3,"b":4}""".toJsonElement()
+      val args = """{"a":3,"b":4}""".parseJson()
       var result = ""
 
       details.invokeToolMethod(
@@ -215,7 +215,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = ThrowingService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{}""".toJsonElement()
+      val args = """{}""".parseJson()
       var errorResult = ""
 
       details.invokeToolMethod(
@@ -233,7 +233,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = ContextService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"name":"Alice"}""".toJsonElement()
+      val args = """{"name":"Alice"}""".parseJson()
       var result = ""
 
       details.invokeToolMethod(
@@ -251,7 +251,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = CompleteService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"city":"Boston"}""".toJsonElement()
+      val args = """{"city":"Boston"}""".parseJson()
       val messageDtos = mutableListOf<CommonToolMessageDto>()
       var result = ""
 
@@ -272,7 +272,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = FailingToolCallService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{}""".toJsonElement()
+      val args = """{}""".parseJson()
       val messageDtos = mutableListOf<CommonToolMessageDto>()
       var errorResult = ""
 
@@ -293,7 +293,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = StringService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"name":"Test"}""".toJsonElement()
+      val args = """{"name":"Test"}""".parseJson()
 
       details.invokeCount shouldBe 0
 
@@ -327,7 +327,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = DoubleService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"width":3.5,"height":2.0}""".toJsonElement()
+      val args = """{"width":3.5,"height":2.0}""".parseJson()
       var result = ""
 
       details.invokeToolMethod(
@@ -345,7 +345,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = BooleanService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"age":21,"hasLicense":true}""".toJsonElement()
+      val args = """{"age":21,"hasLicense":true}""".parseJson()
       var result = ""
 
       details.invokeToolMethod(
@@ -363,7 +363,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = BooleanService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"age":15,"hasLicense":false}""".toJsonElement()
+      val args = """{"age":15,"hasLicense":false}""".parseJson()
       var result = ""
 
       details.invokeToolMethod(
@@ -381,7 +381,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = SuspendService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"name":"World"}""".toJsonElement()
+      val args = """{"name":"World"}""".parseJson()
       var result = ""
 
       details.invokeToolMethod(
@@ -399,7 +399,7 @@ class FunctionDetailsTest : StringSpec() {
       val service = StringService()
       val details = createFunctionDetails(service)
       val requestContext = createRequestContext()
-      val args = """{"unknown":"x"}""".toJsonElement()
+      val args = """{"unknown":"x"}""".parseJson()
       var errorResult = ""
 
       details.invokeToolMethod(
@@ -422,7 +422,7 @@ class FunctionDetailsTest : StringSpec() {
           details.invokeToolMethod(
             isTool = true,
             requestContext = requestContext,
-            invokeArgs = """{}""".toJsonElement(),
+            invokeArgs = """{}""".parseJson(),
             successAction = {},
             errorAction = {},
           )
@@ -440,7 +440,7 @@ class FunctionDetailsTest : StringSpec() {
           details.invokeToolMethod(
             isTool = true,
             requestContext = requestContext,
-            invokeArgs = """{"a":3,"b":4}""".toJsonElement(),
+            invokeArgs = """{"a":3,"b":4}""".parseJson(),
             successAction = {},
             errorAction = {},
           )
@@ -458,7 +458,7 @@ class FunctionDetailsTest : StringSpec() {
           details.invokeToolMethod(
             isTool = true,
             requestContext = requestContext,
-            invokeArgs = """{"name":"Alice"}""".toJsonElement(),
+            invokeArgs = """{"name":"Alice"}""".parseJson(),
             successAction = {},
             errorAction = {},
           )

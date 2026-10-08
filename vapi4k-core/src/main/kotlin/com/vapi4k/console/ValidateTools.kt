@@ -21,7 +21,7 @@ import com.pambrose.common.json.get
 import com.pambrose.common.json.jsonElementList
 import com.pambrose.common.json.keys
 import com.pambrose.common.json.stringValue
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.common.AssistantId
 import com.vapi4k.common.AssistantId.Companion.EMPTY_ASSISTANT_ID
 import com.vapi4k.common.AssistantId.Companion.getAssistantIdFromSuffix
@@ -84,7 +84,7 @@ object ValidateTools {
     requestContext: RequestContextImpl,
     verbose: Boolean,
   ) {
-    val topLevel = responseBody.toJsonElement(verbose)
+    val topLevel = responseBody.parseJson(verbose)
     // Strip messageResponse if it exists
     val child = if (topLevel.containsKeys("messageResponse")) topLevel["messageResponse"] else topLevel
     when {
@@ -118,7 +118,7 @@ object ValidateTools {
       }
 
       else -> {
-        logger.error { "Unknown response type: ${responseBody.toJsonElement(verbose).keys}" }
+        logger.error { "Unknown response type: ${responseBody.parseJson(verbose).keys}" }
       }
     }
   }

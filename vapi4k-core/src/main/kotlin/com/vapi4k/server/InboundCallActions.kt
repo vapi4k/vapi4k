@@ -16,6 +16,7 @@
 
 package com.vapi4k.server
 
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.toJsonElement
 import com.vapi4k.api.vapi4k.ServerRequestType.ASSISTANT_REQUEST
 import com.vapi4k.api.vapi4k.ServerRequestType.Companion.serverRequestType
@@ -61,7 +62,7 @@ internal object InboundCallActions {
     // logger.info { "Inbound call request: $postObj" }
     val requestContext = RequestContextImpl(
       application = application,
-      request = postObj.toJsonElement(config.isVerbose),
+      request = postObj.parseJson(config.isVerbose),
       sessionId = call.getQueryParam(SESSION_ID)?.toSessionId() ?: INBOUND_CALL.getRandomSessionId(),
       assistantId = call.getQueryParam(ASSISTANT_ID)?.toAssistantId() ?: EMPTY_ASSISTANT_ID,
     )

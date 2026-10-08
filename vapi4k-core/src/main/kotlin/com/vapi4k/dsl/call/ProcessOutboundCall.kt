@@ -18,6 +18,7 @@ package com.vapi4k.dsl.call
 
 import com.pambrose.common.json.get
 import com.pambrose.common.json.keys
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.toJsonElement
 import com.vapi4k.api.call.OutboundCall
 import com.vapi4k.api.call.Phone
@@ -98,7 +99,7 @@ object ProcessOutboundCall {
         }
       }
 
-      val assistantJson = assistantResponse.bodyAsText().toJsonElement(verbose)
+      val assistantJson = assistantResponse.bodyAsText().parseJson(verbose)
 
       val outboundDto = (outboundCall as OutboundCallImpl).outboundCallRequestDto
       val outboundJson = outboundDto.toJsonElement()

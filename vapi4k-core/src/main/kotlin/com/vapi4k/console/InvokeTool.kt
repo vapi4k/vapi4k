@@ -16,6 +16,7 @@
 
 package com.vapi4k.console
 
+import com.pambrose.common.json.reformatJson
 import com.pambrose.common.json.toJsonString
 import com.vapi4k.common.ApplicationId.Companion.toApplicationId
 import com.vapi4k.common.AssistantId.Companion.toAssistantId
@@ -75,7 +76,7 @@ object InvokeTool {
             setBody((requestContext.request as JsonObject).toJsonString<JsonObject>(false))
           }
         }
-      response.bodyAsText().toJsonString()
+      response.bodyAsText().reformatJson()
     }.getOrElse { e ->
       logger.error(e) { "Error validating tool invoke request" }
       e.toErrorString()

@@ -16,7 +16,7 @@
 
 package com.vapi4k.console
 
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.toJsonString
 import com.vapi4k.common.Version.Companion.versionDesc
 import com.vapi4k.console.ValidateAssistant.navBar
@@ -65,7 +65,7 @@ object ConsoleInfo {
       navBar { singleNavItem("System Info") }
       div {
         id = "version-info"
-        val json = Vapi4kServer::class.versionDesc(true).toJsonElement()
+        val json = Vapi4kServer::class.versionDesc(true).parseJson()
         for ((key, value) in json.jsonObject) {
           h5 { +"$key: $value" }
         }
