@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with [Vapi.ai](https://vapi.ai). It provides
 type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-**Version:** 1.8.1 (defined in `gradle.properties` via the `version` property)
+**Version:** 1.8.2 (defined in `gradle.properties` via the `version` property)
 **JVM Target:** 17
 
 Key dependency versions are managed in `gradle/libs.versions.toml`.
@@ -61,19 +61,30 @@ Global compiler opt-ins (configured in root `build.gradle.kts`, no per-file anno
   Where suppression at the call site is a better fit, use `@Suppress("RuleName")` instead of editing the global
   config. Note: detekt 2.x renamed packages from `io.gitlab.arturbosch.detekt.*` to `dev.detekt.gradle.*` and
   reworked the config schema (rule `threshold` → `allowedX`; report `xml` → `checkstyle`, `md` → `markdown`); the
-  pinned `2.0.0-alpha.5` is a pre-release.
+  pinned `2.0.0-alpha.6` is a pre-release.
 - **Kover** is applied to the same publishable subprojects, with the root project aggregating reports via
   `kover(project(...))` dependencies. Run `koverHtmlReport` for local browsing or `koverXmlReport` to produce
   `build/reports/kover/report.xml` (the file uploaded to Codecov in CI).
 - **Codecov**: the GitHub Actions `Run tests` workflow runs `./gradlew test koverXmlReport` and uploads the
-  aggregated report via `codecov/codecov-action@v5` using `secrets.CODECOV_TOKEN`. Coverage is visible at
+  aggregated report via `codecov/codecov-action` using `secrets.CODECOV_TOKEN`. Coverage is visible at
   https://codecov.io/gh/vapi4k/vapi4k.
+- **GitHub Actions security**: `make zizmor` audits `.github/` (workflows and `dependabot.yml`) with
+  [zizmor](https://docs.zizmor.sh); the `zizmor.yml` workflow runs the same audit in CI and uploads SARIF to
+  Security → Code scanning, so findings show there rather than failing the job. Workflows follow its rules: every
+  action pinned to a commit SHA with a `# vX.Y.Z` comment, `permissions: { }` at the workflow level with per-job
+  grants, and `persist-credentials: false` on checkouts. Keep new workflows to the same standard.
+- **Dependabot** (`.github/dependabot.yml`) opens weekly PRs for GitHub Actions (one grouped PR) and Gradle (minor
+  and patch grouped, each major on its own), after a 7-day cooldown. It moves an action's SHA and version comment
+  together. Its Gradle wrapper bumps don't touch the `gradle-wrapper` entry in `libs.versions.toml` that
+  `make upgrade-wrapper` reads: update that entry with the bump, or the target will downgrade Gradle.
 - **Dependency updates**: `./gradlew dependencyUpdates` runs the ben-manes versions plugin (replacing the former
   `com.pambrose.stable-versions`). As of plugin `0.57.0` the id is **`io.github.ben-manes.versions`** — it moved from
   `com.github.ben-manes.versions`, so the old id resolves to the stale `0.54.0` line and must not be reintroduced.
   `Project.configureVersions()` in the root build rejects pre-release candidates
   (`rc`/`beta`/`alpha`/milestone/`snapshot`/`eap`/`dev`/`pre`) **unless the current version is already on a
   pre-release line** — so a detekt alpha still surfaces newer alphas, while stable deps ignore pre-releases.
+  It also sets an `outputFormatter` that prints only outdated and unresolvable dependencies (`make versions`);
+  `make versions-all` passes `--output-formatter=plain`, which overrides it with the plugin's full report.
 - **BuildConfig**: `vapi4k-core` exposes `BuildConfig.RELEASE_DATE` and `BuildConfig.BUILD_TIME` backed by
   `ValueSource` providers, so they refresh on every build (configuration-cache safe) instead of being frozen
   in the cache.
@@ -158,7 +169,13 @@ custom `KSerializer` — they use the standard pattern but without the sentinel 
 
 The codebase heavily uses `com.pambrose.common-utils:json-utils` (imported as `utils-json` in the version
 catalog). Provides `parseJson()`, `toJsonString()`, dot-path access (`stringValue("a.b.c")`), and more. Imported
-throughout core and tests.
+throughout core and tests. `vapi4k-utils` exports it as an `api` dependency, so its API changes reach consumers.
+
+On a `String`, use `parseJson()` to parse and `reformatJson()` to re-encode: `String.toJsonElement()` and
+`String.toJsonString()` are deprecated in 5.x. Migrate such calls rather than suppress the warning: once the `String`
+overloads are removed, `"...".toJsonElement()` will still compile against the generic `T.toJsonElement()`, which
+encodes the string as a JSON string literal instead of parsing it. An import names every overload, so keep
+`import com.pambrose.common.json.toJsonString` while a `JsonElement.toJsonString()` call still needs it.
 
 ## Environment Variables
 

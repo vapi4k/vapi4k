@@ -2,9 +2,9 @@
 
 > Vapi4k is a Ktor plugin and Kotlin DSL for building voice AI applications with Vapi.ai. It provides type-safe builders for configuring assistants, tools, models, voices, and call workflows.
 
-Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.8.1.
+Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.8.2.
 
-Key dependency versions: Kotlin 2.4.10, Ktor 3.5.2, Kotlinx Serialization 1.11.0, Exposed 1.3.1, Kotest 6.2.3.
+Key dependency versions: Kotlin 2.4.21, Ktor 3.6.0, Kotlinx Serialization 1.11.0, Exposed 1.5.1, Kotest 6.2.5.
 
 ## Modules
 
@@ -13,6 +13,10 @@ Key dependency versions: Kotlin 2.4.10, Ktor 3.5.2, Kotlinx Serialization 1.11.0
 - **vapi4k-utils**: Foundation module with shared utilities; zero external dependencies besides Kotlin stdlib, logging, and JSON
 
 Dependencies: vapi4k-core depends on vapi4k-utils; vapi4k-dbms depends on vapi4k-utils.
+
+## JSON helpers
+
+vapi4k-utils exports common-utils' `json-utils` (5.x) as an `api` dependency. Parse JSON text with `String.parseJson()` and re-encode it with `String.reformatJson()`; `String.toJsonElement()` and `String.toJsonString()` are deprecated, and the generic `T.toJsonElement()` encodes a `String` as a JSON string literal rather than parsing it. `JsonElement` helpers include `keys`, dot-path access such as `stringValue("a.b.c")`, `intValue`, and `longValue`.
 
 ## Features
 
@@ -30,9 +34,9 @@ Published to Maven Central under group `com.vapi4k`. Artifacts: `vapi4k-core`, `
 
 ```
 dependencies {
-  implementation("com.vapi4k:vapi4k-core:1.8.1")
+  implementation("com.vapi4k:vapi4k-core:1.8.2")
   // Optional: database persistence
-  implementation("com.vapi4k:vapi4k-dbms:1.8.1")
+  implementation("com.vapi4k:vapi4k-dbms:1.8.2")
 }
 ```
 
@@ -42,6 +46,8 @@ dependencies {
 - Code style via kotlinter (`./gradlew lintKotlin` / `formatKotlin`)
 - Coverage via [Kover](https://github.com/Kotlin/kotlinx-kover) with aggregated reports at the root (`./gradlew koverHtmlReport`)
 - Coverage uploaded to [Codecov](https://codecov.io/gh/vapi4k/vapi4k) from CI on every push and PR
+- GitHub Actions workflows audited by [zizmor](https://docs.zizmor.sh) in CI and with `make zizmor`; every action is pinned to a commit SHA
+- Dependabot proposes weekly updates for the GitHub Actions and the Gradle dependencies
 
 ## Links
 

@@ -4,6 +4,49 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.8.2] - 2026-10-13
+
+### Added
+
+- `make zizmor` target and a `zizmor` workflow that audit the GitHub Actions workflows and the Dependabot config with
+  [zizmor](https://docs.zizmor.sh); CI uploads the findings to GitHub code scanning (#62)
+- Dependabot version updates, weekly with a 7-day cooldown: GitHub Actions in one grouped PR (#62), and the Gradle
+  dependencies, plugins and wrapper, with minor and patch updates grouped and each major update in a PR of its own
+- `make versions-all` target that prints the dependency-updates plugin's full report
+
+### Changed
+
+- Bump dependencies: Kotlin `2.4.10 → 2.4.21`, Ktor `3.5.2 → 3.6.0`, common-utils `3.2.2 → 5.1.1`,
+  Exposed `1.3.1 → 1.5.1`, logback `1.6.1 → 1.6.5`, Micrometer `1.17.0 → 1.17.1`, PostgreSQL JDBC
+  `42.7.13 → 42.7.14`, Flyway `13.1.0 → 13.10.0`, Kotest `6.2.3 → 6.2.5`
+- Bump build tooling: Gradle `9.6.1 → 9.8.1`, detekt `2.0.0-alpha.5 → 2.0.0-alpha.6`, Kover `0.9.9 → 0.9.11`,
+  buildconfig plugin `6.0.10 → 6.1.2`, pambrose gradle-plugins `1.1.1 → 1.1.7`, ben-manes versions plugin
+  `0.57.0 → 0.66.0`
+- Move to the common-utils 5.x JSON API: `String.toJsonElement()` → `parseJson()` and `String.toJsonString()` →
+  `reformatJson()` (#62)
+- `make versions` lists only the dependencies with newer versions and any that could not be checked, instead of the
+  plugin's full report
+- Upgrade the workflows' actions: checkout v7, setup-java v6, setup-gradle v6, codecov-action v7, upload-artifact v7,
+  download-artifact v8, configure-pages v6, upload-pages-artifact v5, deploy-pages v5 (#62, #63)
+- Makefile recipes use a `$(GRADLE)` variable (#62)
+- `.gitattributes` normalizes text files (LF, with CRLF for `*.bat`), marks the vendored Bootstrap and Prism assets,
+  and suppresses diffs of source maps (#62)
+- Trim CLAUDE.md to what the code does not already say, and move the provider-addition recipe into the
+  `adding-a-provider` Claude Code skill (#61)
+- Document `parseJson()` and `reformatJson()` on the website's JsonElement page and in `llms.txt`, and describe
+  `vapi4k-utils`' JSON helpers in the README's module table
+
+### Deprecated
+
+- common-utils' `String.toJsonElement()` and `String.toJsonString()`, which reach consumers through `vapi4k-utils`'
+  `api` dependency on common-utils, in favor of `parseJson()` and `reformatJson()` (common-utils 5.x)
+
+### Security
+
+- Harden the GitHub Actions workflows: every action is pinned to a commit SHA, each job gets only the permissions it
+  needs (`pages: write` and `id-token: write` only in the docs deploy job), and checkouts no longer keep the GitHub
+  token in the workspace (#62)
+
 ## [1.8.1] - 2026-08-01
 
 ### Added
@@ -315,6 +358,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Prometheus metrics integration
 - Maven Central publishing
 
+[1.8.2]: https://github.com/vapi4k/vapi4k/compare/1.8.1...1.8.2
 [1.8.1]: https://github.com/vapi4k/vapi4k/compare/1.8.0...1.8.1
 [1.8.0]: https://github.com/vapi4k/vapi4k/compare/1.7.0...1.8.0
 [1.7.0]: https://github.com/vapi4k/vapi4k/compare/1.6.2...1.7.0

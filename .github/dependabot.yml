@@ -13,3 +13,19 @@ updates:
       github-actions:
         patterns:
           - "*"
+
+  # gradle/libs.versions.toml, the settings.gradle.kts plugins, and the Gradle
+  # wrapper. Minor and patch updates share one PR; each major update gets its
+  # own, so a breaking release can be reviewed on its own.
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 10
+    groups:
+      gradle-minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
