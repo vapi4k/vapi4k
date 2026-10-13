@@ -1,6 +1,6 @@
 .PHONY: default help stop clean build build-tests cont-build tests \
 	lint format detekt zizmor depends \
-	versions refresh updatedocs kdocs \
+	versions versions-all refresh updatedocs kdocs \
 	publish-local publish-local-snapshot \
 	publish-snapshot publish-maven-central upgrade-wrapper \
 	_check-gpg-env _require-version _require-gradle-version
@@ -55,8 +55,15 @@ zizmor: ## Audit GitHub Actions workflows with zizmor
 depends: ## Show project dependency tree
 	$(GRADLE) dependencies
 
-versions: ## Report dependency updates
+# dependencyUpdates is marked incompatible with the configuration cache (build.gradle.kts), so a run with the cache on
+# builds an entry only to discard it, and says so. --no-configuration-cache skips the cache for this run instead.
+# build.gradle.kts gives the task a formatter that lists only what is behind; versions-all names the plugin's own plain
+# report, which also lists everything up to date.
+versions: ## List the dependencies with newer versions, and any that could not be checked
 	$(GRADLE) dependencyUpdates --no-configuration-cache --no-parallel
+
+versions-all: ## The plugin's full dependency report, up-to-date dependencies included
+	$(GRADLE) dependencyUpdates --no-configuration-cache --no-parallel --output-formatter=plain
 
 refresh: ## Refresh deps and report updates
 	$(GRADLE) --refresh-dependencies dependencyUpdates --no-configuration-cache
