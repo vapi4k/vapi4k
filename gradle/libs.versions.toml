@@ -15,7 +15,7 @@ versions = "0.66.0"
 
 # Core libraries
 ktor = "3.6.0"
-serialization = "1.11.0"
+serialization = "1.12.0"
 utils = "5.1.1"
 
 # Logging
@@ -23,11 +23,11 @@ logback = "1.6.5"
 logging = "8.0.4"
 
 # Metrics
-micrometer = "1.17.1"
+micrometer = "1.17.2"
 
 # Database
-exposed = "1.5.1"
-flyway = "13.10.0"
+exposed = "1.6.0"
+flyway = "13.11.1"
 hikari = "7.1.0"
 pgjdbc = "0.8.9"
 postgres = "42.7.14"
