@@ -42,6 +42,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonEncodingException
 
 /**
  * Exercises every concrete model provider through [ModelSerializer]'s class-keyed registry.
@@ -134,9 +135,9 @@ class ModelSerializerTest : StringSpec() {
     }
 
     "unregistered CommonModelDto throws Invalid model provider" {
-      shouldThrow<IllegalStateException> {
+      shouldThrow<JsonEncodingException> {
         Json.encodeToString(ModelSerializer, FakeModelDto())
-      }.message shouldBe "Invalid model provider: FakeModelDto"
+      }.cause?.message shouldBe "Invalid model provider: FakeModelDto"
     }
   }
 

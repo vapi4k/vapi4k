@@ -4,10 +4,10 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway
 import org.jetbrains.exposed.v1.jdbc.Database
-import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.postgresql.PostgreSQLContainer
 
 object TestDatabase {
-  private val container: PostgreSQLContainer<*> by lazy {
+  private val container: PostgreSQLContainer by lazy {
     PostgreSQLContainer("postgres:17-alpine")
       .also { it.start() }
   }
