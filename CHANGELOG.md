@@ -25,8 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   replaces `org.testcontainers:postgresql`, and `PostgreSQLContainer` moves to `org.testcontainers.postgresql`. The
   build no longer sets `DOCKER_API_VERSION` and `-Dapi.version=1.44` for Docker Desktop, because Testcontainers 2 tries
   Docker API 1.44 before falling back to 1.32 (#69)
-- Upgrade the workflows' actions: setup-java v6.1.0, upload-artifact v7.0.2, download-artifact v8.0.2, zizmor-action
-  v0.7.1 (#65, #66)
+- Upgrade the workflows' actions: setup-java v6.1.0, setup-gradle v6.4.1, upload-artifact v7.0.2,
+  download-artifact v8.0.2, zizmor-action v0.8.0 (#65, #66, #70)
 
 ## [1.8.2] - 2026-10-13
 
