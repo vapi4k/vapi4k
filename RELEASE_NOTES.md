@@ -1,3 +1,61 @@
+# Release Notes — Unreleased
+
+Notes collected for the next release. Fold them into its release notes when preparing it.
+
+## Upgrading from 1.8.2
+
+Two changes affect code that catches exceptions from JSON serialization or checks their messages.
+
+- **The provider serializers throw `SerializationException`.** When the model, voice, transcriber or
+  transfer-destination serializer is given a DTO class it has no serializer for, it now throws
+  `kotlinx.serialization.SerializationException` with the message `Invalid <kind> provider: <ClassName>`. Before, it
+  threw an `IllegalStateException` with the same message. `SerializationException` extends `IllegalArgumentException`,
+  so a `catch (e: IllegalStateException)` around encoding no longer catches it. The DSL builds only DTOs these
+  serializers know, so you can hit this error only by passing a DTO class of your own that implements
+  `CommonModelDto`, `CommonVoiceDto`, `CommonTranscriberDto` or `CommonDestinationDto`.
+- **kotlinx-serialization `1.11.0 → 1.12.0`.** `vapi4k-utils` exports kotlinx-serialization as an `api` dependency,
+  so your code compiles and runs against this version. From 1.12 it wraps any exception other than
+  `SerializationException` that a serializer throws: in `JsonEncodingException` when encoding and
+  `JsonDecodingException` when decoding. Each gets a new message, such as
+  `Serialization of 'Foo' failed because of 'bad value' exception in the encoder`, with the original exception as its
+  `cause`. If your own `KSerializer`s throw other exceptions, either catch `SerializationException` and inspect
+  `cause`, or throw `SerializationException` from the serializer, which passes through unchanged.
+
+## Changes
+
+### Dependencies
+
+- Ktor `3.6.0 → 3.6.1`
+- kotlinx-serialization `1.11.0 → 1.12.0` (see **Upgrading from 1.8.2**)
+- common-utils `5.1.1 → 5.2.0`
+- kotlin-logging `8.0.4 → 8.0.6`
+- logback `1.6.5 → 1.6.6`
+- Micrometer `1.17.1 → 1.17.2`
+- Exposed `1.5.1 → 1.6.1`
+- Flyway `13.10.0 → 13.12.1`
+- Kotest `6.2.5 → 6.2.6`
+- Testcontainers `1.21.4 → 2.0.5`
+
+### Build tooling
+
+- Gradle `9.8.1 → 9.9.0`
+- Dokka `2.2.0 → 2.3.0`
+- pambrose gradle-plugins (kotlinter) `1.1.7 → 1.1.9`
+- ben-manes versions plugin `0.66.0 → 0.67.0`
+
+### Tests
+
+- The `vapi4k-dbms` tests use Testcontainers 2: the `org.testcontainers:testcontainers-postgresql` artifact replaces
+  `org.testcontainers:postgresql`, and `PostgreSQLContainer` moves to `org.testcontainers.postgresql`. The build no
+  longer sets `DOCKER_API_VERSION` and `-Dapi.version=1.44` for Docker Desktop, because Testcontainers 2 tries Docker
+  API 1.44 before falling back to 1.32.
+
+### CI
+
+- Action upgrades: setup-java v6.1.0, upload-artifact v7.0.2, download-artifact v8.0.2, and zizmor-action v0.7.1.
+
+---
+
 # Release Notes — v1.8.2
 
 ## Highlights
