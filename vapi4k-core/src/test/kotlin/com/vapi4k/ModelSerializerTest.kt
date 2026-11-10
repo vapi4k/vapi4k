@@ -38,11 +38,11 @@ import com.vapi4k.dtos.model.ModelSerializer
 import com.vapi4k.dtos.model.RoleMessageDto
 import com.vapi4k.dtos.tools.ToolDto
 import com.vapi4k.utils.assistantResponse
-import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonEncodingException
 
 /**
  * Exercises every concrete model provider through [ModelSerializer]'s class-keyed registry.
@@ -135,9 +135,9 @@ class ModelSerializerTest : StringSpec() {
     }
 
     "unregistered CommonModelDto throws Invalid model provider" {
-      shouldThrow<JsonEncodingException> {
+      shouldThrowExactly<SerializationException> {
         Json.encodeToString(ModelSerializer, FakeModelDto())
-      }.cause?.message shouldBe "Invalid model provider: FakeModelDto"
+      }.message shouldBe "Invalid model provider: FakeModelDto"
     }
   }
 

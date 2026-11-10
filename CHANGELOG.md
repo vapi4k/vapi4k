@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Changed
+
+- Bump dependencies: Ktor `3.6.0 → 3.6.1`, kotlinx-serialization `1.11.0 → 1.12.0`, common-utils
+  `5.1.1 → 5.2.0`, kotlin-logging `8.0.4 → 8.0.6`, logback `1.6.5 → 1.6.6`, Micrometer `1.17.1 → 1.17.2`, Exposed
+  `1.5.1 → 1.6.1`, Flyway `13.10.0 → 13.12.1`, Kotest `6.2.5 → 6.2.6`, Testcontainers `1.21.4 → 2.0.5`
+- Bump build tooling: Gradle `9.8.1 → 9.9.0`, Dokka `2.2.0 → 2.3.0`, pambrose gradle-plugins `1.1.7 → 1.1.9`,
+  ben-manes versions plugin `0.66.0 → 0.67.0`
+- kotlinx-serialization 1.12, which reaches consumers through `vapi4k-utils`' `api` dependency, wraps any exception
+  other than `SerializationException` that a serializer throws: in `JsonEncodingException` when encoding and
+  `JsonDecodingException` when decoding, each with a new message and the original exception as its `cause`
+- The model, voice, transcriber and transfer-destination serializers throw
+  `kotlinx.serialization.SerializationException` instead of `IllegalStateException` when given a DTO class they have
+  no serializer for. The message is unchanged (`Invalid <kind> provider: <ClassName>`), and kotlinx-serialization
+  passes `SerializationException` through as is, where 1.12 wraps other exceptions. `SerializationException` extends
+  `IllegalArgumentException`, so `catch (e: IllegalStateException)` no longer catches this error
+- Move the `vapi4k-dbms` tests to Testcontainers 2: the `org.testcontainers:testcontainers-postgresql` artifact
+  replaces `org.testcontainers:postgresql`, and `PostgreSQLContainer` moves to `org.testcontainers.postgresql`. The
+  build no longer sets `DOCKER_API_VERSION` and `-Dapi.version=1.44` for Docker Desktop, because Testcontainers 2 tries
+  Docker API 1.44 before falling back to 1.32 (#69)
+- Upgrade the workflows' actions: setup-java v6.1.0, upload-artifact v7.0.2, download-artifact v8.0.2, zizmor-action
+  v0.7.1 (#65, #66)
+
 ## [1.8.2] - 2026-10-13
 
 ### Added

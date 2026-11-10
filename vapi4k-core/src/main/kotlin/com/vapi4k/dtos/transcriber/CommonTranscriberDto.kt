@@ -19,6 +19,7 @@ package com.vapi4k.dtos.transcriber
 import com.vapi4k.api.transcriber.TranscriberType
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -53,7 +54,7 @@ object TranscriberSerializer : KSerializer<CommonTranscriberDto> {
       }
 
       else -> {
-        error("Invalid transcriber provider: ${value::class.simpleName}")
+        throw SerializationException("Invalid transcriber provider: ${value::class.simpleName}")
       }
     }
   }
