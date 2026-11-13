@@ -16,6 +16,7 @@
 
 package com.vapi4k.utils
 
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.stringValue
 import com.pambrose.common.json.toJsonElement
 import com.pambrose.common.json.toJsonElementList
@@ -103,7 +104,7 @@ fun withTestApplication(
 
     je =
       if (response.status == HttpStatusCode.OK)
-        response.bodyAsText().toJsonElement()
+        response.bodyAsText().parseJson()
       else
         EMPTY_JSON_ELEMENT
   }
@@ -145,7 +146,7 @@ fun withTestApplication(
             setBody(arg)
           }
 
-          val body = response.bodyAsText().toJsonElement()
+          val body = response.bodyAsText().parseJson()
           println("response: ${body.toJsonString()}")
           val members = "messageResponse.squad.members"
           if (body.containsKeys(members)) {
@@ -160,7 +161,7 @@ fun withTestApplication(
 
     if (getArg.isNotEmpty()) {
       responses.add(
-        client.get(getArg) { configPost() }.let { it to it.bodyAsText().toJsonElement() },
+        client.get(getArg) { configPost() }.let { it to it.bodyAsText().parseJson() },
       )
     }
   }

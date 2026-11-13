@@ -16,8 +16,8 @@
 
 package simpledemo
 
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.stringValue
-import com.pambrose.common.json.toJsonElement
 import com.pambrose.common.json.toJsonElementList
 import com.vapi4k.api.tools.ToolCall
 import com.vapi4k.utils.HttpUtils.jsonHttpClient
@@ -53,7 +53,7 @@ class WeatherLookupService {
         val je =
           response
             .bodyAsText()
-            .toJsonElement()
+            .parseJson()
             .toJsonElementList()
             .first()
 
@@ -73,7 +73,7 @@ class WeatherLookupService {
             }
           }
         }.bodyAsText()
-          .toJsonElement()
+          .parseJson()
           .stringValue("current.temperature_1000hPa")
       }
     return "The real weather in $city, $state is $currentTemperature degrees Fahrenheit"

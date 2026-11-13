@@ -1,5 +1,5 @@
 import com.pambrose.common.json.JsonContentUtils.prettyFormat
-import com.pambrose.common.json.toJsonString
+import com.pambrose.common.json.reformatJson
 import com.vapi4k.common.CoreEnvVars.deepGramVoiceIdType
 import com.vapi4k.plugin.Vapi4kServer.logger
 import com.vapi4k.utils.HttpUtils.jsonHttpClient
@@ -85,7 +85,7 @@ fun main() {
   runBlocking {
     println(resp.status)
     val text = resp.bodyAsText()
-    println(text.toJsonString())
+    println(text.reformatJson())
   }
 }
 
@@ -216,7 +216,7 @@ object SpeachListener {
                 }
 
                 is Frame.Text -> {
-                  println("Received DG message: ${frame.readText().toJsonString()}")
+                  println("Received DG message: ${frame.readText().reformatJson()}")
                 }
 
                 is Frame.Ping -> {

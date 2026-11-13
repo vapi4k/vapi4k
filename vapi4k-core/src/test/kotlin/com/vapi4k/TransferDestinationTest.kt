@@ -16,7 +16,7 @@
 
 package com.vapi4k
 
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.common.AssistantId.Companion.toAssistantId
 import com.vapi4k.common.SessionId.Companion.toSessionId
 import com.vapi4k.dsl.vapi4k.InboundCallApplicationImpl
@@ -29,7 +29,7 @@ class TransferDestinationTest : StringSpec() {
   private fun createRequestContext(app: InboundCallApplicationImpl): RequestContextImpl =
     RequestContextImpl(
       application = app,
-      request = """{"message":{"type":"transfer-destination-request"}}""".toJsonElement(),
+      request = """{"message":{"type":"transfer-destination-request"}}""".parseJson(),
       sessionId = "test-session".toSessionId(),
       assistantId = "test-assistant".toAssistantId(),
     )

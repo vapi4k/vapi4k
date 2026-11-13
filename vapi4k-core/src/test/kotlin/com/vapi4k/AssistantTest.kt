@@ -18,6 +18,7 @@ package com.vapi4k
 
 import com.pambrose.common.json.intValue
 import com.pambrose.common.json.jsonElementList
+import com.pambrose.common.json.parseJson
 import com.pambrose.common.json.stringValue
 import com.pambrose.common.json.toJsonElement
 import com.vapi4k.api.assistant.AssistantClientMessageType
@@ -697,7 +698,7 @@ class AssistantTest : StringSpec() {
         "timestamp": "2024-07-13T21:27:59.870Z"
       }
     }
-    """.toJsonElement()
+    """.parseJson()
 
     fun newRequestContext() =
       RequestContextImpl(

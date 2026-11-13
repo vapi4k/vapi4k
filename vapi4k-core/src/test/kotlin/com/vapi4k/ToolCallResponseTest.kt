@@ -16,7 +16,7 @@
 
 package com.vapi4k
 
-import com.pambrose.common.json.toJsonElement
+import com.pambrose.common.json.parseJson
 import com.vapi4k.common.AssistantId.Companion.toAssistantId
 import com.vapi4k.common.SessionId.Companion.toSessionId
 import com.vapi4k.dsl.vapi4k.InboundCallApplicationImpl
@@ -38,7 +38,7 @@ class ToolCallResponseTest : StringSpec() {
           ]
         }
       }
-      """.trimIndent().toJsonElement()
+      """.trimIndent().parseJson()
     return RequestContextImpl(
       application = InboundCallApplicationImpl(),
       request = request,
