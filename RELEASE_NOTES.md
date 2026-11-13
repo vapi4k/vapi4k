@@ -2,18 +2,6 @@
 
 Notes collected for the next release. Fold them into its release notes when preparing it.
 
-## Upgrading from 1.8.2
-
-One change affects code that catches exceptions from JSON serialization.
-
-- **The provider serializers throw `SerializationException`.** When the model, voice, transcriber or
-  transfer-destination serializer is given a DTO class it has no serializer for, it now throws
-  `kotlinx.serialization.SerializationException` with the message `Invalid <kind> provider: <ClassName>`. Before, it
-  threw an `IllegalStateException` with the same message. `SerializationException` extends `IllegalArgumentException`,
-  so a `catch (e: IllegalStateException)` around encoding no longer catches it. The DSL builds only DTOs these
-  serializers know, so you can hit this error only by passing a DTO class of your own that implements
-  `CommonModelDto`, `CommonVoiceDto`, `CommonTranscriberDto` or `CommonDestinationDto`.
-
 ## Changes
 
 ### Dependencies

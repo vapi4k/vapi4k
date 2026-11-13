@@ -18,7 +18,6 @@ package com.vapi4k.dtos.api.destination
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -40,7 +39,7 @@ object DestinationSerializer : KSerializer<CommonDestinationDto> {
       is NumberDestinationDto -> encoder.encodeSerializableValue(NumberDestinationDto.serializer(), value)
       is SipDestinationDto -> encoder.encodeSerializableValue(SipDestinationDto.serializer(), value)
       is SquadDestinationDto -> encoder.encodeSerializableValue(SquadDestinationDto.serializer(), value)
-      else -> throw SerializationException("Invalid destination provider: ${value::class.simpleName}")
+      else -> error("Invalid destination provider: ${value::class.simpleName}")
     }
   }
 

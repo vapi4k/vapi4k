@@ -26,31 +26,30 @@ import com.vapi4k.dtos.voice.VoiceSerializer
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 
 /**
- * The provider serializers throw [SerializationException] for a DTO class they have no serializer for.
- * kotlinx-serialization passes [SerializationException] through unchanged (1.12.0 wrapped any other exception
- * in a `JsonEncodingException`; 1.13.0 reverted that), so these tests pin the exact type and message.
+ * The provider serializers throw [IllegalStateException] for a DTO class they have no serializer for.
+ * kotlinx-serialization 1.12.0 wrapped such exceptions in a `JsonEncodingException` with a rewritten message, and
+ * 1.13.0 reverted that, so these tests pin the exact type and message that reach callers.
  * [ModelSerializerTest] covers `ModelSerializer`.
  */
 class ProviderSerializerErrorTest : StringSpec() {
   init {
     "unregistered CommonVoiceDto throws Invalid voice provider" {
-      shouldThrowExactly<SerializationException> {
+      shouldThrowExactly<IllegalStateException> {
         Json.encodeToString(VoiceSerializer, FakeVoiceDto())
       }.message shouldBe "Invalid voice provider: FakeVoiceDto"
     }
 
     "unregistered CommonTranscriberDto throws Invalid transcriber provider" {
-      shouldThrowExactly<SerializationException> {
+      shouldThrowExactly<IllegalStateException> {
         Json.encodeToString(TranscriberSerializer, FakeTranscriberDto())
       }.message shouldBe "Invalid transcriber provider: FakeTranscriberDto"
     }
 
     "unregistered CommonDestinationDto throws Invalid destination provider" {
-      shouldThrowExactly<SerializationException> {
+      shouldThrowExactly<IllegalStateException> {
         Json.encodeToString(DestinationSerializer, FakeDestinationDto())
       }.message shouldBe "Invalid destination provider: FakeDestinationDto"
     }
