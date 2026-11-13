@@ -52,8 +52,8 @@ Two changes affect code that catches exceptions from JSON serialization or check
 
 ### CI
 
-- Action upgrades: setup-java v6.1.0, setup-gradle v6.4.1, upload-artifact v7.0.2, download-artifact v8.0.2, and
-  zizmor-action v0.8.0. setup-gradle v6.4.1 is a security release for
+- Action upgrades: setup-java v6.2.0, setup-gradle v6.4.1, upload-artifact v7.0.2, download-artifact v8.0.2, and
+  zizmor-action v0.8.1. setup-gradle v6.4.1 is a security release for
   [GHSA-chpw-2mqm-95cc](https://github.com/gradle/actions/security/advisories/GHSA-chpw-2mqm-95cc), which affects the
   dependency graph's `download-and-submit` mode. The workflows here don't submit a dependency graph, so they were not
   exposed.
