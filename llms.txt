@@ -4,7 +4,7 @@
 
 Vapi4k is a multi-module Kotlin project targeting JVM 17. Version 1.8.2.
 
-Key dependency versions: Kotlin 2.4.21, Ktor 3.6.1, Kotlinx Serialization 1.12.0, Exposed 1.6.1, Kotest 6.2.6.
+Key dependency versions: Kotlin 2.4.21, Ktor 3.6.1, Kotlinx Serialization 1.13.0, Exposed 1.6.1, Kotest 6.2.6.
 
 ## Modules
 

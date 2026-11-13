@@ -41,7 +41,6 @@ import com.vapi4k.utils.assistantResponse
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 
 /**
@@ -135,7 +134,7 @@ class ModelSerializerTest : StringSpec() {
     }
 
     "unregistered CommonModelDto throws Invalid model provider" {
-      shouldThrowExactly<SerializationException> {
+      shouldThrowExactly<IllegalStateException> {
         Json.encodeToString(ModelSerializer, FakeModelDto())
       }.message shouldBe "Invalid model provider: FakeModelDto"
     }

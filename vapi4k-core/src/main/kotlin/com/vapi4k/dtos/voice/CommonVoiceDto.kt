@@ -18,7 +18,6 @@ package com.vapi4k.dtos.voice
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -78,7 +77,7 @@ object VoiceSerializer : KSerializer<CommonVoiceDto> {
       }
 
       else -> {
-        throw SerializationException("Invalid voice provider: ${value::class.simpleName}")
+        error("Invalid voice provider: ${value::class.simpleName}")
       }
     }
   }

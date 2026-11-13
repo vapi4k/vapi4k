@@ -21,7 +21,6 @@ import com.vapi4k.dtos.functions.FunctionDto
 import com.vapi4k.dtos.tools.ToolDto
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -67,7 +66,7 @@ object ModelSerializer : KSerializer<CommonModelDto> {
   ) {
     value.assignEnumOverrides()
     val serializer = serializers[value::class]
-      ?: throw SerializationException("Invalid model provider: ${value::class.simpleName}")
+      ?: error("Invalid model provider: ${value::class.simpleName}")
     @Suppress("UNCHECKED_CAST")
     encoder.encodeSerializableValue(serializer as KSerializer<CommonModelDto>, value)
   }

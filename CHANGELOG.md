@@ -13,10 +13,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `1.5.1 → 1.6.1`, Flyway `13.10.0 → 13.12.1`, Kotest `6.2.5 → 6.2.6`, Testcontainers `1.21.4 → 2.0.5`
 - Bump build tooling: Gradle `9.8.1 → 9.9.1`, Dokka `2.2.0 → 2.3.0`, pambrose gradle-plugins `1.1.7 → 1.1.9`,
   ben-manes versions plugin `0.66.0 → 0.67.0`
-- The model, voice, transcriber and transfer-destination serializers throw
-  `kotlinx.serialization.SerializationException` instead of `IllegalStateException` when given a DTO class they have
-  no serializer for. The message is unchanged (`Invalid <kind> provider: <ClassName>`). `SerializationException`
-  extends `IllegalArgumentException`, so `catch (e: IllegalStateException)` no longer catches this error
 - Move the `vapi4k-dbms` tests to Testcontainers 2: the `org.testcontainers:testcontainers-postgresql` artifact
   replaces `org.testcontainers:postgresql`, and `PostgreSQLContainer` moves to `org.testcontainers.postgresql`. The
   build no longer sets `DOCKER_API_VERSION` and `-Dapi.version=1.44` for Docker Desktop, because Testcontainers 2 tries
