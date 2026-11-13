@@ -4,7 +4,7 @@ Notes collected for the next release. Fold them into its release notes when prep
 
 ## Upgrading from 1.8.2
 
-Two changes affect code that catches exceptions from JSON serialization or checks their messages.
+One change affects code that catches exceptions from JSON serialization.
 
 - **The provider serializers throw `SerializationException`.** When the model, voice, transcriber or
   transfer-destination serializer is given a DTO class it has no serializer for, it now throws
@@ -13,22 +13,16 @@ Two changes affect code that catches exceptions from JSON serialization or check
   so a `catch (e: IllegalStateException)` around encoding no longer catches it. The DSL builds only DTOs these
   serializers know, so you can hit this error only by passing a DTO class of your own that implements
   `CommonModelDto`, `CommonVoiceDto`, `CommonTranscriberDto` or `CommonDestinationDto`.
-- **kotlinx-serialization `1.11.0 → 1.12.0`.** `vapi4k-utils` exports kotlinx-serialization as an `api` dependency,
-  so your code compiles and runs against this version. From 1.12 it wraps any exception other than
-  `SerializationException` that a serializer throws: in `JsonEncodingException` when encoding and
-  `JsonDecodingException` when decoding. Each gets a new message, such as
-  `Serialization of 'Foo' failed because of 'bad value' exception in the encoder`, with the original exception as its
-  `cause`. If your own `KSerializer`s throw other exceptions, either catch `SerializationException` and inspect
-  `cause`, or throw `SerializationException` from the serializer, which passes through unchanged.
 
 ## Changes
 
 ### Dependencies
 
 - Ktor `3.6.0 → 3.6.1`
-- kotlinx-serialization `1.11.0 → 1.12.0` (see **Upgrading from 1.8.2**)
+- kotlinx-serialization `1.11.0 → 1.13.0`. `vapi4k-utils` exports it as an `api` dependency. 1.12.0 began wrapping
+  exceptions thrown by serializers, and 1.13.0 reverted that, so exceptions reach your code as they did with 1.11.0.
 - common-utils `5.1.1 → 5.2.0`
-- kotlin-logging `8.0.4 → 8.0.6`
+- kotlin-logging `8.0.4 → 8.0.7`
 - logback `1.6.5 → 1.6.6`
 - Micrometer `1.17.1 → 1.17.2`
 - Exposed `1.5.1 → 1.6.1`
@@ -38,7 +32,7 @@ Two changes affect code that catches exceptions from JSON serialization or check
 
 ### Build tooling
 
-- Gradle `9.8.1 → 9.9.0`
+- Gradle `9.8.1 → 9.9.1`
 - Dokka `2.2.0 → 2.3.0`
 - pambrose gradle-plugins (kotlinter) `1.1.7 → 1.1.9`
 - ben-manes versions plugin `0.66.0 → 0.67.0`
