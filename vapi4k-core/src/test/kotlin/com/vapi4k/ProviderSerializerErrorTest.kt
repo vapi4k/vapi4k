@@ -31,8 +31,8 @@ import kotlinx.serialization.json.Json
 
 /**
  * The provider serializers throw [SerializationException] for a DTO class they have no serializer for.
- * kotlinx-serialization passes [SerializationException] through unchanged, but wraps any other exception
- * in a `JsonEncodingException` with a rewritten message, so these tests pin the exact type and message.
+ * kotlinx-serialization passes [SerializationException] through unchanged (1.12.0 wrapped any other exception
+ * in a `JsonEncodingException`; 1.13.0 reverted that), so these tests pin the exact type and message.
  * [ModelSerializerTest] covers `ModelSerializer`.
  */
 class ProviderSerializerErrorTest : StringSpec() {
