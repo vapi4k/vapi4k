@@ -19,6 +19,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Docker API 1.44 before falling back to 1.32 (#69)
 - Upgrade the workflows' actions: setup-java v6.2.0, setup-gradle v6.4.1, upload-artifact v7.0.2,
   download-artifact v8.0.2, zizmor-action v0.8.1 (#65, #66, #70, #73)
+- `make publish-snapshot` and `make publish-maven-central` read the Maven Central user token from the macOS keychain
+  entries `maven-central-username` and `maven-central-password` (account `maven-central`), and pass it only to the
+  publishing command, so it no longer needs to sit in `~/.gradle/gradle.properties`. A new `_check-maven-central-env`
+  check stops both targets, naming the entry, when either is missing or empty
 
 ## [1.8.2] - 2026-10-13
 

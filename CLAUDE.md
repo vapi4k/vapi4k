@@ -237,3 +237,17 @@ Published to Maven Central: group `com.vapi4k`, artifacts `vapi4k-core`, `vapi4k
 All modules include sources JAR and Dokka javadoc JAR. Uses the
 [Vanniktech Maven Publish](https://github.com/vanniktech/gradle-maven-publish-plugin) plugin with automatic release.
 Template repo: [vapi4k-template](https://github.com/vapi4k/vapi4k-template).
+
+`make publish-snapshot` and `make publish-maven-central` get every secret from the shell and the macOS keychain, and
+pass them to that one Gradle command as `ORG_GRADLE_PROJECT_*` variables:
+
+- **Signing**: the GPG key named by `GPG_SIGNING_KEY_ID`, with its passphrase in the keychain entry
+  `gradle-signing-password` (account `gpg-signing`).
+- **Maven Central**: a user token from central.sonatype.com, in the keychain entries `maven-central-username` and
+  `maven-central-password` (account `maven-central`), which become the plugin's `mavenCentralUsername` and
+  `mavenCentralPassword`. Add each once with `security add-generic-password -a maven-central -s <entry> -U -w`, which
+  prompts for the value so it stays out of the shell's history.
+
+Keep these out of `~/.gradle/gradle.properties`, which every Gradle build on the machine reads. `_check-gpg-env` and
+`_check-maven-central-env` stop the targets before Gradle runs, naming any entry that is missing. `make publish-local`
+and `make publish-local-snapshot` need none of them: the build skips signing without `signingInMemoryKey`.
