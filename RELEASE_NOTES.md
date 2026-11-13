@@ -40,6 +40,21 @@ Notes collected for the next release. Fold them into its release notes when prep
   dependency graph's `download-and-submit` mode. The workflows here don't submit a dependency graph, so they were not
   exposed.
 
+### Build & Makefile
+
+- `make publish-snapshot` and `make publish-maven-central` read the Maven Central user token from the macOS keychain,
+  as they already read the signing key's passphrase, and pass it only to the publishing command as the plugin's
+  `mavenCentralUsername` and `mavenCentralPassword`. Before publishing with them, add the token's name and password
+  once:
+
+  ```bash
+  security add-generic-password -a maven-central -s maven-central-username -U -w
+  security add-generic-password -a maven-central -s maven-central-password -U -w
+  ```
+
+  Each command prompts for the value, so it stays out of the shell's history. Both targets stop before Gradle runs,
+  naming the entry, when either is missing or empty.
+
 ---
 
 # Release Notes — v1.8.2
