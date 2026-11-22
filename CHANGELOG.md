@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Bump dependencies: Ktor `3.6.0 → 3.6.1`, kotlinx-serialization `1.11.0 → 1.13.0`, common-utils
   `5.1.1 → 5.2.0`, kotlin-logging `8.0.4 → 8.0.7`, logback `1.6.5 → 1.6.6`, Micrometer `1.17.1 → 1.17.2`, Exposed
-  `1.5.1 → 1.6.1`, Flyway `13.10.0 → 13.12.1`, Kotest `6.2.5 → 6.2.6`, Testcontainers `1.21.4 → 2.0.5`
+  `1.5.1 → 1.6.1`, Flyway `13.10.0 → 13.12.1`, Kotest `6.2.5 → 6.2.7`, Testcontainers `1.21.4 → 2.0.5`
 - Bump build tooling: Gradle `9.8.1 → 9.9.1`, Dokka `2.2.0 → 2.3.0`, pambrose gradle-plugins `1.1.7 → 1.1.9`,
   ben-manes versions plugin `0.66.0 → 0.67.0`
 - Move the `vapi4k-dbms` tests to Testcontainers 2: the `org.testcontainers:testcontainers-postgresql` artifact

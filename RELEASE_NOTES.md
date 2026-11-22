@@ -15,7 +15,7 @@ Notes collected for the next release. Fold them into its release notes when prep
 - Micrometer `1.17.1 → 1.17.2`
 - Exposed `1.5.1 → 1.6.1`
 - Flyway `13.10.0 → 13.12.1`
-- Kotest `6.2.5 → 6.2.6`
+- Kotest `6.2.5 → 6.2.7`
 - Testcontainers `1.21.4 → 2.0.5`
 
 ### Build tooling
