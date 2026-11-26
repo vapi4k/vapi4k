@@ -19,15 +19,15 @@ serialization = "1.13.0"
 utils = "5.2.0"
 
 # Logging
-logback = "1.6.6"
+logback = "1.6.8"
 logging = "8.0.7"
 
 # Metrics
-micrometer = "1.17.2"
+micrometer = "1.18.0"
 
 # Database
 exposed = "1.6.1"
-flyway = "13.12.1"
+flyway = "13.13.0"
 hikari = "7.1.0"
 pgjdbc = "0.8.9"
 postgres = "42.7.14"
